@@ -1,14 +1,5 @@
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm';
+import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import {UserLevel} from './user-level.enum';
-import {hashIt} from '../../utils/encrypt';
 
 @Entity()
 export class UserEntity {
@@ -29,18 +20,5 @@ export class UserEntity {
 
   @Column({type: 'integer', default: UserLevel.PrivateUser})
   userLevel: UserLevel;
-
-  // I'm not sure yet whether this logic would not be
-  // better kept in the user service. In any case,
-  // the trigger is not called when a pure object
-  // is inserted. Instead, an instance must be created
-  // manually and then saved.
-  @BeforeInsert()
-  @BeforeUpdate()
-  async hashPassword() {
-    if (this.password) {
-      this.password = await hashIt(this.password);
-    }
-  }
 
 }

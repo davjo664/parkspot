@@ -2,8 +2,6 @@ import {PostgresConnectionOptions} from 'typeorm/driver/postgres/PostgresConnect
 
 export interface RuntimeConfiguration {
   environment: 'dev' | ' prod';
-  jwtSecret: string;
-  jwtExpiresIn: number;
 }
 
 export interface DBConfig extends PostgresConnectionOptions {
