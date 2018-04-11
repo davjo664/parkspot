@@ -7,7 +7,7 @@
 * Vagrant
 * Globally installed [react-native CLI](https://facebook.github.io/react-native/docs/getting-started.html) and setup for iOS/Android on your OS
 
-  (Go to **Building Projects wirh Native Code** as this App is not based on [Expo](https://expo.io/) where all the javascript simply runs in an App Container -> we could add this in the Future if you like)
+    (Go to **Building Projects wirh Native Code** as this App is not based on [Expo](https://expo.io/) where all the javascript simply runs in an App Container -> we could add this in the Future if you like)
 
 ## How do you turn this on?
 
@@ -15,9 +15,9 @@
   1.  Start Database: `vagrant up`
 * Client
 
-  **long version:** [README.md](app/README.md)
+    **long version:** [README.md](app/README.md)
 
-  **short:**
+    **short:**
 
   ```sh
   $ cd app
