@@ -15,4 +15,8 @@ export class ParkSpotEntity {
   @Column()
   @ApiModelProperty()
   electricCharger: boolean;
+
+  @Column({ nullable: true, default: "example.jpg"})
+  @ApiModelProperty()
+  imageURL: string;
 }
