@@ -3,6 +3,7 @@ import {AppModule} from './app.module';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
+import * as path from "path";
 
 const packageJson: { version: string } = require('./../package.json');
 
@@ -11,6 +12,7 @@ const packageJson: { version: string } = require('./../package.json');
 function expressFactory() {
   const app = express();
   app.use(cookieParser());
+  app.use('/static/', express.static(path.join(__dirname, 'static')));
   return app;
 }
 
