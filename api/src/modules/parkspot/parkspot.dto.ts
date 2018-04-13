@@ -1,5 +1,5 @@
 import {ParkSpotEntity} from './parkspot.entity';
-import {IsBoolean, IsNumber} from 'class-validator';
+import {IsBoolean, IsNumber, IsString} from 'class-validator';
 import {ApiModelProperty} from '@nestjs/swagger';
 
 export class ParkSpotDto implements Partial<ParkSpotEntity> {
@@ -15,4 +15,8 @@ export class ParkSpotDto implements Partial<ParkSpotEntity> {
   @IsBoolean()
   @ApiModelProperty()
   electricCharger: boolean;
+
+  @IsString()
+  @ApiModelProperty()
+  imageURL: string;
 }
