@@ -1,4 +1,4 @@
-package com.reactnativeseed;
+package com.parkspot;
 
 import android.app.Application;
 
