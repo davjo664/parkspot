@@ -1,4 +1,4 @@
-## Story
+## Feature
 
 
 ## Related User Story
