@@ -1,6 +1,6 @@
-import {Body, Controller, Get, HttpCode, HttpStatus, Param, Post, ValidationPipe} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, ValidationPipe} from '@nestjs/common';
 import {ParkspotService} from './parkspot.service';
-import {ParkSpotDto} from './parkspot.dto';
+import {ParkSpotDto, ParkSpotQueryParams} from './parkspot.dto';
 import {ApiResponse, ApiUseTags} from '@nestjs/swagger';
 import {ParkSpotEntity} from './parkspot.entity';
 
@@ -13,12 +13,12 @@ export class ParkspotController {
   @Get()
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Returns a list of all Parkspots',
+    description: 'Returns a list of Parkspots',
     type: ParkSpotEntity,
     isArray: true,
   })
-  async getAll(): Promise<ParkSpotEntity[]> {
-    return await this.parkSpotService.find();
+  async getAll(@Query() params: ParkSpotQueryParams): Promise<ParkSpotEntity[]> {
+    return await this.parkSpotService.find(params);
   }
 
   @Get('/:id')

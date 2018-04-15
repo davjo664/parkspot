@@ -1,6 +1,7 @@
 import {Component, HttpException, HttpStatus} from '@nestjs/common';
 import {ParkspotRepo} from './parkspot-repository.provider';
 import {ParkSpotEntity} from './parkspot.entity';
+import {ParkSpotQueryParams} from './parkspot.dto';
 
 @Component()
 export class ParkspotService {
@@ -9,8 +10,8 @@ export class ParkspotService {
   constructor(private parkspotRepo: ParkspotRepo) {
   }
 
-  async find(): Promise<ParkSpotEntity[]> {
-    return this.parkspotRepo.find();
+  async find(params: ParkSpotQueryParams): Promise<ParkSpotEntity[]> {
+    return this.parkspotRepo.find(params);
   }
 
   async findOne(id: number): Promise<ParkSpotEntity> {
