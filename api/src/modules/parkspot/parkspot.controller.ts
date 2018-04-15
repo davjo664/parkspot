@@ -21,9 +21,9 @@ export class ParkspotController {
     return await this.parkSpotService.find(params);
   }
 
-  @Get('/:id')
-  @ApiResponse({status: HttpStatus.OK, description: 'Returns a single ParkingSpot', type: ParkSpotEntity})
-  async get(@Param('id') id: number): Promise<ParkSpotEntity> {
+  @Get('/:id/:lat/:lng/:dist')
+  @ApiResponse({status: HttpStatus.OK, description: 'Returns a single ParkingSpot by radius', type: ParkSpotEntity})
+  async get(@Param('id') id: number, @Param('latitude') lat:number, @Param('longitude') lng: number, @Param('distance') dist: number): Promise<ParkSpotEntity> {
     return await this.parkSpotService.findOne(id);
   }
 
