@@ -16,6 +16,10 @@ export class ParkSpotDto implements Partial<ParkSpotEntity> {
   @ApiModelProperty()
   electricCharger: boolean;
 
+  @IsBoolean()
+  @ApiModelProperty()
+  handicapped: boolean;
+
   @IsString()
   @ApiModelProperty()
   imageURL: string;

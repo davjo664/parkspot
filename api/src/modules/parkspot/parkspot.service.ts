@@ -9,8 +9,8 @@ export class ParkspotService {
   constructor(private parkspotRepo: ParkspotRepo) {
   }
 
-  async find(): Promise<ParkSpotEntity[]> {
-    return this.parkspotRepo.find();
+  async find(query: Object): Promise<ParkSpotEntity[]> {
+    return this.parkspotRepo.find(query);
   }
 
   async findOne(id: number): Promise<ParkSpotEntity> {
