@@ -8,11 +8,11 @@ export class ParkSpotEntity {
   @ApiModelProperty()
   id: number;
 
-  @Column({ nullable: true })
+  @Column({ type:'decimal' })
   @ApiModelProperty()
   lat: number;
 
-  @Column({ nullable: true })
+  @Column({ type:'decimal' })
   @ApiModelProperty()
   lng: number;
 
