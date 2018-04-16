@@ -19,7 +19,7 @@ export class ParkspotService {
   }
 
   async query(lat:number, lng: number, dist: number): Promise<ParkSpotEntity[]> {
-    //TODO create query with queryBuilder with @param dist
+    //TODO create query with queryBuilder
     // const sub = this.parkspotRepo.createQueryBuilder().
     // return this.parkspotRepo.createQueryBuilder().where("dist > 300").getMany();
     return this.parkspotRepo.query(this.buildQuery(lat,lng,dist));
