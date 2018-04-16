@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Home from '../../screens/Home';
 import { fetchParkspots } from './actions';
-import placeholderImage from '../../screens/Home/images/placeholder_no_parkspot.jpg';
+import placeholderImage from '../../../assets/placeholders/no_parkspot.jpg';
 
 export interface Props {
   navigation: any;
