@@ -24,6 +24,10 @@ export class ParkSpotEntity {
   @ApiModelProperty()
   electricCharger: boolean;
 
+  @Column()
+  @ApiModelProperty()
+  handicapped: boolean;
+
   @Column({ nullable: true, default: "example.jpg"})
   @ApiModelProperty()
   imageURL: string;
