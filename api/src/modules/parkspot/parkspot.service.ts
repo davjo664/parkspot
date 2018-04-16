@@ -18,7 +18,10 @@ export class ParkspotService {
     return this.parkspotRepo.findOneById(id);
   }
 
-  async query(lat:number, lng: number, dist: number): Promise<ParkSpotEntity> {
+  async query(lat:number, lng: number, dist: number): Promise<ParkSpotEntity[]> {
+    //TODO create query with queryBuilder with @param dist
+    // const sub = this.parkspotRepo.createQueryBuilder().
+    // return this.parkspotRepo.createQueryBuilder().where("dist > 300").getMany();
     return this.parkspotRepo.query(this.buildQuery(lat,lng,dist));
   }
 
@@ -32,14 +35,6 @@ export class ParkspotService {
   }
 
   private buildQuery(lat:number, lng: number, dist: number){
-    //TODO create query with queryBuilder and limit entries with @param dist
-    // this.parkspotRepo.createQueryBuilder("spot").
-    //   select().
-    //   from(ParkSpotEntity, 'park_spot_entity').
-    //   getMany();
-
-    return  "SELECT *, ( 6371 * acos( cos( radians( " +lat+ " ) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians( " +lng+ " ) ) + sin( radians( " +lat+ " ) ) * sin( radians( lat ))) ) AS dist " +
-            "FROM park_spot_entity " +
-            "ORDER BY dist ASC";
+    return "SELECT * FROM (SELECT *, (6371 * acos(cos(radians( "+lat+" )) * cos(radians( lat)) * cos(radians(lng) - radians( "+lng+" )) + sin(radians( "+lat+" )) * sin(radians(lat)))) AS dist FROM park_spot_entity) as innerTable WHERE dist < "+dist+" ORDER BY dist ASC";
   }
 }
