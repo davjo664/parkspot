@@ -29,7 +29,7 @@ class Home extends React.Component<Props, State> {
           <Title style={styles.title}>Parkspots</Title>
         </Header>
         <Content>
-          <Text style={styles.spots}>{this.props.spots}</Text>
+          <Text style={styles.spots}>{this.props.spots.length}</Text>
           <Button style={styles.button} onPress={() => this.props.getSpots()}>
             <Text>Get Free Spots</Text>
           </Button>
