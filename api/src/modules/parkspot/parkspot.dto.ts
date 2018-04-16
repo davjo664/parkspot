@@ -22,6 +22,10 @@ export class ParkSpotDto implements Partial<ParkSpotEntity> {
   @ApiModelProperty()
   electricCharger: boolean;
 
+  @IsBoolean()
+  @ApiModelProperty()
+  handicapped: boolean;
+
   @IsString()
   @ApiModelProperty()
   imageURL: string;
@@ -40,6 +44,10 @@ export class ParkSpotQueryParams implements Partial<ParkSpotEntity> {
 
   @ApiModelPropertyOptional()
   electricCharger: boolean;
+
+
+  @ApiModelPropertyOptional()
+  handicapped: boolean;
 
   @ApiModelPropertyOptional()
   imageURL: string;
