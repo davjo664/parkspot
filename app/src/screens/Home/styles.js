@@ -10,9 +10,13 @@ const styles: any = StyleSheet.create({
   button: {
     alignSelf: 'center',
   },
-  spots: {
-    alignSelf: 'center',
-    fontSize: 100,
-  },
+	image: {
+  		alignSelf: 'center',
+		width: 200,
+		height: 200,
+		marginTop: 15,
+		marginBottom: 15,
+
+	}
 });
 export default styles;
