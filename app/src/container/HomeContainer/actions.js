@@ -4,9 +4,12 @@ export function fetchParkspotsSuccess(data: Object) {
     data,
   };
 }
+
+import config from '../../config/config';
+
 export function fetchParkspots() {
   return dispatch =>
-    fetch('http://localhost:3000/parkspot') // Redux Thunk handles these
+    fetch(config.api.url) // Redux Thunk handles these
       .then(res => res.json())
       .then(data => dispatch(fetchParkspotsSuccess(data)));
 }
