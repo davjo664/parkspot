@@ -31,9 +31,10 @@ export class ParkspotController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Returns a list of ParkingSpots by radius',
-    type: ParkSpotEntity
+    type: ParkSpotEntity,
+    isArray: true,
   })
-  async query(@Param('lat') lat:number, @Param('lng') lng: number, @Param('dist') dist: number): Promise<ParkSpotEntity> {
+  async query(@Param('lat') lat:number, @Param('lng') lng: number, @Param('dist') dist: number): Promise<ParkSpotEntity[]> {
     return await this.parkSpotService.query(lat, lng, dist);
   }
 
