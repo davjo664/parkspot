@@ -54,3 +54,6 @@ buck-out/
 
 #VS code
 .vscode
+
+#CocoaPods
+*/Pods
