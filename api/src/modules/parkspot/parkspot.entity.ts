@@ -8,6 +8,14 @@ export class ParkSpotEntity {
   @ApiModelProperty()
   id: number;
 
+  @Column({ type:'decimal' })
+  @ApiModelProperty()
+  lat: number;
+
+  @Column({ type:'decimal' })
+  @ApiModelProperty()
+  lng: number;
+
   @Column()
   @ApiModelProperty()
   available: boolean;

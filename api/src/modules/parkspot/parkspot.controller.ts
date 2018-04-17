@@ -27,6 +27,21 @@ export class ParkspotController {
     return await this.parkSpotService.findOne(id);
   }
 
+  @Get('/:lat/:lng/:dist')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Returns a list of ParkingSpots by radius',
+    type: ParkSpotEntity,
+    isArray: true,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Occours for illegal parameters',
+  })
+  async query(@Param('lat') lat:number, @Param('lng') lng: number, @Param('dist') dist: number): Promise<ParkSpotEntity[]> {
+    return await this.parkSpotService.query(lat, lng, dist);
+  }
+
 
   @HttpCode(HttpStatus.CREATED)
   @ApiResponse({

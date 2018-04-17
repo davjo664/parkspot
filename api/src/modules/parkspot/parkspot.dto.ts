@@ -14,6 +14,14 @@ export class ParkSpotDto implements Partial<ParkSpotEntity> {
   @ApiModelProperty()
   id: number;
 
+  @IsNumber()
+  @ApiModelProperty()
+  lat: number;
+
+  @IsNumber()
+  @ApiModelProperty()
+  lng: number;
+
   @IsBoolean()
   @ApiModelProperty()
   available: boolean;
@@ -38,6 +46,12 @@ export class ParkSpotDto implements Partial<ParkSpotEntity> {
 export class ParkSpotQueryParams implements Partial<ParkSpotEntity> {
   @ApiModelPropertyOptional()
   id: number;
+
+  @ApiModelPropertyOptional()
+  lat: number;
+
+  @ApiModelPropertyOptional()
+  lng: number;
 
   @ApiModelPropertyOptional()
   available: boolean;
