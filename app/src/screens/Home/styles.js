@@ -16,7 +16,6 @@ const styles: any = StyleSheet.create({
 		height: 200,
 		marginTop: 15,
 		marginBottom: 15,
-
 	}
 });
 export default styles;
