@@ -34,7 +34,10 @@ export class ParkspotService {
     return this.parkspotRepo.findOneById(parkSpot.id);
   }
 
-  private buildQuery(lat:number, lng: number, dist: number){
+    private buildQuery(lat: number, lng: number, dist: number) {
+    if (typeof lat !== 'number' || typeof lng !== 'number' || typeof dist !== 'number') {
+      throw new HttpException('GPS Query Params must be of type number', 500);
+    }
     return "SELECT * FROM (SELECT *, (6371 * acos(cos(radians( "+lat+" )) * cos(radians( lat)) * cos(radians(lng) - radians( "+lng+" )) + sin(radians( "+lat+" )) * sin(radians(lat)))) AS dist FROM park_spot_entity) as innerTable WHERE dist < "+dist+" ORDER BY dist ASC";
   }
 }
