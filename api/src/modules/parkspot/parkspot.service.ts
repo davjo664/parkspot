@@ -34,6 +34,15 @@ export class ParkspotService {
     return this.parkspotRepo.findOneById(parkSpot.id);
   }
 
+  async update(id: number, updateData: Partial<ParkSpotEntity> ): Promise<ParkSpotEntity> {
+    try {
+      await this.parkspotRepo.updateById(id, updateData);
+      return this.parkspotRepo.findOneById(id);
+    } catch (e) {
+      throw new HttpException('ParkSpot with id '+ id +'  does not exist', HttpStatus.NOT_FOUND);
+    }
+  }
+
     private buildQuery(lat: number, lng: number, dist: number) {
     if (typeof lat !== 'number' || typeof lng !== 'number' || typeof dist !== 'number') {
       throw new HttpException('GPS Query Params must be of type number', 500);
