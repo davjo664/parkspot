@@ -29,6 +29,6 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => ({
-  data: state.homeReducer.parkspots,
+    data: state.homeReducer.parkspots
 });
 export default connect(mapStateToProps, bindAction)(HomeContainer);

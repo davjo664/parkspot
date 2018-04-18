@@ -17,18 +17,29 @@ Based on:
 * Globally installed [node](https://nodejs.org/en/)
 
 * Globally installed [react-native CLI](https://facebook.github.io/react-native/docs/getting-started.html) setup for your iOS / Android on your OS
+* [CocoaPods](https://cocoapods.org/)
 
 ### 2. Installation
 
 On the command prompt run the following commands
 
 ```sh
-$ cd parkspot
+$ cd parkspot/app
 
 $ npm install
   or
   yarn
 ```
+
+For iOS:
+
+```sh
+$ cd parkspot/app/ios
+
+$ pod install
+```
+
+If you want open the Xcode Project then use the .xcworkspace file instead of the project file.
 
 #### Run on iOS
 

@@ -13,23 +13,29 @@ import {
   List,
   ListItem,
 } from 'native-base';
+import { Image } from 'react-native';
+
+import placeholderImage from '../../../assets/placeholders/no_parkspot.jpg';
 
 import styles from './styles';
 export interface Props {
   navigation: any;
   spots: any;
+  image: any;
   getSpots: any;
 }
 export interface State {}
 class Home extends React.Component<Props, State> {
   render() {
-    return (
+  	const imageSource = this.props.spots.length == 0 ? placeholderImage : {uri: this.props.spots[0].imageURL};
+
+		return (
       <Container style={styles.container}>
         <Header>
           <Title style={styles.title}>Parkspots</Title>
         </Header>
         <Content>
-          <Text style={styles.spots}>{this.props.spots.length}</Text>
+			<Image style={styles.image} source={imageSource}/>
           <Button style={styles.button} onPress={() => this.props.getSpots()}>
             <Text>Get Free Spots</Text>
           </Button>
