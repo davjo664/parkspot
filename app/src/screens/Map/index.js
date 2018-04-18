@@ -20,6 +20,8 @@ import styles from './styles';
 
 export interface Props {
 	navigation: any;
+	updateLocation: Function;
+	position: any;
 }
 
 export interface State {
@@ -27,21 +29,21 @@ export interface State {
 
 class Map extends React.Component<Props, State> {
 	render() {
+		this.props.updateLocation();
 
 		return (
 			<Container style={styles.container}>
 				<Header>
 					<Title style={styles.title}>Map</Title>
+					<Button style={styles.button} onPress={() => this.props.updateLocation()}>
+						<Text>Get location</Text>
+					</Button>
 				</Header>
 				<Content>
 					<MapView
 						style={styles.map}
-						region={{
-							latitude: 48.7420025,
-							longitude: 9.100759299999936,
-							latitudeDelta: 0.005,
-							longitudeDelta: 0.005,
-						}}
+						region={this.props.position}
+
 					/>
 				</Content>
 			</Container>
