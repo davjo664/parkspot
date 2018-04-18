@@ -13,3 +13,13 @@ export function updateLocation() {
 			console.warn(error.message);
 		}, {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
 }
+
+export function watchLocation() {
+	return dispatch =>
+		navigator.geolocation.watchPosition((position) => {
+			dispatch(updateLocationSuccess(position));
+		}, (error) => {
+			console.warn(error.message);
+		}, {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
+}
+

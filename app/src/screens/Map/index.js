@@ -21,6 +21,7 @@ import styles from './styles';
 export interface Props {
 	navigation: any;
 	updateLocation: Function;
+	watchLocation: Function;
 	position: any;
 }
 
@@ -35,15 +36,14 @@ class Map extends React.Component<Props, State> {
 			<Container style={styles.container}>
 				<Header>
 					<Title style={styles.title}>Map</Title>
-					<Button style={styles.button} onPress={() => this.props.updateLocation()}>
-						<Text>Get location</Text>
+					<Button style={styles.button} onPress={() => this.props.watchLocation()}>
+						<Text>Watch location</Text>
 					</Button>
 				</Header>
 				<Content>
 					<MapView
 						style={styles.map}
 						region={this.props.position}
-
 					/>
 				</Content>
 			</Container>
