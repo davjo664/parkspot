@@ -18,11 +18,11 @@ export class ParkspotService {
     return this.parkspotRepo.findOneById(id);
   }
 
-  async query(lat:number, lng: number, dist: number): Promise<ParkSpotEntity[]> {
-    //TODO create query with queryBuilder
+  async geoQuery(lat: number, lng: number, dist: number): Promise<ParkSpotEntity[]> {
+    //TODO create geoQuery with queryBuilder
     // const sub = this.parkspotRepo.createQueryBuilder().
     // return this.parkspotRepo.createQueryBuilder().where("dist > 300").getMany();
-    return this.parkspotRepo.query(this.buildQuery(lat,lng,dist));
+    return this.parkspotRepo.query(this.buildGeoQuery(lat, lng, dist));
   }
 
   async create(parkSpot: ParkSpotEntity): Promise<ParkSpotEntity> {
@@ -43,7 +43,7 @@ export class ParkspotService {
     }
   }
 
-    private buildQuery(lat: number, lng: number, dist: number) {
+  private buildGeoQuery(lat: number, lng: number, dist: number): string {
     if (typeof lat !== 'number' || typeof lng !== 'number' || typeof dist !== 'number') {
       throw new HttpException('GPS Query Params must be of type number', 500);
     }
