@@ -33,6 +33,9 @@ class Home extends React.Component<Props, State> {
       <Container style={styles.container}>
         <Header>
           <Title style={styles.title}>Parkspots</Title>
+			<Button style={styles.button} onPress={() => this.props.navigation.navigate('Map')}>
+				<Text>Goto map</Text>
+			</Button>
         </Header>
         <Content>
 			<Image style={styles.image} source={imageSource}/>
