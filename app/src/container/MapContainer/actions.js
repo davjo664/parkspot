@@ -5,13 +5,15 @@ export function updateLocationSuccess(position: Object) {
 	};
 }
 
+const locationSettings = {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000};
+
 export function updateLocation() {
 	return dispatch =>
 		navigator.geolocation.getCurrentPosition((position) => {
 			dispatch(updateLocationSuccess(position));
 		}, (error) => {
 			console.warn(error.message);
-		}, {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
+		}, locationSettings);
 }
 
 export function watchLocation() {
@@ -20,6 +22,6 @@ export function watchLocation() {
 			dispatch(updateLocationSuccess(position));
 		}, (error) => {
 			console.warn(error.message);
-		}, {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
+		}, locationSettings);
 }
 
