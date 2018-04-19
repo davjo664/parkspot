@@ -11,11 +11,10 @@ export default function (state: any = initialState, action: Function) {
 	if (action.type === 'UPDATE_LOCATION_SUCCESS') {
 		return {
 			...state,
-			position: { // todo figure our spread operator...
+			position: {
+				...state.position,
 				latitude: action.position.coords.latitude,
 				longitude: action.position.coords.longitude,
-				latitudeDelta: 0.005,
-				longitudeDelta: 0.005,
 			}
 		};
 	}
