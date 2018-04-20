@@ -15,6 +15,10 @@ export interface State {
 }
 
 class MapContainer extends React.Component<Props, State> {
+	componentDidMount() {
+		updateLocation();
+	}
+
 	render() {
 		return (
 			<Map

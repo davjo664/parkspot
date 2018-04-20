@@ -30,8 +30,6 @@ export interface State {
 
 class Map extends React.Component<Props, State> {
 	render() {
-		this.props.updateLocation();
-
 		return (
 			<Container style={styles.container}>
 				<Header>
