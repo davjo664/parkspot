@@ -15,7 +15,7 @@ export class ParkspotService {
   }
 
   async findOne(id: number): Promise<ParkSpotEntity> {
-    return this.parkspotRepo.findOneById(id);
+    return this.parkspotRepo.findOne(id);
   }
 
   async geoQuery(lat: number, lng: number, dist: number): Promise<ParkSpotEntity[]> {
@@ -31,13 +31,13 @@ export class ParkspotService {
     } catch (e) {
       throw new HttpException(`ParkSpot with id '${parkSpot.id}' already exists`, HttpStatus.CONFLICT);
     }
-    return this.parkspotRepo.findOneById(parkSpot.id);
+    return this.parkspotRepo.findOne(parkSpot.id);
   }
 
   async update(id: number, updateData: Partial<ParkSpotEntity> ): Promise<ParkSpotEntity> {
     try {
-      await this.parkspotRepo.updateById(id, updateData);
-      return this.parkspotRepo.findOneById(id);
+      await this.parkspotRepo.update(id, updateData);
+      return this.parkspotRepo.findOne(id);
     } catch (e) {
       throw new HttpException('ParkSpot with id '+ id +'  does not exist', HttpStatus.NOT_FOUND);
     }
