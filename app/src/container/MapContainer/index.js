@@ -9,6 +9,7 @@ export interface Props {
 	updateLocation: Function;
 	watchLocation: Function;
 	position: any;
+	parkspots: any;
 }
 
 export interface State {
@@ -26,6 +27,7 @@ class MapContainer extends React.Component<Props, State> {
 				updateLocation={this.props.updateLocation}
 				watchLocation={this.props.watchLocation}
 				position={this.props.position}
+				parkspots={this.props.parkspots}
 			/>
 		);
 	}
@@ -39,6 +41,7 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => ({
-	position: state.mapReducer.position
+	position: state.mapReducer.position,
+	parkspots: state.mapReducer.parkspots,
 });
 export default connect(mapStateToProps, bindAction)(MapContainer);

@@ -23,6 +23,7 @@ export interface Props {
 	updateLocation: Function;
 	watchLocation: Function;
 	position: any;
+	parkspots: any;
 }
 
 export interface State {
@@ -30,6 +31,16 @@ export interface State {
 
 class Map extends React.Component<Props, State> {
 	render() {
+		const markers = this.props.parkspots.map(parkspot => ({
+			key: parkspot.id,
+			coordinate: {
+				latitude: parseFloat(parkspot.lat),
+				longitude: parseFloat(parkspot.lng),
+			},
+			title: (parkspot.id).toString(),
+			description: "...",
+		}));
+
 		return (
 			<Container style={styles.container}>
 				<Header>
@@ -42,7 +53,19 @@ class Map extends React.Component<Props, State> {
 					<MapView
 						style={styles.map}
 						region={this.props.position}
-					/>
+					>{markers.map((marker) => {
+						return (
+							<MapView.Marker
+								key={marker.key}
+								coordinate={marker.coordinate}
+								title={marker.title}
+								description={marker.description}
+							/>
+						);
+					})}
+
+					</MapView>
+
 				</Content>
 			</Container>
 		);
