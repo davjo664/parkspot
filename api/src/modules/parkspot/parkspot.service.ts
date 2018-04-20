@@ -15,14 +15,14 @@ export class ParkspotService {
   }
 
   async findOne(id: number): Promise<ParkSpotEntity> {
-    return this.parkspotRepo.findOneById(id);
+    return this.parkspotRepo.findOne(id);
   }
 
-  async query(lat:number, lng: number, dist: number): Promise<ParkSpotEntity[]> {
-    //TODO create query with queryBuilder
+  async geoQuery(lat: number, lng: number, dist: number): Promise<ParkSpotEntity[]> {
+    //TODO create geoQuery with queryBuilder
     // const sub = this.parkspotRepo.createQueryBuilder().
     // return this.parkspotRepo.createQueryBuilder().where("dist > 300").getMany();
-    return this.parkspotRepo.query(this.buildQuery(lat,lng,dist));
+    return this.parkspotRepo.query(this.buildGeoQuery(lat, lng, dist));
   }
 
   async create(parkSpot: ParkSpotEntity): Promise<ParkSpotEntity> {
@@ -31,10 +31,19 @@ export class ParkspotService {
     } catch (e) {
       throw new HttpException(`ParkSpot with id '${parkSpot.id}' already exists`, HttpStatus.CONFLICT);
     }
-    return this.parkspotRepo.findOneById(parkSpot.id);
+    return this.parkspotRepo.findOne(parkSpot.id);
   }
 
-    private buildQuery(lat: number, lng: number, dist: number) {
+  async update(id: number, updateData: Partial<ParkSpotEntity> ): Promise<ParkSpotEntity> {
+    try {
+      await this.parkspotRepo.update(id, updateData);
+      return this.parkspotRepo.findOne(id);
+    } catch (e) {
+      throw new HttpException('ParkSpot with id '+ id +'  does not exist', HttpStatus.NOT_FOUND);
+    }
+  }
+
+  private buildGeoQuery(lat: number, lng: number, dist: number): string {
     if (typeof lat !== 'number' || typeof lng !== 'number' || typeof dist !== 'number') {
       throw new HttpException('GPS Query Params must be of type number', 500);
     }

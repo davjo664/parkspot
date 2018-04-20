@@ -1,4 +1,4 @@
-import {Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, ValidationPipe} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query, ValidationPipe} from '@nestjs/common';
 import {ParkspotService} from './parkspot.service';
 import {ParkSpotDto, ParkSpotQueryParams} from './parkspot.dto';
 import {ApiResponse, ApiUseTags} from '@nestjs/swagger';
@@ -38,10 +38,23 @@ export class ParkspotController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Occours for illegal parameters',
   })
-  async query(@Param('lat') lat:number, @Param('lng') lng: number, @Param('dist') dist: number): Promise<ParkSpotEntity[]> {
-    return await this.parkSpotService.query(lat, lng, dist);
+  async query(@Param('lat') lat: string, @Param('lng') lng: string, @Param('dist') dist: string): Promise<ParkSpotEntity[]> {
+    return await this.parkSpotService.geoQuery(parseInt(lat, 10), parseInt(lng, 10), parseInt(dist, 10));
   }
 
+  @Put('/:id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Updates a single ParkingSpot',
+    type: ParkSpotEntity
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'ParkingSpot was not modified',
+  })
+  async update(@Param('id') id: number, @Body(new ValidationPipe()) updateData: ParkSpotQueryParams): Promise<ParkSpotEntity> {
+    return await this.parkSpotService.update(id, updateData);
+  }
 
   @HttpCode(HttpStatus.CREATED)
   @ApiResponse({

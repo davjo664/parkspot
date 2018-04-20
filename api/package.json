@@ -6,15 +6,15 @@
   "scripts": {
     "format": "prettier --write \"**/*.ts\"",
     "start": "nodemon",
-    "start:server": "ts-node -r tsconfig-paths/register src/main.ts",
+    "start:server": "node -r ts-node/register src/main.ts",
     "prestart:prod": "rm -rf dist && tsc",
     "start:prod": "node dist/main.js",
     "test": "jest --watch",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migrate:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate",
-    "migrate:empty": "ts-node ./node_modules/typeorm/cli.js migrations:create",
-    "migrate:run": "ts-node ./node_modules/typeorm/cli.js migrations:run "
+    "migrate:generate": "node -r ts-node/register ./node_modules/typeorm/cli.js migrations:generate",
+    "migrate:empty": "node -r ts-node/register ./node_modules/typeorm/cli.js migrations:create",
+    "migrate:run": "node -r ts-node/register  ./node_modules/typeorm/cli.js migrations:run "
   },
   "dependencies": {
     "@nestjs/common": "^4.5.9",
@@ -34,7 +34,7 @@
     "pg": "^7.4.1",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^5.5.6",
-    "typeorm": "^0.1.20",
+    "typeorm": "^0.2.0",
     "typescript": "^2.6.2",
     "uuid": "^3.2.1"
   },
@@ -53,7 +53,7 @@
     "prettier": "^1.11.1",
     "supertest": "^3.0.0",
     "ts-jest": "^21.2.4",
-    "ts-node": "^4.1.0",
+    "ts-node": "6.0.0",
     "tsconfig-paths": "^3.1.1",
     "tslint": "5.3.2"
   },
