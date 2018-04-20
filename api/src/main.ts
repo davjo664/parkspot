@@ -25,6 +25,7 @@ async function bootstrap() {
     .setDescription('The (Germans) API Documentation for the parkspot project')
     .setVersion(packageJson.version)
     .addTag('parkspot')
+    .addTag('input')
     .build();
 
   const document = SwaggerModule.createDocument(server, options);
