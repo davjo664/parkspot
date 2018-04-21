@@ -4,16 +4,7 @@ const initialState = {
 		longitude: 9.100759299999936,
 		latitudeDelta: 0.005,
 		longitudeDelta: 0.005,
-	},
-	parkspots: [{
-		"id": 4,
-		"lat": "48.75",
-		"lng": "9.10",
-		"available": true,
-		"electricCharger": true,
-		"handicapped": true,
-		"imageURL": "http://via.placeholder.com/350x150"
-	}],
+	}
 };
 
 export default function (state: any = initialState, action: Function) {
