@@ -24,6 +24,7 @@ async function bootstrap() {
   const options = new DocumentBuilder()
     .setTitle('Parkspot API Documentation')
     .setSchemes(isDev() ? 'http' : 'https')
+    .setBasePath(isDev() ? '/' : '/api')
     .setDescription('The (Germans) API Documentation for the parkspot project')
     .setVersion(packageJson.version)
     .addTag('parkspot')
