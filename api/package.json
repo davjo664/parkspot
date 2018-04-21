@@ -8,7 +8,7 @@
     "start": "nodemon",
     "start:server": "node -r ts-node/register src/main.ts",
     "prestart:prod": "rm -rf dist && tsc",
-    "start:prod": "node dist/main.js",
+    "start:prod": "NODE_ENV=prod  node dist/main.js",
     "test": "jest --watch",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",

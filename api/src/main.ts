@@ -4,6 +4,7 @@ import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 import * as path from 'path';
+import {isDev} from './utils/migration-env';
 
 const packageJson: { version: string } = require('./../package.json');
 
@@ -22,6 +23,7 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle('Parkspot API Documentation')
+    .setSchemes(isDev() ? 'http' : 'https')
     .setDescription('The (Germans) API Documentation for the parkspot project')
     .setVersion(packageJson.version)
     .addTag('parkspot')
