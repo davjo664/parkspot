@@ -39,7 +39,10 @@ class Map extends React.Component<Props, State> {
 				longitude: parseFloat(parkspot.lng),
 			},
 			title: (parkspot.id).toString(),
-			description: "...",
+
+			available: parkspot.available,
+			electricCharger: parkspot.electricCharger,
+			handicapped: parkspot.handicapped,
 		}));
 
 		return (

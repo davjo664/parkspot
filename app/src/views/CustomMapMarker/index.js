@@ -24,16 +24,22 @@ export interface MarkerData {
 	id: Number;
 	coordinate: Coordinate;
 	title: string;
-	description: string;
+	available: boolean;
+	electricCharger: boolean;
+	handicapped: boolean;
 }
 
 class CustomMapMarker extends React.Component<Props, State> {
 	render() {
+
+		const description = "[available=" + this.props.data.available + ", electricCharger=" + this.props.data.electricCharger
+			+ ", handicapped=" + this.props.data.handicapped + "]";
+
 		return (
 			<MapView.Marker
 				coordinate={this.props.data.coordinate}
-				title={this.props.data.title}
-				description={this.props.data.description}
+				title={"id=" + this.props.data.title}
+				description={description}
 			/>
 		);
 	}
