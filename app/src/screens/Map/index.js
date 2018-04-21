@@ -15,6 +15,7 @@ import {
 } from 'native-base';
 
 import MapView from 'react-native-maps';
+import CustomMapMarker from '../../views/CustomMapMarker'
 
 import styles from './styles';
 
@@ -55,11 +56,9 @@ class Map extends React.Component<Props, State> {
 						region={this.props.position}
 					>{markers.map((marker) => {
 						return (
-							<MapView.Marker
+							<CustomMapMarker
 								key={marker.key}
-								coordinate={marker.coordinate}
-								title={marker.title}
-								description={marker.description}
+								data={marker}
 							/>
 						);
 					})}
