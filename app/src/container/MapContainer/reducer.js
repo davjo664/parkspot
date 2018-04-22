@@ -1,9 +1,13 @@
+const deltas = {
+	latitudeDelta: 0.01,
+	longitudeDelta: 0.01,
+};
+
 const initialState = {
 	initialRegion: { // HdM location
+		...deltas,
 		latitude: 48.7420025,
 		longitude: 9.100759299999936,
-		latitudeDelta: 0.01,
-		longitudeDelta: 0.01,
 	},
 	position: null,
 	parkspots: [],
@@ -16,6 +20,7 @@ export default function (state: any = initialState, action: Function) {
 		return {
 			...state,
 			position: {
+				...deltas,
 				...state.position,
 				latitude: action.position.coords.latitude,
 				longitude: action.position.coords.longitude,

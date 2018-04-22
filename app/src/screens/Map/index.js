@@ -14,6 +14,7 @@ import {
 	ListItem,
 } from 'native-base';
 
+import {View, Dimensions, TouchableOpacity} from 'react-native';
 import MapView from 'react-native-maps';
 import CustomMapMarker from '../../views/CustomMapMarker'
 
@@ -36,6 +37,26 @@ export interface State {
 
 class Map extends React.Component<Props, State> {
 	render() {
+		const { height: windowHeight } = Dimensions.get('window');
+		const varTop = windowHeight - 125;
+		const hitSlop = {
+			top: 15,
+			bottom: 15,
+			left: 15,
+			right: 15,
+		};
+
+		const bbStyle = function(vheight) {
+			return {
+				position: 'absolute',
+				top: vheight,
+				left: 10,
+				right: 10,
+				backgroundColor: 'transparent',
+				alignItems: 'center',
+			}
+		};
+
 		this.props.fetchParkspots();
 
 		const markers = this.props.parkspots.map(parkspot => ({
@@ -55,13 +76,24 @@ class Map extends React.Component<Props, State> {
 		return (
 			<Container style={styles.container}>
 				<Content>
+					<View style={bbStyle(varTop)}>
+						<TouchableOpacity
+							hitSlop = {hitSlop}
+							activeOpacity={0.7}
+							style={styles.mapButton}
+							onPress={ () => this.props.updateLocation() }
+						>
+							<Text style={{fontWeight: 'bold', color: 'black',}}>
+								Find me...
+							</Text>
+						</TouchableOpacity>
+					</View>
 					<MapView
-						ref={component => {this._map = component;}}
 						style={styles.map}
 						showsUserLocation={true}
-						showsMyLocationButton={true}
 						initialRegion={this.props.initialRegion}
-					/>
+						region={this.props.position}
+					>
 						{markers.map((marker) => {
 						return (
 							<CustomMapMarker
