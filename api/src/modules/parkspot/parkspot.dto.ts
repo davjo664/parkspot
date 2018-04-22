@@ -66,3 +66,14 @@ export class ParkSpotQueryParams implements Partial<ParkSpotEntity> {
   @ApiModelPropertyOptional()
   imageURL: string;
 }
+
+/**
+ * The  interface consists of the 'available' parameter.
+ * */
+export class ParkSpotIsAvailableParams implements Partial<ParkSpotEntity> {
+  @ApiModelPropertyOptional()
+  id: number;
+
+  @ApiModelPropertyOptional()
+  available: boolean;
+}

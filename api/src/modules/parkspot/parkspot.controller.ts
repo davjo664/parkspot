@@ -1,6 +1,6 @@
 import {Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query, ValidationPipe} from '@nestjs/common';
 import {ParkspotService} from './parkspot.service';
-import {ParkSpotDto, ParkSpotQueryParams} from './parkspot.dto';
+import {ParkSpotDto, ParkSpotIsAvailableParams, ParkSpotQueryParams} from './parkspot.dto';
 import {ApiResponse, ApiUseTags} from '@nestjs/swagger';
 import {ParkSpotEntity} from './parkspot.entity';
 
@@ -66,5 +66,19 @@ export class ParkspotController {
   @Post()
   async create(@Body(new ValidationPipe()) parkSpotDto: ParkSpotDto): Promise<ParkSpotEntity> {
     return await this.parkSpotService.create(parkSpotDto);
+  }
+
+  @Post('/:id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Updates status of a ParkingSpot',
+    type: ParkSpotEntity
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'ParkingSpot was not updated',
+  })
+  async updateAvailability(@Param('id') id: number, @Body(new ValidationPipe()) updateData: ParkSpotIsAvailableParams): Promise<ParkSpotEntity> {
+    return await this.parkSpotService.updateAvailability(id, updateData);
   }
 }

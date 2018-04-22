@@ -1,7 +1,7 @@
 import {Component, HttpException, HttpStatus} from '@nestjs/common';
 import {ParkspotRepo} from './parkspot-repository.provider';
 import {ParkSpotEntity} from './parkspot.entity';
-import {ParkSpotQueryParams} from './parkspot.dto';
+import {ParkSpotIsAvailableParams, ParkSpotQueryParams} from './parkspot.dto';
 
 @Component()
 export class ParkspotService {
@@ -35,6 +35,15 @@ export class ParkspotService {
   }
 
   async update(id: number, updateData: Partial<ParkSpotEntity> ): Promise<ParkSpotEntity> {
+    try {
+      await this.parkspotRepo.update(id, updateData);
+      return this.parkspotRepo.findOne(id);
+    } catch (e) {
+      throw new HttpException('ParkSpot with id '+ id +'  does not exist', HttpStatus.NOT_FOUND);
+    }
+  }
+
+  async updateAvailability(id: number, updateData: Partial<ParkSpotIsAvailableParams> ): Promise<ParkSpotEntity> {
     try {
       await this.parkspotRepo.update(id, updateData);
       return this.parkspotRepo.findOne(id);
