@@ -9,7 +9,9 @@ export interface Props {
 	navigation: any;
 	updateLocation: Function;
 	watchLocation: Function;
+	fetchParkspots: Function;
 	position: any;
+	initialRegion: any;
 	parkspots: any;
 }
 
@@ -18,7 +20,6 @@ export interface State {
 
 class MapContainer extends React.Component<Props, State> {
 	componentDidMount() {
-		updateLocation();
 		fetchParkspots();
 	}
 
@@ -28,7 +29,9 @@ class MapContainer extends React.Component<Props, State> {
 				navigation={this.props.navigation}
 				updateLocation={this.props.updateLocation}
 				watchLocation={this.props.watchLocation}
+				fetchParkspots={this.props.fetchParkspots}
 				position={this.props.position}
+				initialRegion={this.props.initialRegion}
 				parkspots={this.props.parkspots}
 			/>
 		);
@@ -37,14 +40,15 @@ class MapContainer extends React.Component<Props, State> {
 
 function bindAction(dispatch) {
 	return {
+		fetchParkspots: () => dispatch(fetchParkspots()),
 		updateLocation: () => dispatch(updateLocation()),
 		watchLocation: () => dispatch(watchLocation()),
-		fetchParkspots: () => dispatch(fetchParkspots()),
 	};
 }
 
 const mapStateToProps = state => ({
+	parkspots: state.mapReducer.parkspots,
 	position: state.mapReducer.position,
-	parkspots: state.homeReducer.parkspots,
+	initialRegion: state.mapReducer.initialRegion,
 });
 export default connect(mapStateToProps, bindAction)(MapContainer);

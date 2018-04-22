@@ -23,8 +23,12 @@ export interface Props {
 	navigation: any;
 	updateLocation: Function;
 	watchLocation: Function;
+	fetchParkspots: Function;
+	initialRegion: any;
 	position: any;
 	parkspots: any;
+
+	isMapReady: boolean;
 }
 
 export interface State {
@@ -32,6 +36,8 @@ export interface State {
 
 class Map extends React.Component<Props, State> {
 	render() {
+		this.props.fetchParkspots();
+
 		const markers = this.props.parkspots.map(parkspot => ({
 			key: parkspot.id,
 			coordinate: {
@@ -45,19 +51,18 @@ class Map extends React.Component<Props, State> {
 			handicapped: parkspot.handicapped,
 		}));
 
+
 		return (
 			<Container style={styles.container}>
-				<Header>
-					<Title style={styles.title}>Map</Title>
-					<Button style={styles.button} onPress={() => this.props.watchLocation()}>
-						<Text>Watch location</Text>
-					</Button>
-				</Header>
 				<Content>
 					<MapView
+						ref={component => {this._map = component;}}
 						style={styles.map}
-						region={this.props.position}
-					>{markers.map((marker) => {
+						showsUserLocation={true}
+						showsMyLocationButton={true}
+						initialRegion={this.props.initialRegion}
+					/>
+						{markers.map((marker) => {
 						return (
 							<CustomMapMarker
 								key={marker.key}
