@@ -14,7 +14,9 @@ import {
 	ListItem,
 } from 'native-base';
 
+import {View, Dimensions, TouchableOpacity} from 'react-native';
 import MapView from 'react-native-maps';
+import CustomMapMarker from '../../views/CustomMapMarker'
 
 import styles from './styles';
 
@@ -22,7 +24,12 @@ export interface Props {
 	navigation: any;
 	updateLocation: Function;
 	watchLocation: Function;
+	fetchParkspots: Function;
+	initialRegion: any;
 	position: any;
+	parkspots: any;
+
+	isMapReady: boolean;
 }
 
 export interface State {
@@ -30,21 +37,74 @@ export interface State {
 
 class Map extends React.Component<Props, State> {
 	render() {
-		this.props.updateLocation();
+		const { height: windowHeight } = Dimensions.get('window');
+		const varTop = windowHeight - 125;
+		const hitSlop = {
+			top: 15,
+			bottom: 15,
+			left: 15,
+			right: 15,
+		};
+
+		const bbStyle = function(vheight) {
+			return {
+				position: 'absolute',
+				top: vheight,
+				left: 10,
+				right: 10,
+				backgroundColor: 'transparent',
+				alignItems: 'center',
+			}
+		};
+
+		this.props.fetchParkspots();
+
+		const markers = this.props.parkspots.map(parkspot => ({
+			key: parkspot.id,
+			coordinate: {
+				latitude: parseFloat(parkspot.lat),
+				longitude: parseFloat(parkspot.lng),
+			},
+			title: (parkspot.id).toString(),
+
+			available: parkspot.available,
+			electricCharger: parkspot.electricCharger,
+			handicapped: parkspot.handicapped,
+		}));
+
 
 		return (
 			<Container style={styles.container}>
-				<Header>
-					<Title style={styles.title}>Map</Title>
-					<Button style={styles.button} onPress={() => this.props.watchLocation()}>
-						<Text>Watch location</Text>
-					</Button>
-				</Header>
 				<Content>
+					<View style={bbStyle(varTop)}>
+						<TouchableOpacity
+							hitSlop = {hitSlop}
+							activeOpacity={0.7}
+							style={styles.mapButton}
+							onPress={ () => this.props.updateLocation() }
+						>
+							<Text style={{fontWeight: 'bold', color: 'black',}}>
+								Find me...
+							</Text>
+						</TouchableOpacity>
+					</View>
 					<MapView
 						style={styles.map}
+						showsUserLocation={true}
+						initialRegion={this.props.initialRegion}
 						region={this.props.position}
-					/>
+					>
+						{markers.map((marker) => {
+						return (
+							<CustomMapMarker
+								key={marker.key}
+								data={marker}
+							/>
+						);
+					})}
+
+					</MapView>
+
 				</Content>
 			</Container>
 		);
