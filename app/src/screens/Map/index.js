@@ -1,17 +1,17 @@
 import * as React from 'react';
 import {
-	Container,
-	Header,
-	Title,
-	Content,
-	Text,
-	Button,
-	Icon,
-	Left,
-	Body,
-	Right,
-	List,
-	ListItem,
+    Container,
+    Header,
+    Title,
+    Content,
+    Text,
+    Button,
+    Icon,
+    Left,
+    Body,
+    Right,
+    List,
+    ListItem,
 } from 'native-base';
 
 import {View, Dimensions, TouchableOpacity} from 'react-native';
@@ -29,6 +29,9 @@ export interface Props {
 }
 
 export interface State {
+    shouldFollowUser: Boolean;
+    refreshInterval: Number;
+    interval: any;
 }
 
 class Map extends React.Component<Props, State> {
@@ -37,6 +40,8 @@ class Map extends React.Component<Props, State> {
 
         this.state = {
             shouldFollowUser: false,
+            refreshInterval: 500,
+            interval: null,
         };
 
         this.props.fetchParkspots();
@@ -44,51 +49,53 @@ class Map extends React.Component<Props, State> {
 
 
     onRegionChange = (region) => {
-      this.props.userPosition = {
-          ...this.props.userPosition,
-          longitudeDelta: region.longitudeDelta,
-          latitudeDelta: region.latitudeDelta,
-      };
+        this.props.userPosition = {
+            ...this.props.userPosition,
+            longitudeDelta: region.longitudeDelta,
+            latitudeDelta: region.latitudeDelta,
+        };
+    };
+
+    followMeButtonWasPressed = () => {
+        this.setState((prevState) => ({
+            shouldFollowUser: !prevState.shouldFollowUser
+        }));
+
+        // TODO: check why negation is needed... I don't think it makes sense?!
+        if (!this.state.shouldFollowUser) {
+            this.setState({interval: setInterval(this.props.updateLocation, this.state.refreshInterval)});
+        } else {
+            clearInterval(this.state.interval);
+            this.setState({interval: null});
+        }
     };
 
     render() {
-        const {height: windowHeight} = Dimensions.get('window');
-        const varTop = windowHeight - 125;
-        const hitSlop = {
-            top: 15,
-            bottom: 15,
-            left: 15,
-            right: 15,
-        };
-
-        const bbStyle = function (vheight) {
-            return {
-                position: 'absolute',
-                top: vheight,
-                left: 10,
-                right: 10,
-                backgroundColor: 'transparent',
-                alignItems: 'center',
-            }
-        };
-
         const markers = parkspotsToCustomMapMarker(this.props.parkspots);
 
         return (
             <Container style={styles.container}>
                 <Content>
-                    <View style={bbStyle(varTop)}>
+                    <Container style={styles.buttons}>
                         <TouchableOpacity
-                            hitSlop={hitSlop}
                             activeOpacity={0.7}
-                            style={styles.mapButton}
+                            style={styles.findMeButton}
                             onPress={() => this.props.updateLocation()}
                         >
-                            <Text style={{fontWeight: 'bold', color: 'black',}}>
-                                Find me...
-                            </Text>
+                            <Text>Find me</Text>
                         </TouchableOpacity>
-                    </View>
+
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            style={this.state.shouldFollowUser ? styles.followMeButtonActive : styles.followMeButton}
+                            onPress={() => this.followMeButtonWasPressed()}
+                        >
+                            <Text
+                                style={this.state.shouldFollowUser ? styles.followMeButtonTextActive : styles.followMeButtonText}>Follow
+                                me</Text>
+                        </TouchableOpacity>
+                    </Container>
+
                     <MapView
                         style={styles.map}
                         showsUserLocation={true}

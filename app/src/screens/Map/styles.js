@@ -1,29 +1,58 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
-let { width, height } = Dimensions.get('window');
+let {width, height} = Dimensions.get('window');
+
+
+const buttonStyleTemplate = {
+    width: 150,
+    height: 50,
+    borderRadius: 85,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowOpacity: 0.12,
+    opacity: .85,
+};
+
 const styles = StyleSheet.create({
-	container: {
-		...StyleSheet.absoluteFillObject,
-		justifyContent: 'flex-end',
-		alignItems: 'center',
-	},
-	map: {
-		width: width * 0.999,
-		height: height * 0.95,
-		zIndex: -1,
-	},
-	mapButton: {
-		width: 75,
-		height: 75,
-		borderRadius: 85/2,
-		backgroundColor: 'rgba(252, 253, 253, 0.9)',
-		justifyContent: 'center',
-		alignItems: 'center',
-		shadowColor: 'black',
-		shadowRadius: 8,
-		shadowOpacity: 0.12,
-		opacity: .6,
-		zIndex: 10,
-	},
+    container: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    map: {
+        width: width * 0.999,
+        height: height * 0.95,
+        zIndex: -1,
+    },
+    buttons: {
+        width: width * 0.99,
+        height: 50,
+        zIndex: 10,
+        position: 'absolute',
+        bottom: '5%',
+    },
+    findMeButton: {
+        ...buttonStyleTemplate,
+        position: 'absolute',
+        left: '5%',
+    },
+    followMeButton: {
+        ...buttonStyleTemplate,
+        position: 'absolute',
+        right: '5%',
+    },
+    followMeButtonText: {
+        color: 'black',
+    },
+    followMeButtonActive: {
+        ...buttonStyleTemplate,
+        position: 'absolute',
+        right: '5%',
+        backgroundColor: '#3F51B5',
+    },
+    followMeButtonTextActive: {
+        color: 'white',
+    },
 });
 export default styles;
