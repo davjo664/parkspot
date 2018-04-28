@@ -23,6 +23,8 @@ import styles from './styles';
 export interface Props {
     navigation: any;
     updateLocation: Function;
+    watchLocation: Function;
+    stopWatchLocation: Function;
     fetchParkspots: Function;
     parkspots: any;
     userPosition: any;
@@ -30,8 +32,6 @@ export interface Props {
 
 export interface State {
     shouldFollowUser: Boolean;
-    refreshInterval: Number;
-    interval: any;
 }
 
 class Map extends React.Component<Props, State> {
@@ -40,8 +40,6 @@ class Map extends React.Component<Props, State> {
 
         this.state = {
             shouldFollowUser: false,
-            refreshInterval: 500,
-            interval: null,
         };
 
         this.props.fetchParkspots();
@@ -56,17 +54,20 @@ class Map extends React.Component<Props, State> {
         };
     };
 
+    findMeButtonWasPressed = () => {
+        this.props.updateLocation();
+    };
+
     followMeButtonWasPressed = () => {
         this.setState((prevState) => ({
             shouldFollowUser: !prevState.shouldFollowUser
         }));
 
-        // TODO: check why negation is needed... I don't think it makes sense?!
+        // TODO: WTF??
         if (!this.state.shouldFollowUser) {
-            this.setState({interval: setInterval(this.props.updateLocation, this.state.refreshInterval)});
+            this.props.watchLocation();
         } else {
-            clearInterval(this.state.interval);
-            this.setState({interval: null});
+            this.props.stopWatchLocation();
         }
     };
 
@@ -80,7 +81,7 @@ class Map extends React.Component<Props, State> {
                         <TouchableOpacity
                             activeOpacity={0.7}
                             style={styles.findMeButton}
-                            onPress={() => this.props.updateLocation()}
+                            onPress={() => this.findMeButtonWasPressed()}
                         >
                             <Text>Find me</Text>
                         </TouchableOpacity>
