@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     map: {
-        width: width * 0.999,
-        height: height * 0.95,
+        width: width,
+        height: height,
         zIndex: -1,
     },
     buttons: {
-        width: width * 0.99,
+        width: width,
         height: 50,
         zIndex: 10,
         position: 'absolute',
