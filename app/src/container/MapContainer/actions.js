@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function updateLocationSuccess(userPosition: Object) {
     return {
         type: 'UPDATE_LOCATION_SUCCESS',
