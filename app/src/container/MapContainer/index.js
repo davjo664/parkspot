@@ -13,6 +13,7 @@ export interface Props {
     fetchParkspots: Function;
     parkspots: any;
     userPosition: any;
+    watchID: Number;
 }
 
 export interface State {
@@ -24,7 +25,7 @@ class MapContainer extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        stopWatchLocation(this.props.watchLocation);
+        stopWatchLocation(this.props.watchID);
     }
 
     render() {
