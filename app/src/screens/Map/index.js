@@ -17,6 +17,7 @@ import {
 import {View, Dimensions, TouchableOpacity} from 'react-native';
 import MapView from 'react-native-maps';
 import CustomMapMarker from '../../views/CustomMapMarker'
+import MapCard from '../../views/MapCard'
 
 import styles from './styles';
 
@@ -96,6 +97,12 @@ class Map extends React.Component<Props, State> {
                                 me</Text>
                         </TouchableOpacity>
                     </Container>
+                    <MapCard
+                        title={"Lorem Ipsum Parking Lot"}
+                        available={false}
+                        handicapped={true}
+                        electricCharger={false}
+                    />
 
                     <MapView
                         style={styles.map}
