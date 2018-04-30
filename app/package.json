@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "lodash": "4.17.4",
-    "native-base": "2.3.5",
+    "native-base": "^2.3.10",
     "react": "16.2.0",
     "react-native": "0.51.0",
     "react-native-maps": "^0.21.0",
