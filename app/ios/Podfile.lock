@@ -1,4 +1,11 @@
 PODS:
+  - AppCenter/Analytics (1.5.0):
+    - AppCenter/Core
+  - AppCenter/Core (1.5.0)
+  - AppCenter/Crashes (1.5.0):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (1.4.0):
+    - AppCenter/Core (= 1.5.0)
   - boost (1.59.0):
     - boost/graph-includes (= 1.59.0)
     - boost/math-includes (= 1.59.0)
@@ -14,6 +21,20 @@ PODS:
   - boost/preprocessor-includes (1.59.0)
   - boost/shared_ptr-includes (1.59.0)
   - boost/string_algorithms-includes (1.59.0)
+  - CodePush (5.3.2):
+    - CodePush/Base64 (= 5.3.2)
+    - CodePush/Core (= 5.3.2)
+    - CodePush/JWT (= 5.3.2)
+    - CodePush/SSZipArchive (= 5.3.2)
+    - React
+  - CodePush/Base64 (5.3.2):
+    - React
+  - CodePush/Core (5.3.2):
+    - React
+  - CodePush/JWT (5.3.2):
+    - React
+  - CodePush/SSZipArchive (5.3.2):
+    - React
   - DoubleConversion (1.1.5)
   - Folly (2016.09.26.00):
     - boost
@@ -95,6 +116,10 @@ PODS:
   - yoga (0.51.0.React)
 
 DEPENDENCIES:
+  - AppCenter/Analytics (~> 1.5.0)
+  - AppCenter/Crashes (~> 1.5.0)
+  - AppCenterReactNativeShared (~> 1.4.0)
+  - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - GLog (from `../node_modules/react-native/third-party-podspecs/GLog.podspec`)
@@ -119,11 +144,15 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - AppCenter
+    - AppCenterReactNativeShared
     - boost
     - Google-Maps-iOS-Utils
     - GoogleMaps
 
 EXTERNAL SOURCES:
+  CodePush:
+    :path: "../node_modules/react-native-code-push"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   Folly:
@@ -140,7 +169,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
 SPEC CHECKSUMS:
+  AppCenter: 42c293f0de27e173aacd600a55a49da5317cd40e
+  AppCenterReactNativeShared: 056324303732841fff14f2a71c4a6839831b038b
   boost: 30a15ffb6d9aa4646dd3caffc960753f4cb4ca4e
+  CodePush: af67b07310e4037ecd5c38f03c7a51c6350240b5
   DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
   Folly: b7255b29f1d693c375d642d0f04f0592181156d9
   GLog: 3e4e4ae9746ce6bf6e9420c7fc1e08ad59c8ba1a
@@ -151,6 +183,6 @@ SPEC CHECKSUMS:
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   yoga: 17521bbb0dd54a47c0b3ac43253e78cdac7488e0
 
-PODFILE CHECKSUM: b67ebbf4c6fefc77b11ed9e3890452fefcdebf9a
+PODFILE CHECKSUM: 57caacc79dea590e68761903195a39aa92cda762
 
 COCOAPODS: 1.5.0

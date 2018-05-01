@@ -2,6 +2,13 @@
 # platform :ios, '9.0'
 
 target 'parkspot' do
+
+    # Pods for AppCenter
+    pod 'AppCenter/Analytics', '~> 1.5.0'
+    pod 'AppCenter/Crashes', '~> 1.5.0'
+    pod 'AppCenterReactNativeShared', '~> 1.4.0'
+    pod 'CodePush', :path => '../node_modules/react-native-code-push'
+    
     rn_path = '../node_modules/react-native'
     rn_maps_path = '../node_modules/react-native-maps'
   
@@ -22,7 +29,10 @@ target 'parkspot' do
       'RCTVibration',
       'RCTWebSocket',
     ]
+
+    
   
+  platform :ios, '9.0'
     # React Native third party dependencies podspecs
     pod 'DoubleConversion', :podspec => "#{rn_path}/third-party-podspecs/DoubleConversion.podspec"
     #pod 'glog', :podspec => "#{rn_path}/third-party-podspecs/glog.podspec"
@@ -37,6 +47,8 @@ target 'parkspot' do
     pod 'react-native-google-maps', path: rn_maps_path  # Remove this line if you don't want to support GoogleMaps on iOS
     pod 'GoogleMaps'  # Remove this line if you don't want to support GoogleMaps on iOS
     pod 'Google-Maps-iOS-Utils' # Remove this line if you don't want to support GoogleMaps on iOS
+    pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
   end
   
   post_install do |installer|
