@@ -3,7 +3,8 @@ import {AppModule} from './app.module';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
-import * as path from "path";
+import * as path from 'path';
+import {isDev} from './utils/migration-env';
 
 const packageJson: { version: string } = require('./../package.json');
 
@@ -22,13 +23,16 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle('Parkspot API Documentation')
+    .setSchemes(isDev() ? 'http' : 'https')
+    .setBasePath(isDev() ? '/' : '/api')
     .setDescription('The (Germans) API Documentation for the parkspot project')
     .setVersion(packageJson.version)
     .addTag('parkspot')
+    .addTag('input')
     .build();
 
   const document = SwaggerModule.createDocument(server, options);
-  SwaggerModule.setup('/api', server, document);
+  SwaggerModule.setup('/docs', server, document);
 
   await server.listen(3000);
 }

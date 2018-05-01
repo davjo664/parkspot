@@ -1,5 +1,6 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
-import {ApiModelProperty} from '@nestjs/swagger';
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {ApiModelProperty, ApiModelPropertyOptional} from '@nestjs/swagger';
+import {ParkingLotEntity} from '../parkinglot/parking-lot.entity';
 
 @Entity()
 export class ParkSpotEntity {
@@ -31,4 +32,10 @@ export class ParkSpotEntity {
   @Column({ nullable: true, default: "example.jpg"})
   @ApiModelProperty()
   imageURL: string;
+
+  @ManyToOne(type => ParkingLotEntity, {nullable: true,})
+  @ApiModelPropertyOptional()
+  parkingLot?: ParkingLotEntity | null;
+
+
 }
