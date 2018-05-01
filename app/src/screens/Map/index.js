@@ -52,8 +52,6 @@ class Map extends React.Component<Props, State> {
             longitudeDelta: region.longitudeDelta,
             latitudeDelta: region.latitudeDelta,
         };
-
-        this.state.shouldFollowUser = false;
     };
 
     findMeButtonWasPressed = () => {
