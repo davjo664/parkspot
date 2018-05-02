@@ -1,3 +1,12 @@
+import config from "../../config/config";
+
+export function fetchParkspotsSuccess(data: Object) {
+    return {
+        type: 'FETCH_PARKSPOTS_SUCCESS',
+        data,
+    };
+}
+
 export function updateLocationSuccess(userPosition: Object) {
     return {
         type: 'UPDATE_LOCATION_SUCCESS',
@@ -18,6 +27,14 @@ export function stopWatchLocationSuccess() {
         type: 'STOP_WATCH_LOCATION_SUCCESS',
     };
 };
+
+
+export function fetchParkspots() {
+    return dispatch =>
+        fetch(config.api.url) // Redux Thunk handles these
+            .then(res => res.json())
+            .then(data => dispatch(fetchParkspotsSuccess(data)));
+}
 
 
 export function updateLocation() {

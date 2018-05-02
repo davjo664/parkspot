@@ -2,8 +2,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import Map from '../../screens/Map';
-import {updateLocation, watchLocation, stopWatchLocation} from './actions';
-import {fetchParkspots} from "../HomeContainer/actions";
+import {updateLocation, watchLocation, stopWatchLocation, fetchParkspots} from './actions';
 
 export interface Props {
     navigation: any;
