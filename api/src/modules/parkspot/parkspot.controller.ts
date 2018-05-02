@@ -39,7 +39,7 @@ export class ParkspotController {
     description: 'Occours for illegal parameters',
   })
   async query(@Param('lat') lat: string, @Param('lng') lng: string, @Param('dist') dist: string): Promise<ParkSpotEntity[]> {
-    return await this.parkSpotService.geoQuery(parseInt(lat, 10), parseInt(lng, 10), parseInt(dist, 10));
+    return await this.parkSpotService.geoQuery(parseFloat(lat), parseFloat(lng), parseFloat(dist));
   }
 
   @Put('/:id')
