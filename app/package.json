@@ -37,6 +37,7 @@
     "appcenter": "^1.4.0",
     "appcenter-analytics": "^1.4.0",
     "appcenter-crashes": "^1.4.0",
+    "haversine-js": "^1.0.0",
     "lodash": "4.17.4",
     "native-base": "2.3.5",
     "react": "16.2.0",
