@@ -2,8 +2,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import Map from '../../screens/Map';
-import {updateLocation, watchLocation, stopWatchLocation} from './actions';
-import {fetchParkspots} from "../HomeContainer/actions";
+import {updateLocation, watchLocation, stopWatchLocation, fetchParkspots} from './actions';
 
 export interface Props {
     navigation: any;
@@ -20,10 +19,6 @@ export interface State {
 }
 
 class MapContainer extends React.Component<Props, State> {
-    componentDidMount() {
-        fetchParkspots();
-    }
-
     componentWillUnmount() {
         stopWatchLocation(this.props.watchID);
     }
@@ -45,7 +40,9 @@ class MapContainer extends React.Component<Props, State> {
 
 function bindAction(dispatch) {
     return {
-        fetchParkspots: () => dispatch(fetchParkspots()),
+        fetchParkspots: (latitude: ?number, longitude: ?number, distance: ?number) => {
+            dispatch(fetchParkspots(latitude, longitude, distance))
+        },
         updateLocation: () => dispatch(updateLocation()),
         watchLocation: () => dispatch(watchLocation()),
         stopWatchLocation: () => dispatch(stopWatchLocation()),
