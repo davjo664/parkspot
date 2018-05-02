@@ -19,10 +19,6 @@ export interface State {
 }
 
 class MapContainer extends React.Component<Props, State> {
-    componentDidMount() {
-        fetchParkspots();
-    }
-
     componentWillUnmount() {
         stopWatchLocation(this.props.watchID);
     }
@@ -44,7 +40,9 @@ class MapContainer extends React.Component<Props, State> {
 
 function bindAction(dispatch) {
     return {
-        fetchParkspots: () => dispatch(fetchParkspots()),
+        fetchParkspots: (latitude: ?number, longitude: ?number, distance: ?number) => {
+            dispatch(fetchParkspots(latitude, longitude, distance))
+        },
         updateLocation: () => dispatch(updateLocation()),
         watchLocation: () => dispatch(watchLocation()),
         stopWatchLocation: () => dispatch(stopWatchLocation()),

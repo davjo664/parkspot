@@ -18,6 +18,8 @@ import {View, Dimensions, TouchableOpacity} from 'react-native';
 import MapView from 'react-native-maps';
 import CustomMapMarker from '../../components/CustomMapMarker'
 
+const haversine = require('haversine-js');
+
 import styles from './styles';
 
 export interface Props {
@@ -42,7 +44,7 @@ class Map extends React.Component<Props, State> {
             shouldFollowUser: false,
         };
 
-        this.props.fetchParkspots();
+        this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
     };
 
 
@@ -52,6 +54,9 @@ class Map extends React.Component<Props, State> {
             longitudeDelta: region.longitudeDelta,
             latitudeDelta: region.latitudeDelta,
         };
+
+        // Todo only fetch if chanegd significantly. Should suffice for now though.
+        this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
     };
 
     findMeButtonWasPressed = () => {
@@ -69,6 +74,23 @@ class Map extends React.Component<Props, State> {
         } else {
             this.props.stopWatchLocation();
         }
+    };
+
+    approximateCurrentRegionRadius = (region) => {
+        const a = {
+            longitude: region.longitude - region.longitudeDelta / 2,
+            latitude: region.latitude - region.latitudeDelta / 2
+        };
+        const b = {
+            longitude: region.longitude + region.longitudeDelta / 2,
+            latitude: region.latitude + region.latitudeDelta / 2
+        };
+
+        const options = {
+            radius: 6371 // radius of earth in km
+        };
+
+        return haversine(a, b, options).toFixed(0);
     };
 
     render() {
