@@ -1,114 +1,139 @@
 import * as React from 'react';
 import {
-	Container,
-	Header,
-	Title,
-	Content,
-	Text,
-	Button,
-	Icon,
-	Left,
-	Body,
-	Right,
-	List,
-	ListItem,
+    Container,
+    Header,
+    Title,
+    Content,
+    Text,
+    Button,
+    Icon,
+    Left,
+    Body,
+    Right,
+    List,
+    ListItem,
 } from 'native-base';
 
 import {View, Dimensions, TouchableOpacity} from 'react-native';
 import MapView from 'react-native-maps';
-import CustomMapMarker from '../../views/CustomMapMarker'
+import CustomMapMarker from '../../components/CustomMapMarker'
 
 import styles from './styles';
 
 export interface Props {
-	navigation: any;
-	updateLocation: Function;
-	watchLocation: Function;
-	fetchParkspots: Function;
-	initialRegion: any;
-	position: any;
-	parkspots: any;
-
-	isMapReady: boolean;
+    navigation: any;
+    updateLocation: Function;
+    watchLocation: Function;
+    stopWatchLocation: Function;
+    fetchParkspots: Function;
+    parkspots: any;
+    userPosition: any;
 }
 
 export interface State {
+    shouldFollowUser: Boolean;
 }
 
 class Map extends React.Component<Props, State> {
-	render() {
-		const { height: windowHeight } = Dimensions.get('window');
-		const varTop = windowHeight - 125;
-		const hitSlop = {
-			top: 15,
-			bottom: 15,
-			left: 15,
-			right: 15,
-		};
+    constructor(props) {
+        super(props);
 
-		const bbStyle = function(vheight) {
-			return {
-				position: 'absolute',
-				top: vheight,
-				left: 10,
-				right: 10,
-				backgroundColor: 'transparent',
-				alignItems: 'center',
-			}
-		};
+        this.state = {
+            shouldFollowUser: false,
+        };
 
-		this.props.fetchParkspots();
-
-		const markers = this.props.parkspots.map(parkspot => ({
-			key: parkspot.id,
-			coordinate: {
-				latitude: parseFloat(parkspot.lat),
-				longitude: parseFloat(parkspot.lng),
-			},
-			title: (parkspot.id).toString(),
-
-			available: parkspot.available,
-			electricCharger: parkspot.electricCharger,
-			handicapped: parkspot.handicapped,
-		}));
+        this.props.fetchParkspots();
+    };
 
 
-		return (
-			<Container style={styles.container}>
-				<Content>
-					<View style={bbStyle(varTop)}>
-						<TouchableOpacity
-							hitSlop = {hitSlop}
-							activeOpacity={0.7}
-							style={styles.mapButton}
-							onPress={ () => this.props.updateLocation() }
-						>
-							<Text style={{fontWeight: 'bold', color: 'black',}}>
-								Find me...
-							</Text>
-						</TouchableOpacity>
-					</View>
-					<MapView
-						style={styles.map}
-						showsUserLocation={true}
-						initialRegion={this.props.initialRegion}
-						region={this.props.position}
-					>
-						{markers.map((marker) => {
-						return (
-							<CustomMapMarker
-								key={marker.key}
-								data={marker}
-							/>
-						);
-					})}
+    onRegionChange = (region) => {
+        this.props.userPosition = {
+            ...this.props.userPosition,
+            longitudeDelta: region.longitudeDelta,
+            latitudeDelta: region.latitudeDelta,
+        };
+    };
 
-					</MapView>
+    findMeButtonWasPressed = () => {
+        this.props.updateLocation();
+    };
 
-				</Content>
-			</Container>
-		);
-	}
+    followMeButtonWasPressed = () => {
+        this.setState((prevState) => ({
+            shouldFollowUser: !prevState.shouldFollowUser
+        }));
+
+        // TODO: WTF??
+        if (!this.state.shouldFollowUser) {
+            this.props.watchLocation();
+        } else {
+            this.props.stopWatchLocation();
+        }
+    };
+
+    render() {
+        const markers = parkspotsToCustomMapMarker(this.props.parkspots);
+
+        return (
+            <Container style={styles.container}>
+                <Content>
+                    <Container style={styles.buttons}>
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            style={styles.findMeButton}
+                            onPress={() => this.findMeButtonWasPressed()}
+                        >
+                            <Text>Find me</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            style={this.state.shouldFollowUser ? styles.followMeButtonActive : styles.followMeButton}
+                            onPress={() => this.followMeButtonWasPressed()}
+                        >
+                            <Text
+                                style={this.state.shouldFollowUser ? styles.followMeButtonTextActive : styles.followMeButtonText}>Follow
+                                me</Text>
+                        </TouchableOpacity>
+                    </Container>
+
+                    <MapView
+                        style={styles.map}
+                        showsUserLocation={true}
+                        initialRegion={this.props.userPosition}
+                        region={this.props.userPosition}
+                        onRegionChange={this.onRegionChange}
+                    >
+                        {markers.map((marker) => {
+                            return (
+                                <CustomMapMarker
+                                    key={marker.key}
+                                    data={marker}
+                                />
+                            );
+                        })}
+
+                    </MapView>
+
+                </Content>
+            </Container>
+        );
+    }
 }
 
 export default Map;
+
+export function parkspotsToCustomMapMarker(parkspots) {
+    return parkspots.map(parkspot => ({
+        key: parkspot.id,
+        coordinate: {
+            latitude: parseFloat(parkspot.lat),
+            longitude: parseFloat(parkspot.lng),
+        },
+        title: (parkspot.id).toString(),
+
+        available: parkspot.available,
+        electricCharger: parkspot.electricCharger,
+        handicapped: parkspot.handicapped,
+    }));
+};
