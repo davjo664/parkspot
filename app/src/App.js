@@ -11,7 +11,7 @@ const App = StackNavigator(
 		Map: {screen: Map},
 	},
 	{
-		initialRouteName: 'Home',
+		initialRouteName: 'Map',
 		headerMode: 'none',
 	},
 );
