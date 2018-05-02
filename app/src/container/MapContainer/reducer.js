@@ -1,9 +1,9 @@
 const initialState = {
-    userPosition: { // HdM location
-        latitude: 48.7420025,
-        longitude: 9.100759299999936,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
+    userPosition: { // Stuttgart location
+        latitude: 48.775,
+        longitude: 9.175,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
     },
     parkspots: [],
     watchID: null,
