@@ -61,9 +61,9 @@ class MapCard extends React.Component<Props, State> {
         this.setState({expanded: !currentState});
 
         if (currentState) {
-            this.hideCard(500);
+            this.hideCard(300);
         } else {
-            this.showCard(500);
+            this.showCard(300);
         }
     };
 
@@ -72,9 +72,8 @@ class MapCard extends React.Component<Props, State> {
             inputRange: [0, 1],
             outputRange: [this.state.renderHeight * 0.75, 0],
         });
-
+        
         const cardStyle = StyleSheet.flatten([styles.cardItem, {transform: [{translateY: cardTransformY}]}]);
-
 
         return (
             <Card style={styles.card} onLayout={this.onLayout}>
