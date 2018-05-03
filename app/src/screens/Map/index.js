@@ -97,12 +97,6 @@ class Map extends React.Component<Props, State> {
                                 me</Text>
                         </TouchableOpacity>
                     </Container>
-                    <MapCard
-                        title={"Lorem Ipsum Parking Lot"}
-                        available={false}
-                        handicapped={true}
-                        electricCharger={false}
-                    />
 
                     <MapView
                         style={styles.map}
