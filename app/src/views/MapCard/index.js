@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Animated, Easing, StyleSheet} from 'react-native';
+import {Animated, StyleSheet} from 'react-native';
 import {Container, Card, CardItem, Body, Text, Icon} from 'native-base';
 
 import styles from './styles';
@@ -39,7 +39,6 @@ class MapCard extends React.Component<Props, State> {
             {
                 toValue: 1,
                 duration: ms,
-                easing: Easing.inOut,
                 useNativeDriver: true,
             }
         ).start();
@@ -51,7 +50,6 @@ class MapCard extends React.Component<Props, State> {
             {
                 toValue: 0,
                 duration: ms,
-                easing: Easing.inOut,
                 useNativeDriver: true,
             }
         ).start();
