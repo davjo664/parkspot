@@ -40,8 +40,9 @@ class MapCard extends React.Component<Props, State> {
                 toValue: 1,
                 duration: ms,
                 easing: Easing.inOut,
+                useNativeDriver: true,
             }
-        );
+        ).start();
     };
 
     hideCard = (ms = 1000) => {
@@ -51,8 +52,9 @@ class MapCard extends React.Component<Props, State> {
                 toValue: 0,
                 duration: ms,
                 easing: Easing.inOut,
+                useNativeDriver: true,
             }
-        );
+        ).start();
     };
 
 
@@ -61,18 +63,17 @@ class MapCard extends React.Component<Props, State> {
         this.setState({expanded: !currentState});
 
         if (currentState) {
-            this.hideCard();
+            this.hideCard(500);
         } else {
-            this.showCard();
+            this.showCard(500);
         }
     };
 
     render() {
         const cardTransformY = this.state.animationProgress.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, 1000],
+            outputRange: [this.state.renderHeight * 0.75, 0],
         });
-
 
         const cardStyle = StyleSheet.flatten([styles.cardItem, {transform: [{translateY: cardTransformY}]}]);
 
