@@ -17,7 +17,7 @@ import {
 import {View, Dimensions, TouchableOpacity} from 'react-native';
 import MapView from 'react-native-maps';
 import CustomMapMarker from '../../views/CustomMapMarker'
-import MapCard from '../../views/MapCard'
+import MapCard from '../../components/MapCard'
 
 import styles from './styles';
 
