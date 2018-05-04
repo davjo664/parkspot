@@ -57,3 +57,11 @@ buck-out/
 
 #CocoaPods
 */Pods
+# Bundle artifact
+*.jsbundle
+
+#ios
+/ios/builds
+
+#Android
+android/app/release
