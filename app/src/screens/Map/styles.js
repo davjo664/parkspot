@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         height: 50,
         zIndex: 10,
         position: 'absolute',
-        bottom: '5%',
+        top: '5%',
     },
     findMeButton: {
         ...buttonStyleTemplate,

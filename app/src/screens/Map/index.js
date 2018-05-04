@@ -16,9 +16,10 @@ import {
 
 import {View, Dimensions, TouchableOpacity} from 'react-native';
 import MapView from 'react-native-maps';
-import CustomMapMarker from '../../components/CustomMapMarker'
+import CustomMapMarker from '../../components/CustomMapMarker';
 
 const haversine = require('haversine-js');
+import MapCard from '../../components/MapCard';
 
 import styles from './styles';
 
