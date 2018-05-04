@@ -1,7 +1,7 @@
 import {PostgresConnectionOptions} from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 export interface RuntimeConfiguration {
-  environment: 'dev' | ' prod';
+  environment: 'dev' | 'prod';
 }
 
 export interface DBConfig extends PostgresConnectionOptions {
