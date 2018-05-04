@@ -31,9 +31,7 @@ export function stopWatchLocationSuccess() {
 
 export function fetchParkspots(latitude: ?number, longitude: ?number, distance: ?number) {
     const url = (!latitude || !longitude || !distance) ? config.api.url : `${config.api.url}${latitude}/${longitude}/${distance}`;
-
-    console.log(url);
-
+    
     return dispatch =>
         fetch(url) // Redux Thunk handles these
             .then((res) => res.json())
