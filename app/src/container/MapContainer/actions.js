@@ -30,12 +30,20 @@ export function stopWatchLocationSuccess() {
 
 
 export function fetchParkspots(latitude: ?number, longitude: ?number, distance: ?number) {
-    const url = (!latitude || !longitude || !distance) ? config.api.url  : `${config.api.url}${latitude}/${longitude}/${distance}`;
+    const url = (!latitude || !longitude || !distance) ? config.api.url : `${config.api.url}${latitude}/${longitude}/${distance}`;
+
+    console.log(url);
 
     return dispatch =>
         fetch(url) // Redux Thunk handles these
-            .then(res => res.json())
-            .then(data => dispatch(fetchParkspotsSuccess(data)));
+            .then((res) => res.json())
+            .then(data => {
+                if (data.statusCode && data.statusCode != 200) {
+                    console.log(data.message);
+                } else {
+                    dispatch(fetchParkspotsSuccess(data));
+                }
+            });
 }
 
 
@@ -44,7 +52,7 @@ export function updateLocation() {
         navigator.geolocation.getCurrentPosition((userPosition) => {
             dispatch(updateLocationSuccess(userPosition));
         }, (error) => {
-            console.warn(error.message);
+            console.log(error.message);
         }, {enableHighAccuracy: true, timeout: 2500, maximumAge: 5000});
 };
 
@@ -54,7 +62,7 @@ export function watchLocation() {
         const watchID = navigator.geolocation.watchPosition((userPosition) => {
             dispatch(watchLocationSuccess(userPosition, watchID));
         }, (error) => {
-            console.warn(error.message);
+            console.log(error.message);
         }, {enableHighAccuracy: true, timeout: 1000, maximumAge: 5000});
     };
 }
