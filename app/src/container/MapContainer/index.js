@@ -45,7 +45,7 @@ function bindAction(dispatch) {
         },
         updateLocation: () => dispatch(updateLocation()),
         watchLocation: () => dispatch(watchLocation()),
-        stopWatchLocation: () => dispatch(stopWatchLocation()),
+        stopWatchLocation: (watchID: Number) => dispatch(stopWatchLocation(watchID)),
     };
 }
 
