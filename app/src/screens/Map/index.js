@@ -35,6 +35,7 @@ export interface Props {
 
 export interface State {
     shouldFollowUser: Boolean;
+    selectedParkspot : any;
 }
 
 class Map extends React.Component<Props, State> {
@@ -58,6 +59,12 @@ class Map extends React.Component<Props, State> {
 
         // Todo only fetch if chanegd significantly. Should suffice for now though.
         // this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
+    };
+
+    selectMarker = (marker) => {
+        this.setState((prevState) => ({
+            selectedParkspot: this.props.parkspots.find((parkspot) => { return parkspot.id == marker.key})
+        }));
     };
 
     findMeButtonWasPressed = () => {
@@ -120,12 +127,8 @@ class Map extends React.Component<Props, State> {
                         </TouchableOpacity>
                     </Container>
 
-                    <MapCard
-                        title={"Lorem Ipsum Lot"}
-                        electricCharger={false}
-                        handicapped={true}
-                        available={true}
-                        />
+                    <MapCard parkspot={this.state.selectedParkspot} />
+
 
                     <MapView
                         style={styles.map}
@@ -139,6 +142,7 @@ class Map extends React.Component<Props, State> {
                                 <CustomMapMarker
                                     key={marker.key}
                                     data={marker}
+                                    onPress={() => this.selectMarker(marker)}
                                 />
                             );
                         })}

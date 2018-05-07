@@ -1,8 +1,4 @@
 import * as React from 'react';
-import {
-	View,
-	Text,
-} from 'native-base';
 
 import MapView from 'react-native-maps';
 
@@ -10,6 +6,7 @@ import styles from './styles';
 
 export interface Props {
 	data: MarkerData;
+	onPress: Function;
 }
 
 export interface State {
@@ -40,6 +37,7 @@ class CustomMapMarker extends React.Component<Props, State> {
 				coordinate={this.props.data.coordinate}
 				title={"id=" + this.props.data.title}
 				description={description}
+                onPress={this.props.onPress}
 			/>
 		);
 	}
