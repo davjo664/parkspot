@@ -29,16 +29,15 @@ export interface MarkerData {
 class CustomMapMarker extends React.Component<Props, State> {
 	render() {
 
-		const description = "[available=" + this.props.data.available + ", electricCharger=" + this.props.data.electricCharger
-			+ ", handicapped=" + this.props.data.handicapped + "]";
-
 		return (
 			<MapView.Marker
 				coordinate={this.props.data.coordinate}
-				title={"id=" + this.props.data.title}
-				description={description}
+				title={""}
+				description={""}
                 onPress={this.props.onPress}
-			/>
+			>
+                <MapView.Callout tooltip={true} />
+			</MapView.Marker>
 		);
 	}
 }
