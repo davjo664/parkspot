@@ -4,8 +4,6 @@ let {width, height} = Dimensions.get('window');
 
 
 const buttonStyleTemplate = {
-    width: 150,
-    height: 50,
     borderRadius: 85,
     backgroundColor: 'white',
     justifyContent: 'center',
@@ -33,26 +31,11 @@ const styles = StyleSheet.create({
         top: '5%',
     },
     findMeButton: {
+        width: 50,
+        height: 50,
         ...buttonStyleTemplate,
         position: 'absolute',
         left: '5%',
-    },
-    followMeButton: {
-        ...buttonStyleTemplate,
-        position: 'absolute',
-        right: '5%',
-    },
-    followMeButtonText: {
-        color: 'black',
-    },
-    followMeButtonActive: {
-        ...buttonStyleTemplate,
-        position: 'absolute',
-        right: '5%',
-        backgroundColor: '#3F51B5',
-    },
-    followMeButtonTextActive: {
-        color: 'white',
     },
 });
 export default styles;
