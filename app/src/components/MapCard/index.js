@@ -76,7 +76,7 @@ class MapCard extends React.Component<Props, State> {
         const cardStyle = StyleSheet.flatten([styles.cardItem, {transform: [{translateY: cardTransformY}]}]);
 
         return (
-            <Card style={styles.card} onLayout={this.onLayout} pointerEvents="box-none">
+            <Card style={styles.card} onLayout={this.onLayout} pointerEvents={this.state.expanded ? "auto" : "box-none"}>
                 <CardItem button onPress={() => {
                     this.cardWasPressed();
                 }}
