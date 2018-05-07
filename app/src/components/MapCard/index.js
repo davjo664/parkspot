@@ -87,7 +87,7 @@ class MapCard extends React.Component<Props, State> {
                           style={cardStyle}>
                     <Body>
                     <Text style={styles.title}>
-                      Lorem Ipsum (placeholder)
+                      Lorem Ipsum (id={this.props.parkspot.id})
                     </Text>
                     <Container style={styles.icons}>
                         <Icon type='MaterialCommunityIcons' name='parking'
