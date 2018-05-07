@@ -1,17 +1,9 @@
 import * as React from 'react';
 import {
     Container,
-    Header,
-    Title,
     Content,
     Text,
-    Button,
     Icon,
-    Left,
-    Body,
-    Right,
-    List,
-    ListItem,
 } from 'native-base';
 
 import {View, Dimensions, TouchableOpacity} from 'react-native';
@@ -34,17 +26,14 @@ export interface Props {
 }
 
 export interface State {
-    shouldFollowUser: Boolean;
-    selectedParkspot : any;
+    selectedParkspot: any;
 }
 
 class Map extends React.Component<Props, State> {
     constructor(props) {
         super(props);
 
-        this.state = {
-            shouldFollowUser: false,
-        };
+        this.state = {};
 
         this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
     };
@@ -63,7 +52,9 @@ class Map extends React.Component<Props, State> {
 
     selectMarker = (marker) => {
         this.setState((prevState) => ({
-            selectedParkspot: this.props.parkspots.find((parkspot) => { return parkspot.id == marker.key})
+            selectedParkspot: this.props.parkspots.find((parkspot) => {
+                return parkspot.id == marker.key
+            })
         }));
     };
 
@@ -71,18 +62,6 @@ class Map extends React.Component<Props, State> {
         this.props.updateLocation();
     };
 
-    followMeButtonWasPressed = () => {
-        this.setState((prevState) => ({
-            shouldFollowUser: !prevState.shouldFollowUser
-        }));
-
-        // TODO: WTF??
-        if (!this.state.shouldFollowUser) {
-            this.props.watchLocation();
-        } else {
-            this.props.stopWatchLocation();
-        }
-    };
 
     approximateCurrentRegionRadius = (region) => {
         const a = {
@@ -113,22 +92,11 @@ class Map extends React.Component<Props, State> {
                             style={styles.findMeButton}
                             onPress={() => this.findMeButtonWasPressed()}
                         >
-                            <Text>Find me</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            activeOpacity={0.7}
-                            style={this.state.shouldFollowUser ? styles.followMeButtonActive : styles.followMeButton}
-                            onPress={() => this.followMeButtonWasPressed()}
-                        >
-                            <Text
-                                style={this.state.shouldFollowUser ? styles.followMeButtonTextActive : styles.followMeButtonText}>Follow
-                                me</Text>
+                            <Icon type='MaterialCommunityIcons' name='crosshairs-gps' style={styles.icon}/>
                         </TouchableOpacity>
                     </Container>
 
-                    <MapCard parkspot={this.state.selectedParkspot} />
-
+                    <MapCard parkspot={this.state.selectedParkspot}/>
 
                     <MapView
                         style={styles.map}

@@ -14,21 +14,6 @@ export function updateLocationSuccess(userPosition: Object) {
     };
 };
 
-export function watchLocationSuccess(userPosition: Object, watchID: Number) {
-    return {
-        type: 'WATCH_LOCATION_SUCCESS',
-        userPosition,
-        watchID,
-    };
-};
-
-export function stopWatchLocationSuccess() {
-    return {
-        type: 'STOP_WATCH_LOCATION_SUCCESS',
-    };
-};
-
-
 export function fetchParkspots(latitude: ?number, longitude: ?number, distance: ?number) {
     const url = (!latitude || !longitude || !distance) ? config.api.url  : `${config.api.url}${latitude}/${longitude}/${distance}`;
 
@@ -46,22 +31,4 @@ export function updateLocation() {
         }, (error) => {
             console.warn(error.message);
         }, {enableHighAccuracy: true, timeout: 2500, maximumAge: 5000});
-};
-
-
-export function watchLocation() {
-    return dispatch => {
-        const watchID = navigator.geolocation.watchPosition((userPosition) => {
-            dispatch(watchLocationSuccess(userPosition, watchID));
-        }, (error) => {
-            console.warn(error.message);
-        }, {enableHighAccuracy: true, timeout: 1000, maximumAge: 5000});
-    };
-}
-
-export function stopWatchLocation(watchID: Number) {
-    return dispatch => {
-        navigator.geolocation.clearWatch(watchID);
-        dispatch(stopWatchLocationSuccess());
-    }
 };
