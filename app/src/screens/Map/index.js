@@ -136,6 +136,12 @@ class Map extends React.Component<Props, State> {
                         initialRegion={this.props.userPosition}
                         region={this.props.userPosition}
                         onRegionChange={this.onRegionChange}
+                        showsMyLocationButton={false}
+                        showsPointsOfInterest={true}
+                        showsScale={true}
+                        zoomControlEnabled={false}
+                        rotateEnabled={false}
+                        loadingEnabled={true}
                     >
                         {markers.map((marker) => {
                             return (
