@@ -57,7 +57,7 @@ class Map extends React.Component<Props, State> {
         };
 
         // Todo only fetch if chanegd significantly. Should suffice for now though.
-        this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
+        // this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
     };
 
     findMeButtonWasPressed = () => {
@@ -119,6 +119,13 @@ class Map extends React.Component<Props, State> {
                                 me</Text>
                         </TouchableOpacity>
                     </Container>
+
+                    <MapCard
+                        title={"Lorem Ipsum Lot"}
+                        electricCharger={false}
+                        handicapped={true}
+                        available={true}
+                        />
 
                     <MapView
                         style={styles.map}
