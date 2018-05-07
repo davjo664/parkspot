@@ -1,5 +1,6 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
+import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany} from 'typeorm';
 import {UserLevel} from './user-level.enum';
+import {SubscriptionEntity} from '../subscription/subscription.entity';
 
 @Entity()
 export class UserEntity {
@@ -20,5 +21,8 @@ export class UserEntity {
 
   @Column({type: 'integer', default: UserLevel.PrivateUser})
   userLevel: UserLevel;
+
+  @OneToMany(type => SubscriptionEntity, subscription => subscription.user)
+  subscriptions: SubscriptionEntity[];
 
 }
