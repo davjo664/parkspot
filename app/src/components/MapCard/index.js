@@ -5,16 +5,11 @@ import {Container, Card, CardItem, Body, Text, Icon} from 'native-base';
 import styles from './styles';
 
 export interface Props {
-    title: string;
-    available: boolean;
-    handicapped: boolean;
-    electricCharger: boolean;
+    parkspot: any;
 }
 
 export interface State {
-    expanded: boolean;
-    animationProgress: Number;
-    renderHeight: Number;
+
 }
 
 class MapCard extends React.Component<Props, State> {
@@ -68,6 +63,12 @@ class MapCard extends React.Component<Props, State> {
     };
 
     render() {
+
+        // do not render anything if no parkspot is selected
+        if (!this.props.parkspot) {
+            return null;
+        }
+
         const cardTransformY = this.state.animationProgress.interpolate({
             inputRange: [0, 1],
             outputRange: [this.state.renderHeight * 0.75, 0],
@@ -75,27 +76,30 @@ class MapCard extends React.Component<Props, State> {
         
         const cardStyle = StyleSheet.flatten([styles.cardItem, {transform: [{translateY: cardTransformY}]}]);
 
+        const description = "[id=" + this.props.parkspot.id + ", lat=" + this.props.parkspot.lat
+            + ", lng=" + this.props.parkspot.lng + "]";
+
         return (
-            <Card style={styles.card} onLayout={this.onLayout}>
+            <Card style={styles.card} onLayout={this.onLayout} pointerEvents={this.state.expanded ? "auto" : "box-none"}>
                 <CardItem button onPress={() => {
                     this.cardWasPressed();
                 }}
                           style={cardStyle}>
                     <Body>
                     <Text style={styles.title}>
-                        {this.props.title}
+                      Lorem Ipsum (id={this.props.parkspot.id})
                     </Text>
                     <Container style={styles.icons}>
                         <Icon type='MaterialCommunityIcons' name='parking'
-                              style={this.props.available ? styles.iconEnabled : styles.iconDisabled}/>
+                              style={this.props.parkspot.available ? styles.iconEnabled : styles.iconDisabled}/>
                         <Icon type='FontAwesome' name='wheelchair-alt'
-                              style={this.props.handicapped ? styles.iconEnabled : styles.iconDisabled}/>
+                              style={this.props.parkspot.handicapped ? styles.iconEnabled : styles.iconDisabled}/>
                         <Icon type='MaterialCommunityIcons' name='battery-charging-60'
-                              style={this.props.electricCharger ? styles.iconEnabled : styles.iconDisabled}/>
+                              style={this.props.parkspot.electricCharger ? styles.iconEnabled : styles.iconDisabled}/>
                     </Container>
                     <Container style={styles.content}>
                         <Text>
-                            // Content will live here...
+                            {description}
                         </Text>
                     </Container>
                     </Body>
