@@ -1,23 +1,25 @@
 // @flow
 import React from 'react';
-import {StackNavigator} from 'react-navigation';
-import {Root} from 'native-base';
+import { StackNavigator } from 'react-navigation';
+import { Root } from 'native-base';
 import Map from './container/MapContainer';
 import SearchContainer from './container/SearchContainer';
+import FavoriteContainer from './container/FavoriteContainer';
 
 const App = StackNavigator(
-	{
-		Map: {screen: Map},
-		Search: { screen: SearchContainer }
-	},
-	{
-		initialRouteName: 'Map',
-		headerMode: 'none',
-	},
+  {
+    Map: { screen: Map },
+    Search: { screen: SearchContainer },
+    Favorites: { screen: FavoriteContainer },
+  },
+  {
+    initialRouteName: 'Map',
+    headerMode: 'none',
+  },
 );
 
 export default () => (
-	<Root>
-		<App/>
-	</Root>
+  <Root>
+    <App />
+  </Root>
 );
