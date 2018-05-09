@@ -1,6 +1,6 @@
-import * as React from 'react';
-import {Animated, StyleSheet} from 'react-native';
-import {Container, Card, CardItem, Body, Text, Icon} from 'native-base';
+import React, {Component} from 'react';
+import {StyleSheet, View, Dimensions, Image, Text, Animated, TouchableOpacity} from 'react-native';
+import Interactable from 'react-native-interactable';
 
 import styles from './styles';
 
@@ -12,101 +12,65 @@ export interface State {
 
 }
 
-class MapCard extends React.Component<Props, State> {
+const Screen = {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height - 75
+};
+
+export default class MapCard extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            expanded: false,
-            animationProgress: new Animated.Value(0),
-            renderHeight: 0,
-        };
-    };
-
-    onLayout = event => {
-        const {height} = event.nativeEvent.layout;
-        this.setState({renderHeight: height});
-    };
-
-    showCard = (ms = 1000) => {
-        Animated.timing(
-            this.state.animationProgress,
-            {
-                toValue: 1,
-                duration: ms,
-                useNativeDriver: true,
-            }
-        ).start();
-    };
-
-    hideCard = (ms = 1000) => {
-        Animated.timing(
-            this.state.animationProgress,
-            {
-                toValue: 0,
-                duration: ms,
-                useNativeDriver: true,
-            }
-        ).start();
-    };
-
-
-    cardWasPressed = () => {
-        const currentState = this.state.expanded;
-        this.setState({expanded: !currentState});
-
-        if (currentState) {
-            this.hideCard(300);
-        } else {
-            this.showCard(300);
-        }
-    };
+        this._deltaY = new Animated.Value(Screen.height - 100);
+    }
 
     render() {
-
-        // do not render anything if no parkspot is selected
-        if (!this.props.parkspot) {
+        if (!this.props.parkspot)
+        {
             return null;
         }
 
-        const cardTransformY = this.state.animationProgress.interpolate({
-            inputRange: [0, 1],
-            outputRange: [this.state.renderHeight * 0.75, 0],
-        });
-        
-        const cardStyle = StyleSheet.flatten([styles.cardItem, {transform: [{translateY: cardTransformY}]}]);
-
-        const description = "[id=" + this.props.parkspot.id + ", lat=" + this.props.parkspot.lat
-            + ", lng=" + this.props.parkspot.lng + "]";
-
         return (
-            <Card style={styles.card} onLayout={this.onLayout} pointerEvents={this.state.expanded ? "auto" : "box-none"}>
-                <CardItem button onPress={() => {
-                    this.cardWasPressed();
-                }}
-                          style={cardStyle}>
-                    <Body>
-                    <Text style={styles.title}>
-                      Lorem Ipsum (id={this.props.parkspot.id})
-                    </Text>
-                    <Container style={styles.icons}>
-                        <Icon type='MaterialCommunityIcons' name='parking'
-                              style={this.props.parkspot.available ? styles.iconEnabled : styles.iconDisabled}/>
-                        <Icon type='FontAwesome' name='wheelchair-alt'
-                              style={this.props.parkspot.handicapped ? styles.iconEnabled : styles.iconDisabled}/>
-                        <Icon type='MaterialCommunityIcons' name='battery-charging-60'
-                              style={this.props.parkspot.electricCharger ? styles.iconEnabled : styles.iconDisabled}/>
-                    </Container>
-                    <Container style={styles.content}>
-                        <Text>
-                            {description}
+            <View style={styles.panelContainer} pointerEvents={'box-none'}>
+                <Animated.View
+                    pointerEvents={'box-none'}
+                    style={[styles.panelContainer, {
+                        backgroundColor: 'black',
+                        opacity: this._deltaY.interpolate({
+                            inputRange: [0, Screen.height - 100],
+                            outputRange: [0.5, 0],
+                            extrapolateRight: 'clamp'
+                        }),
+                    }]}/>
+                <Interactable.View
+                    style={styles.interactable}
+                    verticalOnly={true}
+                    snapPoints={[{y: 40},  {y: Screen.height - 150}]}
+                    boundaries={{top: -300}}
+                    initialPosition={{y: Screen.height - 150}}
+                    animatedValueY={this._deltaY}>
+                    <View style={styles.panel}>
+                        <View style={styles.panelHeader}>
+                            <View style={styles.panelHandle}/>
+                        </View>
+                        <Text style={styles.panelTitle}>
+                            Lorem Ipsum Parkspot
+                            <Text style={styles.panelDistance}>  10 m away</Text>
                         </Text>
-                    </Container>
-                    </Body>
-                </CardItem>
-            </Card>
+
+
+                        <Text style={styles.panelSubtitle}>Fancystreet 123, Amsterdam, Netherlands</Text>
+                        <View style={styles.panelButton}>
+                            <Text style={styles.panelButtonTitle}>Start navigation</Text>
+                            <Text style={styles.panelButtonSubtitle}>66 min, 10 km from your location</Text>
+                        </View>
+
+                        <View style={styles.moreContent}>
+                            <Text>// More content lives here</Text>
+                        </View>
+                    </View>
+                </Interactable.View>
+            </View>
         );
     }
 }
 
-export default MapCard;

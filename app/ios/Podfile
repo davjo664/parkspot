@@ -49,6 +49,8 @@ target 'parkspot' do
     pod 'Google-Maps-iOS-Utils' # Remove this line if you don't want to support GoogleMaps on iOS
     pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
+    pod 'Interactable', :path => '../node_modules/react-native-interactable'
+
   end
   
   post_install do |installer|

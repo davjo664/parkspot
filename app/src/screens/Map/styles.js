@@ -1,7 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-let { width, height } = Dimensions.get('window');
-
 const buttonStyleTemplate = {
   borderRadius: 85,
   backgroundColor: 'white',
@@ -17,30 +15,30 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+
   map: {
-    width: width,
-    height: height,
-    zIndex: -1,
+    ...StyleSheet.absoluteFillObject,
   },
   buttonsContainer: {
-    zIndex: 10,
+    zIndex: 4,
     position: 'absolute',
-    bottom: 15,
+    bottom: 20,
     right: 15,
     height: 180,
-    // width: 50,
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
   button: {
-    height: 50,
     width: 50,
+    height: 50,
     ...buttonStyleTemplate,
   },
   versionLabel: {
     position: 'absolute',
     bottom: 0,
     alignSelf: 'center',
+    width: 50,
+    height: 20,
   },
 });
 export default styles;

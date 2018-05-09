@@ -29,24 +29,15 @@ class Map extends React.Component<Props, State> {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      selectedParkspot: null,
+    };
 
     this.props.fetchParkspots(
       this.props.userPosition.latitude,
       this.props.userPosition.longitude,
       this.approximateCurrentRegionRadius(this.props.userPosition),
     );
-  }
-
-  componentDidMount() {
-    //remove after DEV
-    codePush.getUpdateMetadata().then(metadata => {
-      this.setState({
-        label: metadata.label,
-        version: metadata.appVersion,
-        description: metadata.description,
-      });
-    });
   }
 
   onRegionChange = region => {
@@ -59,6 +50,25 @@ class Map extends React.Component<Props, State> {
     // Todo only fetch if chanegd significantly. Should suffice for now though.
     // this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
   };
+
+  selectMarker = marker => {
+    this.setState(prevState => ({
+      selectedParkspot: this.props.parkspots.find(parkspot => {
+        return parkspot.id == marker.key;
+      }),
+    }));
+  };
+
+  componentDidMount() {
+    //remove after DEV
+    codePush.getUpdateMetadata().then(metadata => {
+      this.setState({
+        label: metadata.label,
+        version: metadata.appVersion,
+        description: metadata.description,
+      });
+    });
+  }
 
   selectMarker = marker => {
     this.setState(prevState => ({
@@ -99,70 +109,64 @@ class Map extends React.Component<Props, State> {
     const markers = parkspotsToCustomMapMarker(this.props.parkspots);
 
     return (
-      <Container style={styles.container}>
-        <Content>
-          <Container style={styles.buttonsContainer}>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.button}
-              onPress={() => this.findMeButtonWasPressed()}
-            >
-              <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.button}
-              onPress={() => this.favoriteButtonWasPressed()}
-            >
-              <Icon
-                type="MaterialIcons"
-                name="star"
-                style={{ color: 'black' }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.button}
-              onPress={() => this.searchButtonWasPressed()}
-            >
-              <Icon
-                name="search"
-                type="MaterialIcons"
-                style={{ color: 'black' }}
-              />
-            </TouchableOpacity>
-          </Container>
-
-          <MapCard parkspot={this.state.selectedParkspot} />
-
-          <MapView
-            style={styles.map}
-            showsUserLocation={true}
-            initialRegion={this.props.userPosition}
-            region={this.props.userPosition}
-            onRegionChange={this.onRegionChange}
-            showsMyLocationButton={false}
-            showsPointsOfInterest={true}
-            showsScale={true}
-            zoomControlEnabled={false}
-            rotateEnabled={false}
-            loadingEnabled={true}
+      <View style={styles.container}>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={styles.button}
+            onPress={() => this.findMeButtonWasPressed()}
           >
-            {markers.map(marker => {
-              return (
-                <CustomMapMarker
-                  key={marker.key}
-                  data={marker}
-                  onPress={() => this.selectMarker(marker)}
-                />
-              );
-            })}
-            <Text style={styles.versionLabel}>
-              {this.state.version}.{this.state.label}
-            </Text>
-          </MapView>
-        </Content>
-      </Container>
+            <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={styles.button}
+            onPress={() => this.favoriteButtonWasPressed()}
+          >
+            <Icon type="MaterialIcons" name="star" style={{ color: 'black' }} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={styles.button}
+            onPress={() => this.searchButtonWasPressed()}
+          >
+            <Icon
+              name="search"
+              type="MaterialIcons"
+              style={{ color: 'black' }}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <MapCard parkspot={this.state.selectedParkspot} />
+
+        <MapView
+          style={styles.map}
+          showsUserLocation={true}
+          initialRegion={this.props.userPosition}
+          region={this.props.userPosition}
+          onRegionChange={this.onRegionChange}
+          showsMyLocationButton={false}
+          showsPointsOfInterest={true}
+          showsScale={true}
+          zoomControlEnabled={false}
+          rotateEnabled={false}
+          loadingEnabled={true}
+        >
+          {markers.map(marker => {
+            return (
+              <CustomMapMarker
+                key={marker.key}
+                data={marker}
+                onPress={() => this.selectMarker(marker)}
+              />
+            );
+          })}
+        </MapView>
+        <Text style={styles.versionLabel}>
+          {this.state.version}.{this.state.label}
+        </Text>
+      </View>
     );
   }
 }
