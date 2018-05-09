@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     buttons: {
         width: '100%',
         height: 50,
-        zIndex: 10,
+        zIndex: 2,
         position: 'absolute',
         top: '5%',
     },

@@ -97,6 +97,8 @@ class Map extends React.Component<Props, State> {
                     </TouchableOpacity>
                 </Container>
 
+                <MapCard parkspot={this.state.selectedParkspot}/>
+
                 <MapView
                     style={styles.map}
                     showsUserLocation={true}
