@@ -86,6 +86,9 @@ class Map extends React.Component<Props, State> {
         return (
             <Container style={styles.container}>
                 <Content>
+                <Button rounded style={{ backgroundColor: 'white', position: 'absolute', bottom: 40, right: 20 }} onPress={() => this.searchButtonWasPressed()}>
+                    <Icon name="ios-search" style={{color: "black" }}/>
+                </Button>
                     <Container style={styles.buttons}>
                         <TouchableOpacity
                             activeOpacity={0.7}
