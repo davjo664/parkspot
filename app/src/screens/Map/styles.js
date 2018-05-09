@@ -37,5 +37,10 @@ const styles = StyleSheet.create({
     width: 50,
     ...buttonStyleTemplate,
   },
+  versionLabel: {
+    position: 'absolute',
+    bottom: 0,
+    alignSelf: 'center',
+  },
 });
 export default styles;

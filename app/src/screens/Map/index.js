@@ -9,6 +9,7 @@ const haversine = require('haversine-js');
 import MapCard from '../../components/MapCard';
 
 import styles from './styles';
+import codePush from 'react-native-code-push';
 
 export interface Props {
   navigation: any;
@@ -35,6 +36,17 @@ class Map extends React.Component<Props, State> {
       this.props.userPosition.longitude,
       this.approximateCurrentRegionRadius(this.props.userPosition),
     );
+  }
+
+  componentDidMount() {
+    //remove after DEV
+    codePush.getUpdateMetadata().then(metadata => {
+      this.setState({
+        label: metadata.label,
+        version: metadata.appVersion,
+        description: metadata.description,
+      });
+    });
   }
 
   onRegionChange = region => {
@@ -145,6 +157,9 @@ class Map extends React.Component<Props, State> {
                 />
               );
             })}
+            <Text style={styles.versionLabel}>
+              {this.state.version}.{this.state.label}
+            </Text>
           </MapView>
         </Content>
       </Container>
