@@ -1,79 +1,21 @@
 import React, { Component } from 'react';
 import { Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
-import PropTypes from 'prop-types';
 import {
-  TextInput,
   View,
   FlatList,
   ScrollView,
-  Image,
-  StyleSheet,
   Dimensions,
-  TouchableHighlight,
   Platform,
   ActivityIndicator,
-  PixelRatio,
   Alert,
   TouchableOpacity,
+  Keyboard
 } from 'react-native';
 import Qs from 'qs';
-import debounce from 'lodash.debounce';
+
+import defaultStyles from './styles';
 
 const WINDOW = Dimensions.get('window');
-
-const defaultStyles = {
-  container: {
-    flex: 1,
-  },
-  textInputContainer: {
-    backgroundColor: 'white',
-    height: 34,
-    borderTopColor: 'grey',
-    borderBottomColor: 'grey',
-    borderLeftColor: 'grey',
-    borderRightColor: 'grey',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    flexDirection: 'row',
-    width: '80%',
-    marginLeft: '10%',
-    alignItems: 'center',
-  },
-  textInput: {
-    backgroundColor: '#FFFFFF',
-    height: 28,
-    paddingTop: 4.5,
-    paddingBottom: 4.5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginLeft: 8,
-    marginRight: 8,
-    fontSize: 15,
-    flex: 1,
-  },
-  listView: {},
-  row: {
-    flexDirection: 'row',
-    height: 40,
-    alignItems: 'center',
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'grey',
-    borderTopWidth: 0.5,
-    borderTopColor: 'grey',
-    justifyContent: 'center',
-  },
-  description: {},
-  loader: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    height: 20,
-  },
-  androidLoader: {
-    marginRight: -15,
-  },
-};
 
 export default class SearchScreen extends Component {
   _isMounted = false;
@@ -98,14 +40,7 @@ export default class SearchScreen extends Component {
     filterDisabled: false,
   });
 
-  setAddressText = address => this.setState({ text: address });
-
-  getAddressText = () => this.state.text;
-
   componentWillMount() {
-    this._request = this.props.debounce
-      ? debounce(this._request, this.props.debounce)
-      : this._request;
   }
 
   componentDidMount() {
@@ -113,7 +48,7 @@ export default class SearchScreen extends Component {
     // been rendered
     this._onChangeText(this.state.text);
     this._isMounted = true;
-    this.getCurrentLocation();
+    this._getCurrentLocation();
     this._requestNearbyParkspots(
       this.state.currentLocation.lat,
       this.state.currentLocation.lng,
@@ -125,7 +60,7 @@ export default class SearchScreen extends Component {
       typeof nextProps.text !== 'undefined' &&
       this.state.text !== nextProps.text
     ) {
-      this._handleChangeText(nextProps.text);
+      this._onChangeText(nextProps.text);
     }
   }
 
@@ -139,61 +74,31 @@ export default class SearchScreen extends Component {
     this._requests = [];
   };
 
-  /**
-   * This method is exposed to parent components to focus on textInput manually.
-   * @public
-   */
-  triggerFocus = () => {
-    if (this.refs.textInput) this.refs.textInput.focus();
-  };
+_getCurrentLocation = () => {
+    let options = {
+      enableHighAccuracy: false,
+      timeout: 20000,
+      maximumAge: 1000
+    };
 
-  /**
-   * This method is exposed to parent components to blur textInput manually.
-   * @public
-   */
-  triggerBlur = () => {
-    if (this.refs.textInput) this.refs.textInput.blur();
-  };
-
-  getCurrentLocation = () => {
-    // let options = {
-    //   enableHighAccuracy: false,
-    //   timeout: 20000,
-    //   maximumAge: 1000
-    // };
-
-    // if (this.props.enableHighAccuracyLocation && Platform.OS === 'android') {
-    //   options = {
-    //     enableHighAccuracy: true,
-    //     timeout: 20000
-    //   }
-    // }
-    console.log('mm');
+    if (Platform.OS === 'android') {
+      options = {
+        enableHighAccuracy: true,
+        timeout: 20000
+      }
+    }
     navigator.geolocation.getCurrentPosition(
       position => {
-        console.log('mm2');
-        // if (this.props.nearbyPlacesAPI === 'None') {
         let currentLocation = {
-          // description: this.props.currentLocationLabel,
-          // geometry: {
-          // location: {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
-        // }
-        // };
         this.state.currentLocation = currentLocation;
-        // this._disableRowLoaders();
-        // this.props.onPress(currentLocation, currentLocation);
-        // } else {
-        //   this._requestNearby(position.coords.latitude, position.coords.longitude);
-        // }
       },
       error => {
-        // this._disableRowLoaders();
         alert(error.message);
       },
-      // options
+      options
     );
   };
 
@@ -202,103 +107,75 @@ export default class SearchScreen extends Component {
       Alert.alert('Parkspot clicked', JSON.stringify(rowData));
       return;
     }
-    if ( rowData.isPredefinedPlace !== true) {
-      if (rowData.isLoading === true) {
-        // already requesting
-        return;
-      }
+    if (rowData.isLoading === true) {
+      // already requesting
+      return;
+    }
 
-      this._abortRequests();
+    this._abortRequests();
 
-      // display loader
-      this._enableRowLoader(rowData);
+    // display loader
+    this._enableRowLoader(rowData);
 
-      // fetch details
-      const request = new XMLHttpRequest();
-      this._requests.push(request);
-      request.timeout = this.props.timeout;
-      request.ontimeout = this.props.onTimeout;
-      request.onreadystatechange = () => {
-        if (request.readyState !== 4) return;
+    // fetch details
+    const request = new XMLHttpRequest();
+    this._requests.push(request);
+    request.timeout = this.props.timeout;
+    request.ontimeout = this.props.onTimeout;
+    request.onreadystatechange = () => {
+      if (request.readyState !== 4) return;
 
-        if (request.status === 200) {
-          const responseJSON = JSON.parse(request.responseText);
+      if (request.status === 200) {
+        const responseJSON = JSON.parse(request.responseText);
 
-          if (responseJSON.status === 'OK') {
-            if (this._isMounted === true) {
-              const details = responseJSON.result;
-              this._disableRowLoaders();
-              this._onBlur();
-
-              this.setState({
-                text: this._renderDescription(rowData),
-              });
-
-              delete rowData.isLoading;
-              this.props.onPress(rowData, details);
-
-              this._requestNearbyParkspots(
-                details.geometry.location.lat,
-                details.geometry.location.lng,
-              );
-            }
-          } else {
-            this._disableRowLoaders();
+        if (responseJSON.status === 'OK') {
+          if (this._isMounted === true) {
+            const details = responseJSON.result;
+            this._onBlur();
 
             this.setState({
               text: this._renderDescription(rowData),
             });
+
             delete rowData.isLoading;
-            console.warn(
-              'google places autocomplete: ' + responseJSON.status,
+            this.props.onPress(rowData, details);
+
+            this._requestNearbyParkspots(
+              details.geometry.location.lat,
+              details.geometry.location.lng,
             );
+            this._disableRowLoaders();
           }
         } else {
           this._disableRowLoaders();
+
+          this.setState({
+            text: this._renderDescription(rowData),
+          });
+          delete rowData.isLoading;
           console.warn(
-            'google places autocomplete: request could not be completed or has been aborted',
+            'google places autocomplete: ' + responseJSON.status,
           );
         }
-      };
-
-      request.open(
-        'GET',
-        'https://maps.googleapis.com/maps/api/place/details/json?' +
-          Qs.stringify({
-            key: this.props.query.key,
-            placeid: rowData.place_id,
-            language: this.props.query.language,
-          }),
-      );
-
-      if (this.props.query.origin !== null) {
-        request.setRequestHeader('Referer', this.props.query.origin);
+      } else {
+        this._disableRowLoaders();
+        // console.warn(
+        //   'google places autocomplete: request could not be completed or has been aborted',
+        // );
       }
+    };
 
-      request.send();
-    } else if (rowData.isCurrentLocation === true) {
-      // display loader
-      this._enableRowLoader(rowData);
+    request.open(
+      'GET',
+      'https://maps.googleapis.com/maps/api/place/details/json?' +
+        Qs.stringify({
+          key: this.props.query.key,
+          placeid: rowData.place_id,
+          language: this.props.query.language,
+        }),
+    );
 
-      this.setState({
-        text: this._renderDescription(rowData),
-      });
-
-      this.triggerBlur(); // hide keyboard but not the results
-      delete rowData.isLoading;
-      this.getCurrentLocation();
-    } else {
-      this.setState({
-        text: this._renderDescription(rowData),
-      });
-
-      this._onBlur();
-      delete rowData.isLoading;
-      let predefinedPlace = this._getPredefinedPlace(rowData);
-
-      // sending predefinedPlace as details for predefined places
-      this.props.onPress(predefinedPlace, predefinedPlace);
-    }
+    request.send();
   };
 
   _enableRowLoader = rowData => {
@@ -310,9 +187,6 @@ export default class SearchScreen extends Component {
           rowData.isCurrentLocation === true)
       ) {
         rows[i].isLoading = true;
-        this.setState({
-          dataSource: rows,
-        });
         break;
       }
     }
@@ -325,132 +199,10 @@ export default class SearchScreen extends Component {
           this._results[i].isLoading = false;
         }
       }
-
-      this.setState({
-        dataSource: this._results,
-      });
     }
   };
 
-  _getPredefinedPlace = rowData => {
-    if (rowData.isPredefinedPlace !== true) {
-      return rowData;
-    }
-
-    for (let i = 0; i < this.props.predefinedPlaces.length; i++) {
-      if (this.props.predefinedPlaces[i].description === rowData.description) {
-        return this.props.predefinedPlaces[i];
-      }
-    }
-
-    return rowData;
-  };
-
-  _filterResultsByTypes = (unfilteredResults, types) => {
-    if (types.length === 0) return unfilteredResults;
-
-    const results = [];
-    for (let i = 0; i < unfilteredResults.length; i++) {
-      let found = false;
-
-      for (let j = 0; j < types.length; j++) {
-        if (unfilteredResults[i].types.indexOf(types[j]) !== -1) {
-          found = true;
-          break;
-        }
-      }
-
-      if (found === true) {
-        results.push(unfilteredResults[i]);
-      }
-    }
-    return results;
-  };
-
-  _requestNearby = (latitude, longitude) => {
-    this._abortRequests();
-
-    if (
-      latitude !== undefined &&
-      longitude !== undefined &&
-      latitude !== null &&
-      longitude !== null
-    ) {
-      const request = new XMLHttpRequest();
-      this._requests.push(request);
-      request.timeout = this.props.timeout;
-      request.ontimeout = this.props.onTimeout;
-      request.onreadystatechange = () => {
-        if (request.readyState !== 4) {
-          return;
-        }
-
-        if (request.status === 200) {
-          const responseJSON = JSON.parse(request.responseText);
-
-          this._disableRowLoaders();
-
-          if (typeof responseJSON.results !== 'undefined') {
-            if (this._isMounted === true) {
-              var results = [];
-              if (this.props.nearbyPlacesAPI === 'GoogleReverseGeocoding') {
-                results = this._filterResultsByTypes(
-                  responseJSON.results,
-                  this.props.filterReverseGeocodingByTypes,
-                );
-              } else {
-                results = responseJSON.results;
-              }
-
-              this.setState({
-                dataSource: results,
-              });
-            }
-          }
-          if (typeof responseJSON.error_message !== 'undefined') {
-            console.warn(
-              'google places autocomplete: ' + responseJSON.error_message,
-            );
-          }
-        } else {
-          // console.warn("google places autocomplete: request could not be completed or has been aborted");
-        }
-      };
-
-      let url = '';
-      if (this.props.nearbyPlacesAPI === 'GoogleReverseGeocoding') {
-        // your key must be allowed to use Google Maps Geocoding API
-        url =
-          'https://maps.googleapis.com/maps/api/geocode/json?' +
-          Qs.stringify({
-            latlng: latitude + ',' + longitude,
-            key: this.props.query.key,
-            ...this.props.GoogleReverseGeocodingQuery,
-          });
-      } else {
-        url =
-          'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
-          Qs.stringify({
-            location: latitude + ',' + longitude,
-            key: this.props.query.key,
-            ...this.props.GooglePlacesSearchQuery,
-          });
-      }
-
-      request.open('GET', url);
-      if (this.props.query.origin !== null) {
-        request.setRequestHeader('Referer', this.props.query.origin);
-      }
-
-      request.send();
-    } else {
-      this._results = [];
-      this.setState({
-        dataSource: [],
-      });
-    }
-  };
-
+  //TODO radius should be controlled by the user
   _requestNearbyParkspots = (lat, lng, radius = 6000) => {
     var request = new XMLHttpRequest();
     request.onreadystatechange = e => {
@@ -460,13 +212,14 @@ export default class SearchScreen extends Component {
 
       if (request.status === 200) {
         const results = JSON.parse(request.responseText);
-        console.log(results);
         this.setState({
           parkspots: results,
           showParkspots: true,
         });
+        return;
       } else {
-        console.warn('error');
+        console.warn("Parkspot API: request could not be completed or has been aborted");
+        return;
       }
     };
 
@@ -498,16 +251,8 @@ export default class SearchScreen extends Component {
           const responseJSON = JSON.parse(request.responseText);
           if (typeof responseJSON.predictions !== 'undefined') {
             if (this._isMounted === true) {
-              const results =
-                this.props.nearbyPlacesAPI === 'GoogleReverseGeocoding'
-                  ? this._filterResultsByTypes(
-                      responseJSON.predictions,
-                      this.props.filterReverseGeocodingByTypes,
-                    )
-                  : responseJSON.predictions;
-
+              const results = responseJSON.predictions;
               this._results = results;
-              console.log(results);
               this.setState({
                 showParkspots: false,
                 dataSource: results,
@@ -520,9 +265,11 @@ export default class SearchScreen extends Component {
             );
           }
         } else {
-          // console.warn("google places autocomplete: request could not be completed or has been aborted");
+          console.warn("google places autocomplete: request could not be completed or has been aborted");
         }
       };
+
+      //TODO: Get lat lng from users current position
       request.open(
         'GET',
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?' +
@@ -536,9 +283,6 @@ export default class SearchScreen extends Component {
           '&' +
           Qs.stringify(this.props.query),
       );
-      if (this.props.query.origin !== null) {
-        request.setRequestHeader('Referer', this.props.query.origin);
-      }
 
       request.send();
     } else {
@@ -564,37 +308,17 @@ export default class SearchScreen extends Component {
     });
   };
 
-  _handleChangeText = text => {
-    this._onChangeText(text);
-
-    const onChangeText =
-      this.props &&
-      this.props.textInputProps &&
-      this.props.textInputProps.onChangeText;
-
-    if (onChangeText) {
-      onChangeText(text);
-    }
-  };
-
   _getRowLoader() {
     return <ActivityIndicator animating={true} size="small" />;
   }
 
   _renderRowData = rowData => {
-    if (this.props.renderRow) {
-      return this.props.renderRow(rowData);
-    }
-
     return (
       <Text
         style={[
           {},
-          this.props.suppressDefaultStyles ? {} : defaultStyles.description,
+          defaultStyles.description,
           this.props.styles.description,
-          rowData.isPredefinedPlace
-            ? this.props.styles.predefinedPlacesDescription
-            : {},
         ]}
         numberOfLines={1}
       >
@@ -617,7 +341,7 @@ export default class SearchScreen extends Component {
       return (
         <View
           style={[
-            this.props.suppressDefaultStyles ? {} : defaultStyles.loader,
+            defaultStyles.loader,
             this.props.styles.loader,
           ]}
         >
@@ -634,7 +358,7 @@ export default class SearchScreen extends Component {
       <ScrollView
         style={{ flex: 1 }}
         scrollEnabled={true}
-        keyboardShouldPersistTaps={this.props.keyboardShouldPersistTaps}
+        keyboardShouldPersistTaps='always'
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -645,9 +369,8 @@ export default class SearchScreen extends Component {
         >
           <View
             style={[
-              this.props.suppressDefaultStyles ? {} : defaultStyles.row,
-              this.props.styles.row,
-              rowData.isPredefinedPlace ? this.props.styles.specialItemRow : {},
+              defaultStyles.row,
+              this.props.styles.row
             ]}
           >
             {this._renderLoader(rowData)}
@@ -728,38 +451,35 @@ export default class SearchScreen extends Component {
     }
   };
 
-  _renderSeparator = (sectionID, rowID) => {
-    // if (rowID == this.state.dataSource.length - 1) {
-    //   return null
-    // }
-
-    return (
-      <View
-        key={`${sectionID}-${rowID}`}
-        style={[
-          this.props.suppressDefaultStyles ? {} : defaultStyles.separator,
-          this.props.styles.separator,
-        ]}
-      />
-    );
-  };
-
   _onBlur = () => {
-    this.triggerBlur();
+    Keyboard.dismiss();
   };
 
   _onFocus = () => {};
 
-  _renderLeftButton = () => {
-    if (this.props.renderLeftButton) {
-      return this.props.renderLeftButton();
-    }
-  };
-
-  _renderRightButton = () => {
-    if (this.props.renderRightButton) {
-      return this.props.renderRightButton();
-    }
+  _renderSearchBar = () => {
+    return (
+      <Header noShadow searchBar rounded>
+        <Item>
+          <Icon name="ios-search" />
+          <Input 
+            placeholder="Search"
+            returnKeyType={'search'}
+            autoFocus={this.props.autoFocus}
+            value={this.state.text}
+            clearButtonMode="while-editing"
+            onChangeText={this._onChangeText}
+            style={[
+              defaultStyles.input,
+              this.props.styles.input,
+            ]}
+          />
+        </Item>
+        <Button transparent onPress={() => this.props.navigation.goBack()}>
+          <Text>Cancel</Text>
+        </Button>
+      </Header>
+    );
   };
 
   _renderNearbyText = () => {
@@ -774,7 +494,7 @@ export default class SearchScreen extends Component {
     }
   };
 
-  _getFlatList = () => {
+  _renderFlatList = () => {
     const keyGenerator = () =>
       Math.random()
         .toString(36)
@@ -782,7 +502,7 @@ export default class SearchScreen extends Component {
     return (
       <FlatList
         style={[
-          this.props.suppressDefaultStyles ? {} : defaultStyles.listView,
+          defaultStyles.listView,
           this.props.styles.listView,
         ]}
         data={
@@ -793,104 +513,52 @@ export default class SearchScreen extends Component {
         keyExtractor={keyGenerator}
         extraData={[this.state.dataSource, this.props]}
         renderItem={({ item }) => this._renderRow(item)}
-        {...this.props}
+        keyboardShouldPersistTaps= 'always'
       />
     );
   };
   render() {
-    let { onFocus, ...userProps } = this.props.textInputProps;
     return (
       <View
         style={[
-          this.props.suppressDefaultStyles ? {} : defaultStyles.container,
+          defaultStyles.container,
           this.props.styles.container,
         ]}
         pointerEvents="box-none"
       >
-        <Header noShadow searchBar rounded>
-          <Item>
-            <Icon name="ios-search" />
-            <Input 
-              placeholder="Search"
-              returnKeyType={'search'}
-              autoFocus={this.props.autoFocus}
-              value={this.state.text}
-              clearButtonMode="while-editing"
-              onChangeText={this._handleChangeText}
-            />
-          </Item>
-          <Button transparent onPress={() => this.props.navigation.goBack()}>
-            <Text>Search</Text>
-          </Button>
-        </Header>
+        {this._renderSearchBar()}
         {this._renderFilterRow()}
         {this._renderNearbyText()}
-        {this._getFlatList()}
-        {this.props.children}
+        {this._renderFlatList()}
       </View>
     );
   }
 }
 
-SearchScreen.propTypes = {
-  onPress: PropTypes.func,
-  minLength: PropTypes.number,
-  autoFocus: PropTypes.bool,
-  getDefaultValue: PropTypes.func,
-  timeout: PropTypes.number,
-  onTimeout: PropTypes.func,
-  query: PropTypes.object,
-  GoogleReverseGeocodingQuery: PropTypes.object,
-  GooglePlacesSearchQuery: PropTypes.object,
-  styles: PropTypes.object,
-  textInputProps: PropTypes.object,
-  predefinedPlaces: PropTypes.array,
-  currentLocation: PropTypes.bool,
-  currentLocationLabel: PropTypes.string,
-  nearbyPlacesAPI: PropTypes.string,
-  enableHighAccuracyLocation: PropTypes.bool,
-  filterReverseGeocodingByTypes: PropTypes.array,
-  predefinedPlacesAlwaysVisible: PropTypes.bool,
-  enableEmptySections: PropTypes.bool,
-  renderDescription: PropTypes.func,
-  renderRow: PropTypes.func,
-  renderLeftButton: PropTypes.func,
-  renderRightButton: PropTypes.func,
-  listUnderlayColor: PropTypes.string,
-  debounce: PropTypes.number,
-  text: PropTypes.string,
-  textInputHide: PropTypes.bool,
-  suppressDefaultStyles: PropTypes.bool,
+export interface Props {
+  onPress: Function;
+  minLength: Number;
+  autoFocus: Boolean;
+  getDefaultValue: Function;
+  timeout: Number;
+  onTimeout: Function;
+  query: Object;
+  styles: Object;
+  text: String;
 };
+
 SearchScreen.defaultProps = {
   onPress: () => {},
   minLength: 2,
   autoFocus: true,
-  keyboardShouldPersistTaps: 'always',
   getDefaultValue: () => '',
   timeout: 20000,
-  onTimeout: () => console.warn('google places autocomplete: request timeout'),
-  query: {
-    key: 'missing api key',
-    language: 'en',
-    types: 'geocode',
-  },
-  GoogleReverseGeocodingQuery: {},
-  GooglePlacesSearchQuery: {
-    rankby: 'distance',
-    types: 'food',
+  onTimeout: () => console.warn('google places autocomplete: request timeouts'),
+  query:{
+    // available options: https://developers.google.com/places/web-service/autocomplete
+    key: 'AIzaSyBtDPqZtRAMenSwz32oIUWWf1i_Gnub1dc',
+    language: 'en', // language of the results
   },
   styles: {},
-  textInputProps: {},
-  predefinedPlaces: [],
-  currentLocation: false,
-  currentLocationLabel: 'Current location',
-  nearbyPlacesAPI: 'GooglePlacesSearch',
-  enableHighAccuracyLocation: true,
-  filterReverseGeocodingByTypes: [],
-  predefinedPlacesAlwaysVisible: false,
-  enableEmptySections: true,
-  debounce: 0,
-  textInputHide: false,
-  suppressDefaultStyles: false,
+  text: ''
 };

@@ -25,17 +25,9 @@ class SearchContainer extends React.Component<Props, State> {
     return (
       <SearchScreen
         navigation={this.props.navigation}
-        minLength={2} // minimum length of text to search
-        returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
         onPress={(data, details) => {
           // 'details' is provided when fetchDetails = true
           console.log(details.geometry.location);
-        }}
-        getDefaultValue={() => ''}
-        query={{
-          // available options: https://developers.google.com/places/web-service/autocomplete
-          key: 'AIzaSyBtDPqZtRAMenSwz32oIUWWf1i_Gnub1dc',
-          language: 'en', // language of the results
         }}
       />
     );

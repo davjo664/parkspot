@@ -58,7 +58,6 @@
     "redux-thunk": "2.2.0",
     "remote-redux-devtools": "^0.5.12",
     "remote-redux-devtools-on-debugger": "^0.8.0",
-    "qs": "^5.2.0",
-    "lodash.debounce": "^4.0.8"
+    "qs": "^5.2.0"
   }
 }
