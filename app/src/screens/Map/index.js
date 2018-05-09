@@ -33,7 +33,9 @@ class Map extends React.Component<Props, State> {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            selectedParkspot: null,
+        };
 
         this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
     };
@@ -84,47 +86,41 @@ class Map extends React.Component<Props, State> {
         const markers = parkspotsToCustomMapMarker(this.props.parkspots);
 
         return (
-            <Container style={styles.container}>
-                <Content>
-                    <Container style={styles.buttons}>
-                        <TouchableOpacity
-                            activeOpacity={0.7}
-                            style={styles.findMeButton}
-                            onPress={() => this.findMeButtonWasPressed()}
-                        >
-                            <Icon type='MaterialCommunityIcons' name='crosshairs-gps' style={styles.icon}/>
-                        </TouchableOpacity>
-                    </Container>
-
-                    <MapCard parkspot={this.state.selectedParkspot}/>
-
-                    <MapView
-                        style={styles.map}
-                        showsUserLocation={true}
-                        initialRegion={this.props.userPosition}
-                        region={this.props.userPosition}
-                        onRegionChange={this.onRegionChange}
-                        showsMyLocationButton={false}
-                        showsPointsOfInterest={true}
-                        showsScale={true}
-                        zoomControlEnabled={false}
-                        rotateEnabled={false}
-                        loadingEnabled={true}
+            <View style={styles.container}>
+                <Container style={styles.buttons}>
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={styles.findMeButton}
+                        onPress={() => this.findMeButtonWasPressed()}
                     >
-                        {markers.map((marker) => {
-                            return (
-                                <CustomMapMarker
-                                    key={marker.key}
-                                    data={marker}
-                                    onPress={() => this.selectMarker(marker)}
-                                />
-                            );
-                        })}
+                        <Icon type='MaterialCommunityIcons' name='crosshairs-gps' style={styles.icon}/>
+                    </TouchableOpacity>
+                </Container>
 
-                    </MapView>
-
-                </Content>
-            </Container>
+                <MapView
+                    style={styles.map}
+                    showsUserLocation={true}
+                    initialRegion={this.props.userPosition}
+                    region={this.props.userPosition}
+                    onRegionChange={this.onRegionChange}
+                    showsMyLocationButton={false}
+                    showsPointsOfInterest={true}
+                    showsScale={true}
+                    zoomControlEnabled={false}
+                    rotateEnabled={false}
+                    loadingEnabled={true}
+                >
+                    {markers.map((marker) => {
+                        return (
+                            <CustomMapMarker
+                                key={marker.key}
+                                data={marker}
+                                onPress={() => this.selectMarker(marker)}
+                            />
+                        );
+                    })}
+                </MapView>
+            </View>
         );
     }
 }

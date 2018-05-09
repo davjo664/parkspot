@@ -1,8 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
-let {width, height} = Dimensions.get('window');
-
-
 const buttonStyleTemplate = {
     borderRadius: 85,
     backgroundColor: 'white',
@@ -19,12 +16,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     map: {
-        width: width,
-        height: height,
-        zIndex: -1,
+        ...StyleSheet.absoluteFillObject,
     },
     buttons: {
-        width: width,
+        width: '100%',
         height: 50,
         zIndex: 10,
         position: 'absolute',
