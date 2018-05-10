@@ -53,8 +53,8 @@ api-test:
 #    - ssh root@parkspot.mi.hdm-stuttgart.de 'supervisorctl restart parkspot'
 
 deploy android:
-#  only:
-#    - master
+  only:
+    - master
   image: node:9
   stage: deploy
   script:
