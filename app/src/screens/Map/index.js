@@ -110,7 +110,7 @@ class Map extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        <View style={styles.buttonsContainer}>
+        <View style={[styles.buttonsContainer, {bottom: this.state.selectedParkspot ? 240 : 20}]}>
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.button}

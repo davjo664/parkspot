@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     zIndex: 4,
     position: 'absolute',
-    bottom: 20,
     right: 15,
     height: 180,
     flexDirection: 'column',
