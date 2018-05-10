@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   buttonsContainer: {
-    zIndex: 4,
+    zIndex: 3,
     position: 'absolute',
     right: 15,
     height: 180,
