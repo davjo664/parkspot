@@ -51,3 +51,16 @@ api-test:
 #    - ssh root@parkspot.mi.hdm-stuttgart.de 'rm -rf /var/www/parkspot/dist/'
 #    - rsync -rav api/ root@parkspot.mi.hdm-stuttgart.de:/var/www/parkspot
 #    - ssh root@parkspot.mi.hdm-stuttgart.de 'supervisorctl restart parkspot'
+
+deploy android:
+#  only:
+#    - master
+  image: node:9
+  stage: deploy
+  script:
+    - cd app
+    - npm install --progress=false
+    - ./node_modules/.bin/appcenter login --token  $APP_CENTER_TOKEN
+    - ./node_modules/.bin/appcenter codepush release-react -a jnsfrg/parkspot-android
+
+
