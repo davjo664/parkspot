@@ -12,6 +12,22 @@ build api:
       - api/node_modules
       - api/package.json
 
+build-android-app:
+   image: webcuisine/gitlab-ci-react-native-android
+   cache:
+     key: ${CI_PROJECT_ID}
+     paths:
+     - app/android/.gradle/
+   stage: build
+   script:
+   - cd app
+   - yarn
+   - ./node_modules/.bin/react-native bundle --platform android --dev false --entry-file index.js   --bundle-output android/app/src/main/assets/index.android.bundle   --assets-dest android/app/src/main/res/
+   - cd android && ./gradlew assembleDebug
+   artifacts:
+     paths:
+     - app/android/app/build/outputs/apk/
+
 api-test:
   image: node:9
   stage: test
@@ -20,18 +36,18 @@ api-test:
     - npm install --progress=false
     - npm run test:cov
   coverage: /All files\s*\|\s*([\d\.]+)/
-
-deploy api:
-  only:
-    - master
-  image: alpine
-  stage: deploy
-  script:
-    - apk add --no-cache rsync openssh
-    - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
-    - chmod 600 ~/.ssh/id_dsa
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - ssh root@parkspot.mi.hdm-stuttgart.de 'rm -rf /var/www/parkspot/dist/'
-    - rsync -rav api/ root@parkspot.mi.hdm-stuttgart.de:/var/www/parkspot
-    - ssh root@parkspot.mi.hdm-stuttgart.de 'supervisorctl restart parkspot'
+#
+#deploy api:
+#  only:
+#    - master
+#  image: alpine
+#  stage: deploy
+#  script:
+#    - apk add --no-cache rsync openssh
+#    - mkdir -p ~/.ssh
+#    - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
+#    - chmod 600 ~/.ssh/id_dsa
+#    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+#    - ssh root@parkspot.mi.hdm-stuttgart.de 'rm -rf /var/www/parkspot/dist/'
+#    - rsync -rav api/ root@parkspot.mi.hdm-stuttgart.de:/var/www/parkspot
+#    - ssh root@parkspot.mi.hdm-stuttgart.de 'supervisorctl restart parkspot'
