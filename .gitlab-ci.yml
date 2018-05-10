@@ -61,6 +61,4 @@ deploy android:
     - cd app
     - npm install --progress=false
     - ./node_modules/.bin/appcenter login --token  $APP_CENTER_TOKEN
-    - ./node_modules/.bin/appcenter codepush release-react -a jnsfrg/parkspot-android
-
-
+    - ./node_modules/.bin/appcenter codepush release-react -a jnsfrg/parkspot-android --development false -d Production --disable-duplicate-release-error
