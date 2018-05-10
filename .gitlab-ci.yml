@@ -12,6 +12,21 @@ build api:
       - api/node_modules
       - api/package.json
 
+build-android-app:
+   image: webcuisine/gitlab-ci-react-native-android
+   cache:
+     key: ${CI_PROJECT_ID}
+     paths:
+     - app/android/.gradle/
+   stage: build
+   script:
+   - cd app
+   - yarn
+   - cd android && ./gradlew assembleDebug
+   artifacts:
+     paths:
+     - app/android/app/build/outputs/apk/
+
 api-test:
   image: node:9
   stage: test
