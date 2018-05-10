@@ -1,10 +1,5 @@
 const initialState = {
-    userPosition: { // Stuttgart location
-        latitude: 48.775,
-        longitude: 9.175,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-    },
+    userPosition: null,
     parkspots: [],
 };
 
