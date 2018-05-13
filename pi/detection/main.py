@@ -20,7 +20,7 @@ import json
 
 from PIL import Image, ImageTk
 
-import senddata
+import sendtoapi
 import imageread
 import data.settings as s
 
@@ -37,8 +37,6 @@ app = None
 camera = None
 has_quit = False
 occupancy = [None for i in range(10)]  # list of booleans. True for occupied, False for empty. None for no space.
-API_ENDPOINT = "https://parkspot.mi.hdm-stuttgart.de/api/input"
-
 # ==============================================================================
 #
 #       Tkinter Application
@@ -402,9 +400,9 @@ def run():
             if num_controls >= 2: is_occupied = True
             
             if s.IS_VERBOSE and is_occupied:
-                print "=> Space", i[0], "is filled.\n"
-            elif s.IS_VERBOSE and not is_occupied:
                 print "=> Space", i[0], "is empty.\n"
+            elif s.IS_VERBOSE and not is_occupied:
+                print "=> Space", i[0], "is filled.\n"
             
             # update the server with most recent space values after 3 ticks
             if last_status[i[0]] != is_occupied:
@@ -419,24 +417,13 @@ def run():
                     print "      Space", i[0], "has changed status, sending update to server...\n"
                     available = 'true' if is_occupied else 'false'
                     occupancy = last_status     
-                    
-                    json_data = '[{"parkSpotId":'+format(i[0])+',"available":'+format(available)+'}]'
-                    print(json_data)
-
-                    python_obj = json.loads(json_data)
-                    print(python_obj)
-                    # sending post request and saving response as response object
-                    r = requests.post(url = API_ENDPOINT, json = python_obj)
-                    # extracting response text 
-                    response = r.json
-                    print("The response is:%s"%response)
-                    
-                    #sendoutput = senddata.send_update(i[0], available)
-                    #if "success" in sendoutput.keys():
-                    #    print "      Success:", sendoutput["success"]
-                    #elif "error" in sendoutput.keys():
-                    #    print "      Error:", sendoutput["error"]
-                    #print ''
+                                        
+                    sendoutput = sendtoapi.send_update(i[0], available)
+                    if "success" in sendoutput.keys():
+                        print "      Success:", sendoutput["success"]
+                    elif "error" in sendoutput.keys():
+                        print "      Error:", sendoutput["error"]
+                    print ''
             else:
                 last_ticks[i[0]] = 1
                 

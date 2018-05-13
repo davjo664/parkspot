@@ -744,7 +744,7 @@ class Application(tk.Frame):
         
         # register the car park button
         self.register_button = tk.Button(self, text = "Register",
-            command = self.clickRegister, padx = PADDING)
+            command = self.clickRegister, padx = PADDING,  state = tk.DISABLED)
         self.register_button.grid(row = 1, column = 0,
             sticky = tk.W + tk.E + tk.N + tk.S)
         
