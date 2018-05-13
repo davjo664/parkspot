@@ -77,8 +77,6 @@ class Map extends React.Component<Props, State> {
   componentWillReceiveProps() {
     if (this.state.shouldCenterToUserPosition) {
       this.setState(previousState => {
-        console.warn(this.props.userPosition);
-
         return {
           shouldCenterToUserPosition: false,
           mapPosition: {
