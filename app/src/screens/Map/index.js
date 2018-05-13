@@ -39,7 +39,7 @@ class Map extends React.Component<Props, State> {
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
-      shouldCenterToUserPosition: false,
+       shouldCenterToUserPosition: false,
     };
 
     this.props.fetchParkspots(
@@ -113,6 +113,12 @@ class Map extends React.Component<Props, State> {
     this.props.navigation.navigate('Favorites');
   };
 
+  mapWasPressed = () => {
+    this.setState({
+        selectedParkspot: null,
+    })
+  };
+
   approximateCurrentRegionRadius = region => {
     const a = {
       longitude: region.longitude - region.longitudeDelta / 2,
@@ -168,7 +174,7 @@ class Map extends React.Component<Props, State> {
           </TouchableOpacity>
         </View>
 
-        <MapCard parkspot={this.state.selectedParkspot} />
+        <MapCard parkspot={this.state.selectedParkspot}/>
 
         <MapView
           style={styles.map}
@@ -181,6 +187,7 @@ class Map extends React.Component<Props, State> {
           zoomControlEnabled={false}
           rotateEnabled={false}
           loadingEnabled={true}
+          onPress={this.mapWasPressed}
         >
           {markers.map(marker => {
             return (
