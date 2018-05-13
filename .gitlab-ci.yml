@@ -30,7 +30,7 @@ build-android-app:
   artifacts:
     paths:
       - app/android/app/build/outputs/apk/
-achive-ios-app:
+build-ios-app:
   only:
     - ci-for-ios
   stage: build
@@ -43,8 +43,8 @@ achive-ios-app:
       builds/parkspot -scheme parkspot | xcpretty
     - >-
       xcodebuild -exportArchive  -archivePath "builds/parkspot.xcarchive"
-      -exportPath "builds/parkspot.ipa"  -exportOptionsPlist
-       ExportOptions.plist | xcpretty
+      -exportPath "builds/parkspot.ipa"   -exportOptionsPlist
+      ExportOptions.plist | xcpretty
   artifacts:
     paths:
       - app/ios/builds/parkspot.ipa
