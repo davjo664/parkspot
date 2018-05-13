@@ -1,3 +1,8 @@
+stages:
+  - build
+  - archive
+  - test
+  - deploy
 build api:
   image: 'node:9'
   stage: build
