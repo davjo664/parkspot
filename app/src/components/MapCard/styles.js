@@ -72,6 +72,26 @@ const styles = StyleSheet.create({
     },
     moreContent: {
         marginTop: 10,
+    },
+    iconsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+    },
+    iconContainer: {
+        height: 26,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    icon: {
+        padding: 2,
+        fontSize: 26,
+        color: "#3762d2",
+    },
+    iconText: {
+        padding: 2,
+        fontSize: 16,
+        color: '#333333',
     }
 });
 
