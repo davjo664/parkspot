@@ -32,7 +32,7 @@ build-android-app:
       - app/android/app/build/outputs/apk/
 build-ios-app:
   only:
-    - ci-for-ios
+    - master
   stage: build
   script:
     - cd app/ios
@@ -47,7 +47,7 @@ build-ios-app:
       ExportOptions.plist | xcpretty
   artifacts:
     paths:
-      - app/ios/builds/parkspot.ipa
+      - app/ios/builds/parkspot
   tags:
     - ios
 api-test:
