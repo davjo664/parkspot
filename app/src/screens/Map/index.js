@@ -137,8 +137,6 @@ class Map extends React.Component<Props, State> {
   };
 
   render() {
-    const markers = parkspotsToCustomMapMarker(this.props.parkspots);
-
     return (
       <View style={styles.container}>
         <View
@@ -190,11 +188,13 @@ class Map extends React.Component<Props, State> {
           onPress={this.mapWasPressed}
         >
           {markers.map(marker => {
+          {this.props.parkspots.map(parkspot => {
             return (
               <CustomMapMarker
-                key={marker.key}
-                data={marker}
                 onPress={() => this.selectMarker(marker)}
+                key={parkspot.id}
+                latitude={parseFloat(parkspot.lat)}
+                longitude={parseFloat(parkspot.lng)}
               />
             );
           })}
@@ -208,18 +208,3 @@ class Map extends React.Component<Props, State> {
 }
 
 export default Map;
-
-export function parkspotsToCustomMapMarker(parkspots) {
-  return parkspots.map(parkspot => ({
-    key: parkspot.id,
-    coordinate: {
-      latitude: parseFloat(parkspot.lat),
-      longitude: parseFloat(parkspot.lng),
-    },
-    title: parkspot.id.toString(),
-
-    available: parkspot.available,
-    electricCharger: parkspot.electricCharger,
-    handicapped: parkspot.handicapped,
-  }));
-}
