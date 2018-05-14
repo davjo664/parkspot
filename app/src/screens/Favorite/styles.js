@@ -27,5 +27,9 @@ const styles = StyleSheet.create({
     color: 'grey',
     marginTop: 5,
   },
+  safeArea: {
+      flex: 1,
+      backgroundColor: 'white',
+  },
 });
 export default styles;

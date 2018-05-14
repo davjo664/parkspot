@@ -25,5 +25,9 @@ const defaultStyles = StyleSheet.create({
         height: 20,
         marginRight: 10
     },
+    safeArea: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
 });
 export default defaultStyles;
