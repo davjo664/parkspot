@@ -91,13 +91,17 @@ class Map extends React.Component<Props, State> {
     }
   }
 
-  selectMarker = marker => {
-    this.setState({
-      selectedParkspot: this.props.parkspots.find(parkspot => {
-        return parkspot.id == marker.key;
-      }),
-    });
-  };
+    markerWasPressed = (event: any) => {
+        /*
+         * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
+         * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
+         */
+        this.setState({
+            selectedParkspot: this.props.parkspots.find(parkspot => {
+                return parkspot.lat == event.nativeEvent.coordinate.latitude && parkspot.lng == event.nativeEvent.coordinate.longitude;
+            }),
+        });
+    };
 
   findMeButtonWasPressed = () => {
     this.props.updateLocation();
@@ -186,12 +190,11 @@ class Map extends React.Component<Props, State> {
           rotateEnabled={false}
           loadingEnabled={true}
           onPress={this.mapWasPressed}
+          onMarkerPress={this.markerWasPressed}
         >
-          {markers.map(marker => {
           {this.props.parkspots.map(parkspot => {
             return (
               <CustomMapMarker
-                onPress={() => this.selectMarker(marker)}
                 key={parkspot.id}
                 latitude={parseFloat(parkspot.lat)}
                 longitude={parseFloat(parkspot.lng)}
