@@ -46,10 +46,12 @@
     "metro-bundler": "^0.22.1",
     "native-base": "2.4.1",
     "prettier": "^1.12.1",
+    "qs": "^5.2.0",
     "react": "16.3.1",
     "react-native": "0.55.3",
     "react-native-code-push": "^5.3.2",
     "react-native-interactable": "^0.1.10",
+    "react-native-map-markerclustering": "^1.0.12",
     "react-native-maps": "^0.21.0",
     "react-navigation": "^1.5.11",
     "react-redux": "^5.0.7",
@@ -58,7 +60,6 @@
     "redux-persist": "^5.9.1",
     "redux-thunk": "2.2.0",
     "remote-redux-devtools": "^0.5.12",
-    "remote-redux-devtools-on-debugger": "^0.8.0",
-    "qs": "^5.2.0"
+    "remote-redux-devtools-on-debugger": "^0.8.0"
   }
 }
