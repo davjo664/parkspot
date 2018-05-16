@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Map from '../../screens/Map';
 import { updateLocation, fetchParkspots } from './actions';
 import Permissions from 'react-native-permissions'
+import OpenSettings from 'react-native-open-settings';
 
 export interface Props {
   navigation: any;
@@ -47,8 +48,8 @@ class MapContainer extends React.Component<Props, State> {
           'You need to enable the access in the device settings...',
           [
               {
-                  text: Platform.OS === 'ios' ? "Take me there!" : "Okay, I will do that!",
-                  onPress: () => {Platform.OS === 'ios' ? Permissions.openSettings() : ()=>{}}
+                  text: "Take me there!",
+                  onPress: this.gotoSettings()
               }
           ]
       )
@@ -65,6 +66,10 @@ class MapContainer extends React.Component<Props, State> {
                 }
             ]
         )
+    };
+
+    gotoSettings = () => {
+        OpenSettings.openSettings();
     };
 
   checkLocationPermission = () => {
