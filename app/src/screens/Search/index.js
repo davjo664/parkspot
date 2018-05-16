@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
 import {
-  View,
-  FlatList,
-  ScrollView,
-  Dimensions,
-  Platform,
-  ActivityIndicator,
-  Alert,
-  TouchableOpacity,
-  Keyboard
+    View,
+    FlatList,
+    ScrollView,
+    Dimensions,
+    Platform,
+    ActivityIndicator,
+    Alert,
+    TouchableOpacity,
+    Keyboard,
+    SafeAreaView
 } from 'react-native';
 import Qs from 'qs';
 
@@ -519,18 +520,20 @@ _getCurrentLocation = () => {
   };
   render() {
     return (
-      <View
-        style={[
-          defaultStyles.container,
-          this.props.styles.container,
-        ]}
-        pointerEvents="box-none"
-      >
-        {this._renderSearchBar()}
-        {this._renderFilterRow()}
-        {this._renderNearbyText()}
-        {this._renderFlatList()}
-      </View>
+        <SafeAreaView style={defaultStyles.safeArea}>
+          <View
+            style={[
+              defaultStyles.container,
+              this.props.styles.container,
+            ]}
+            pointerEvents="box-none"
+          >
+            {this._renderSearchBar()}
+            {this._renderFilterRow()}
+            {this._renderNearbyText()}
+            {this._renderFlatList()}
+          </View>
+        </SafeAreaView>
     );
   }
 }

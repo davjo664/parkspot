@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container, Content, Text, Icon, Button } from 'native-base';
 
-import { View, Dimensions, TouchableOpacity } from 'react-native';
+import {View, Dimensions, TouchableOpacity, SafeAreaView} from 'react-native';
 import MapView from 'react-native-maps';
 import CustomMapMarker from '../../components/CustomMapMarker';
 
@@ -200,9 +200,11 @@ class Map extends React.Component<Props, State> {
             );
           })}
         </MapView>
-        <Text style={styles.versionLabel}>
-          {this.state.version}.{this.state.label}
-        </Text>
+        <SafeAreaView style={styles.safeArea}>
+          <Text style={styles.versionLabel}>
+            {this.state.version}.{this.state.label}
+          </Text>
+        </SafeAreaView>
       </View>
     );
   }
