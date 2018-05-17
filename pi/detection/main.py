@@ -400,9 +400,9 @@ def run():
             if num_controls >= 2: is_occupied = True
             
             if s.IS_VERBOSE and is_occupied:
-                print "=> Space", i[0], "is empty.\n"
-            elif s.IS_VERBOSE and not is_occupied:
                 print "=> Space", i[0], "is filled.\n"
+            elif s.IS_VERBOSE and not is_occupied:
+                print "=> Space", i[0], "is empty.\n"
             
             # update the server with most recent space values after 3 ticks
             if last_status[i[0]] != is_occupied:
@@ -415,7 +415,7 @@ def run():
                     last_status[i[0]] = is_occupied
                     last_ticks[i[0]] = 1
                     print "      Space", i[0], "has changed status, sending update to server...\n"
-                    available = 'true' if is_occupied else 'false'
+                    available = 'false' if is_occupied else 'true'
                     occupancy = last_status     
                                         
                     sendoutput = sendtoapi.send_update(i[0], available)
