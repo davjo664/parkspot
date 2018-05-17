@@ -16,7 +16,7 @@ export default function (state: any = initialState, action: Function) {
     } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
         return {
             ...state,
-            parkspots: action.data,
+            parkspots: _.unionBy(action.data, state.parkspots, "id"),
         }
     }
 
