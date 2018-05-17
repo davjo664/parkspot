@@ -14,6 +14,7 @@ import {
 import Qs from 'qs';
 
 import defaultStyles from './styles';
+import Filter from '../../components/Filter/index'
 
 const WINDOW = Dimensions.get('window');
 
@@ -32,12 +33,7 @@ export default class SearchScreen extends Component {
     currentLocation: { lat: 48.765496, lng: 9.14882 },
     dataSource: [],
     parkspots: [],
-    showParkspots: true,
-    filterElectricity: false,
-    filterCost: false,
-    filterFavorite: false,
-    filterTime: false,
-    filterDisabled: false,
+    showParkspots: true
   });
 
   componentWillMount() {
@@ -381,76 +377,6 @@ _getCurrentLocation = () => {
     );
   };
 
-  _renderFilterIcon = (icon, text, onPress) => {
-    return (
-      <TouchableOpacity onPress={onPress}>
-        <View style={{ alignItems: 'center' }}>
-          <View>
-            <Icon name={icon} />
-          </View>
-          <Text> {text} </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  _renderFilterRow = () => {
-    if (this.state.showParkspots) {
-      return (
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ marginTop: 10, marginBottom: 2, color: 'grey' }}>
-            Filter options
-          </Text>
-          <View
-            style={{
-              width: WINDOW.width - 20,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
-            {this._renderFilterIcon(
-              this.state.filterElectricity ? 'ios-flash-outline' : 'ios-flash',
-              'electricity',
-              () => {
-                this.setState({
-                  filterElectricity: !this.state.filterElectricity,
-                });
-              },
-            )}
-            {this._renderFilterIcon(
-              this.state.filterCost ? 'ios-cash-outline' : 'ios-cash',
-              'cost',
-              () => {
-                this.setState({ filterCost: !this.state.filterCost });
-              },
-            )}
-            {this._renderFilterIcon(
-              this.state.filterFavorite ? 'ios-star-outline' : 'ios-star',
-              'favorite',
-              () => {
-                this.setState({ filterFavorite: !this.state.filterFavorite });
-              },
-            )}
-            {this._renderFilterIcon(
-              this.state.filterTime ? 'ios-timer-outline' : 'ios-timer',
-              'time',
-              () => {
-                this.setState({ filterTime: !this.state.filterTime });
-              },
-            )}
-            {this._renderFilterIcon(
-              this.state.filterDisabled ? 'ios-person-outline' : 'ios-person',
-              'disabled',
-              () => {
-                this.setState({ filterDisabled: !this.state.filterDisabled });
-              },
-            )}
-          </View>
-        </View>
-      );
-    }
-  };
-
   _onBlur = () => {
     Keyboard.dismiss();
   };
@@ -527,7 +453,7 @@ _getCurrentLocation = () => {
         pointerEvents="box-none"
       >
         {this._renderSearchBar()}
-        {this._renderFilterRow()}
+        <Filter />
         {this._renderNearbyText()}
         {this._renderFlatList()}
       </View>
