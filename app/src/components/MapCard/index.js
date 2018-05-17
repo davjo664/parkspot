@@ -7,6 +7,7 @@ import styles from './styles';
 
 export interface Props {
     parkspot: any;
+    onDismiss: Function;
 }
 
 export interface State {
@@ -33,6 +34,14 @@ export default class MapCard extends Component {
         ) : null;
     };
 
+    onSnap = (event) => {
+        if (event.nativeEvent.id === 'closed')
+        {
+            this.props.parkspot = null;
+            this.props.onDismiss();
+        }
+    };
+
     render() {
         if (!this.props.parkspot) {
             return null;
@@ -53,7 +62,8 @@ export default class MapCard extends Component {
                 <Interactable.View
                     style={styles.interactable}
                     verticalOnly={true}
-                    snapPoints={[{y: 40}, {y: Screen.height - 150}]}
+                    snapPoints={[{y: 40, id: 'expanded'}, {y: Screen.height - 150, id: 'open'}, {y: Screen.height + 70, id: 'closed'}]}
+                    onSnap={this.onSnap}
                     boundaries={{top: -300}}
                     initialPosition={{y: Screen.height - 150}}
                     animatedValueY={this._deltaY}>
