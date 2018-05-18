@@ -43,7 +43,7 @@ export default class MapCard extends Component {
                 <Animated.View
                     pointerEvents={'box-none'}
                     style={[styles.panelContainer, {
-                        backgroundColor: 'black',
+                        backgroundColor: 'transparent',
                         opacity: this._deltaY.interpolate({
                             inputRange: [0, Screen.height - 100],
                             outputRange: [0.5, 0],
