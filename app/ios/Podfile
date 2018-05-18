@@ -51,6 +51,8 @@ target 'parkspot' do
 
     pod 'Interactable', :path => '../node_modules/react-native-interactable'
 
+    pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
+
   end
   
   post_install do |installer|
