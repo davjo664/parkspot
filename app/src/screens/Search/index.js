@@ -1,72 +1,49 @@
 import React, { Component } from 'react';
-import { Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
+import { Header, Item, Input, Icon, Button, Text } from 'native-base';
 import {
   View,
   FlatList,
   ScrollView,
   Dimensions,
-  Platform,
   ActivityIndicator,
-  Alert,
   TouchableOpacity,
-  Keyboard
 } from 'react-native';
-import Qs from 'qs';
 
 import defaultStyles from './styles';
-import Filter from '../../components/Filter/index'
+import Filter from '../../components/Filter/index';
 
 const WINDOW = Dimensions.get('window');
 
 export default class SearchScreen extends Component {
-
   componentDidMount() {
     if (this.props.data.length == 0) {
-      this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude);
+      this.props.fetchParkspots(
+        this.props.userPosition.latitude,
+        this.props.userPosition.longitude,
+      );
     }
-  }
-
-  _onChangeText = text => {
-    this.props.updateSearchString(text, this.props.userPosition);
-  };
-
-  _getRowLoader() {
-    return <ActivityIndicator animating={true} size="small" />;
   }
 
   _renderRowData = rowData => {
     return (
-      <Text
-        style={[
-          {},
-          defaultStyles.description
-        ]}
-        numberOfLines={1}
-      >
+      <Text style={[{}, defaultStyles.description]} numberOfLines={1}>
         {this._renderDescription(rowData)}
       </Text>
     );
   };
 
   _renderDescription = rowData => {
-    return (
-      rowData.description ||
-      rowData.formatted_address ||
-      rowData.name ||
-      rowData.dist
-    );
+    return rowData.description || rowData.address || rowData.dist;
   };
 
-  _renderLoader = rowData => {
-    if (rowData.isLoading === true) {
+  _renderLoader = () => {
+    if (this.props.isLoading === true) {
       return (
-        <View
-          style={[
-            defaultStyles.loader
-          ]}
-        >
-          {this._getRowLoader()}
-        </View>
+        <ActivityIndicator
+          animating={true}
+          size="small"
+          style={{ marginRight: 10 }}
+        />
       );
     }
 
@@ -78,7 +55,7 @@ export default class SearchScreen extends Component {
       <ScrollView
         style={{ flex: 1 }}
         scrollEnabled={true}
-        keyboardShouldPersistTaps='always'
+        keyboardShouldPersistTaps="always"
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -87,12 +64,7 @@ export default class SearchScreen extends Component {
           style={{ width: WINDOW.width, marginTop: 6, marginBottom: 6 }}
           onPress={() => this.props.onPress(rowData)}
         >
-          <View
-            style={[
-              defaultStyles.row
-            ]}
-          >
-            {this._renderLoader(rowData)}
+          <View style={[defaultStyles.row]}>
             {this._renderRowData(rowData)}
           </View>
         </TouchableOpacity>
@@ -105,17 +77,18 @@ export default class SearchScreen extends Component {
       <Header noShadow searchBar rounded>
         <Item>
           <Icon name="ios-search" />
-          <Input 
+          <Input
             placeholder="Search"
             returnKeyType={'search'}
             autoFocus={true}
             value={this.props.searchString}
             clearButtonMode="while-editing"
-            onChangeText={this._onChangeText}
-            style={[
-              defaultStyles.input
-            ]}
+            onChangeText={text =>
+              this.props.updateSearchString(text, this.props.userPosition)
+            }
+            style={[defaultStyles.input]}
           />
+          {this._renderLoader()}
         </Item>
         <Button transparent onPress={() => this.props.navigation.goBack()}>
           <Text>Cancel</Text>
@@ -138,9 +111,7 @@ export default class SearchScreen extends Component {
 
   _renderFilter = () => {
     if (this.props.showParkspots) {
-      return (
-        <Filter />
-      );
+      return <Filter />;
     }
   };
 
@@ -151,27 +122,18 @@ export default class SearchScreen extends Component {
         .substr(2, 10);
     return (
       <FlatList
-        style={[
-          defaultStyles.listView
-        ]}
-        data={
-          this.props.data
-        }
+        style={[defaultStyles.listView]}
+        data={this.props.data}
         keyExtractor={keyGenerator}
         extraData={this.props.data}
         renderItem={({ item }) => this._renderRow(item)}
-        keyboardShouldPersistTaps= 'always'
+        keyboardShouldPersistTaps="always"
       />
     );
   };
   render() {
     return (
-      <View
-        style={[
-          defaultStyles.container
-        ]}
-        pointerEvents="box-none"
-      >
+      <View style={[defaultStyles.container]} pointerEvents="box-none">
         {this._renderSearchBar()}
         {this._renderFilter()}
         {this._renderNearbyText()}
@@ -190,8 +152,7 @@ export interface Props {
   fetchParkspots: Function;
   showParkspots: Boolean;
   onPress: Function;
+  isLoading: Boolean;
 }
 
-export interface State {
-
-}
+export interface State {}
