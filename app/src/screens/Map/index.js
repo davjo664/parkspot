@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container, Content, Text, Icon, Button } from 'native-base';
 
-import {View, Dimensions, TouchableOpacity, SafeAreaView} from 'react-native';
+import { View, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
 import MapView from 'react-native-maps';
 import CustomMapMarker from '../../components/CustomMapMarker';
 
@@ -39,7 +39,7 @@ class Map extends React.Component<Props, State> {
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
-       shouldCenterToUserPosition: false,
+      shouldCenterToUserPosition: false,
     };
 
     this.props.fetchParkspots(
@@ -58,7 +58,11 @@ class Map extends React.Component<Props, State> {
     };
 
     // Todo only fetch if changed significantly. Should suffice for now though.
-    this.props.fetchParkspots(this.state.mapPosition.latitude, this.state.mapPosition.longitude, this.approximateCurrentRegionRadius(this.state.mapPosition));
+    this.props.fetchParkspots(
+      this.state.mapPosition.latitude,
+      this.state.mapPosition.longitude,
+      this.approximateCurrentRegionRadius(this.state.mapPosition),
+    );
   };
 
   componentDidMount() {
@@ -89,17 +93,20 @@ class Map extends React.Component<Props, State> {
     }
   }
 
-    markerWasPressed = (event: any) => {
-        /*
+  markerWasPressed = (event: any) => {
+    /*
          * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
          * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
          */
-        this.setState({
-            selectedParkspot: this.props.parkspots.find(parkspot => {
-                return parkspot.lat == event.nativeEvent.coordinate.latitude && parkspot.lng == event.nativeEvent.coordinate.longitude;
-            }),
-        });
-    };
+    this.setState({
+      selectedParkspot: this.props.parkspots.find(parkspot => {
+        return (
+          parkspot.lat == event.nativeEvent.coordinate.latitude &&
+          parkspot.lng == event.nativeEvent.coordinate.longitude
+        );
+      }),
+    });
+  };
 
   findMeButtonWasPressed = () => {
     this.props.updateLocation();
@@ -116,9 +123,7 @@ class Map extends React.Component<Props, State> {
   };
 
   mapWasPressed = () => {
-    this.setState({
-        selectedParkspot: null,
-    })
+    this.deselectParkspot();
   };
 
   approximateCurrentRegionRadius = region => {
@@ -136,6 +141,12 @@ class Map extends React.Component<Props, State> {
     };
 
     return haversine(a, b, options).toFixed(0);
+  };
+
+  deselectParkspot = () => {
+    this.setState({
+      selectedParkspot: null,
+    });
   };
 
   render() {
@@ -174,7 +185,10 @@ class Map extends React.Component<Props, State> {
           </TouchableOpacity>
         </View>
 
-        <MapCard parkspot={this.state.selectedParkspot}/>
+        <MapCard
+          parkspot={this.state.selectedParkspot}
+          onDismiss={this.deselectParkspot}
+        />
 
         <MapView
           style={styles.map}
