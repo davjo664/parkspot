@@ -5,6 +5,8 @@ import Interactable from 'react-native-interactable';
 
 import styles from './styles';
 
+const humanizeDistance = require('../../helper/humanizeDistance');
+
 export interface Props {
     parkspot: any;
     onDismiss: Function;
@@ -47,8 +49,7 @@ export default class MapCard extends Component {
             return null;
         }
 
-        // TODO format m, km, etc.
-        const distance = (Math.round(this.props.parkspot.dist * 100) / 100) + "km";
+        const distance = humanizeDistance(this.props.parkspot.dist);
 
         return (
             <View style={styles.panelContainer} pointerEvents={'box-none'}>
