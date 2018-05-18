@@ -57,8 +57,8 @@ class Map extends React.Component<Props, State> {
       latitudeDelta: region.latitudeDelta,
     };
 
-    // Todo only fetch if chanegd significantly. Should suffice for now though.
-    // this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
+    // Todo only fetch if changed significantly. Should suffice for now though.
+    this.props.fetchParkspots(this.state.mapPosition.latitude, this.state.mapPosition.longitude, this.approximateCurrentRegionRadius(this.state.mapPosition));
   };
 
   componentDidMount() {
