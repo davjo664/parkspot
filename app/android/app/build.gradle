@@ -159,7 +159,6 @@ android {
 
 dependencies {
     compile project(':react-native-maps')
-    compile project(':react-native-intl')
     compile project(':react-native-code-push')
     compile project(':appcenter-crashes')
     compile project(':appcenter-analytics')

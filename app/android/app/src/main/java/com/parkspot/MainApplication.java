@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.maps.MapsPackage;
-import kim.taegon.rnintl.ReactNativeIntlPackage;
 import com.microsoft.codepush.react.CodePush;
 
 import com.opensettings.OpenSettingsPackage;
