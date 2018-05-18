@@ -62,7 +62,6 @@
 		DC200976A67F43EB9F527B4D /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A36D952F04934319B9F3AD42 /* libRNVectorIcons.a */; };
 		F0C0B0C151AC4EF5B558E122 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86116449F1B94AE788108E7E /* Roboto_medium.ttf */; };
 		2E64FF88477947229248A6F7 /* libReact Native Open Settings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13BB5D66FB104C65B0CDB45C /* libReact Native Open Settings.a */; };
-		06419BC78D544F4E8739FAA7 /* libRNIntl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26651E2351BD449A95717C0F /* libRNIntl.a */; };
 		5F38A20561644AFEA04DDFDB /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 676094AB9B50409AAEDE6137 /* Entypo.ttf */; };
 		4A0ABAECBDFF4EE79D2BAE1B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1C070F6623E64554AB2A2325 /* Foundation.ttf */; };
 		8F597B4E4E6A4E29A7881BC1 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60C90CAB74D54FB4BF1568C3 /* SimpleLineIcons.ttf */; };
