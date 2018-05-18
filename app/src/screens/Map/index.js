@@ -121,6 +121,22 @@ class Map extends React.Component<Props, State> {
     })
   };
 
+    clusterWasPressed = (coordinate) => {
+       this.animateToCoordinate(coordinate);
+    };
+
+    animateToCoordinate = (coordinate) => {
+        let newRegion = {
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude,
+            latitudeDelta: this.state.mapPosition.latitudeDelta * 0.1,
+            longitudeDelta: this.state.mapPosition.longitudeDelta * 0.1,
+        };
+        this.refs.mapView._root.animateToRegion(newRegion, 1000);
+
+
+    }
+
   approximateCurrentRegionRadius = region => {
     const a = {
       longitude: region.longitude - region.longitudeDelta / 2,
@@ -189,12 +205,14 @@ class Map extends React.Component<Props, State> {
           loadingEnabled={true}
           onPress={this.mapWasPressed}
           onMarkerPress={this.markerWasPressed}
+          onClusterPress={this.clusterWasPressed}
+          ref={"mapView"}
         >
           {this.props.parkspots.map(parkspot => {
             return (
               <CustomMapMarker
                 key={parkspot.id}
-                coordinate={{latitude: parseFloat(parkspot.lat), longitude:parseFloat(parkspot.lng) }}
+                coordinate={{latitude: parseFloat(parkspot.lat), longitude:parseFloat(parkspot.lng)}}
               />
             );
           })}
