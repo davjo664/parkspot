@@ -47,6 +47,9 @@ export default class MapCard extends Component {
             return null;
         }
 
+        // TODO format m, km, etc.
+        const distance = (Math.round(this.props.parkspot.dist * 100) / 100) + "km";
+
         return (
             <View style={styles.panelContainer} pointerEvents={'box-none'}>
                 <Animated.View
@@ -73,7 +76,7 @@ export default class MapCard extends Component {
                         </View>
                         <Text style={styles.panelTitle}>
                             Lorem Ipsum Parkspot
-                            <Text style={styles.panelDistance}> 10 m away</Text>
+                            <Text style={styles.panelDistance}> {distance} away</Text>
                         </Text>
 
 
