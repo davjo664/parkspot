@@ -1,7 +1,7 @@
 import {Component} from '@nestjs/common';
-import {UserEntity} from './user.entity';
 import {UserRepo} from './user-repository.provider';
-import {HttpException} from '@nestjs/core';
+import {UserEntity} from './user.entity';
+import {UserCreateDto, UserUpdateDto} from './user.dto';
 
 @Component()
 export class UserService {
@@ -10,16 +10,21 @@ export class UserService {
   constructor(private userRepo: UserRepo) {
   }
 
-  async getByMail(mail): Promise<Partial<UserEntity>> {
-    const user = await this.userRepo.findOne({select: ['mail', 'password', 'userLevel'], where: {mail}});
+  async findOne(id: number): Promise<UserEntity> {
+    const user = await this.userRepo.findOne({id});
     if (!user) {
-      throw new HttpException(`Couldn't find user for mail: '${mail}'`, 401);
+      throw new Error(`Couldn't find user with id ${id}`);
     }
     return user;
   }
 
-  register(mail: string, password: string): Promise<UserEntity> {
-    const instance = this.userRepo.create({mail, password});
-    return this.userRepo.save(instance);
+  async update(id: number, updateData: UserUpdateDto): Promise<UserEntity> {
+    await this.findOne(id);
+    return this.userRepo.save<UserEntity>({id, ...updateData} as UserEntity);
+  }
+
+
+  async create(userDto: UserCreateDto): Promise<UserEntity> {
+    return this.userRepo.save(userDto as UserEntity);
   }
 }

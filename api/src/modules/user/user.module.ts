@@ -3,13 +3,16 @@ import {DatabaseModule} from '../database/database.module';
 import {ConfigModule} from '../config/config.module';
 import {userRepoProvider} from './user-repository.provider';
 import {UserService} from './user.service';
+import {UserController} from './user.controller';
 
 @Module({
   modules: [
     DatabaseModule,
     ConfigModule,
   ],
-  controllers: [],
+  controllers: [
+    UserController,
+  ],
   components: [
     userRepoProvider,
     UserService,
