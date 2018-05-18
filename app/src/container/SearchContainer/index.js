@@ -2,57 +2,69 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import SearchScreen from '../../screens/Search';
-
-export interface Props {
-  navigation: any;
-//   updateLocation: Function;
-//   watchLocation: Function;
-//   stopWatchLocation: Function;
-//   fetchParkspots: Function;
-//   parkspots: any;
-//   userPosition: any;
-//   watchID: Number;
-}
+import { fetchParkspots } from '../MapContainer/actions';
+import { updateSearchString, fetchLocations, fetchLocationDetails } from './actions';
+import { Alert, Keyboard } from 'react-native';
 
 export interface State {}
 
 class SearchContainer extends React.Component<Props, State> {
-  // componentWillUnmount() {
-  //   stopWatchLocation(this.props.watchID);
-  // }
-
   render() {
     return (
       <SearchScreen
         navigation={this.props.navigation}
-        onPress={(data, details) => {
-          // 'details' is provided when fetchDetails = true
-          console.log(details.geometry.location);
-        }}
+        userPosition={this.props.userPosition}
+        searchString={this.props.searchString}
+        updateSearchString={this.props.updateSearchString}
+        data={this.props.data}
+        fetchParkspots={this.props.fetchParkspots}
+        showParkspots={this.props.showParkspots}
+        onPress={this.props.onPress}
       />
     );
   }
 }
 
-function bindAction(dispatch) {
-  return {
-//     fetchParkspots: (
-//       latitude: ?number,
-//       longitude: ?number,
-//       distance: ?number,
-//     ) => {
-//       dispatch(fetchParkspots(latitude, longitude, distance));
-//     },
-//     updateLocation: () => dispatch(updateLocation()),
-//     watchLocation: () => dispatch(watchLocation()),
-//     stopWatchLocation: (watchID: Number) =>
-//       dispatch(stopWatchLocation(watchID)),
-  };
+export interface Props {
+  navigation: any;
+  userPosition: any;
+  updateSearchString: Function;
+  searchString: String;
+  data: Array;
+  fetchParkspots: Function;
+  showParkspots: Boolean;
+  onPress: Function;
 }
 
-const mapStateToProps = state => ({
-//   parkspots: state.mapReducer.parkspots,
-//   userPosition: state.mapReducer.userPosition,
-//   watchID: state.mapReducer.watchID,
+const mapStateToProps = (state) => ({
+  userPosition: state.mapReducer.userPosition,
+  searchString: state.searchReducer.searchString,
+  data: state.searchReducer.data,
+  showParkspots: state.searchReducer.showParkspots,
 });
-export default connect(mapStateToProps, bindAction)(SearchContainer);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      updateSearchString: (searchString, userPosition) => {
+        dispatch(updateSearchString(searchString));
+        if (searchString.length == 0) {
+          dispatch(fetchParkspots(userPosition.latitude, userPosition.longitude, distance=6000));
+        } else {
+          dispatch(fetchLocations(searchString, userPosition))
+        }
+      },
+      fetchParkspots: (latitude ,longitude, distance=6000) => {
+        dispatch(fetchParkspots(latitude, longitude, distance));
+      },
+      onPress: (rowData) => {
+        Keyboard.dismiss();
+        if (!rowData.place_id) {
+          Alert.alert('Parkspot clicked', JSON.stringify(rowData));
+        } else {
+          dispatch(updateSearchString(rowData.description));
+          dispatch(fetchLocationDetails(rowData));
+        }
+      }
+  }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer);
