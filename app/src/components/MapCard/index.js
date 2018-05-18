@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Dimensions, Image, Text, Animated, TouchableOpacity} from 'react-native';
+import {Icon} from 'native-base';
 import Interactable from 'react-native-interactable';
 
 import styles from './styles';
 
 export interface Props {
     parkspot: any;
+    onDismiss: Function;
 }
 
 export interface State {
@@ -23,9 +25,25 @@ export default class MapCard extends Component {
         this._deltaY = new Animated.Value(Screen.height - 100);
     }
 
-    render() {
-        if (!this.props.parkspot)
+    renderIcon = (state, iconName, iconFamily, text) => {
+        return state ? (
+            <View style={styles.iconContainer}>
+                <Icon type={iconFamily} name={iconName} style={styles.icon}/>
+                <Text style={styles.iconText}>{text}</Text>
+            </View>
+        ) : null;
+    };
+
+    onSnap = (event) => {
+        if (event.nativeEvent.id === 'closed')
         {
+            this.props.parkspot = null;
+            this.props.onDismiss();
+        }
+    };
+
+    render() {
+        if (!this.props.parkspot) {
             return null;
         }
 
@@ -34,7 +52,7 @@ export default class MapCard extends Component {
                 <Animated.View
                     pointerEvents={'box-none'}
                     style={[styles.panelContainer, {
-                        backgroundColor: 'black',
+                        backgroundColor: 'transparent',
                         opacity: this._deltaY.interpolate({
                             inputRange: [0, Screen.height - 100],
                             outputRange: [0.5, 0],
@@ -44,7 +62,8 @@ export default class MapCard extends Component {
                 <Interactable.View
                     style={styles.interactable}
                     verticalOnly={true}
-                    snapPoints={[{y: 40},  {y: Screen.height - 150}]}
+                    snapPoints={[{y: 40, id: 'expanded'}, {y: Screen.height - 150, id: 'open'}, {y: Screen.height + 70, id: 'closed'}]}
+                    onSnap={this.onSnap}
                     boundaries={{top: -300}}
                     initialPosition={{y: Screen.height - 150}}
                     animatedValueY={this._deltaY}>
@@ -54,7 +73,7 @@ export default class MapCard extends Component {
                         </View>
                         <Text style={styles.panelTitle}>
                             Lorem Ipsum Parkspot
-                            <Text style={styles.panelDistance}>  10 m away</Text>
+                            <Text style={styles.panelDistance}> 10 m away</Text>
                         </Text>
 
 
@@ -65,7 +84,10 @@ export default class MapCard extends Component {
                         </View>
 
                         <View style={styles.moreContent}>
-                            <Text>// More content lives here</Text>
+                            <View style={styles.iconsContainer}>
+                                {this.renderIcon(this.props.parkspot.electricCharger, "ios-flash", "Ionicons", "Charging possible")}
+                                {this.renderIcon(this.props.parkspot.accessible, "accessibility", "MaterialIcons", "Easily accessible")}
+                            </View>
                         </View>
                     </View>
                 </Interactable.View>

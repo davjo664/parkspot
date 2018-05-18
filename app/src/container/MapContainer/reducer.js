@@ -1,10 +1,5 @@
 const initialState = {
-    userPosition: { // Stuttgart location
-        latitude: 48.775,
-        longitude: 9.175,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-    },
+    userPosition: null,
     parkspots: [],
 };
 
@@ -21,7 +16,7 @@ export default function (state: any = initialState, action: Function) {
     } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
         return {
             ...state,
-            parkspots: action.data,
+            parkspots: _.unionBy(action.data, state.parkspots, "id"),
         }
     }
 

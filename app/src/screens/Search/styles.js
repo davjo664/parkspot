@@ -19,5 +19,9 @@ const defaultStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   description: {},
+  safeArea: {
+    flex: 1,
+    backgroundColor: 'white',
+}
 });
 export default defaultStyles;

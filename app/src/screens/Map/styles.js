@@ -20,9 +20,8 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   buttonsContainer: {
-    zIndex: 4,
+    zIndex: 3,
     position: 'absolute',
-    bottom: 20,
     right: 15,
     height: 180,
     flexDirection: 'column',
@@ -34,11 +33,12 @@ const styles = StyleSheet.create({
     ...buttonStyleTemplate,
   },
   versionLabel: {
-    position: 'absolute',
-    bottom: 0,
     alignSelf: 'center',
     width: 50,
     height: 20,
   },
+    safeArea: {
+        flex: 1,
+    },
 });
 export default styles;

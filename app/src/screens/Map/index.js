@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container, Content, Text, Icon, Button } from 'native-base';
 
-import { View, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
 import MapView from 'react-native-maps';
 import CustomMapMarker from '../../components/CustomMapMarker';
 
@@ -23,6 +23,8 @@ export interface Props {
 
 export interface State {
   selectedParkspot: any;
+  mapPosition: any;
+  shouldCenterToUserPosition: boolean;
 }
 
 class Map extends React.Component<Props, State> {
@@ -31,32 +33,36 @@ class Map extends React.Component<Props, State> {
 
     this.state = {
       selectedParkspot: null,
+      mapPosition: {
+        latitude: 48.775,
+        longitude: 9.175,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      },
+      shouldCenterToUserPosition: false,
     };
 
     this.props.fetchParkspots(
-      this.props.userPosition.latitude,
-      this.props.userPosition.longitude,
-      this.approximateCurrentRegionRadius(this.props.userPosition),
+      this.state.mapPosition.latitude,
+      this.state.mapPosition.longitude,
+      this.approximateCurrentRegionRadius(this.state.mapPosition),
     );
   }
 
   onRegionChange = region => {
-    this.props.userPosition = {
-      ...this.props.userPosition,
+    this.state.mapPosition = {
+      latitude: region.latitude,
+      longitude: region.longitude,
       longitudeDelta: region.longitudeDelta,
       latitudeDelta: region.latitudeDelta,
     };
 
-    // Todo only fetch if chanegd significantly. Should suffice for now though.
-    // this.props.fetchParkspots(this.props.userPosition.latitude, this.props.userPosition.longitude, this.approximateCurrentRegionRadius(this.props.userPosition));
-  };
-
-  selectMarker = marker => {
-    this.setState(prevState => ({
-      selectedParkspot: this.props.parkspots.find(parkspot => {
-        return parkspot.id == marker.key;
-      }),
-    }));
+    // Todo only fetch if changed significantly. Should suffice for now though.
+    this.props.fetchParkspots(
+      this.state.mapPosition.latitude,
+      this.state.mapPosition.longitude,
+      this.approximateCurrentRegionRadius(this.state.mapPosition),
+    );
   };
 
   componentDidMount() {
@@ -68,24 +74,56 @@ class Map extends React.Component<Props, State> {
         description: metadata.description,
       });
     });
+
+    this.props.updateLocation();
   }
 
-  selectMarker = marker => {
-    this.setState(prevState => ({
+  componentWillReceiveProps() {
+    if (this.state.shouldCenterToUserPosition) {
+      this.setState(previousState => {
+        return {
+          shouldCenterToUserPosition: false,
+          mapPosition: {
+            ...previousState.mapPosition,
+            longitude: this.props.userPosition.longitude,
+            latitude: this.props.userPosition.latitude,
+          },
+        };
+      });
+    }
+  }
+
+  markerWasPressed = (event: any) => {
+    /*
+         * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
+         * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
+         */
+    this.setState({
       selectedParkspot: this.props.parkspots.find(parkspot => {
-        return parkspot.id == marker.key;
+        return (
+          parkspot.lat == event.nativeEvent.coordinate.latitude &&
+          parkspot.lng == event.nativeEvent.coordinate.longitude
+        );
       }),
-    }));
+    });
   };
 
   findMeButtonWasPressed = () => {
     this.props.updateLocation();
+
+    this.setState({
+      shouldCenterToUserPosition: true,
+    });
   };
   searchButtonWasPressed = () => {
     this.props.navigation.navigate('Search');
   };
   favoriteButtonWasPressed = () => {
     this.props.navigation.navigate('Favorites');
+  };
+
+  mapWasPressed = () => {
+    this.deselectParkspot();
   };
 
   approximateCurrentRegionRadius = region => {
@@ -105,12 +143,21 @@ class Map extends React.Component<Props, State> {
     return haversine(a, b, options).toFixed(0);
   };
 
-  render() {
-    const markers = parkspotsToCustomMapMarker(this.props.parkspots);
+  deselectParkspot = () => {
+    this.setState({
+      selectedParkspot: null,
+    });
+  };
 
+  render() {
     return (
       <View style={styles.container}>
-        <View style={styles.buttonsContainer}>
+        <View
+          style={[
+            styles.buttonsContainer,
+            { bottom: this.state.selectedParkspot ? 240 : 20 },
+          ]}
+        >
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.button}
@@ -138,13 +185,15 @@ class Map extends React.Component<Props, State> {
           </TouchableOpacity>
         </View>
 
-        <MapCard parkspot={this.state.selectedParkspot} />
+        <MapCard
+          parkspot={this.state.selectedParkspot}
+          onDismiss={this.deselectParkspot}
+        />
 
         <MapView
           style={styles.map}
           showsUserLocation={true}
-          initialRegion={this.props.userPosition}
-          region={this.props.userPosition}
+          region={this.state.mapPosition}
           onRegionChange={this.onRegionChange}
           showsMyLocationButton={false}
           showsPointsOfInterest={true}
@@ -152,38 +201,27 @@ class Map extends React.Component<Props, State> {
           zoomControlEnabled={false}
           rotateEnabled={false}
           loadingEnabled={true}
+          onPress={this.mapWasPressed}
+          onMarkerPress={this.markerWasPressed}
         >
-          {markers.map(marker => {
+          {this.props.parkspots.map(parkspot => {
             return (
               <CustomMapMarker
-                key={marker.key}
-                data={marker}
-                onPress={() => this.selectMarker(marker)}
+                key={parkspot.id}
+                latitude={parseFloat(parkspot.lat)}
+                longitude={parseFloat(parkspot.lng)}
               />
             );
           })}
         </MapView>
-        <Text style={styles.versionLabel}>
-          {this.state.version}.{this.state.label}
-        </Text>
+        <SafeAreaView style={styles.safeArea}>
+          <Text style={styles.versionLabel}>
+            {this.state.version}.{this.state.label}
+          </Text>
+        </SafeAreaView>
       </View>
     );
   }
 }
 
 export default Map;
-
-export function parkspotsToCustomMapMarker(parkspots) {
-  return parkspots.map(parkspot => ({
-    key: parkspot.id,
-    coordinate: {
-      latitude: parseFloat(parkspot.lat),
-      longitude: parseFloat(parkspot.lng),
-    },
-    title: parkspot.id.toString(),
-
-    available: parkspot.available,
-    electricCharger: parkspot.electricCharger,
-    handicapped: parkspot.handicapped,
-  }));
-}

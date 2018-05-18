@@ -7,6 +7,7 @@ import {
   Dimensions,
   ActivityIndicator,
   TouchableOpacity,
+  SafeAreaView
 } from 'react-native';
 
 import defaultStyles from './styles';
@@ -133,12 +134,14 @@ export default class SearchScreen extends Component {
   };
   render() {
     return (
-      <View style={[defaultStyles.container]} pointerEvents="box-none">
-        {this._renderSearchBar()}
-        {this._renderFilter()}
-        {this._renderNearbyText()}
-        {this._renderFlatList()}
-      </View>
+      <SafeAreaView style={defaultStyles.safeArea}>
+        <View style={[defaultStyles.container]} pointerEvents="box-none">
+          {this._renderSearchBar()}
+          {this._renderFilter()}
+          {this._renderNearbyText()}
+          {this._renderFlatList()}
+        </View>
+      </SafeAreaView>
     );
   }
 }

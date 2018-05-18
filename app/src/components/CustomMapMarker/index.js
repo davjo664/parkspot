@@ -5,41 +5,26 @@ import MapView from 'react-native-maps';
 import styles from './styles';
 
 export interface Props {
-	data: MarkerData;
-	onPress: Function;
+    latitude: Number;
+    longitude: Number;
 }
 
 export interface State {
 }
 
-export interface Coordinate {
-	latitude: Number;
-	longitude: Number;
-}
-
-export interface MarkerData {
-	id: Number;
-	coordinate: Coordinate;
-	title: string;
-	available: boolean;
-	electricCharger: boolean;
-	handicapped: boolean;
-}
-
 class CustomMapMarker extends React.Component<Props, State> {
-	render() {
-
-		return (
-			<MapView.Marker
-				coordinate={this.props.data.coordinate}
-				title={""}
-				description={""}
+    render() {
+        return (
+            <MapView.Marker
+                coordinate={{latitude: this.props.latitude, longitude: this.props.longitude}}
+                title={""}
+                description={""}
                 onPress={this.props.onPress}
-			>
-                <MapView.Callout tooltip={true} />
-			</MapView.Marker>
-		);
-	}
+            >
+                <MapView.Callout tooltip={true}/>
+            </MapView.Marker>
+        );
+    }
 }
 
 export default CustomMapMarker;
