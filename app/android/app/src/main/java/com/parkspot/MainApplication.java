@@ -3,6 +3,9 @@ package com.parkspot;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.opensettings.OpenSettingsPackage;
 import com.wix.interactable.Interactable;
 import com.microsoft.codepush.react.CodePush;
@@ -37,6 +40,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
+              new RNFirebaseMessagingPackage(),
+              new RNFirebaseNotificationsPackage(),
             new OpenSettingsPackage(),
             new Interactable(),
               new CodePush("YSIjMqHJfj-DO333VXte5sDuLRhJS1GPuXPnM", MainApplication.this, BuildConfig.DEBUG),
