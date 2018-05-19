@@ -49,7 +49,7 @@ class Map extends React.Component<Props, State> {
     );
   }
 
-  onRegionChange = region => {
+    onRegionChangeComplete = region => {
     this.state.mapPosition = {
       latitude: region.latitude,
       longitude: region.longitude,
@@ -57,7 +57,6 @@ class Map extends React.Component<Props, State> {
       latitudeDelta: region.latitudeDelta,
     };
 
-    // Todo only fetch if changed significantly. Should suffice for now though.
     this.props.fetchParkspots(
       this.state.mapPosition.latitude,
       this.state.mapPosition.longitude,
@@ -194,7 +193,7 @@ class Map extends React.Component<Props, State> {
           style={styles.map}
           showsUserLocation={true}
           region={this.state.mapPosition}
-          onRegionChange={this.onRegionChange}
+          onRegionChangeComplete={this.onRegionChangeComplete}
           showsMyLocationButton={false}
           showsPointsOfInterest={true}
           showsScale={true}
