@@ -81,10 +81,10 @@ export default class MapCard extends Component {
                         </Text>
 
 
-                        <Text style={styles.panelSubtitle}>Fancystreet 123, Amsterdam, Netherlands</Text>
+                        <Text style={styles.panelSubtitle}>{this.props.parkspot.address.street}, {this.props.parkspot.address.city}, {this.props.parkspot.address.country}</Text>
                         <View style={styles.panelButton}>
                             <Text style={styles.panelButtonTitle}>Start navigation</Text>
-                            <Text style={styles.panelButtonSubtitle}>66 min, 10 km from your location</Text>
+                            <Text style={styles.panelButtonSubtitle}>xx min, {distance} away from your location</Text>
                         </View>
 
                         <View style={styles.moreContent}>
