@@ -1,24 +1,26 @@
 import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
-import {UserLevel} from './user-level.enum';
+import {ApiModelProperty, ApiModelPropertyOptional} from '@nestjs/swagger';
+import {FCMTokenType} from './fcm-token-type.enum';
 
 @Entity()
 export class UserEntity {
+  @ApiModelPropertyOptional()
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({unique: true})
-  mail: string;
-
+  @ApiModelPropertyOptional()
   @CreateDateColumn({type: 'timestamp'})
   createdAt: Date;
 
+  @ApiModelPropertyOptional()
   @UpdateDateColumn({type: 'timestamp'})
   updatedAt: Date;
 
-  @Column({select: false, length: 60})
-  password?: string;
+  @ApiModelProperty()
+  @Column({type: 'text'})
+  fcmToken: string;
 
-  @Column({type: 'integer', default: UserLevel.PrivateUser})
-  userLevel: UserLevel;
-
+  @ApiModelProperty()
+  @Column({type: 'integer'})
+  fcmTokenType: FCMTokenType;
 }
