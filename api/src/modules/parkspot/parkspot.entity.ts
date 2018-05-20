@@ -37,5 +37,27 @@ export class ParkSpotEntity {
   @ApiModelPropertyOptional()
   parkingLot?: ParkingLotEntity | null;
 
+  @Column()
+  @ApiModelProperty()
+  street: string;
+
+
+  @Column()
+  @ApiModelProperty()
+  houseNumber: string;
+
+  @Column()
+  @ApiModelProperty()
+  city: string;
+
+  @Column()
+  @ApiModelProperty()
+  country: string;
+
+  @Column()
+  @ApiModelProperty()
+  postalCode: string;
+
+
 
 }
