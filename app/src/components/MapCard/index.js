@@ -49,6 +49,8 @@ export default class MapCard extends Component {
             return null;
         }
 
+        console.warn(this.props.parkspot);
+
         const distance = humanizeDistance(this.props.parkspot.dist);
 
         return (
@@ -81,7 +83,7 @@ export default class MapCard extends Component {
                         </Text>
 
 
-                        <Text style={styles.panelSubtitle}>{this.props.parkspot.address.street}, {this.props.parkspot.address.city}, {this.props.parkspot.address.country}</Text>
+                        <Text style={styles.panelSubtitle}>{this.props.parkspot.street} {this.props.parkspot.houseNumber}, {this.props.parkspot.city}, {this.props.parkspot.country}</Text>
                         <View style={styles.panelButton}>
                             <Text style={styles.panelButtonTitle}>Start navigation</Text>
                             <Text style={styles.panelButtonSubtitle}>xx min, {distance} away from your location</Text>

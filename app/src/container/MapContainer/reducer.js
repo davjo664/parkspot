@@ -14,24 +14,9 @@ export default function (state: any = initialState, action: Function) {
             }
         };
     } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
-        let parkspots = _.unionBy(action.data, state.parkspots, "id");
-        parkspots.forEach(parkspot => {
-            parkspot.address = {
-                street: "Loremweg 4",
-                city: "Hinterstadt",
-                zip: "66616",
-                country: "Germany"
-            };
-        });
-
-        // TODO fix when API is ready
-        console.warn("Warning: using mock data for address. Replace when API is ready!");
-
-
-
         return {
             ...state,
-            parkspots: parkspots,
+            parkspots: _.unionBy(action.data, state.parkspots, "id"),
         }
     }
 
