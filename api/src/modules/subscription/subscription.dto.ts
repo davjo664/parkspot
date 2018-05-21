@@ -1,5 +1,5 @@
-import {IsNumber, IsString} from 'class-validator';
-import {ApiModelProperty, ApiModelPropertyOptional} from '@nestjs/swagger';
+import {IsNumber} from 'class-validator';
+import {ApiModelProperty} from '@nestjs/swagger';
 import {SubscriptionEntity} from './subscription.entity';
 import {ParkSpotEntity} from '../parkspot/parkspot.entity';
 import {UserEntity} from '../user/user.entity';
@@ -22,12 +22,6 @@ export class SubscriptionDto implements Partial<SubscriptionEntity> {
  * */
 export class SubscriptionQueryParams implements Partial<SubscriptionEntity> {
 
-  @ApiModelPropertyOptional()
-	id: number;
-
-  @ApiModelPropertyOptional()
-	parkSpot: ParkSpotEntity;
-
-  @ApiModelPropertyOptional()
+  @ApiModelProperty({type: 'number'})
 	user: UserEntity;
 }
