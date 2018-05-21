@@ -7,7 +7,9 @@ import {
   Dimensions,
   ActivityIndicator,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  Alert,
+  Keyboard
 } from 'react-native';
 
 import defaultStyles from './styles';
@@ -23,6 +25,29 @@ export default class SearchScreen extends Component {
         this.props.userPosition.longitude,
       );
     }
+  }
+
+  _onPress = rowData => {
+    Keyboard.dismiss();
+    this.props.updateSearchString(rowData.description);
+    if (!rowData.place_id) {
+      Alert.alert('Parkspot clicked', JSON.stringify(rowData));
+    } else {
+      this.props.onPress(rowData)
+    }
+  }
+
+  _onChange = text => {
+      this.props.updateSearchString(text);
+      if (text.length == 0) {
+        this.props.fetchParkspots(
+            this.props.userPosition.latitude,
+            this.props.userPosition.longitude,
+            (distance = 6000)
+          )
+      } else {
+        this.props.fetchLocations(text, this.props.userPosition);
+      }
   }
 
   _renderRowData = rowData => {
@@ -63,7 +88,7 @@ export default class SearchScreen extends Component {
       >
         <TouchableOpacity
           style={{ width: WINDOW.width, marginTop: 6, marginBottom: 6 }}
-          onPress={() => this.props.onPress(rowData)}
+          onPress={() => this._onPress(rowData)}
         >
           <View style={[defaultStyles.row]}>
             {this._renderRowData(rowData)}
@@ -84,9 +109,7 @@ export default class SearchScreen extends Component {
             autoFocus={true}
             value={this.props.searchString}
             clearButtonMode="while-editing"
-            onChangeText={text =>
-              this.props.updateSearchString(text, this.props.userPosition)
-            }
+            onChangeText={text => this._onChange(text)}
             style={[defaultStyles.input]}
           />
           {this._renderLoader()}
@@ -153,6 +176,7 @@ export interface Props {
   searchString: String;
   data: Array;
   fetchParkspots: Function;
+  fetchLocations: Function;
   showParkspots: Boolean;
   onPress: Function;
   isLoading: Boolean;
