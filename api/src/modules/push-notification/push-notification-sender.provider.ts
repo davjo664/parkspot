@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import {FirebaseApp} from '../firebase-app/firebase-app.provider';
 
 
 /**
@@ -21,12 +22,12 @@ class PushNotificationSenderMock implements Partial<PushNotificationSender> {
 }
 
 /**
-
-
  * I am the actual provider for nest*/
 export const pushNotificationProvider = {
   provide: PushNotificationSender,
-  useClass: PushNotificationSender,
+  /*Firebase App is currently not required but this ensures app is initialized before usage*/
+  useFactory: (x: FirebaseApp) => new PushNotificationSender(),
+  inject: [FirebaseApp],
 };
 
 
@@ -34,7 +35,8 @@ export const pushNotificationProvider = {
  * I am the actual provider during tests */
 export const pushNotificationMockProvider = {
   provide: PushNotificationSender,
-  useClass: PushNotificationSenderMock,
+  useFactory: () => new PushNotificationSenderMock(),
+  inject: [],
 };
 
 
