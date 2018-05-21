@@ -52,3 +52,10 @@ export function fetchLocationDetails(rowData) {
         }
       });
 }
+
+export function filterData(filterId) {
+  return {
+    type: 'FILTER_DATA',
+    filter: filterId,
+  };
+}

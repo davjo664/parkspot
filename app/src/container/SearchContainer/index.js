@@ -6,7 +6,9 @@ import {
   updateSearchString,
   fetchLocations,
   fetchLocationDetails,
+  filterData,
 } from './actions';
+import { toggleFilter } from '../../components/Filter/actions';
 
 export interface State {}
 
@@ -19,11 +21,14 @@ class SearchContainer extends React.Component<Props, State> {
         searchString={this.props.searchString}
         updateSearchString={this.props.updateSearchString}
         data={this.props.data}
+        filteredData={this.props.filteredData}
         fetchParkspots={this.props.fetchParkspots}
         fetchLocations={this.props.fetchLocations}
         showParkspots={this.props.showParkspots}
         onPress={this.props.onPress}
         isLoading={this.props.isLoading}
+        toggleFilter={this.props.toggleFilter}
+        filterData={this.props.filterData}
       />
     );
   }
@@ -35,24 +40,28 @@ export interface Props {
   updateSearchString: Function;
   searchString: String;
   data: Array;
+  filteredData: Array;
   fetchParkspots: Function;
   fetchLocations: Function;
   showParkspots: Boolean;
   onPress: Function;
   isLoading: Boolean;
+  toggleFilter: Function;
+  filterData: Function;
 }
 
 const mapStateToProps = state => ({
   userPosition: state.mapReducer.userPosition,
   searchString: state.searchReducer.searchString,
   data: state.searchReducer.data,
+  filteredData: state.searchReducer.filteredData,
   showParkspots: state.searchReducer.showParkspots,
   isLoading: state.searchReducer.isLoading,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateSearchString: (searchString) => {
+    updateSearchString: searchString => {
       dispatch(updateSearchString(searchString));
     },
     fetchLocations: (searchString, userPosition) => {
@@ -63,6 +72,12 @@ const mapDispatchToProps = dispatch => {
     },
     onPress: rowData => {
       dispatch(fetchLocationDetails(rowData));
+    },
+    toggleFilter: filterId => {
+      dispatch(toggleFilter(filterId));
+    },
+    filterData: filterId => {
+      dispatch(filterData(filterId));
     },
   };
 };
