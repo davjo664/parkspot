@@ -42,4 +42,25 @@ export class ParkSpotEntity {
   @ApiModelPropertyOptional()
   subscriptions: SubscriptionEntity[];
 
+  @Column()
+  @ApiModelProperty()
+  street: string;
+
+
+  @Column()
+  @ApiModelProperty()
+  houseNumber: string;
+
+  @Column()
+  @ApiModelProperty()
+  city: string;
+
+  @Column()
+  @ApiModelProperty()
+  country: string;
+
+  @Column()
+  @ApiModelProperty()
+  postalCode: string;
+
 }

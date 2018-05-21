@@ -1,25 +1,24 @@
 const initialState = {
-	position: { // HdM location
-		latitude: 48.7420025,
-		longitude: 9.100759299999936,
-		latitudeDelta: 0.005,
-		longitudeDelta: 0.005,
-	},
+    userPosition: null,
+    parkspots: [],
 };
 
 export default function (state: any = initialState, action: Function) {
-	if (action.type === 'UPDATE_LOCATION_SUCCESS') {
-		return {
-			...state,
-			position: {
-				...state.position,
-				latitude: action.position.coords.latitude,
-				longitude: action.position.coords.longitude,
-			}
-		};
-	}
+    if (action.type === 'UPDATE_LOCATION_SUCCESS') {
+        return {
+            ...state,
+            userPosition: {
+                ...state.userPosition,
+                latitude: action.userPosition.coords.latitude,
+                longitude: action.userPosition.coords.longitude,
+            }
+        };
+    } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
+        return {
+            ...state,
+            parkspots: _.unionBy(action.data, state.parkspots, "id"),
+        }
+    }
 
-
-
-	return state;
+    return state;
 }

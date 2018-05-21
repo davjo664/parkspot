@@ -1,7 +1,7 @@
 import {Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query, ValidationPipe} from '@nestjs/common';
 import {ParkspotService} from './parkspot.service';
 import {ParkSpotDto, ParkSpotQueryParams} from './parkspot.dto';
-import {ApiResponse, ApiUseTags} from '@nestjs/swagger';
+import {ApiImplicitParam, ApiOperation, ApiResponse, ApiUseTags} from '@nestjs/swagger';
 import {ParkSpotEntity} from './parkspot.entity';
 
 @ApiUseTags('parkspot')
@@ -27,6 +27,10 @@ export class ParkspotController {
     return await this.parkSpotService.findOne(id);
   }
 
+  @ApiOperation({description: 'return value "dist" shows the distance in km', title: 'returns a list of ParkingSpots by radius'})
+  @ApiImplicitParam({name: 'lat', description: 'Latitude: e.g. 48.772748 [gps]', required: true, type: 'number'})
+  @ApiImplicitParam({name: 'lng', description: 'Longitude: e.g. 9.156502 [gps]', required: true, type: 'number'})
+  @ApiImplicitParam({name: 'dist', description: 'Distance: e.g. 3.4 [km]', required: true, type: 'number'})
   @Get('/:lat/:lng/:dist')
   @ApiResponse({
     status: HttpStatus.OK,
@@ -39,7 +43,7 @@ export class ParkspotController {
     description: 'Occours for illegal parameters',
   })
   async query(@Param('lat') lat: string, @Param('lng') lng: string, @Param('dist') dist: string): Promise<ParkSpotEntity[]> {
-    return await this.parkSpotService.geoQuery(parseInt(lat, 10), parseInt(lng, 10), parseInt(dist, 10));
+    return await this.parkSpotService.geoQuery(parseFloat(lat), parseFloat(lng), parseFloat(dist));
   }
 
   @Put('/:id')

@@ -1,20 +1,44 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-let { width, height } = Dimensions.get('window');
+const buttonStyleTemplate = {
+  borderRadius: 85,
+  backgroundColor: 'white',
+  justifyContent: 'center',
+  alignItems: 'center',
+  shadowOpacity: 0.12,
+  opacity: 0.85,
+};
+
 const styles = StyleSheet.create({
-	title: {
-		marginTop: 15,
-	},
-	container: {
-		...StyleSheet.absoluteFillObject,
-		justifyContent: 'flex-end',
-		alignItems: 'center',
-		backgroundColor: '#FBFAFA',
-	},
-	map: {
-		flex: 1,
-		width: width,
-		height: height,
-	},
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  buttonsContainer: {
+    zIndex: 3,
+    position: 'absolute',
+    right: 15,
+    height: 180,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  button: {
+    width: 50,
+    height: 50,
+    ...buttonStyleTemplate,
+  },
+  versionLabel: {
+    alignSelf: 'center',
+    width: 50,
+    height: 20,
+  },
+    safeArea: {
+        flex: 1,
+    },
 });
 export default styles;
