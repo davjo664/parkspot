@@ -1,6 +1,7 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
+import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany} from 'typeorm';
 import {ApiModelProperty, ApiModelPropertyOptional} from '@nestjs/swagger';
 import {FCMTokenType} from './fcm-token-type.enum';
+import {SubscriptionEntity} from '../subscription/subscription.entity';
 
 @Entity()
 export class UserEntity {
@@ -23,4 +24,8 @@ export class UserEntity {
   @ApiModelProperty()
   @Column({type: 'integer'})
   fcmTokenType: FCMTokenType;
+
+  @ApiModelPropertyOptional()
+  @OneToMany(type => SubscriptionEntity, subscription => subscription.user)
+  subscriptions: SubscriptionEntity[];
 }

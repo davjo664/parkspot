@@ -5,6 +5,7 @@ import {ConfigModule} from './modules/config/config.module';
 import {ParkspotModule} from './modules/parkspot/parkspot.module';
 import {InputModule} from './modules/input/input.module';
 import {ParkingLotModule} from './modules/parkinglot/parking-lot.module';
+import {SubscriptionModule} from './modules/subscription/subscription.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import {ParkingLotModule} from './modules/parkinglot/parking-lot.module';
     ParkspotModule,
     ParkingLotModule,
     InputModule,
+    SubscriptionModule
   ],
   controllers: [AppController],
   components: [],
