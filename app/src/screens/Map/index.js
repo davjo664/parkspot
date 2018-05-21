@@ -3,7 +3,6 @@ import { Container, Content, Text, Icon, Button } from 'native-base';
 
 import { View, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
 import MapView from 'react-native-map-markerclustering';
-import CustomMapMarker from '../../components/CustomMapMarker';
 
 const haversine = require('haversine-js');
 import MapCard from '../../components/MapCard';
@@ -223,7 +222,7 @@ class Map extends React.Component<Props, State> {
         >
           {this.props.parkspots.map(parkspot => {
             return (
-              <CustomMapMarker
+              <MapView.Marker
                 key={parkspot.id}
                 coordinate={{ latitude: parseFloat(parkspot.lat), longitude: parseFloat(parkspot.lng) }}
               />
