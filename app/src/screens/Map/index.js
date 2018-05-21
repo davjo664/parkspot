@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Container, Content, Text, Icon, Button } from 'native-base';
 
 import { View, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
-import MapView from 'react-native-map-markerclustering';
+import MapView from 'react-native-maps';
+
 
 const haversine = require('haversine-js');
 import MapCard from '../../components/MapCard';
@@ -217,7 +218,6 @@ class Map extends React.Component<Props, State> {
           loadingEnabled={true}
           onPress={this.mapWasPressed}
           onMarkerPress={this.markerWasPressed}
-          onClusterPress={this.clusterWasPressed}
           ref={"mapView"}
         >
           {this.props.parkspots.map(parkspot => {

@@ -7030,10 +7030,6 @@ react-native-code-push@^5.3.2:
     plist "1.2.0"
     xcode "0.9.2"
 
-react-native-dimension@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-dimension/-/react-native-dimension-1.0.6.tgz#049e40746160137f5e1dde89983b04ff8dc288d5"
-
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -7077,12 +7073,6 @@ react-native-keyboard-aware-scroll-view@0.4.2:
   dependencies:
     prop-types "^15.6.0"
     react-native-iphone-x-helper "^1.0.1"
-
-react-native-map-markerclustering@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/react-native-map-markerclustering/-/react-native-map-markerclustering-1.0.12.tgz#1f4a1f415308a743bc1f4e3efd5c52b4a60871b4"
-  dependencies:
-    react-native-dimension "^1.0.6"
 
 react-native-maps@^0.21.0:
   version "0.21.0"
