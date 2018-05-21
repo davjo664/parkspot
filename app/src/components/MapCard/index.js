@@ -49,8 +49,6 @@ export default class MapCard extends Component {
             return null;
         }
 
-        console.warn(this.props.parkspot);
-
         const distance = humanizeDistance(this.props.parkspot.dist);
 
         return (

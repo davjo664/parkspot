@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, Content, Text, Icon, Button } from 'native-base';
+import { Text, Icon } from 'native-base';
 
 import { View, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
 import MapView from 'react-native-maps';
@@ -137,9 +137,7 @@ class Map extends React.Component<Props, State> {
       longitudeDelta: this.state.mapPosition.longitudeDelta * 0.1,
     };
     this.refs.mapView._root.animateToRegion(newRegion, 1000);
-
-
-  }
+  };
 
   approximateCurrentRegionRadius = region => {
     const a = {
