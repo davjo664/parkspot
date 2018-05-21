@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container, Content, Text, Icon, Button } from 'native-base';
 
 import { View, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView from 'react-native-map-markerclustering';
 import CustomMapMarker from '../../components/CustomMapMarker';
 
 const haversine = require('haversine-js');
@@ -49,7 +49,7 @@ class Map extends React.Component<Props, State> {
     );
   }
 
-    onRegionChangeComplete = region => {
+  onRegionChangeComplete = region => {
     this.state.mapPosition = {
       latitude: region.latitude,
       longitude: region.longitude,
@@ -124,6 +124,22 @@ class Map extends React.Component<Props, State> {
   mapWasPressed = () => {
     this.deselectParkspot();
   };
+
+  clusterWasPressed = (coordinate) => {
+    this.animateToCoordinate(coordinate);
+  };
+
+  animateToCoordinate = (coordinate) => {
+    let newRegion = {
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude,
+      latitudeDelta: this.state.mapPosition.latitudeDelta * 0.1,
+      longitudeDelta: this.state.mapPosition.longitudeDelta * 0.1,
+    };
+    this.refs.mapView._root.animateToRegion(newRegion, 1000);
+
+
+  }
 
   approximateCurrentRegionRadius = region => {
     const a = {
@@ -202,13 +218,14 @@ class Map extends React.Component<Props, State> {
           loadingEnabled={true}
           onPress={this.mapWasPressed}
           onMarkerPress={this.markerWasPressed}
+          onClusterPress={this.clusterWasPressed}
+          ref={"mapView"}
         >
           {this.props.parkspots.map(parkspot => {
             return (
               <CustomMapMarker
                 key={parkspot.id}
-                latitude={parseFloat(parkspot.lat)}
-                longitude={parseFloat(parkspot.lng)}
+                coordinate={{ latitude: parseFloat(parkspot.lat), longitude: parseFloat(parkspot.lng) }}
               />
             );
           })}
