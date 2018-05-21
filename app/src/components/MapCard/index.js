@@ -5,6 +5,8 @@ import Interactable from 'react-native-interactable';
 
 import styles from './styles';
 
+const humanizeDistance = require('../../helper/humanizeDistance');
+
 export interface Props {
     parkspot: any;
     onDismiss: Function;
@@ -47,6 +49,10 @@ export default class MapCard extends Component {
             return null;
         }
 
+        console.warn(this.props.parkspot);
+
+        const distance = humanizeDistance(this.props.parkspot.dist);
+
         return (
             <View style={styles.panelContainer} pointerEvents={'box-none'}>
                 <Animated.View
@@ -73,14 +79,14 @@ export default class MapCard extends Component {
                         </View>
                         <Text style={styles.panelTitle}>
                             Lorem Ipsum Parkspot
-                            <Text style={styles.panelDistance}> 10 m away</Text>
+                            <Text style={styles.panelDistance}> {distance} away</Text>
                         </Text>
 
 
-                        <Text style={styles.panelSubtitle}>Fancystreet 123, Amsterdam, Netherlands</Text>
+                        <Text style={styles.panelSubtitle}>{this.props.parkspot.street} {this.props.parkspot.houseNumber}, {this.props.parkspot.city}, {this.props.parkspot.country}</Text>
                         <View style={styles.panelButton}>
                             <Text style={styles.panelButtonTitle}>Start navigation</Text>
-                            <Text style={styles.panelButtonSubtitle}>66 min, 10 km from your location</Text>
+                            <Text style={styles.panelButtonSubtitle}>xx min, {distance} away from your location</Text>
                         </View>
 
                         <View style={styles.moreContent}>
