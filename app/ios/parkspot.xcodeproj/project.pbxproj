@@ -62,6 +62,9 @@
 		DC200976A67F43EB9F527B4D /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A36D952F04934319B9F3AD42 /* libRNVectorIcons.a */; };
 		F0C0B0C151AC4EF5B558E122 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86116449F1B94AE788108E7E /* Roboto_medium.ttf */; };
 		2E64FF88477947229248A6F7 /* libReact Native Open Settings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13BB5D66FB104C65B0CDB45C /* libReact Native Open Settings.a */; };
+		5F38A20561644AFEA04DDFDB /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 676094AB9B50409AAEDE6137 /* Entypo.ttf */; };
+		4A0ABAECBDFF4EE79D2BAE1B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1C070F6623E64554AB2A2325 /* Foundation.ttf */; };
+		8F597B4E4E6A4E29A7881BC1 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60C90CAB74D54FB4BF1568C3 /* SimpleLineIcons.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -426,6 +429,11 @@
 		FC2E50459A20EB4C9902E238 /* libPods-parkspot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-parkspot.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E17159E0724F43B7BA64DD6E /* React Native Open Settings.xcodeproj */ = {isa = PBXFileReference; name = "React Native Open Settings.xcodeproj"; path = "../node_modules/react-native-open-settings/React Native Open Settings.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		13BB5D66FB104C65B0CDB45C /* libReact Native Open Settings.a */ = {isa = PBXFileReference; name = "libReact Native Open Settings.a"; path = "libReact Native Open Settings.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		8EBD018FD16B47239FA35890 /* RNIntl.xcodeproj */ = {isa = PBXFileReference; name = "RNIntl.xcodeproj"; path = "../node_modules/react-native-intl/RNIntl.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		26651E2351BD449A95717C0F /* libRNIntl.a */ = {isa = PBXFileReference; name = "libRNIntl.a"; path = "libRNIntl.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		676094AB9B50409AAEDE6137 /* Entypo.ttf */ = {isa = PBXFileReference; name = "Entypo.ttf"; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1C070F6623E64554AB2A2325 /* Foundation.ttf */ = {isa = PBXFileReference; name = "Foundation.ttf"; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		60C90CAB74D54FB4BF1568C3 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -461,6 +469,7 @@
 				C4F4BE2B567E4E52B4F20128 /* libAppCenterReactNativeAnalytics.a in Frameworks */,
 				C2476BE91CB6E83AEFFDE29D /* libPods-parkspot.a in Frameworks */,
 				2E64FF88477947229248A6F7 /* libReact Native Open Settings.a in Frameworks */,
+				06419BC78D544F4E8739FAA7 /* libRNIntl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,6 +671,7 @@
 				F545F1D3F4DC4499B4165362 /* AppCenterReactNativeCrashes.xcodeproj */,
 				2C32FCCC55EE40E296163955 /* AppCenterReactNativeAnalytics.xcodeproj */,
 				E17159E0724F43B7BA64DD6E /* React Native Open Settings.xcodeproj */,
+				8EBD018FD16B47239FA35890 /* RNIntl.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -685,6 +695,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				DD473E7C209CC36800272892 /* Recovered References */,
 				5CBDA45FC150C72E894EDDE8 /* Pods */,
+				FAE07C96C5E944948A3362E7 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -771,6 +782,17 @@
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
+		};
+		FAE07C96C5E944948A3362E7 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				676094AB9B50409AAEDE6137 /* Entypo.ttf */,
+				1C070F6623E64554AB2A2325 /* Foundation.ttf */,
+				60C90CAB74D54FB4BF1568C3 /* SimpleLineIcons.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -1288,6 +1310,9 @@
 				287A4DB7C26F48DFBD644044 /* Octicons.ttf in Resources */,
 				A7CC48C202454A948C527EA4 /* SimpleLineIcons.ttf in Resources */,
 				6AD4347FA4954F5BB905EEC6 /* Zocial.ttf in Resources */,
+				5F38A20561644AFEA04DDFDB /* Entypo.ttf in Resources */,
+				4A0ABAECBDFF4EE79D2BAE1B /* Foundation.ttf in Resources */,
+				8F597B4E4E6A4E29A7881BC1 /* SimpleLineIcons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1454,12 +1479,14 @@
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/react-native-open-settings",
+					"$(SRCROOT)/../node_modules/react-native-intl/RNIntl",
 				);
 				INFOPLIST_FILE = parkspotTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1488,12 +1515,14 @@
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/react-native-open-settings",
+					"$(SRCROOT)/../node_modules/react-native-intl/RNIntl",
 				);
 				INFOPLIST_FILE = parkspotTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1524,6 +1553,7 @@
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/react-native-open-settings",
+					"$(SRCROOT)/../node_modules/react-native-intl/RNIntl",
 				);
 				INFOPLIST_FILE = parkspot/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1552,6 +1582,7 @@
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/react-native-open-settings",
+					"$(SRCROOT)/../node_modules/react-native-intl/RNIntl",
 				);
 				INFOPLIST_FILE = parkspot/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1586,11 +1617,13 @@
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/react-native-open-settings",
+					"$(SRCROOT)/../node_modules/react-native-intl/RNIntl",
 				);
 				INFOPLIST_FILE = "parkspot-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1629,11 +1662,13 @@
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/react-native-open-settings",
+					"$(SRCROOT)/../node_modules/react-native-intl/RNIntl",
 				);
 				INFOPLIST_FILE = "parkspot-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1678,10 +1713,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-open-settings",
+					"$(SRCROOT)/../node_modules/react-native-intl/RNIntl",
 				);
 			};
 			name = Debug;
@@ -1712,10 +1749,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-open-settings",
+					"$(SRCROOT)/../node_modules/react-native-intl/RNIntl",
 				);
 			};
 			name = Release;
