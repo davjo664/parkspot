@@ -52,6 +52,7 @@
     "react-native-code-push": "^5.3.2",
     "react-native-interactable": "^0.1.10",
     "react-native-maps": "^0.21.0",
+    "react-native-maps-super-cluster": "^1.4.1",
     "react-native-open-settings": "^1.0.1",
     "react-native-permissions": "^1.1.1",
     "react-navigation": "^1.5.11",
@@ -61,7 +62,6 @@
     "redux-persist": "^5.9.1",
     "redux-thunk": "2.2.0",
     "remote-redux-devtools": "^0.5.12",
-    "remote-redux-devtools-on-debugger": "^0.8.0",
-    "supercluster": "^3.0.2"
+    "remote-redux-devtools-on-debugger": "^0.8.0"
   }
 }
