@@ -2,7 +2,8 @@ import {Test, TestingModule} from '@nestjs/testing';
 import {PushNotificationService} from './push-notification.service';
 import {FCMTokenType} from '../user/fcm-token-type.enum';
 import {pushNotificationMockProvider} from './push-notification-sender.provider';
-import {FirebaseAppModule} from '../firebase-app/firebase-app.module';
+import {configMockProviders} from '../config/config.providers';
+import {firebaseAppProvider} from '../firebase-app/firebase-app.provider';
 
 describe('PushNotificationService', () => {
   let app: TestingModule;
@@ -10,10 +11,10 @@ describe('PushNotificationService', () => {
   beforeAll(async () => {
     app = await Test.createTestingModule({
       modules: [
-        FirebaseAppModule,
       ],
-
       components: [
+        firebaseAppProvider,
+        ...configMockProviders,
         pushNotificationMockProvider,
         PushNotificationService
       ],

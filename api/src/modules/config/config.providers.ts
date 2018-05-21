@@ -8,10 +8,15 @@ const configPath = process.env.PRK_CONFIG_PATH || process.cwd();
 const runtimeConfigPath = `${configPath}/config.json`;
 const dbConfigPath = `${configPath}/ormconfig.json`;
 
+const mockRuntimeConfigPath = `${configPath}/config.sample.json`;
+const mockDbConfigPath = `${configPath}/ormconfig.sample.json`;
+
+
 
 /**
  * Loads the configuration and merges them into a single instance of PrkConfig */
 async function loadConfiguration(): Promise<PrkConfig> {
+  console.log('loading real config.');
   const runtimeConfiguration = await readFileProm<RuntimeConfiguration>(runtimeConfigPath);
   const dbConfig = await readFileProm<DBConfig>(dbConfigPath);
   return {runtimeConfiguration, dbConfig};
@@ -21,5 +26,24 @@ export const configProviders = [
   {
     provide: PrkConfig,
     useFactory: loadConfiguration
+  },
+];
+
+
+/**
+ * Loads the mock configuration and merges them into a single instance of PrkConfig.
+ * Use the sample files as mock input since they are committed to vcs. */
+async function loadMockConfiguration(): Promise<PrkConfig> {
+  console.log('loading mock config.');
+  const runtimeConfiguration = await readFileProm<RuntimeConfiguration>(mockRuntimeConfigPath);
+  const dbConfig = await readFileProm<DBConfig>(mockDbConfigPath);
+  return {runtimeConfiguration, dbConfig};
+}
+
+
+export const configMockProviders = [
+  {
+    provide: PrkConfig,
+    useFactory: loadMockConfiguration
   },
 ];
