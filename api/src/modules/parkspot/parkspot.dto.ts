@@ -1,6 +1,8 @@
 import {ParkSpotEntity} from './parkspot.entity';
-import {IsBoolean, IsNumber, IsString} from 'class-validator';
+import {IsArray, IsBoolean, IsNumber, IsOptional, IsString} from 'class-validator';
 import {ApiModelProperty, ApiModelPropertyOptional} from '@nestjs/swagger';
+import {Column} from 'typeorm';
+import {SubscriptionEntity} from '../subscription/subscription.entity';
 
 /**
  * The dto is used whenever data is submitted as payload to the API.
@@ -37,6 +39,34 @@ export class ParkSpotDto implements Partial<ParkSpotEntity> {
   @IsString()
   @ApiModelProperty()
   imageURL: string;
+
+  @IsString()
+  @ApiModelProperty()
+  street: string;
+
+
+  @Column()
+  @ApiModelProperty()
+  houseNumber: string;
+
+  @IsString()
+  @ApiModelProperty()
+  city: string;
+
+  @IsString()
+  @ApiModelProperty()
+  country: string;
+
+  @IsString()
+  @ApiModelProperty()
+  postalCode: string;
+
+  @IsOptional()
+  @IsArray()
+  @ApiModelPropertyOptional({type: SubscriptionEntity, isArray: true})
+  subscriptions: SubscriptionEntity[];
+
+
 }
 
 /**

@@ -1,17 +1,18 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '9.0'
 
 target 'parkspot' do
 
     # Pods for AppCenter
-    pod 'AppCenter/Analytics', '~> 1.5.0'
-    pod 'AppCenter/Crashes', '~> 1.5.0'
-    pod 'AppCenterReactNativeShared', '~> 1.4.0'
+    pod 'AppCenter/Analytics', '~> 1.6.0'
+    pod 'AppCenter/Crashes', '~> 1.6.0'
+    pod 'AppCenterReactNativeShared', '~> 1.5.0'
     pod 'CodePush', :path => '../node_modules/react-native-code-push'
     
     rn_path = '../node_modules/react-native'
     rn_maps_path = '../node_modules/react-native-maps'
   
+
     # See http://facebook.github.io/react-native/docs/integration-with-existing-apps.html#configuring-cocoapods-dependencies
     pod 'yoga', path: "#{rn_path}/ReactCommon/yoga/yoga.podspec"
     pod 'React', path: rn_path, subspecs: [
@@ -32,7 +33,7 @@ target 'parkspot' do
 
     
   
-  platform :ios, '9.0'
+
     # React Native third party dependencies podspecs
     pod 'DoubleConversion', :podspec => "#{rn_path}/third-party-podspecs/DoubleConversion.podspec"
     pod 'glog', :podspec => "#{rn_path}/third-party-podspecs/glog.podspec"

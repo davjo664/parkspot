@@ -139,7 +139,6 @@ android {
             buildConfigField "String", "CODEPUSH_KEY", '"YSIjMqHJfj-DO333VXte5sDuLRhJS1GPuXPnM"'
             signingConfig signingConfigs.release
         }
-        
 
 
     }
@@ -159,8 +158,13 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-open-settings')
-    compile project(':react-native-interactable')
+    implementation project(':react-native-maps')
+    implementation project(':react-native-code-push')
+    implementation project(':appcenter-crashes')
+    implementation project(':appcenter-analytics')
+    implementation project(':appcenter')
+    implementation project(':react-native-open-settings')
+    implementation project(':react-native-interactable')
     implementation project(':react-native-code-push')
     implementation project(':appcenter-analytics')
     implementation project(':appcenter-crashes')
@@ -174,7 +178,7 @@ dependencies {
         exclude group: 'com.google.android.gms', module: 'play-services-maps'
     }
     implementation 'com.google.android.gms:play-services-base:10.0.1'
-    implementation 'com.google.android.gms:play-services-maps:10.0.1'
+    implementation 'com.google.android.gms:play-services-maps:10.2.4'
 }
 
 // Run this once to be able to run the application with BUCK

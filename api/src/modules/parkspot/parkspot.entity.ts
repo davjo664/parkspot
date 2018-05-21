@@ -1,6 +1,7 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {ApiModelProperty, ApiModelPropertyOptional} from '@nestjs/swagger';
 import {ParkingLotEntity} from '../parkinglot/parking-lot.entity';
+import {SubscriptionEntity} from '../subscription/subscription.entity';
 
 @Entity()
 export class ParkSpotEntity {
@@ -37,5 +38,29 @@ export class ParkSpotEntity {
   @ApiModelPropertyOptional()
   parkingLot?: ParkingLotEntity | null;
 
+  @OneToMany(type => SubscriptionEntity, subscription => subscription.parkSpot)
+  @ApiModelPropertyOptional()
+  subscriptions: SubscriptionEntity[];
+
+  @Column()
+  @ApiModelProperty()
+  street: string;
+
+
+  @Column()
+  @ApiModelProperty()
+  houseNumber: string;
+
+  @Column()
+  @ApiModelProperty()
+  city: string;
+
+  @Column()
+  @ApiModelProperty()
+  country: string;
+
+  @Column()
+  @ApiModelProperty()
+  postalCode: string;
 
 }

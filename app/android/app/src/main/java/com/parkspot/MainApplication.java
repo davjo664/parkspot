@@ -3,6 +3,9 @@ package com.parkspot;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.maps.MapsPackage;
+import com.microsoft.codepush.react.CodePush;
+
 import com.opensettings.OpenSettingsPackage;
 import com.wix.interactable.Interactable;
 import com.microsoft.codepush.react.CodePush;
@@ -21,48 +24,48 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
         @Override
         protected String getJSBundleFile() {
-        return CodePush.getJSBundleFile();
+            return CodePush.getJSBundleFile();
         }
-    
-    @Override
-    public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
-    }
+
+        @Override
+        public boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                    new MainReactPackage(),
+                    new MapsPackage(),
+                    new OpenSettingsPackage(),
+                    new Interactable(),
+                    new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), MainApplication.this, BuildConfig.DEBUG),
+                    new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
+                    new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
+                    new AppCenterReactNativePackage(MainApplication.this),
+                    new VectorIconsPackage()
+            );
+        }
+
+        @Override
+        protected String getJSMainModuleName() {
+            return "index";
+        }
+    };
 
     @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new OpenSettingsPackage(),
-            new Interactable(),
-              new CodePush("YSIjMqHJfj-DO333VXte5sDuLRhJS1GPuXPnM", MainApplication.this, BuildConfig.DEBUG),
-              new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
-            new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
-            new AppCenterReactNativePackage(MainApplication.this),
-            new VectorIconsPackage(),
-              new MapsPackage()
-      );
+    public ReactNativeHost getReactNativeHost() {
+        return mReactNativeHost;
     }
+
 
     @Override
-    protected String getJSMainModuleName() {
-      return "index";
+    public void onCreate() {
+        super.onCreate();
+        SoLoader.init(this, /* native exopackage */ false);
     }
-  };
-
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
-  }
-
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-  }
 }
