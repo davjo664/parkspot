@@ -22,8 +22,7 @@ export function fetchParkspots(
   const url =
     !latitude || !longitude || !distance
       ? config.api.url
-      : `${config.api.url}${latitude}/${longitude}/${distance}`;
-
+      : `${config.api.url}parkspot/${latitude}/${longitude}/${distance}`;
   return dispatch =>
     fetch(url) // Redux Thunk handles these
       .then(res => res.json())

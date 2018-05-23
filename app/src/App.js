@@ -5,7 +5,7 @@ import { Root } from 'native-base';
 import Map from './container/MapContainer';
 import SearchContainer from './container/SearchContainer';
 import FavoriteContainer from './container/FavoriteContainer';
-import NotificationsManager from './container/NotificationsManager'
+import NotificationsManager from './container/NotificationsManager';
 
 const App = StackNavigator(
   {
