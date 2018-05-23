@@ -9,11 +9,18 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 
 import defaultStyles from './styles';
 import Filter from '../../components/Filter/index';
+var filters = [
+  { name: 'electricCharger', icon: 'ios-flash' },
+  { name: 'cost', icon: 'ios-cash' },
+  { name: 'favorite', icon: 'ios-star' },
+  { name: 'time', icon: 'ios-timer' },
+  { name: 'handicapped', icon: 'ios-person' },
+];
 
 const WINDOW = Dimensions.get('window');
 
@@ -29,26 +36,26 @@ export default class SearchScreen extends Component {
 
   _onPress = rowData => {
     Keyboard.dismiss();
+    this.props.updateSearchString(rowData.description);
     if (!rowData.place_id) {
       Alert.alert('Parkspot clicked', JSON.stringify(rowData));
     } else {
-      this.props.updateSearchString(rowData.description);
-      this.props.onPress(rowData)
+      this.props.onPress(rowData);
     }
-  }
+  };
 
   _onChange = text => {
-      this.props.updateSearchString(text);
-      if (text.length == 0) {
-        this.props.fetchParkspots(
-            this.props.userPosition.latitude,
-            this.props.userPosition.longitude,
-            (distance = 6000)
-          )
-      } else {
-        this.props.fetchLocations(text, this.props.userPosition);
-      }
-  }
+    this.props.updateSearchString(text);
+    if (text.length == 0) {
+      this.props.fetchParkspots(
+        this.props.userPosition.latitude,
+        this.props.userPosition.longitude,
+        (distance = 6000),
+      );
+    } else {
+      this.props.fetchLocations(text, this.props.userPosition);
+    }
+  };
 
   _renderRowData = rowData => {
     return (
@@ -135,7 +142,14 @@ export default class SearchScreen extends Component {
 
   _renderFilter = () => {
     if (this.props.showParkspots) {
-      return <Filter />;
+      return (
+        <Filter
+          toggleFilter={filterId => {
+            this.props.toggleFilter(filterId);
+            this.props.filterData(filterId);
+          }}
+        />
+      );
     }
   };
 
@@ -147,9 +161,11 @@ export default class SearchScreen extends Component {
     return (
       <FlatList
         style={[defaultStyles.listView]}
-        data={this.props.data}
+        data={
+          this.props.showParkspots ? this.props.filteredData : this.props.data
+        }
         keyExtractor={keyGenerator}
-        extraData={this.props.data}
+        extraData={this.props}
         renderItem={({ item }) => this._renderRow(item)}
         keyboardShouldPersistTaps="always"
       />
@@ -175,11 +191,14 @@ export interface Props {
   updateSearchString: Function;
   searchString: String;
   data: Array;
+  filteredData: Array;
   fetchParkspots: Function;
   fetchLocations: Function;
   showParkspots: Boolean;
   onPress: Function;
   isLoading: Boolean;
+  toggleFilter: Function;
+  filterData: Function;
 }
 
-export interface State {}
+export interface State { }
