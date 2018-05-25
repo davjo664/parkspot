@@ -21,8 +21,8 @@ class NotificationsManager extends React.Component<Props, State> {
             this.props.createUser(token);
 
         } else {
-            console.log('update user')
             if (this.props.user.fcmToken != token) {
+                console.log('update user')
                 this.props.updateUser(this.props.user.id, token);
             }
 
