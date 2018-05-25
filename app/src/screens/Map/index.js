@@ -66,13 +66,15 @@ class Map extends React.Component<Props, State> {
 
   componentDidMount() {
     //remove after DEV
-    codePush.getUpdateMetadata().then(metadata => {
-      this.setState({
-        label: metadata.label,
-        version: metadata.appVersion,
-        description: metadata.description,
+    if (!__DEV__) {
+      codePush.getUpdateMetadata().then(metadata => {
+        this.setState({
+          label: metadata.label,
+          version: metadata.appVersion,
+          description: metadata.description,
+        });
       });
-    });
+    }
 
     this.props.updateLocation();
   }

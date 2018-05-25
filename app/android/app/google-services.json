@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "165611854538",
+    "firebase_url": "https://parkspot-200807.firebaseio.com",
+    "project_id": "parkspot-200807",
+    "storage_bucket": "parkspot-200807.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165611854538:android:b00c4ddedecbbc96",
+        "android_client_info": {
+          "package_name": "com.parkspot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165611854538-djdghn6u8991kuioc229vce6aqngv3ua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrEegcFxjRJcg32jc-eGaWNngIkkcd_yU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

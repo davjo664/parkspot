@@ -3,9 +3,9 @@ package com.parkspot;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.airbnb.android.react.maps.MapsPackage;
-import com.microsoft.codepush.react.CodePush;
-
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.opensettings.OpenSettingsPackage;
 import com.wix.interactable.Interactable;
 import com.microsoft.codepush.react.CodePush;
@@ -38,17 +38,16 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-            return Arrays.<ReactPackage>asList(
-                    new MainReactPackage(),
-                    new MapsPackage(),
-                    new OpenSettingsPackage(),
+            return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNFirebasePackage(),
+                    new RNFirebaseMessagingPackage(), new RNFirebaseNotificationsPackage(), new OpenSettingsPackage(),
                     new Interactable(),
-                    new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), MainApplication.this, BuildConfig.DEBUG),
-                    new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
-                    new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
-                    new AppCenterReactNativePackage(MainApplication.this),
-                    new VectorIconsPackage()
-            );
+                    new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey),
+                            MainApplication.this, BuildConfig.DEBUG),
+                    new AppCenterReactNativeAnalyticsPackage(MainApplication.this,
+                            getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
+                    new AppCenterReactNativeCrashesPackage(MainApplication.this,
+                            getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
+                    new AppCenterReactNativePackage(MainApplication.this), new VectorIconsPackage(), new MapsPackage());
         }
 
         @Override
@@ -61,7 +60,6 @@ public class MainApplication extends Application implements ReactApplication {
     public ReactNativeHost getReactNativeHost() {
         return mReactNativeHost;
     }
-
 
     @Override
     public void onCreate() {
