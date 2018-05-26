@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { Right } from 'native-base';
 
 let { width, height } = Dimensions.get('window');
 
@@ -32,5 +33,9 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: 'white',
   },
+  trash: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#8cb8ff'
+},
 });
 export default styles;

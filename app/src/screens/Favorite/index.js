@@ -60,9 +60,7 @@ class FavoriteScreen extends React.Component<Props, State> {
           <Text style={styles.title}>
             Parkspot {favourite.id.toString()}
           </Text>
-          <Button onPress={() => this.props.remFavourite(favourite)} buttonStyle={{
-
-          }}>
+          <Button onPress={() => this.props.remFavourite(favourite)} style={styles.trash}>
             <Icon name="trash" />
           </Button>
         </Content>
@@ -70,33 +68,35 @@ class FavoriteScreen extends React.Component<Props, State> {
     ));
 
     return (
-      <Container style={styles.container}>
-        <Header style={styles.header} searchBar>
-          <Left>
-            <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name="arrow-back" style={{ color: 'black' }} />
+      <SafeAreaView style={styles.safeArea}>
+        <Container style={styles.container}>
+          <Header style={styles.header} searchBar>
+            <Left>
+              <Button transparent onPress={() => this.props.navigation.goBack()}>
+                <Icon name="arrow-back" style={{ color: 'black' }} />
+              </Button>
+            </Left>
+            <Body>
+              <Button onPress={() => this.props.addFavourite(this.props.parkspots[Math.floor(Math.random() * Math.floor(10))])}>
+                <Title style={styles.title}>Favorites </Title>
+              </Button>
+            </Body>
+            <Right />
+          </Header>
+          {/*<Item style={{ padding: 5 }}>
+            <Icon name="search" />
+            <Input placeholder="Favorites (not implemented)" />
+            <Button transparent>
+              <Text>Search</Text>
             </Button>
-          </Left>
-          <Body>
-            <Button onPress={() => this.props.addFavourite(this.props.parkspots[Math.floor(Math.random() * Math.floor(10))])}>
-              <Title style={styles.title}>Favorites </Title>
-            </Button>
-          </Body>
-          <Right />
-        </Header>
-        {/*<Item style={{ padding: 5 }}>
-          <Icon name="search" />
-          <Input placeholder="Favorites (not implemented)" />
-          <Button transparent>
-            <Text>Search</Text>
-          </Button>
-        </Item>*/}
-        <Content padder>
-          <List>
-            {favourites}
-          </List>
-        </Content>
-      </Container>
+          </Item>*/}
+          <Content padder>
+            <List>
+              {favourites}
+            </List>
+          </Content>
+        </Container>
+      </SafeAreaView>
     );
   }
 }
