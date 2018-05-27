@@ -7,6 +7,10 @@ import { updateLocation, fetchParkspots } from './actions';
 import Permissions from 'react-native-permissions'
 import OpenSettings from 'react-native-open-settings';
 
+
+import type PermissionType from '../../helper/PermissionHelper';
+import {PermissionHelper} from '../../helper/PermissionHelper';
+
 export interface Props {
   navigation: any;
   updateLocation: Function;
@@ -19,40 +23,17 @@ export interface State {}
 
 class MapContainer extends React.Component<Props, State> {
   askForLocationPermission = () => {
-      Alert.alert(
-          'Can we access your location?',
-          'We need access so you can see yourself on the map and get nearby parkspots.',
-          [
-              {
-                  text: 'Nope',
-                  onPress: this.alertLocationAccessDenied,
-                  style: 'cancel',
-              },
-              {
-                  text: 'Sure',
-                  onPress: this.requestLocationPermission,
-              }
-          ],
-      )
+     PermissionHelper.showPermissionAlert('location');
   };
 
   requestLocationPermission = () => {
-      Permissions.request('location').then(response => {
-          this.checkLocationPermission();
-      });
+      PermissionHelper.requestPermission('location', (response) => {
+          console.warn(response);
+      })
   };
 
   alertLocationAccessDenied = () => {
-      Alert.alert(
-          'You have denied location access!',
-          'You need to enable the access in the device settings...',
-          [
-              {
-                  text: "Take me there!",
-                  onPress: this.gotoSettings()
-              }
-          ]
-      )
+      
   };
 
     alertLocationAccessNotPossible = () => {
@@ -104,7 +85,8 @@ class MapContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.checkLocationPermission();
+      this.requestLocationPermission();
+    // this.checkLocationPermission();
   }
 
   render() {
