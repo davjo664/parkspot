@@ -29,17 +29,19 @@ export class PermissionHelper {
                 title: 'Turn on your location in the device settings!',
                 description: 'We need access so you can see yourself on the map and get nearby parkspots.',
                 yes: 'Take me there!',
+                no: 'Cancel',
             }
         },
     };
 
     static startPermissionFlow = (permissionType: PermissionType) => {
-        Permissions.check(permissionType).then(response => {
-            // handle GPS being turned off on Android
-            if (Platform.OS === 'android') {
-                PermissionHelper.checkHardwareEnabled(permissionType);
-            }
+        // handle GPS being turned off on Android
+        if (permissionType == 'location' && Platform.OS === 'android') {
+            PermissionHelper.checkHardwareEnabled(permissionType);
+            return;
+        }
 
+        Permissions.check(permissionType).then(response => {
             if (response === 'authorized') {
                 // we have nothing left to do
                 return;
@@ -113,19 +115,19 @@ export class PermissionHelper {
         const strings = PermissionHelper._getStringsFor(permissionType);
 
         LocationServicesDialogBox.checkLocationServicesIsEnabled({
-            message: strings.permissionTurnOnAlert,
-            ok: strings.yes,
-            cancel: strings.no,
+            message: `<h2>${strings.permissionTurnOnAlert.title}</h2><p>${strings.permissionTurnOnAlert.description}</p>`,
+            ok: strings.permissionTurnOnAlert.yes,
+            cancel: strings.permissionTurnOnAlert.no,
             enableHighAccuracy: true,
             showDialog: true,
             openLocationServices: true,
             preventOutSideTouch: false,
             preventBackClick: false,
             providerListener: false
-        }).then(function (success) {
-            // do nothing
+        }).then((success) => {
+            PermissionHelper.startPermissionFlow(permissionType);
         }).catch((error) => {
-            PermissionHelper.showPermissionDeniedAlert(permissionType);
+            PermissionHelper.startPermissionFlow(permissionType);
         });
     };
 
