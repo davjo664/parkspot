@@ -1,37 +1,48 @@
-import {Platform, Alert} from 'react-native';
+import {Platform, Alert, BackHandler, DeviceEventEmitter} from 'react-native';
 import Permissions from 'react-native-permissions';
 import OpenSettings from 'react-native-open-settings';
+import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
 
 // @flow
-export type PermissionType = "location";
+export type PermissionType = 'location';
 
 export class PermissionHelper {
     static strings = {
-      location: {
-          permissionAlert: {
-              title: "Can we access your location?",
-              description: "We need access so you can see yourself on the map and get nearby parkspots.",
-              yes: "Sure!",
-              no: "Nope.",
-          },
-          permissionDeniedAlert: {
-              title: "You have denied location access!",
-              description: "You need to enable the access in the device settings...",
-              yes: "Take me there!",
-          },
-          permissionNotAvailableAlert: {
-              title: "Location is not available!",
-              description: "Ask a parent, guardian - or talk to you company IT - for access.",
-              yes: "Okay",
-          },
-      },
+        location: {
+            permissionAlert: {
+                title: 'Can we access your location?',
+                description: 'We need access so you can see yourself on the map and get nearby parkspots.',
+                yes: 'Sure!',
+                no: 'Nope.',
+            },
+            permissionDeniedAlert: {
+                title: 'You have denied location access!',
+                description: 'You need to enable the access in the device settings...',
+                yes: 'Take me there!',
+            },
+            permissionNotAvailableAlert: {
+                title: 'Location is not available!',
+                description: 'Ask a parent, guardian - or talk to you company IT - for access.',
+                yes: 'Okay',
+            },
+            permissionTurnOnAlert: {
+                title: 'Turn on your location in the device settings!',
+                description: 'We need access so you can see yourself on the map and get nearby parkspots.',
+                yes: 'Take me there!',
+            }
+        },
     };
 
-    static startPermissionFlow = (permissionType: PermissionType) : boolean => {
+    static startPermissionFlow = (permissionType: PermissionType) => {
         Permissions.check(permissionType).then(response => {
+            // handle GPS being turned off on Android
+            if (Platform.OS === 'android') {
+                PermissionHelper.checkHardwareEnabled(permissionType);
+            }
+
             if (response === 'authorized') {
                 // we have nothing left to do
-                return true;
+                return;
             }
 
             if (response === 'undetermined') {
@@ -67,7 +78,7 @@ export class PermissionHelper {
             {
                 text: strings.permissionAlert.no,
                 onPress: PermissionHelper.showPermissionDeniedAlert(permissionType),
-                style: "cancel",
+                style: 'cancel',
             },
             {
                 text: strings.permissionAlert.yes,
@@ -98,6 +109,26 @@ export class PermissionHelper {
         ]);
     };
 
+    static checkHardwareEnabled = (permissionType: PermissionType) => {
+        const strings = PermissionHelper._getStringsFor(permissionType);
+
+        LocationServicesDialogBox.checkLocationServicesIsEnabled({
+            message: strings.permissionTurnOnAlert,
+            ok: strings.yes,
+            cancel: strings.no,
+            enableHighAccuracy: true,
+            showDialog: true,
+            openLocationServices: true,
+            preventOutSideTouch: false,
+            preventBackClick: false,
+            providerListener: false
+        }).then(function (success) {
+            // do nothing
+        }).catch((error) => {
+            PermissionHelper.showPermissionDeniedAlert(permissionType);
+        });
+    };
+
     static requestPermission = (permissionType: PermissionType, onCompletion: Function) => {
         Permissions.request(permissionType).then(response => {
             onCompletion(response);
@@ -110,10 +141,10 @@ export class PermissionHelper {
 
     static _getStringsFor = (permissionType: PermissionType) => {
         switch (permissionType) {
-            case "location":
+            case 'location':
                 return PermissionHelper.strings.location;
             default:
-                console.warn("Unsupported permission type: ", permissionType);
+                console.warn('Unsupported permission type: ', permissionType);
                 return null;
         }
     };
