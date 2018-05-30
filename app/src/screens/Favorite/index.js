@@ -37,9 +37,10 @@ class FavoriteScreen extends React.Component<Props, State> {
     this.state = {};
   }
 
-  navigateToFavouriteWasPressed(id) {
-    //TODO - navigation to selected spot via ID
-    console.log(id);
+  navigateToFavouriteWasPressed(favoriteParkspot) {
+    //navigation to selected spot via passed method from mapscreen then go back
+    this.props.navigation.state.params.setSelectedParkspot(favoriteParkspot);
+    this.props.navigation.goBack();
   }
 
   /*
@@ -55,7 +56,7 @@ class FavoriteScreen extends React.Component<Props, State> {
 
   render() {
     const favourites = this.props.favourites.map(favourite => (
-      <ListItem key={favourite.id} onPress={() => this.navigateToFavouriteWasPressed(favourite.id.toString())}>
+      <ListItem key={favourite.id} onPress={() => this.navigateToFavouriteWasPressed(favourite)}>
         <Content>
           <Text style={styles.title}>
             Parkspot {favourite.id.toString()}
