@@ -1,5 +1,6 @@
 import {Platform, Alert} from 'react-native';
 import Permissions from 'react-native-permissions';
+import OpenSettings from 'react-native-open-settings';
 
 // @flow
 export type PermissionType = "location";
@@ -18,7 +19,44 @@ export class PermissionHelper {
               description: "You need to enable the access in the device settings...",
               yes: "Take me there!",
           },
+          permissionNotAvailableAlert: {
+              title: "Location is not available!",
+              description: "Ask a parent, guardian - or talk to you company IT - for access.",
+              yes: "Okay",
+          },
       },
+    };
+
+    static startPermissionFlow = (permissionType: PermissionType) : boolean => {
+        Permissions.check(permissionType).then(response => {
+            if (response === 'authorized') {
+                // we have nothing left to do
+                return true;
+            }
+
+            if (response === 'undetermined') {
+                // user has not yet decided on access
+                PermissionHelper.showPermissionAlert(permissionType);
+            } else {
+                if (Platform.OS === 'ios') {
+                    if (response === 'denied') {
+                        // on iOS we cannot ask for access again
+                        PermissionHelper.showPermissionDeniedAlert(permissionType);
+                    } else if (response === 'restricted') {
+                        // on iOS this means the user cannot allow this due to e.g. parental control settings on the device
+                        PermissionHelper.showPermissionNotAvailable(permissionType);
+                    }
+                } else {
+                    if (response === 'denied') {
+                        // on Android we simply ask again
+                        PermissionHelper.showPermissionAlert(permissionType);
+                    } else if (response === 'restricted') {
+                        // on Android this means the user has checked 'Never ask me again' and denied the request.
+                        PermissionHelper.showPermissionDeniedAlert(permissionType);
+                    }
+                }
+            }
+        });
     };
 
 
@@ -49,6 +87,17 @@ export class PermissionHelper {
         ]);
     };
 
+    static showPermissionNotAvailable = (permissionType: PermissionType) => {
+        const strings = PermissionHelper._getStringsFor(permissionType);
+
+        Alert.alert(strings.permissionNotAvailableAlert.title, strings.permissionNotAvailableAlert.description, [
+            {
+                text: strings.permissionNotAvailableAlert.yes,
+                onPress: null,
+            },
+        ]);
+    };
+
     static requestPermission = (permissionType: PermissionType, onCompletion: Function) => {
         Permissions.request(permissionType).then(response => {
             onCompletion(response);
@@ -56,7 +105,7 @@ export class PermissionHelper {
     };
 
     static _openSettings = () => {
-
+        OpenSettings.openSettings();
     };
 
     static _getStringsFor = (permissionType: PermissionType) => {
