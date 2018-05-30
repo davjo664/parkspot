@@ -38,9 +38,12 @@ export class PermissionHelper {
         // handle GPS being turned off on Android
         if (permissionType == 'location' && Platform.OS === 'android') {
             PermissionHelper.checkHardwareEnabled(permissionType);
-            return;
+        } else {
+            PermissionHelper.checkPermission(permissionType);
         }
+    };
 
+    static checkPermission = (permissionType: PermissionType) => {
         Permissions.check(permissionType).then(response => {
             if (response === 'authorized') {
                 // we have nothing left to do
@@ -109,23 +112,32 @@ export class PermissionHelper {
     };
 
     static checkHardwareEnabled = (permissionType: PermissionType) => {
-        const strings = PermissionHelper._getStringsFor(permissionType);
-
         LocationServicesDialogBox.checkLocationServicesIsEnabled({
-            message: `<h2>${strings.permissionTurnOnAlert.title}</h2><p>${strings.permissionTurnOnAlert.description}</p>`,
-            ok: strings.permissionTurnOnAlert.yes,
-            cancel: strings.permissionTurnOnAlert.no,
-            enableHighAccuracy: true,
-            showDialog: true,
-            openLocationServices: true,
-            preventOutSideTouch: false,
-            preventBackClick: false,
-            providerListener: false
+            showDialog: false,
+            openLocationServices: false,
         }).then((success) => {
-            PermissionHelper.startPermissionFlow(permissionType);
+            return;
         }).catch((error) => {
-            PermissionHelper.startPermissionFlow(permissionType);
+            const strings = PermissionHelper._getStringsFor(permissionType);
+
+            LocationServicesDialogBox.checkLocationServicesIsEnabled({
+                message: `<h2>${strings.permissionTurnOnAlert.title}</h2><p>${strings.permissionTurnOnAlert.description}</p>`,
+                ok: strings.permissionTurnOnAlert.yes,
+                cancel: strings.permissionTurnOnAlert.no,
+                enableHighAccuracy: true,
+                showDialog: true,
+                openLocationServices: true,
+                preventOutSideTouch: false,
+                preventBackClick: false,
+                providerListener: false
+            }).then((success) => {
+                PermissionHelper.checkPermission(permissionType);
+            }).catch((error) => {
+                PermissionHelper.showPermissionDeniedAlert(permissionType);
+            });
         });
+
+
     };
 
     static requestPermission = (permissionType: PermissionType, onCompletion: Function) => {
