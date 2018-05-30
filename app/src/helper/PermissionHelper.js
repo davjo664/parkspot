@@ -44,10 +44,7 @@ export class PermissionHelper {
         Permissions.check(permissionType).then(response => {
             if (response === 'authorized') {
                 // we have nothing left to do
-                return;
-            }
-
-            if (response === 'undetermined') {
+            } else if (response === 'undetermined') {
                 // user has not yet decided on access
                 PermissionHelper.showPermissionAlert(permissionType);
             } else {
