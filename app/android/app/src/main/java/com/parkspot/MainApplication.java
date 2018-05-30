@@ -3,6 +3,7 @@ package com.parkspot;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
@@ -38,7 +39,8 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-            return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNFirebasePackage(),
+            return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new LocationServicesDialogBoxPackage(), new RNFirebasePackage(),
                     new RNFirebaseMessagingPackage(), new RNFirebaseNotificationsPackage(), new OpenSettingsPackage(),
                     new Interactable(),
                     new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey),
