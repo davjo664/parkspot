@@ -24,7 +24,7 @@
     "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "deploy-codepush": "appcenter codepush release-react -a jnsfrg/parkspot && appcenter codepush release-react -a jnsfrg/parkspot-android",
+    "deploy-codepush": "appcenter codepush release-react -a jnsfrg/parkspot -m && appcenter codepush release-react -a jnsfrg/parkspot-android -m",
     "deploy-android": "cd android && ./gradlew assembleRelease",
     "deploy-ios": "echo 'Sorry, you need to manually Archive the app from XCode for now 😢'",
     "test": "exit 0",
