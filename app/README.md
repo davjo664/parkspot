@@ -10,19 +10,24 @@
  You will now receive an email with the installation link and further help from Appcenter each new release. (Note you have to register at appcenter.ms during the installation process.)
 
 
-### Development
+### Distribution
+Updates containing native changes are made via a new release in Appcenter. Changes in the JavaScript can be released via the appcenter-cli (`npm install -g appcenter-cli`). Then run 
+`apcenter login`
+
 Distribution during the development is made using VS Appcenter (appcenter.ms). It consists of 2 parts 1. the native App 2. the JavaScript content.
 
-Updates containing native changes are made via a new release in Appcenter. Changes in the JavaScript can be released via the appcenter-cli (`npm install -g appcenter-cli`). Then run 
-`apcenter login` and  
-` appcenter codepush release-react -a jnsfrg/parkspot` for iOS and ` appcenter codepush release-react -a jnsfrg/parkspot-android` for Android.
+#### Full
+To fully deploy a new version of the app, you can use `yarn ios-deploy` for iOS and `yarn android-deploy` for Android. 
 
-The codepush and native release should be done for all major merges into the Master.
+#### JavaScript Update
+Use `yarn android-deploy-codepush` for Android or `yarn ios-deploy-codepush` for iOS to deploy JavaScript updates.
 
-To release an iOS App you have to build the `.ipa` File via Xcode -> Product > Archive. Then go to Window > Organizer and Export the App for Development. Therefore you need to be in the University Apple Dev Programm and sign the app. Note: All Devices you want to run the App on needs to be registered first. Complete guide: https://help.apple.com/xcode/mac/current/#/dev7ccaf4d3c
-You can then upload the file to Appcenter in the parkspot project. *(We can just agree on Jonas uploading the App as this is a bit of work to go through at first.)*
+#### Build and Archive app
+For the iOS App you have to run `yarn ios-deploy` on a Mac with XCode and the XCode CLI installed. After quite some time, you can find the app (.ipa) under `app/build/`.
+for the Android App you have to run `yarn android-deploy-build`. You can then find the app under `app/build/outputs/apk/release`.
 
-To release an Android App you have to build the signed `.apk` file. As a Keystore is provided and configured in the repository you can simply run `cd android && ./gradlew assembleRelease`. You can then find the app under `app/build/outputs/apk/release` and upload it to Appcenter.
+#### Uploading
+To upload the built and archived apps you have to run `yarn ios-deploy-upload` and `yarn android-deploy-upload`.
 
 
 ## Parkspot App Development
