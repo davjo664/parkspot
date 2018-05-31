@@ -10,17 +10,24 @@
  You will now receive an email with the installation link and further help from Appcenter each new release. (Note you have to register at appcenter.ms during the installation process.)
 
 
-### Development
+### Distribution
+Updates containing native changes are made via a new release in Appcenter. Changes in the JavaScript can be released via the appcenter-cli (`npm install -g appcenter-cli`). Then run 
+`apcenter login`
+
 Distribution during the development is made using VS Appcenter (appcenter.ms). It consists of 2 parts 1. the native App 2. the JavaScript content.
 
-Updates containing native changes are made via a new release in Appcenter. Changes in the JavaScript can be released via the appcenter-cli (`npm install -g appcenter-cli`). Then run 
-`apcenter login` and `android-deploy-codepush` for Android or `yarn ios-deploy-codepush` for iOS.
+#### Full
+To fully deploy a new version of the app, you can use `yarn ios-deploy` for iOS and `yarn android-deploy` for Android. 
 
-The codepush and native release should be done for all major merges into the Master.
+#### JavaScript Update
+Use `yarn android-deploy-codepush` for Android or `yarn ios-deploy-codepush` for iOS to deploy JavaScript updates.
 
-To release an iOS App you have to run `ios-deploy-build` on a Mac with XCode and the XCode CLI installed. After quite some time, you can find the app (.ipa) under `app/build/` and upload it to Appcenter with `yarn ios-deploy-upload`.
+#### Build and Archive app
+For the iOS App you have to run `yarn ios-deploy` on a Mac with XCode and the XCode CLI installed. After quite some time, you can find the app (.ipa) under `app/build/`.
+for the Android App you have to run `yarn android-deploy-build`. You can then find the app under `app/build/outputs/apk/release`.
 
-To release an Android App you have to run `android-deploy-build`. You can then find the app under `app/build/outputs/apk/release` and upload it to Appcenter with `yarn android-deploy-upload`.
+#### Uploading
+To upload the built and archived apps you have to run `ios-deploy-upload` and `android-deploy-upload`.
 
 
 ## Parkspot App Development
