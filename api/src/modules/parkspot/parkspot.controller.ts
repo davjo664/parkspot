@@ -27,7 +27,10 @@ export class ParkspotController {
     return await this.parkSpotService.findOne(id);
   }
 
-  @ApiOperation({description: 'return value "dist" shows the distance in km', title: 'returns a list of ParkingSpots by radius'})
+  @ApiOperation({
+    description: 'return value "dist" shows the distance in km',
+    title: 'returns a list of ParkingSpots by radius'
+  })
   @ApiImplicitParam({name: 'lat', description: 'Latitude: e.g. 48.772748 [gps]', required: true, type: 'number'})
   @ApiImplicitParam({name: 'lng', description: 'Longitude: e.g. 9.156502 [gps]', required: true, type: 'number'})
   @ApiImplicitParam({name: 'dist', description: 'Distance: e.g. 3.4 [km]', required: true, type: 'number'})

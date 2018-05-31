@@ -1,12 +1,12 @@
-import { Component, HttpException, HttpStatus } from '@nestjs/common';
-import { SubscriptionDto, SubscriptionQueryParams } from './subscription.dto';
-import { SubscriptionRepo } from './subscription-repository.provider';
-import { SubscriptionEntity } from './subscription.entity';
+import {Component, HttpException, HttpStatus} from '@nestjs/common';
+import {SubscriptionQueryParams} from './subscription.dto';
+import {SubscriptionRepo} from './subscription-repository.provider';
+import {SubscriptionEntity} from './subscription.entity';
 
 @Component()
 export class SubscriptionService {
 
-	constructor(private subscriptionRepo: SubscriptionRepo) {
+  constructor(private subscriptionRepo: SubscriptionRepo) {
   }
 
   async find(params: SubscriptionQueryParams): Promise<SubscriptionEntity[]> {
@@ -14,7 +14,7 @@ export class SubscriptionService {
   }
 
   async remove(id: number): Promise<void> {
-  	let subscriptionToRemove = await this.subscriptionRepo.findOne(id);
+    let subscriptionToRemove = await this.subscriptionRepo.findOne(id);
     await this.subscriptionRepo.remove(subscriptionToRemove);
   }
 

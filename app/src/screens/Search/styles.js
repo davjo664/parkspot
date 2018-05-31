@@ -1,6 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
-let { width, height } = Dimensions.get('window');
+let {width, height} = Dimensions.get('window');
 
 const defaultStyles = StyleSheet.create({
   container: {
@@ -22,6 +22,6 @@ const defaultStyles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: 'white',
-}
+  }
 });
 export default defaultStyles;

@@ -44,6 +44,6 @@ export function updateLocation() {
       error => {
         console.log(error.message);
       },
-      { enableHighAccuracy: true, timeout: 2500 },
+      {enableHighAccuracy: true, timeout: 2500},
     );
 }

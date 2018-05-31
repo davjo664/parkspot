@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
-import {Platform, Alert} from 'react-native';
-import { connect } from 'react-redux';
+import {Alert, Platform} from 'react-native';
+import {connect} from 'react-redux';
 import Map from '../../screens/Map';
-import { updateLocation, fetchParkspots } from './actions';
+import {fetchParkspots, updateLocation} from './actions';
 import {PermissionHelper} from '../../helper/PermissionHelper';
 
 export interface Props {
@@ -14,7 +14,8 @@ export interface Props {
   userPosition: any;
 }
 
-export interface State {}
+export interface State {
+}
 
 class MapContainer extends React.Component<Props, State> {
 

@@ -5,15 +5,15 @@ import {ParkSpotEntity} from '../parkspot/parkspot.entity';
 import {UserEntity} from '../user/user.entity';
 
 export class SubscriptionDto implements Partial<SubscriptionEntity> {
-	@IsNumber()
+  @IsNumber()
   @ApiModelProperty()
-	id: number;
+  id: number;
 
   @ApiModelProperty()
-	parkSpot: ParkSpotEntity;
+  parkSpot: ParkSpotEntity;
 
   @ApiModelProperty()
-	user: UserEntity;
+  user: UserEntity;
 }
 
 /**
@@ -23,5 +23,5 @@ export class SubscriptionDto implements Partial<SubscriptionEntity> {
 export class SubscriptionQueryParams implements Partial<SubscriptionEntity> {
 
   @ApiModelProperty({type: 'number'})
-	user: UserEntity;
+  user: UserEntity;
 }

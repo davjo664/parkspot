@@ -1,37 +1,26 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {Icon, Text,} from 'native-base';
 import {
-  Container,
-  Header,
-  Item,
-  Input,
-  Icon,
-  Button,
-  Text,
-} from 'native-base';
-import {
-  View,
-  FlatList,
-  ScrollView,
-  Dimensions,
-  Platform,
   ActivityIndicator,
   Alert,
-  TouchableOpacity,
+  Dimensions,
+  FlatList,
   Keyboard,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { toggleFilter } from './actions';
+import {connect} from 'react-redux';
 
 const WINDOW = Dimensions.get('window');
 
 var filters = [
-  { name: 'electricity', id: 'electricCharger', icon: 'ios-flash' },
-  { name: 'cost', id: 'cost', icon: 'ios-cash' },
-  { name: 'favorite', id: 'favorite', icon: 'ios-star' },
-  { name: 'time', id: 'time', icon: 'ios-timer' },
-  { name: 'disabled', id: 'handicapped', icon: 'ios-person' },
+  {name: 'electricity', id: 'electricCharger', icon: 'ios-flash'},
+  {name: 'cost', id: 'cost', icon: 'ios-cash'},
+  {name: 'favorite', id: 'favorite', icon: 'ios-star'},
+  {name: 'time', id: 'time', icon: 'ios-timer'},
+  {name: 'disabled', id: 'handicapped', icon: 'ios-person'},
 ];
 
 class Filter extends Component {
@@ -41,7 +30,7 @@ class Filter extends Component {
         key={filter.id}
         onPress={() => this.props.toggleFilter(filter.id)}
       >
-        <View style={{ alignItems: 'center' }}>
+        <View style={{alignItems: 'center'}}>
           <View>
             <Icon
               name={
@@ -54,8 +43,8 @@ class Filter extends Component {
       </TouchableOpacity>
     ));
     return (
-      <View style={{ alignItems: 'center' }}>
-        <Text style={{ marginTop: 10, marginBottom: 2, color: 'grey' }}>
+      <View style={{alignItems: 'center'}}>
+        <Text style={{marginTop: 10, marginBottom: 2, color: 'grey'}}>
           Filter options
         </Text>
         <View

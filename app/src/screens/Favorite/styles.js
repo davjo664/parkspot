@@ -1,7 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { Right } from 'native-base';
+import {Dimensions, StyleSheet} from 'react-native';
 
-let { width, height } = Dimensions.get('window');
+let {width, height} = Dimensions.get('window');
 
 const buttonStyleTemplate = {
   borderRadius: 85,
@@ -22,7 +21,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 17,
     fontWeight: 'bold',
-    color:'black',
+    color: 'black',
   },
   subtext: {
     fontSize: 11,
@@ -30,12 +29,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   safeArea: {
-      flex: 1,
-      backgroundColor: 'white',
+    flex: 1,
+    backgroundColor: 'white',
   },
   trash: {
     alignSelf: 'flex-end',
     backgroundColor: '#8cb8ff'
-},
+  },
 });
 export default styles;

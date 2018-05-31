@@ -10,11 +10,11 @@ export class ParkSpotEntity {
   @ApiModelProperty()
   id: number;
 
-  @Column({ type:'decimal' })
+  @Column({type: 'decimal'})
   @ApiModelProperty()
   lat: number;
 
-  @Column({ type:'decimal' })
+  @Column({type: 'decimal'})
   @ApiModelProperty()
   lng: number;
 
@@ -30,7 +30,7 @@ export class ParkSpotEntity {
   @ApiModelProperty()
   handicapped: boolean;
 
-  @Column({ nullable: true, default: "example.jpg"})
+  @Column({nullable: true, default: "example.jpg"})
   @ApiModelProperty()
   imageURL: string;
 
