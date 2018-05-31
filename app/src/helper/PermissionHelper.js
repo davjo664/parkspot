@@ -79,12 +79,16 @@ export class PermissionHelper {
         Alert.alert(strings.permissionAlert.title, strings.permissionAlert.description, [
             {
                 text: strings.permissionAlert.no,
-                onPress: PermissionHelper.showPermissionDeniedAlert(permissionType),
+                onPress: () => {
+                    PermissionHelper.showPermissionDeniedAlert(permissionType);
+                },
                 style: 'cancel',
             },
             {
                 text: strings.permissionAlert.yes,
-                onPress: PermissionHelper.requestPermission(permissionType),
+                onPress: () => {
+                    PermissionHelper.requestPermission(permissionType);
+                },
             },
         ]);
     };
@@ -95,7 +99,9 @@ export class PermissionHelper {
         Alert.alert(strings.permissionDeniedAlert.title, strings.permissionDeniedAlert.description, [
             {
                 text: strings.permissionDeniedAlert.yes,
-                onPress: PermissionHelper._openSettings(),
+                onPress: () => {
+                    PermissionHelper._openSettings();
+                },
             },
         ]);
     };
@@ -106,7 +112,8 @@ export class PermissionHelper {
         Alert.alert(strings.permissionNotAvailableAlert.title, strings.permissionNotAvailableAlert.description, [
             {
                 text: strings.permissionNotAvailableAlert.yes,
-                onPress: null,
+                onPress: () => {
+                },
             },
         ]);
     };
