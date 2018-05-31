@@ -27,7 +27,7 @@ For the iOS App you have to run `yarn ios-deploy` on a Mac with XCode and the XC
 for the Android App you have to run `yarn android-deploy-build`. You can then find the app under `app/build/outputs/apk/release`.
 
 #### Uploading
-To upload the built and archived apps you have to run `ios-deploy-upload` and `android-deploy-upload`.
+To upload the built and archived apps you have to run `yarn ios-deploy-upload` and `yarn android-deploy-upload`.
 
 
 ## Parkspot App Development
