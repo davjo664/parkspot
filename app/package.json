@@ -24,13 +24,13 @@
     "start": "react-native start",
 
     "android": "react-native run-android",
-    "android-deploy": "yarn android-deploy-codepush && android-deploy-build && android-deploy-upload",
+    "android-deploy": "yarn android-deploy-codepush && yarn android-deploy-build && yarn android-deploy-upload",
     "android-deploy-codepush": "appcenter codepush release-react -a jnsfrg/parkspot-android -m",
     "android-deploy-build": "cd android && ./gradlew assembleRelease",
     "android-deploy-upload": "appcenter distribute release -a jnsfrg/parkspot-android -f android/app/build/outputs/apk/release/app-release.apk -g Dev",
 
     "ios": "react-native run-ios",
-    "ios-deploy": "ios-deploy-codepush && ios-deploy-build && ios-deploy-upload",
+    "ios-deploy": "yarn ios-deploy-codepush && yarn ios-deploy-build && yarn ios-deploy-upload",
     "ios-deploy-codepush": "appcenter codepush release-react -a jnsfrg/parkspot -m",
     "ios-deploy-build": "cd ios && xcodebuild -workspace parkspot.xcworkspace -scheme parkspot -sdk iphoneos -configuration DevelopmentDistribution archive -archivePath $PWD/build/parkspot.xcarchive && xcodebuild -exportArchive -archivePath $PWD/build/parkspot.xcarchive -exportOptionsPlist exportOptions.plist -exportPath $PWD/build",
     "ios-deploy-upload": "appcenter distribute release -a jnsfrg/parkspot -f ios/build/parkspot.ipa -g Dev",
