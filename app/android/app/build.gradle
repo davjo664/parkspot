@@ -140,7 +140,6 @@ android {
             signingConfig signingConfigs.release
         }
 
-
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
@@ -158,6 +157,13 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-open-settings')
+    compile project(':react-native-maps')
+    compile project(':react-native-interactable')
+    compile project(':react-native-code-push')
+    compile project(':appcenter-crashes')
+    compile project(':appcenter-analytics')
+    compile project(':appcenter')
     compile project(':react-native-android-location-services-dialog-box')
     implementation project(':react-native-maps')
     implementation project(':react-native-code-push')

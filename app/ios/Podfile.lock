@@ -6,21 +6,13 @@ PODS:
     - AppCenter/Core
   - AppCenterReactNativeShared (1.5.1):
     - AppCenter/Core (= 1.6.1)
+  - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
-  - CodePush (5.3.2):
-    - CodePush/Base64 (= 5.3.2)
-    - CodePush/Core (= 5.3.2)
-    - CodePush/JWT (= 5.3.2)
-    - CodePush/SSZipArchive (= 5.3.2)
+  - CodePush (5.3.4):
+    - Base64 (~> 1.1)
+    - JWT (~> 3.0.0-beta.7)
     - React
-  - CodePush/Base64 (5.3.2):
-    - React
-  - CodePush/Core (5.3.2):
-    - React
-  - CodePush/JWT (5.3.2):
-    - React
-  - CodePush/SSZipArchive (5.3.2):
-    - React
+    - SSZipArchive (~> 2.1)
   - DoubleConversion (1.1.5)
   - Firebase/Core (4.13.0):
     - FirebaseAnalytics (= 4.2.0)
@@ -76,68 +68,71 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - Interactable (0.1.10):
     - React
+  - JWT (3.0.0-beta.8):
+    - Base64 (~> 1.1.2)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.5.0)
-  - React (0.55.3):
-    - React/Core (= 0.55.3)
+  - React (0.55.4):
+    - React/Core (= 0.55.4)
   - react-native-google-maps (0.21.0):
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 2.5.0)
     - React
   - react-native-maps (0.21.0):
     - React
-  - React/Core (0.55.3):
-    - yoga (= 0.55.3.React)
-  - React/CxxBridge (0.55.3):
+  - React/Core (0.55.4):
+    - yoga (= 0.55.4.React)
+  - React/CxxBridge (0.55.4):
     - Folly (= 2016.09.26.00)
     - React/Core
     - React/cxxreact
-  - React/cxxreact (0.55.3):
+  - React/cxxreact (0.55.4):
     - boost-for-react-native (= 1.63.0)
     - Folly (= 2016.09.26.00)
     - React/jschelpers
     - React/jsinspector
-  - React/DevSupport (0.55.3):
+  - React/DevSupport (0.55.4):
     - React/Core
     - React/RCTWebSocket
-  - React/fishhook (0.55.3)
-  - React/jschelpers (0.55.3):
+  - React/fishhook (0.55.4)
+  - React/jschelpers (0.55.4):
     - Folly (= 2016.09.26.00)
     - React/PrivateDatabase
-  - React/jsinspector (0.55.3)
-  - React/PrivateDatabase (0.55.3)
-  - React/RCTActionSheet (0.55.3):
+  - React/jsinspector (0.55.4)
+  - React/PrivateDatabase (0.55.4)
+  - React/RCTActionSheet (0.55.4):
     - React/Core
-  - React/RCTAnimation (0.55.3):
+  - React/RCTAnimation (0.55.4):
     - React/Core
-  - React/RCTBlob (0.55.3):
+  - React/RCTBlob (0.55.4):
     - React/Core
-  - React/RCTGeolocation (0.55.3):
+  - React/RCTGeolocation (0.55.4):
     - React/Core
-  - React/RCTImage (0.55.3):
+  - React/RCTImage (0.55.4):
     - React/Core
     - React/RCTNetwork
-  - React/RCTLinkingIOS (0.55.3):
+  - React/RCTLinkingIOS (0.55.4):
     - React/Core
-  - React/RCTNetwork (0.55.3):
+  - React/RCTNetwork (0.55.4):
     - React/Core
-  - React/RCTSettings (0.55.3):
+  - React/RCTSettings (0.55.4):
     - React/Core
-  - React/RCTText (0.55.3):
+  - React/RCTText (0.55.4):
     - React/Core
-  - React/RCTVibration (0.55.3):
+  - React/RCTVibration (0.55.4):
     - React/Core
-  - React/RCTWebSocket (0.55.3):
+  - React/RCTWebSocket (0.55.4):
     - React/Core
     - React/fishhook
     - React/RCTBlob
   - ReactNativePermissions (1.1.1):
     - React
-  - yoga (0.55.3.React)
+  - SSZipArchive (2.1.3)
+  - yoga (0.55.4.React)
 
 DEPENDENCIES:
   - AppCenter/Analytics (~> 1.6.0)
@@ -174,6 +169,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppCenter
     - AppCenterReactNativeShared
+    - Base64
     - boost-for-react-native
     - Firebase
     - FirebaseAnalytics
@@ -183,8 +179,10 @@ SPEC REPOS:
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - GoogleToolboxForMac
+    - JWT
     - nanopb
     - Protobuf
+    - SSZipArchive
 
 EXTERNAL SOURCES:
   CodePush:
@@ -211,8 +209,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppCenter: f9eb653a45cece34549232f295aec05260dfc24f
   AppCenterReactNativeShared: 5b40dc5bbaf891697d1982e0ae0e9b1120dd4274
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CodePush: af67b07310e4037ecd5c38f03c7a51c6350240b5
+  CodePush: f6b348759cdc42c734d9c3a46ceb2997c270b12e
   DoubleConversion: e22e0762848812a87afd67ffda3998d9ef29170c
   Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
   FirebaseAnalytics: 7ef69e76a5142f643aeb47c780e1cdce4e23632e
@@ -225,14 +224,16 @@ SPEC CHECKSUMS:
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   Interactable: 45e5d4d1bb2d196f08b011010c6913469ccf4d0a
+  JWT: 6e7ec473b6febcb7498affc84f0e75d393914411
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   React: aa2040dbb6f317b95314968021bd2888816e03d5
   react-native-google-maps: 2cfe3b01f8422c7dae51d8764139fd70f888cfce
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   ReactNativePermissions: 9f2d9c45c98800795e6c2ed330e25d11a66a8169
+  SSZipArchive: 51a800ebb77f95a8329b6ced1faaff394b47f509
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
 PODFILE CHECKSUM: 549d5acede6eff2f72b197b5e7959532ecb3c0cb
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3

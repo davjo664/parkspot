@@ -3,6 +3,11 @@ package com.parkspot;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.opensettings.OpenSettingsPackage;
+import com.airbnb.android.react.maps.MapsPackage;
+import com.wix.interactable.Interactable;
+import com.microsoft.codepush.react.CodePush;
+
 import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
@@ -39,17 +44,20 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-            return Arrays.<ReactPackage>asList(new MainReactPackage(),
-            new LocationServicesDialogBoxPackage(), new RNFirebasePackage(),
-                    new RNFirebaseMessagingPackage(), new RNFirebaseNotificationsPackage(), new OpenSettingsPackage(),
-                    new Interactable(),
-                    new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey),
-                            MainApplication.this, BuildConfig.DEBUG),
-                    new AppCenterReactNativeAnalyticsPackage(MainApplication.this,
-                            getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
-                    new AppCenterReactNativeCrashesPackage(MainApplication.this,
-                            getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
-                    new AppCenterReactNativePackage(MainApplication.this), new VectorIconsPackage(), new MapsPackage());
+            return Arrays.<ReactPackage>asList(
+            new MainReactPackage(),
+            new OpenSettingsPackage(),
+            new MapsPackage(),
+            new Interactable(),
+            new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
+            new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
+            new AppCenterReactNativePackage(MainApplication.this),
+            new LocationServicesDialogBoxPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage(), 
+            new RNFirebaseNotificationsPackage(),
+            new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), MainApplication.this, BuildConfig.DEBUG),
+            new VectorIconsPackage());
         }
 
         @Override
