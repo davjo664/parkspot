@@ -4,9 +4,9 @@ platform :ios, '9.0'
 target 'parkspot' do
 
     # Pods for AppCenter
-    pod 'AppCenter/Analytics', '~> 1.6.0'
-    pod 'AppCenter/Crashes', '~> 1.6.0'
-    pod 'AppCenterReactNativeShared', '~> 1.5.0'
+    pod 'AppCenter/Analytics', '~> 1.6.1'
+    pod 'AppCenter/Crashes', '~> 1.6.1'
+    pod 'AppCenterReactNativeShared', '~> 1.5.1'
     pod 'CodePush', :path => '../node_modules/react-native-code-push'
     
     pod 'Firebase/Core', '~> 4.13.0'

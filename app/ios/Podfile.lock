@@ -135,9 +135,9 @@ PODS:
   - yoga (0.55.4.React)
 
 DEPENDENCIES:
-  - AppCenter/Analytics (~> 1.6.0)
-  - AppCenter/Crashes (~> 1.6.0)
-  - AppCenterReactNativeShared (~> 1.5.0)
+  - AppCenter/Analytics (~> 1.6.1)
+  - AppCenter/Crashes (~> 1.6.1)
+  - AppCenterReactNativeShared (~> 1.5.1)
   - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Firebase/Core (~> 4.13.0)
@@ -234,6 +234,6 @@ SPEC CHECKSUMS:
   SSZipArchive: 51a800ebb77f95a8329b6ced1faaff394b47f509
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 549d5acede6eff2f72b197b5e7959532ecb3c0cb
+PODFILE CHECKSUM: 5ea1d98fd1cc6c6268e0ea985ab058e32d0334e4
 
 COCOAPODS: 1.5.3
