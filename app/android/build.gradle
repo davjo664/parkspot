@@ -26,3 +26,19 @@ allprojects {
         google()
     }
 }
+
+// update build versions of subprojects
+ext {
+  compileSdkVersion = 27
+  buildToolsVersion = '27.0.3'
+}
+subprojects { subproject ->
+  afterEvaluate{
+    if((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
+      android {
+        compileSdkVersion rootProject.ext.compileSdkVersion
+        buildToolsVersion rootProject.ext.buildToolsVersion
+      }
+    }
+  }
+}
