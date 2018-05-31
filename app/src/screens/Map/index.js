@@ -110,6 +110,19 @@ class Map extends React.Component<Props, State> {
     });
   };
 
+  setSelectedParkspot = (parkspot: Object) => {
+    this.setState({
+      selectedParkspot: parkspot,
+      mapPosition: {
+        latitude: Number(parkspot.lat),
+        longitude: Number(parkspot.lng),
+        latitudeDelta: 0.0005,
+        longitudeDelta: 0.005,
+      },
+      shouldCenterToUserPosition: false,
+    });
+  }
+
   findMeButtonWasPressed = () => {
     this.props.updateLocation();
 
@@ -118,10 +131,10 @@ class Map extends React.Component<Props, State> {
     });
   };
   searchButtonWasPressed = () => {
-    this.props.navigation.navigate('Search');
+    this.props.navigation.navigate('Search', { setSelectedParkspot: this.setSelectedParkspot });
   };
   favoriteButtonWasPressed = () => {
-    this.props.navigation.navigate('Favorites');
+    this.props.navigation.navigate('Favorites', { setSelectedParkspot: this.setSelectedParkspot });
   };
 
   mapWasPressed = () => {
@@ -155,41 +168,41 @@ class Map extends React.Component<Props, State> {
   /** Clustering **/
 
   renderCluster = (cluster, onPress) => {
-      const pointCount = cluster.pointCount,
-          coordinate = cluster.coordinate;
+    const pointCount = cluster.pointCount,
+      coordinate = cluster.coordinate;
 
-      return (
-        <Marker coordinate={coordinate} onPress={onPress}>
-            <View style={styles.cluster}>
-                <Text style={styles.clusterText}>{pointCount}</Text>
-            </View>
-        </Marker>
-      );
+    return (
+      <Marker coordinate={coordinate} onPress={onPress}>
+        <View style={styles.cluster}>
+          <Text style={styles.clusterText}>{pointCount}</Text>
+        </View>
+      </Marker>
+    );
   };
 
   renderMarker = (data) => {
     return (
-     <Marker key={data.id} coordinate={data.location} />
+      <Marker key={data.id} coordinate={data.location} />
     );
   };
 
   transformParkspotsToData = (parkspots) => {
-      return parkspots.map((parkspot) => {
-          return {
-            id: parkspot.id,
-            location: {
-                longitude: parseFloat(parkspot.lng),
-                latitude: parseFloat(parkspot.lat),
-            }
-          };
-      });
+    return parkspots.map((parkspot) => {
+      return {
+        id: parkspot.id,
+        location: {
+          longitude: parseFloat(parkspot.lng),
+          latitude: parseFloat(parkspot.lat),
+        }
+      };
+    });
   };
 
 
   /** / Clustering **/
 
   render() {
-      const data = this.transformParkspotsToData(this.props.parkspots);
+    const data = this.transformParkspotsToData(this.props.parkspots);
 
     return (
       <View style={styles.container}>
@@ -232,29 +245,29 @@ class Map extends React.Component<Props, State> {
           </Text>
         </SafeAreaView>
 
-          <MapCard
-              parkspot={this.state.selectedParkspot}
-              onDismiss={this.deselectParkspot}
-          />
+        <MapCard
+          parkspot={this.state.selectedParkspot}
+          onDismiss={this.deselectParkspot}
+        />
 
-          <ClusteredMapView
-              style={styles.map}
-              showsUserLocation={true}
-              region={this.state.mapPosition}
-              onRegionChangeComplete={this.onRegionChangeComplete}
-              showsMyLocationButton={false}
-              showsPointsOfInterest={true}
-              showsScale={true}
-              zoomControlEnabled={false}
-              rotateEnabled={false}
-              loadingEnabled={true}
-              onPress={this.mapWasPressed}
-              onMarkerPress={this.markerWasPressed}
-              ref={(r) => { this.map = r }}
-              data={data}
-              renderMarker={this.renderMarker}
-              renderCluster={this.renderCluster}
-          />
+        <ClusteredMapView
+          style={styles.map}
+          showsUserLocation={true}
+          region={this.state.mapPosition}
+          onRegionChangeComplete={this.onRegionChangeComplete}
+          showsMyLocationButton={false}
+          showsPointsOfInterest={true}
+          showsScale={true}
+          zoomControlEnabled={false}
+          rotateEnabled={false}
+          loadingEnabled={true}
+          onPress={this.mapWasPressed}
+          onMarkerPress={this.markerWasPressed}
+          ref={(r) => { this.map = r }}
+          data={data}
+          renderMarker={this.renderMarker}
+          renderCluster={this.renderCluster}
+        />
       </View>
     );
   }

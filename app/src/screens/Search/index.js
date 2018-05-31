@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   SafeAreaView,
-  Alert,
   Keyboard,
 } from 'react-native';
 
@@ -38,7 +37,9 @@ export default class SearchScreen extends Component {
     Keyboard.dismiss();
     this.props.updateSearchString(rowData.description);
     if (!rowData.place_id) {
-      Alert.alert('Parkspot clicked', JSON.stringify(rowData));
+      //method passed via nav from Maps to set selectedparkspot 
+      this.props.navigation.state.params.setSelectedParkspot(rowData);
+      this.props.navigation.goBack();
     } else {
       this.props.onPress(rowData);
     }
