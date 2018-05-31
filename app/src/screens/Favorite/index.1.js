@@ -16,9 +16,11 @@ import {
   Input,
 } from 'native-base';
 
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, FlatList, View } from 'react-native';
 
 import styles from './styles';
+
+import { ListItem, Separator } from '../../components/ListItem';
 
 export interface Props {
   navigation: any;
@@ -26,7 +28,7 @@ export interface Props {
   remFavourite: Function;
   favourites: any;
 }
-import { ParkspotListItem, Separator } from '../../components/ParkspotListItem'
+
 export interface State { }
 
 class FavoriteScreen extends React.Component<Props, State> {
@@ -52,14 +54,41 @@ class FavoriteScreen extends React.Component<Props, State> {
   }*/
 
 
-  render() {
-    const favourites = this.props.favourites.map(favourite => (
-      <ParkspotListItem key={favourite.id} parkspot={favourite} onPress={() => this.navigateToFavouriteWasPressed(favourite.id.toString())} />
+  _onPressItem = ({ item }) => {
+    this.navigateToFavouriteWasPressed(item);
+  }
+  _renderItem = ({ item }) => (
+    <ListItem
+      parkspot={item}
+      onPressItem={this._onPressItem}
+    // selected={!!this.state.selected.get(item.id)}
+    />
+  );
+  renderSeparator = () => {
+    return (
+      <Separator />
+    );
+  };
 
-    ));
+
+  _keyExtractor = (item, index) => item.id.toString();
+  render() {
+    // const favourites = this.props.favourites.map(favourite => (
+
+    //   /* <ListItem key={favourite.id} onPress={() => this.navigateToFavouriteWasPressed(favourite.id.toString())}>
+    //     <Content>
+    //       <Text style={styles.title}>
+    //         Parkspot {favourite.id.toString()}
+    //       </Text>
+    //       <Button onPress={() => this.props.remFavourite(favourite)} style={styles.trash}>
+    //         <Icon name="trash" />
+    //       </Button>
+    //     </Content>
+    //   </ListItem> */
+    // ));
 
     return (
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea} >
         <Container style={styles.container}>
           <Header style={styles.header} searchBar>
             <Left>
@@ -74,17 +103,13 @@ class FavoriteScreen extends React.Component<Props, State> {
             </Body>
             <Right />
           </Header>
-          {/*<Item style={{ padding: 5 }}>
-            <Icon name="search" />
-            <Input placeholder="Favorites (not implemented)" />
-            <Button transparent>
-              <Text>Search</Text>
-            </Button>
-          </Item>*/}
-          <Content padder>
-            <List>
-              {favourites}
-            </List>
+          <Content style={styles.contenContainer} >
+            <FlatList
+              data={this.props.favourites}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              ItemSeparatorComponent={this.renderSeparator}
+            />
           </Content>
         </Container>
       </SafeAreaView>

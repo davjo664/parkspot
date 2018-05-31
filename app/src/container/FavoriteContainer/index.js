@@ -13,17 +13,17 @@ export interface Props {
   favourites: any;
 }
 
-export interface State {}
+export interface State { }
 
 class FavoriteContainer extends React.Component<Props, State> {
 
   render() {
     return <FavoriteScreen
-        parkspots={this.props.parkspots }
-        navigation={this.props.navigation}
-        favourites={this.props.favourites}
-        addFavourite={this.props.addFavourite}
-        remFavourite={this.props.remFavourite}
+      parkspots={this.props.parkspots}
+      navigation={this.props.navigation}
+      favourites={this.props.favourites}
+      addFavourite={this.props.addFavourite}
+      remFavourite={this.props.remFavourite}
     />;
   }
 }
@@ -45,9 +45,9 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => {
-    return ({
-        parkspots: state.mapReducer.parkspots,
-        favourites: state.favReducer.favourites,
-    });
+  return ({
+    parkspots: state.mapReducer.parkspots,
+    favourites: state.favReducer.favourites,
+  });
 };
 export default connect(mapStateToProps, bindAction)(FavoriteContainer);
