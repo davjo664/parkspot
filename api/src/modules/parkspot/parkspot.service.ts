@@ -34,12 +34,12 @@ export class ParkspotService {
     return this.parkspotRepo.findOne(parkSpot.id);
   }
 
-  async update(id: number, updateData: Partial<ParkSpotEntity> ): Promise<ParkSpotEntity> {
+  async update(id: number, updateData: Partial<ParkSpotEntity>): Promise<ParkSpotEntity> {
     try {
       await this.parkspotRepo.update(id, updateData);
       return this.parkspotRepo.findOne(id);
     } catch (e) {
-      throw new HttpException('ParkSpot with id '+ id +'  does not exist', HttpStatus.NOT_FOUND);
+      throw new HttpException('ParkSpot with id ' + id + '  does not exist', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -47,6 +47,6 @@ export class ParkspotService {
     if (typeof lat !== 'number' || typeof lng !== 'number' || typeof dist !== 'number') {
       throw new HttpException('GPS Query Params must be of type number', 500);
     }
-    return "SELECT * FROM (SELECT *, (6371 * acos(cos(radians( "+lat+" )) * cos(radians( lat)) * cos(radians(lng) - radians( "+lng+" )) + sin(radians( "+lat+" )) * sin(radians(lat)))) AS dist FROM park_spot_entity) as innerTable WHERE dist < "+dist+" ORDER BY dist ASC";
+    return "SELECT * FROM (SELECT *, (6371 * acos(cos(radians( " + lat + " )) * cos(radians( lat)) * cos(radians(lng) - radians( " + lng + " )) + sin(radians( " + lat + " )) * sin(radians(lat)))) AS dist FROM park_spot_entity) as innerTable WHERE dist < " + dist + " ORDER BY dist ASC";
   }
 }

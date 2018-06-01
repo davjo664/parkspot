@@ -1,38 +1,30 @@
-import React, { Component } from 'react';
-import { Header, Item, Input, Icon, Button, Text } from 'native-base';
+import React, {Component} from 'react';
+import {Button, Header, Icon, Input, Item, Text} from 'native-base';
 import {
-  View,
-  FlatList,
-  ScrollView,
-  Dimensions,
   ActivityIndicator,
-  TouchableOpacity,
-  SafeAreaView,
+  Dimensions,
+  FlatList,
   Keyboard,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import defaultStyles from './styles';
 import Filter from '../../components/Filter/index';
+
 var filters = [
-  { name: 'electricCharger', icon: 'ios-flash' },
-  { name: 'cost', icon: 'ios-cash' },
-  { name: 'favorite', icon: 'ios-star' },
-  { name: 'time', icon: 'ios-timer' },
-  { name: 'handicapped', icon: 'ios-person' },
+  {name: 'electricCharger', icon: 'ios-flash'},
+  {name: 'cost', icon: 'ios-cash'},
+  {name: 'favorite', icon: 'ios-star'},
+  {name: 'time', icon: 'ios-timer'},
+  {name: 'handicapped', icon: 'ios-person'},
 ];
 
 const WINDOW = Dimensions.get('window');
 
 export default class SearchScreen extends Component {
-  componentDidMount() {
-    if (this.props.data.length == 0) {
-      this.props.fetchParkspots(
-        this.props.userPosition.latitude,
-        this.props.userPosition.longitude,
-      );
-    }
-  }
-
   _onPress = rowData => {
     Keyboard.dismiss();
     this.props.updateSearchString(rowData.description);
@@ -44,7 +36,6 @@ export default class SearchScreen extends Component {
       this.props.onPress(rowData);
     }
   };
-
   _onChange = text => {
     this.props.updateSearchString(text);
     if (text.length == 0) {
@@ -57,7 +48,6 @@ export default class SearchScreen extends Component {
       this.props.fetchLocations(text, this.props.userPosition);
     }
   };
-
   _renderRowData = rowData => {
     return (
       <Text style={[{}, defaultStyles.description]} numberOfLines={1}>
@@ -65,29 +55,26 @@ export default class SearchScreen extends Component {
       </Text>
     );
   };
-
   _renderDescription = rowData => {
     return rowData.description || rowData.address || rowData.dist;
   };
-
   _renderLoader = () => {
     if (this.props.isLoading === true) {
       return (
         <ActivityIndicator
           animating={true}
           size="small"
-          style={{ marginRight: 10 }}
+          style={{marginRight: 10}}
         />
       );
     }
 
     return null;
   };
-
   _renderRow = (rowData = {}, sectionID, rowID) => {
     return (
       <ScrollView
-        style={{ flex: 1 }}
+        style={{flex: 1}}
         scrollEnabled={true}
         keyboardShouldPersistTaps="always"
         horizontal={true}
@@ -95,7 +82,7 @@ export default class SearchScreen extends Component {
         showsVerticalScrollIndicator={false}
       >
         <TouchableOpacity
-          style={{ width: WINDOW.width, marginTop: 6, marginBottom: 6 }}
+          style={{width: WINDOW.width, marginTop: 6, marginBottom: 6}}
           onPress={() => this._onPress(rowData)}
         >
           <View style={[defaultStyles.row]}>
@@ -105,12 +92,11 @@ export default class SearchScreen extends Component {
       </ScrollView>
     );
   };
-
   _renderSearchBar = () => {
     return (
       <Header noShadow searchBar rounded>
         <Item>
-          <Icon name="ios-search" />
+          <Icon name="ios-search"/>
           <Input
             placeholder="Search"
             returnKeyType={'search'}
@@ -128,19 +114,17 @@ export default class SearchScreen extends Component {
       </Header>
     );
   };
-
   _renderNearbyText = () => {
     if (this.props.showParkspots) {
       return (
         <Text
-          style={{ fontSize: 18, color: 'grey', marginLeft: 12, marginTop: 12 }}
+          style={{fontSize: 18, color: 'grey', marginLeft: 12, marginTop: 12}}
         >
           Parking spots nearby
         </Text>
       );
     }
   };
-
   _renderFilter = () => {
     if (this.props.showParkspots) {
       return (
@@ -153,7 +137,6 @@ export default class SearchScreen extends Component {
       );
     }
   };
-
   _renderFlatList = () => {
     const keyGenerator = () =>
       Math.random()
@@ -167,11 +150,21 @@ export default class SearchScreen extends Component {
         }
         keyExtractor={keyGenerator}
         extraData={this.props}
-        renderItem={({ item }) => this._renderRow(item)}
+        renderItem={({item}) => this._renderRow(item)}
         keyboardShouldPersistTaps="always"
       />
     );
   };
+
+  componentDidMount() {
+    if (this.props.data.length == 0) {
+      this.props.fetchParkspots(
+        this.props.userPosition.latitude,
+        this.props.userPosition.longitude,
+      );
+    }
+  }
+
   render() {
     return (
       <SafeAreaView style={defaultStyles.safeArea}>
@@ -202,4 +195,5 @@ export interface Props {
   filterData: Function;
 }
 
-export interface State { }
+export interface State {
+}

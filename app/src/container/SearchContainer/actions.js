@@ -1,4 +1,4 @@
-import { fetchParkspots } from '../MapContainer/actions';
+import {fetchParkspots} from '../MapContainer/actions';
 
 export function updateSearchString(searchString: String) {
   return {
@@ -17,7 +17,7 @@ export function fetchLocationsSuccess(data) {
 export function fetchLocations(searchString, userPosition) {
   const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?location=${
     userPosition.latitude
-  },${userPosition.longitude}
+    },${userPosition.longitude}
     &radius=500&components=country:de|country:nl&input=${searchString}&key=AIzaSyBtDPqZtRAMenSwz32oIUWWf1i_Gnub1dc&language=en`;
   return dispatch =>
     fetch(url)
@@ -34,7 +34,7 @@ export function fetchLocations(searchString, userPosition) {
 export function fetchLocationDetails(rowData) {
   const url = `https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyBtDPqZtRAMenSwz32oIUWWf1i_Gnub1dc&language=en&placeid=${
     rowData.place_id
-  }`;
+    }`;
   return dispatch =>
     fetch(url)
       .then(res => res.json())

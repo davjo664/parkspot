@@ -1,16 +1,12 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import SearchScreen from '../../screens/Search';
-import { fetchParkspots } from '../MapContainer/actions';
-import {
-  updateSearchString,
-  fetchLocations,
-  fetchLocationDetails,
-  filterData,
-} from './actions';
-import { toggleFilter } from '../../components/Filter/actions';
+import {fetchParkspots} from '../MapContainer/actions';
+import {fetchLocationDetails, fetchLocations, filterData, updateSearchString,} from './actions';
+import {toggleFilter} from '../../components/Filter/actions';
 
-export interface State { }
+export interface State {
+}
 
 class SearchContainer extends React.Component<Props, State> {
   render() {

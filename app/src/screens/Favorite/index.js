@@ -1,23 +1,7 @@
 import * as React from 'react';
-import {
-  Container,
-  Content,
-  Left,
-  Body,
-  Right,
-  Title,
-  Header,
-  Icon,
-  Button,
-  List,
-  ListItem,
-  Text,
-  Subtitle,
-  Item,
-  Input,
-} from 'native-base';
+import {Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title,} from 'native-base';
 
-import { SafeAreaView } from 'react-native';
+import {SafeAreaView} from 'react-native';
 
 import styles from './styles';
 
@@ -28,7 +12,8 @@ export interface Props {
   favourites: any;
 }
 
-export interface State { }
+export interface State {
+}
 
 class FavoriteScreen extends React.Component<Props, State> {
   constructor(props) {
@@ -62,7 +47,7 @@ class FavoriteScreen extends React.Component<Props, State> {
             Parkspot {favourite.id.toString()}
           </Text>
           <Button onPress={() => this.props.remFavourite(favourite)} style={styles.trash}>
-            <Icon name="trash" />
+            <Icon name="trash"/>
           </Button>
         </Content>
       </ListItem>
@@ -74,15 +59,16 @@ class FavoriteScreen extends React.Component<Props, State> {
           <Header style={styles.header} searchBar>
             <Left>
               <Button transparent onPress={() => this.props.navigation.goBack()}>
-                <Icon name="arrow-back" style={{ color: 'black' }} />
+                <Icon name="arrow-back" style={{color: 'black'}}/>
               </Button>
             </Left>
             <Body>
-              <Button onPress={() => this.props.addFavourite(this.props.parkspots[Math.floor(Math.random() * Math.floor(10))])}>
-                <Title style={styles.title}>Favorites </Title>
-              </Button>
+            <Button
+              onPress={() => this.props.addFavourite(this.props.parkspots[Math.floor(Math.random() * Math.floor(10))])}>
+              <Title style={styles.title}>Favorites </Title>
+            </Button>
             </Body>
-            <Right />
+            <Right/>
           </Header>
           {/*<Item style={{ padding: 5 }}>
             <Icon name="search" />

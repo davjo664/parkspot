@@ -12,7 +12,6 @@ const mockRuntimeConfigPath = `${configPath}/config.sample.json`;
 const mockDbConfigPath = `${configPath}/ormconfig.sample.json`;
 
 
-
 /**
  * Loads the configuration and merges them into a single instance of PrkConfig */
 async function loadConfiguration(): Promise<PrkConfig> {

@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 const buttonStyleTemplate = {
   borderRadius: 85,
@@ -37,23 +37,23 @@ const styles = StyleSheet.create({
     width: 50,
     height: 20,
   },
-    safeArea: {
-        flex: 1,
-    },
-    cluster: {
-        backgroundColor: 'deeppink',
-        width: 40,
-        height: 40,
-        borderRadius: 30,
-        borderColor: 'white',
-        borderWidth: 5,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    clusterText: {
-        color: 'white',
-        fontWeight: '600',
-    }
+  safeArea: {
+    flex: 1,
+  },
+  cluster: {
+    backgroundColor: 'deeppink',
+    width: 40,
+    height: 40,
+    borderRadius: 30,
+    borderColor: 'white',
+    borderWidth: 5,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  clusterText: {
+    color: 'white',
+    fontWeight: '600',
+  }
 });
 export default styles;

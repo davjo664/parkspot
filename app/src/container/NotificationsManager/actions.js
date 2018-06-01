@@ -1,5 +1,5 @@
 import config from '../../config/config';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
 export function updateUserSuccess(user: Object) {
   return {
@@ -9,16 +9,15 @@ export function updateUserSuccess(user: Object) {
 }
 
 
-
 export function createUser(fcmToken: String) {
 
   const url = config.api.url + 'user';
-  console.log(url)
+  console.log(url);
   const data = {
     fcmToken,
     fcmTokenType: Platform.ios ? 0 : 1,
-  }
-  console.log(JSON.stringify(data))
+  };
+  console.log(JSON.stringify(data));
   return dispatch =>
     fetch(url, {
       method: 'POST',
@@ -36,13 +35,14 @@ export function createUser(fcmToken: String) {
         }
       });
 }
+
 export function updateUser(id: Number, fcmToken: String) {
 
   const url = config.api.url + 'user/' + id;
   const data = {
     fcmToken,
     fcmTokenType: Platform.ios ? 0 : 1,
-  }
+  };
   return dispatch =>
     fetch(url, {
       method: 'PUT',
