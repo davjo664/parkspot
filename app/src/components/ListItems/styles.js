@@ -10,7 +10,6 @@ const paddingSide = 20
 
 const styles = StyleSheet.create({
     listContainer: {
-        height: 91,
         marginRight: paddingSide,
         marginLeft: paddingSide,
         flex: 1,

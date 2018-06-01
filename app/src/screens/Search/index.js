@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, Item, Input, Icon, Button, Text } from 'native-base';
+import { Header, Item, Input, Icon, Button, Text, Content, List } from 'native-base';
 import {
   View,
   FlatList,
@@ -21,6 +21,9 @@ var filters = [
   { name: 'time', icon: 'ios-timer' },
   { name: 'handicapped', icon: 'ios-person' },
 ];
+
+import { ParkspotListItem, PlaceListItem } from '../../components/ListItems';
+
 
 const WINDOW = Dimensions.get('window');
 
@@ -57,17 +60,6 @@ export default class SearchScreen extends Component {
     }
   };
 
-  _renderRowData = rowData => {
-    return (
-      <Text style={[{}, defaultStyles.description]} numberOfLines={1}>
-        {this._renderDescription(rowData)}
-      </Text>
-    );
-  };
-
-  _renderDescription = rowData => {
-    return rowData.description || rowData.address || rowData.dist;
-  };
 
   _renderLoader = () => {
     if (this.props.isLoading === true) {
@@ -83,27 +75,7 @@ export default class SearchScreen extends Component {
     return null;
   };
 
-  _renderRow = (rowData = {}, sectionID, rowID) => {
-    return (
-      <ScrollView
-        style={{ flex: 1 }}
-        scrollEnabled={true}
-        keyboardShouldPersistTaps="always"
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-      >
-        <TouchableOpacity
-          style={{ width: WINDOW.width, marginTop: 6, marginBottom: 6 }}
-          onPress={() => this._onPress(rowData)}
-        >
-          <View style={[defaultStyles.row]}>
-            {this._renderRowData(rowData)}
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
-    );
-  };
+
 
   _renderSearchBar = () => {
     return (
@@ -153,24 +125,24 @@ export default class SearchScreen extends Component {
     }
   };
 
-  _renderFlatList = () => {
-    const keyGenerator = () =>
-      Math.random()
-        .toString(36)
-        .substr(2, 10);
-    return (
-      <FlatList
-        style={[defaultStyles.listView]}
-        data={
-          this.props.showParkspots ? this.props.filteredData : this.props.data
-        }
-        keyExtractor={keyGenerator}
-        extraData={this.props}
-        renderItem={({ item }) => this._renderRow(item)}
-        keyboardShouldPersistTaps="always"
-      />
-    );
-  };
+  _renderList = () => {
+    let data = null;
+    if (this.props.showParkspots) {
+      data = this.props.filteredData.map(spot => (
+        <ParkspotListItem key={spot.id} parkspot={spot} onPress={() => this._onPress(spot)} />
+      ));
+    } else {
+      data = this.props.data.map(place => (
+        <PlaceListItem key={place.id} place={place} onPress={() => this._onPress(place)} />
+      ));
+    }
+    return (<Content  >
+      <List>
+        {data}
+      </List>
+    </Content>)
+  }
+
   render() {
     return (
       <SafeAreaView style={defaultStyles.safeArea}>
@@ -178,7 +150,7 @@ export default class SearchScreen extends Component {
           {this._renderSearchBar()}
           {this._renderFilter()}
           {this._renderNearbyText()}
-          {this._renderFlatList()}
+          {this._renderList()}
         </View>
       </SafeAreaView>
     );

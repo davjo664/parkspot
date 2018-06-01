@@ -26,7 +26,9 @@ export interface Props {
   remFavourite: Function;
   favourites: any;
 }
-import { ParkspotListItem } from '../../components/ParkspotListItem';
+import { ParkspotListItem } from '../../components/ListItems';
+
+
 export interface State { }
 
 class FavoriteScreen extends React.Component<Props, State> {
