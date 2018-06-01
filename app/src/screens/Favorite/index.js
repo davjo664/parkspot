@@ -14,9 +14,10 @@ import {
   Subtitle,
   Item,
   Input,
+  SwipeRow,
 } from 'native-base';
-
-import { SafeAreaView } from 'react-native';
+import Swipeable from 'react-native-swipeable';
+import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 
@@ -54,9 +55,21 @@ class FavoriteScreen extends React.Component<Props, State> {
   }*/
 
 
+
   render() {
+
     const favourites = this.props.favourites.map(favourite => (
-      <ParkspotListItem key={favourite.id} parkspot={favourite} onPress={() => this.navigateToFavouriteWasPressed(favourite.id.toString())} />
+
+      <Swipeable key={favourite.id}
+        rightButtons={[
+          <TouchableOpacity
+            onPress={() => { this.props.remFavourite(favourite) }}
+            style={{ flex: 1, justifyContent: 'center', backgroundColor: 'red' }}>
+            <Icon style={{ marginLeft: 30, color: "white" }} name='trash' />
+          </TouchableOpacity>
+        ]}>
+        <ParkspotListItem parkspot={favourite} onPress={() => this.navigateToFavouriteWasPressed(favourite.id.toString())} />
+      </Swipeable>
     ));
 
     return (
