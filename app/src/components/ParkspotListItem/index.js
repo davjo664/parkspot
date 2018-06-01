@@ -3,6 +3,7 @@ import { StyleSheet, View, Dimensions, Image, Text, Animated, TouchableOpacity }
 import { Icon, ListItem } from 'native-base';
 
 import styles from './styles';
+import textStyles from '../../theme/parkspotStyles';
 
 
 export interface Props {
@@ -21,22 +22,17 @@ export class ParkspotListItem extends Component {
         const distance = humanizeDistance(this.props.parkspot.dist);
         return (
             <ListItem style={styles.listContainer} onPress={() => { this.props.onPress(); }}>
-                <Text style={styles.heading}>Parkspot near {p.street}</Text>
-                <Text style={styles.text}>? spots are free near this area</Text>
-                <Text style={styles.text}>{distance} from your current position</Text>
-                <Text style={styles.text}>{p.street} {p.houseNumber}, {p.city}, {p.country}</Text>
+                <View style={styles.itemsContainer}>
+                    <View style={styles.headingContainer}>
+                        <Text numberOfLines={1} style={[textStyles.textStyle2, styles.truncatedText]}>Parkspot near {p.street} sdfdsfdsfsdfdsfsdf</Text>
+                        <Text style={textStyles.textStyle3}>???m away</Text>
+                    </View>
+                    <Text style={textStyles.textStyle3}>???? spots are free near this area</Text>
+                    <Text style={textStyles.textStyle3}>{distance} from your current position</Text>
+                    <Text style={textStyles.textStyle3}>{p.street} {p.houseNumber}, {p.city}, {p.country}</Text>
+                </View>
             </ListItem>
         );
     }
 }
 
-
-export class Separator extends Component {
-    render() {
-        return (
-            <View
-                style={styles.line}
-            />
-        );
-    }
-}

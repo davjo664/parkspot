@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
+
 const Screen = {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height - 75
@@ -10,16 +11,24 @@ const paddingSide = 20
 const styles = StyleSheet.create({
     listContainer: {
         height: 91,
+        marginRight: paddingSide,
+        marginLeft: paddingSide,
+        flex: 1,
+        alignItems: 'flex-end',
     },
-    line: {
-        height: 2,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "#d0d4d7",
+    headingContainer: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        flex: 1,
+        marginRight: -10,
     },
-    heading: {},
-    text: {
-
+    itemsContainer: {
+        flex: 1,
+        flexDirection: 'column',
+    }, truncatedText: {
+        flex: 1,
+        marginRight: 2,
     }
 });
 

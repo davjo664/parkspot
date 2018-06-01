@@ -26,7 +26,7 @@ export interface Props {
   remFavourite: Function;
   favourites: any;
 }
-import { ParkspotListItem, Separator } from '../../components/ParkspotListItem'
+import { ParkspotListItem } from '../../components/ParkspotListItem';
 export interface State { }
 
 class FavoriteScreen extends React.Component<Props, State> {
@@ -55,7 +55,6 @@ class FavoriteScreen extends React.Component<Props, State> {
   render() {
     const favourites = this.props.favourites.map(favourite => (
       <ParkspotListItem key={favourite.id} parkspot={favourite} onPress={() => this.navigateToFavouriteWasPressed(favourite.id.toString())} />
-
     ));
 
     return (
@@ -74,14 +73,7 @@ class FavoriteScreen extends React.Component<Props, State> {
             </Body>
             <Right />
           </Header>
-          {/*<Item style={{ padding: 5 }}>
-            <Icon name="search" />
-            <Input placeholder="Favorites (not implemented)" />
-            <Button transparent>
-              <Text>Search</Text>
-            </Button>
-          </Item>*/}
-          <Content padder>
+          <Content >
             <List>
               {favourites}
             </List>

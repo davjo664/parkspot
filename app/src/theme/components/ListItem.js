@@ -392,7 +392,7 @@ export default (variables = variable) => {
 		paddingRight: variables.listItemPadding + 5,
 		paddingVertical: variables.listItemPadding + 3,
 		marginLeft: variables.listItemPadding + 5,
-		borderBottomWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
+		borderBottomWidth: 2 / PixelRatio.getPixelSizeForLayoutSize(1),
 		backgroundColor: variables.listBg,
 		borderColor: variables.listBorderColor,
 	};
