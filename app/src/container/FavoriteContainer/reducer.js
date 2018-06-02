@@ -25,10 +25,10 @@ export default function (state: any = initialState, action: Function) {
     case REM_FAVOURITE:
       if (state.favourites.includes(action.remFav)) {
 
-        state.favourites = state.favourites.filter(item => item !== action.remFav);
+        const newFavourites = state.favourites.filter(item => item.id !== action.remFav.id);
         return {
           ...state,
-          favourites: [...state.favourites]
+          favourites: [...newFavourites]
         };
       }
       else {

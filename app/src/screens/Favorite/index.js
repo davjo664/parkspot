@@ -1,7 +1,9 @@
 import * as React from 'react';
-import {Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title,} from 'native-base';
+import {Body, Button, Container, Content, Header, Icon, Left, List, Right, Title,} from 'native-base';
 
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, TouchableOpacity, View} from 'react-native';
+import Swipeable from 'react-native-swipeable';
+import {ParkspotListItem} from '../../components/ListItems';
 
 import styles from './styles';
 
@@ -41,16 +43,19 @@ class FavoriteScreen extends React.Component<Props, State> {
 
   render() {
     const favourites = this.props.favourites.map(favourite => (
-      <ListItem key={favourite.id} onPress={() => this.navigateToFavouriteWasPressed(favourite)}>
-        <Content>
-          <Text style={styles.title}>
-            Parkspot {favourite.id.toString()}
-          </Text>
-          <Button onPress={() => this.props.remFavourite(favourite)} style={styles.trash}>
-            <Icon name="trash"/>
-          </Button>
-        </Content>
-      </ListItem>
+      <Swipeable key={favourite.id}
+                 rightButtons={[
+                   <TouchableOpacity
+                     onPress={() => {
+                       this.props.remFavourite(favourite);
+                     }}
+                     style={{flex: 1, justifyContent: 'center', backgroundColor: 'red'}}>
+                     <Icon style={{marginLeft: 30, color: 'white'}} name='trash'/>
+                   </TouchableOpacity>
+                 ]}>
+        <ParkspotListItem parkspot={favourite} onPress={() => this.navigateToFavouriteWasPressed(favourite)}/>
+      </Swipeable>
+
     ));
 
     return (
@@ -70,14 +75,7 @@ class FavoriteScreen extends React.Component<Props, State> {
             </Body>
             <Right/>
           </Header>
-          {/*<Item style={{ padding: 5 }}>
-            <Icon name="search" />
-            <Input placeholder="Favorites (not implemented)" />
-            <Button transparent>
-              <Text>Search</Text>
-            </Button>
-          </Item>*/}
-          <Content padder>
+          <Content>
             <List>
               {favourites}
             </List>

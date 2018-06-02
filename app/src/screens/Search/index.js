@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Header, Icon, Input, Item, Text} from 'native-base';
+import {Button, Content, Header, Icon, Input, Item, List, Text} from 'native-base';
 import {
   ActivityIndicator,
   Dimensions,
@@ -13,6 +13,7 @@ import {
 
 import defaultStyles from './styles';
 import Filter from '../../components/Filter/index';
+import {ParkspotListItem, PlaceListItem} from '../../components/ListItems';
 
 var filters = [
   {name: 'electricCharger', icon: 'ios-flash'},
@@ -29,7 +30,7 @@ export default class SearchScreen extends Component {
     Keyboard.dismiss();
     this.props.updateSearchString(rowData.description);
     if (!rowData.place_id) {
-      //method passed via nav from Maps to set selectedparkspot 
+      //method passed via nav from Maps to set selectedparkspot
       this.props.navigation.state.params.setSelectedParkspot(rowData);
       this.props.navigation.goBack();
     } else {
@@ -48,16 +49,7 @@ export default class SearchScreen extends Component {
       this.props.fetchLocations(text, this.props.userPosition);
     }
   };
-  _renderRowData = rowData => {
-    return (
-      <Text style={[{}, defaultStyles.description]} numberOfLines={1}>
-        {this._renderDescription(rowData)}
-      </Text>
-    );
-  };
-  _renderDescription = rowData => {
-    return rowData.description || rowData.address || rowData.dist;
-  };
+
   _renderLoader = () => {
     if (this.props.isLoading === true) {
       return (
@@ -70,27 +62,6 @@ export default class SearchScreen extends Component {
     }
 
     return null;
-  };
-  _renderRow = (rowData = {}, sectionID, rowID) => {
-    return (
-      <ScrollView
-        style={{flex: 1}}
-        scrollEnabled={true}
-        keyboardShouldPersistTaps="always"
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-      >
-        <TouchableOpacity
-          style={{width: WINDOW.width, marginTop: 6, marginBottom: 6}}
-          onPress={() => this._onPress(rowData)}
-        >
-          <View style={[defaultStyles.row]}>
-            {this._renderRowData(rowData)}
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
-    );
   };
   _renderSearchBar = () => {
     return (
@@ -137,24 +108,24 @@ export default class SearchScreen extends Component {
       );
     }
   };
-  _renderFlatList = () => {
-    const keyGenerator = () =>
-      Math.random()
-        .toString(36)
-        .substr(2, 10);
-    return (
-      <FlatList
-        style={[defaultStyles.listView]}
-        data={
-          this.props.showParkspots ? this.props.filteredData : this.props.data
-        }
-        keyExtractor={keyGenerator}
-        extraData={this.props}
-        renderItem={({item}) => this._renderRow(item)}
-        keyboardShouldPersistTaps="always"
-      />
-    );
+  _renderList = () => {
+    let data = null;
+    if (this.props.showParkspots) {
+      data = this.props.filteredData.map(spot => (
+        <ParkspotListItem key={spot.id} parkspot={spot} onPress={() => this._onPress(spot)}/>
+      ));
+    } else {
+      data = this.props.data.map(place => (
+        <PlaceListItem key={place.id} place={place} onPress={() => this._onPress(place)}/>
+      ));
+    }
+    return (<Content>
+      <List>
+        {data}
+      </List>
+    </Content>);
   };
+
 
   componentDidMount() {
     if (this.props.data.length == 0) {
@@ -172,7 +143,7 @@ export default class SearchScreen extends Component {
           {this._renderSearchBar()}
           {this._renderFilter()}
           {this._renderNearbyText()}
-          {this._renderFlatList()}
+          {this._renderList()}
         </View>
       </SafeAreaView>
     );

@@ -1,16 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
-let {width, height} = Dimensions.get('window');
-
-const buttonStyleTemplate = {
-  borderRadius: 85,
-  backgroundColor: 'white',
-  justifyContent: 'center',
-  alignItems: 'center',
-  shadowOpacity: 0.12,
-  opacity: 0.85,
-};
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
@@ -35,6 +24,10 @@ const styles = StyleSheet.create({
   trash: {
     alignSelf: 'flex-end',
     backgroundColor: '#8cb8ff'
+  },
+  contenContainer: {
+    paddingRight: 20,
+    paddingLeft: 20,
   },
 });
 export default styles;

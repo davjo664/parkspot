@@ -338,7 +338,7 @@ export default (variables = variable) => {
         flex: 1,
         height: 44,
         justifyContent: 'center',
-        borderBottomWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
+        borderBottomWidth: 2 / PixelRatio.getPixelSizeForLayoutSize(1),
         borderColor: variables.listBorderColor,
       },
       'NativeBase.Right': {
