@@ -4,7 +4,8 @@ import { Text, Icon } from 'native-base';
 import { View, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Marker, Callout } from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
-
+import MapViewDirections from 'react-native-maps-directions';
+import config from '../../config/config'
 
 const haversine = require('haversine-js');
 import MapCard from '../../components/MapCard';
@@ -20,6 +21,8 @@ export interface Props {
   fetchParkspots: Function;
   parkspots: any;
   userPosition: any;
+  chosenParkspot: Object;
+  searchString: String;
 }
 
 export interface State {
@@ -185,8 +188,29 @@ class Map extends React.Component<Props, State> {
       });
   };
 
-
-  /** / Clustering **/
+  renderDirectionsOnMap = () => {
+    if (this.props.chosenParkspot) {
+     return (
+       <View>
+          <MapViewDirections
+            origin={{latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude}}
+            destination={{latitude: Number(this.props.chosenParkspot.lat), longitude: Number(this.props.chosenParkspot.lng)}}
+            apikey={config.googleApi.key}
+            strokeWidth={5}
+            strokeColor="#4f6367"
+          />
+          <MapViewDirections
+            origin={{latitude: Number(this.props.chosenParkspot.lat), longitude: Number(this.props.chosenParkspot.lng)}}
+            destination={this.props.searchString ? this.props.searchString : null}
+            apikey={config.googleApi.key}
+            strokeWidth={2}
+            strokeColor="red"
+            mode="walking"
+          />
+        </View>
+      )
+    }
+  }
 
   render() {
       const data = this.transformParkspotsToData(this.props.parkspots);
@@ -254,7 +278,9 @@ class Map extends React.Component<Props, State> {
               data={data}
               renderMarker={this.renderMarker}
               renderCluster={this.renderCluster}
-          />
+          >
+          {this.renderDirectionsOnMap()}
+          </ClusteredMapView>
       </View>
     );
   }

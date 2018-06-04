@@ -5,7 +5,7 @@ import { fetchParkspots } from '../MapContainer/actions';
 import {
   updateSearchString,
   fetchLocations,
-  fetchLocationDetails,
+  onPress,
   filterData,
 } from './actions';
 import { toggleFilter } from '../../components/Filter/actions';
@@ -71,7 +71,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchParkspots(latitude, longitude, distance));
     },
     onPress: rowData => {
-      dispatch(fetchLocationDetails(rowData));
+      dispatch(onPress(rowData));
     },
     toggleFilter: filterId => {
       dispatch(toggleFilter(filterId));

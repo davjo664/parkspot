@@ -5,6 +5,7 @@ const initialState = {
   showParkspots: true,
   isLoading: false,
   filters: [],
+  chosenParkspot: null
 };
 
 export default function(state: any = initialState, action: Function) {
@@ -72,6 +73,11 @@ export default function(state: any = initialState, action: Function) {
       filters: filters,
       filteredData: filteredData,
     };
+  } else if (action.type === "CHOOSE_PARKSPOT") {
+    return {
+      ...state,
+      chosenParkspot: action.parkspot
+    }
   }
 
   return state;

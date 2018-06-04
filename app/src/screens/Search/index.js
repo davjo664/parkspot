@@ -10,6 +10,9 @@ import {
   SafeAreaView,
   Alert,
   Keyboard,
+  Linking,
+  Platform
+
 } from 'react-native';
 
 import defaultStyles from './styles';
@@ -36,11 +39,11 @@ export default class SearchScreen extends Component {
 
   _onPress = rowData => {
     Keyboard.dismiss();
-    this.props.updateSearchString(rowData.description);
-    if (!rowData.place_id) {
-      Alert.alert('Parkspot clicked', JSON.stringify(rowData));
+    this.props.onPress(rowData);
+    if (rowData.description) {
+      this.props.updateSearchString(rowData.description);
     } else {
-      this.props.onPress(rowData);
+      this.props.navigation.goBack()
     }
   };
 
@@ -66,7 +69,10 @@ export default class SearchScreen extends Component {
   };
 
   _renderDescription = rowData => {
-    return rowData.description || rowData.address || rowData.dist;
+    if (rowData.street) {
+      return rowData.street + " " + rowData.houseNumber + ", " + rowData.city + " (" + Number(rowData.dist).toFixed(2) + "m)";
+    }
+    return rowData.description;
   };
 
   _renderLoader = () => {

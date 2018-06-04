@@ -13,6 +13,8 @@ export interface Props {
   fetchParkspots: Function;
   parkspots: any;
   userPosition: any;
+  chosenParkspot: Object;
+  searchString: String;
 }
 
 export interface State {}
@@ -115,6 +117,8 @@ class MapContainer extends React.Component<Props, State> {
         fetchParkspots={this.props.fetchParkspots}
         parkspots={this.props.parkspots}
         userPosition={this.props.userPosition}
+        chosenParkspot={this.props.chosenParkspot}
+        searchString={this.props.searchString}
       />
     );
   }
@@ -136,5 +140,7 @@ function bindAction(dispatch) {
 const mapStateToProps = state => ({
   parkspots: state.mapReducer.parkspots,
   userPosition: state.mapReducer.userPosition,
+  chosenParkspot: state.searchReducer.chosenParkspot,
+  searchString: state.searchReducer.searchString,
 });
 export default connect(mapStateToProps, bindAction)(MapContainer);
