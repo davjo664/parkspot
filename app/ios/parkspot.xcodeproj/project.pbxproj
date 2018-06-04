@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -18,7 +19,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
@@ -53,6 +53,7 @@
 		8F597B4E4E6A4E29A7881BC1 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60C90CAB74D54FB4BF1568C3 /* SimpleLineIcons.ttf */; };
 		94C259F7643849F4AEA39FC0 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		982EEE2DEFCF4C8CAE778A7C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0094D15A2FC64DCFB2E66113 /* Ionicons.ttf */; };
+		9E2E827A20C5599F00FBE03E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E2E827920C5599F00FBE03E /* Launch Screen.storyboard */; };
 		A3FEAF160ACC4336A4D15DDF /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 745438B5947F4C119A2536D0 /* Zocial.ttf */; };
 		A678405007A14390AF7186F1 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		A6E949DC2D3845DDAA8A683C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA766036227B4306B6B40CFE /* FontAwesome.ttf */; };
@@ -412,7 +413,6 @@
 		13B07F961A680F5B00A75B9A /* parkspot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = parkspot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = parkspot/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = parkspot/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = parkspot/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = parkspot/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = parkspot/main.m; sourceTree = "<group>"; };
@@ -442,6 +442,7 @@
 		86116449F1B94AE788108E7E /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		8B5AFF95C09B35EDC4042AAF /* Pods-parkspot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parkspot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-parkspot/Pods-parkspot.debug.xcconfig"; sourceTree = "<group>"; };
 		92D57C78714B43DCB6414689 /* libAppCenterReactNativeCrashes.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAppCenterReactNativeCrashes.a; sourceTree = "<group>"; };
+		9E2E827920C5599F00FBE03E /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		9F55B5DC1D0746E29266744E /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		A36D952F04934319B9F3AD42 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		A93AF93936F2EF1104AA6C9A /* Pods-parkspot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parkspot.release.xcconfig"; path = "Pods/Target Support Files/Pods-parkspot/Pods-parkspot.release.xcconfig"; sourceTree = "<group>"; };
@@ -613,8 +614,8 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				DD7348AE20AEC0F200254F88 /* GoogleService-Info.plist */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				9E2E827920C5599F00FBE03E /* Launch Screen.storyboard */,
 			);
 			name = parkspot;
 			sourceTree = "<group>";
@@ -1373,7 +1374,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				94C259F7643849F4AEA39FC0 /* (null) in Resources */,
 				847F2E452781442D850FAAEB /* EvilIcons.ttf in Resources */,
 				650A0F58446E478883505F41 /* FontAwesome.ttf in Resources */,
@@ -1385,6 +1385,7 @@
 				BDA6552283E6493FAFF80EDF /* rubicon-icon-font.ttf in Resources */,
 				A678405007A14390AF7186F1 /* (null) in Resources */,
 				A3FEAF160ACC4336A4D15DDF /* Zocial.ttf in Resources */,
+				9E2E827A20C5599F00FBE03E /* Launch Screen.storyboard in Resources */,
 				235C9F1262004E6585EE2294 /* EvilIcons.ttf in Resources */,
 				A6E949DC2D3845DDAA8A683C /* FontAwesome.ttf in Resources */,
 				013610FEC772406DB5A1BCF1 /* MaterialCommunityIcons.ttf in Resources */,
@@ -1532,18 +1533,6 @@
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = parkspot;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
