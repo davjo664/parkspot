@@ -10,8 +10,7 @@ describe('PushNotificationService', () => {
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
-      modules: [
-      ],
+      modules: [],
       components: [
         firebaseAppProvider,
         ...configMockProviders,

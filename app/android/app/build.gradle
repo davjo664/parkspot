@@ -73,7 +73,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js"
+  entryFile: "index.js"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -95,100 +95,108 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
-    defaultConfig {
-        applicationId "com.parkspot"
-        minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 3
-        versionName "1.2"
-        ndk {
-            abiFilters "armeabi-v7a", "x86"
-        }
+  defaultConfig {
+    applicationId "com.parkspot"
+    minSdkVersion 23
+    targetSdkVersion 27
+    versionCode 4
+    versionName "1.4"
+    ndk {
+      abiFilters "armeabi-v7a", "x86"
+    }
+  }
+
+  signingConfigs {
+    release {
+      if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+        storeFile file(MYAPP_RELEASE_STORE_FILE)
+        storePassword MYAPP_RELEASE_STORE_PASSWORD
+        keyAlias MYAPP_RELEASE_KEY_ALIAS
+        keyPassword MYAPP_RELEASE_KEY_PASSWORD
+      }
+    }
+  }
+  splits {
+    abi {
+      reset()
+      enable enableSeparateBuildPerCPUArchitecture
+      universalApk false  // If true, also generate a universal APK
+      include "armeabi-v7a", "x86"
+    }
+  }
+  buildTypes {
+
+    debug {
+      // Note: CodePush updates should not be tested in Debug mode as they are overriden by the RN packager. However, because CodePush checks for updates in all modes, we must supply a key.
+      buildConfigField "String", "CODEPUSH_KEY", '""'
+    }
+    release {
+      minifyEnabled enableProguardInReleaseBuilds
+      proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+      buildConfigField "String", "CODEPUSH_KEY", '"YSIjMqHJfj-DO333VXte5sDuLRhJS1GPuXPnM"'
+      signingConfig signingConfigs.release
     }
 
-    signingConfigs {
-        release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            }
-        }
+  }
+  // applicationVariants are e.g. debug, release
+  applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+      // For each separate APK per architecture, set a unique version code as described here:
+      // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+      def versionCodes = ["armeabi-v7a": 1, "x86": 2]
+      def abi = output.getFilter(OutputFile.ABI)
+      if (abi != null) {  // null for the universal-debug, universal-release variants
+        output.versionCodeOverride =
+          versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+      }
     }
-    splits {
-        abi {
-            reset()
-            enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86"
-        }
-    }
-    buildTypes {
-
-        debug {
-            // Note: CodePush updates should not be tested in Debug mode as they are overriden by the RN packager. However, because CodePush checks for updates in all modes, we must supply a key.
-            buildConfigField "String", "CODEPUSH_KEY", '""'
-        }
-        release {
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            buildConfigField "String", "CODEPUSH_KEY", '"YSIjMqHJfj-DO333VXte5sDuLRhJS1GPuXPnM"'
-            signingConfig signingConfigs.release
-        }
-
-
-    }
-    // applicationVariants are e.g. debug, release
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
-            def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
-            }
-        }
-    }
+  }
 }
 
 dependencies {
-    implementation project(':react-native-maps')
-    implementation project(':react-native-code-push')
-    implementation project(':appcenter-crashes')
-    implementation project(':appcenter-analytics')
-    implementation project(':appcenter')
-    implementation project(':react-native-open-settings')
-    implementation project(':react-native-interactable')
-    compile(project(':react-native-firebase')) {
-        transitive = false
-    }
-    implementation "com.google.android.gms:play-services-base:15.0.1"
-    implementation "com.google.firebase:firebase-core:15.0.2"
-    implementation "com.google.firebase:firebase-messaging:15.0.2"
-    implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
+  implementation project(':react-native-open-settings')
+  implementation project(':react-native-maps')
+  implementation project(':react-native-interactable')
+  implementation project(':react-native-code-push')
+  implementation project(':appcenter-crashes')
+  implementation project(':appcenter-analytics')
+  implementation project(':appcenter')
+  implementation project(':react-native-android-location-services-dialog-box')
+  implementation project(':react-native-maps')
+  implementation project(':react-native-code-push')
+  implementation project(':appcenter-crashes')
+  implementation project(':appcenter-analytics')
+  implementation project(':appcenter')
+  implementation project(':react-native-open-settings')
+  implementation project(':react-native-interactable')
+  implementation(project(':react-native-firebase')) {
+    transitive = false
+  }
+  implementation "com.google.android.gms:play-services-base:15.0.1"
+  implementation "com.google.firebase:firebase-core:15.0.2"
+  implementation "com.google.firebase:firebase-messaging:15.0.2"
+  implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
+  // <-- Add this line if you wish to use badge on Android
 
-    implementation project(':react-native-vector-icons')
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:26.1.0"
-    implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation(project(':react-native-maps')){
-        exclude group: 'com.google.android.gms', module: 'play-services-base'
-        exclude group: 'com.google.android.gms', module: 'play-services-maps'
-    }
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+  implementation project(':react-native-vector-icons')
+  implementation fileTree(dir: "libs", include: ["*.jar"])
+  implementation "com.android.support:appcompat-v7:27.1.1"
+  implementation "com.facebook.react:react-native:+"  // From node_modules
+  implementation(project(':react-native-maps')) {
+    exclude group: 'com.google.android.gms', module: 'play-services-base'
+    exclude group: 'com.google.android.gms', module: 'play-services-maps'
+  }
+  implementation 'com.google.android.gms:play-services-maps:15.0.1'
 }
 
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
 task copyDownloadableDepsToLibs(type: Copy) {
-    from configurations.compile
-    into 'libs'
+  from configurations.compile
+  into 'libs'
 }
 
 apply plugin: 'com.google.gms.google-services'

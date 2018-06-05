@@ -8,7 +8,7 @@ import {SubscriptionEntity} from './subscription.entity';
 @Controller('subscription')
 export class SubscriptionController {
 
-	constructor(private readonly subscriptionService: SubscriptionService) {
+  constructor(private readonly subscriptionService: SubscriptionService) {
   }
 
   @Get()
