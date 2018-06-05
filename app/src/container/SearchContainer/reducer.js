@@ -73,11 +73,6 @@ export default function (state: any = initialState, action: Function) {
       filters: filters,
       filteredData: filteredData,
     };
-  } else if (action.type === "CHOOSE_PARKSPOT") {
-    return {
-      ...state,
-      chosenParkspot: action.parkspot
-    }
   }
 
   return state;

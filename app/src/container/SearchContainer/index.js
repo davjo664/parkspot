@@ -5,7 +5,7 @@ import { fetchParkspots } from '../MapContainer/actions';
 import {
   updateSearchString,
   fetchLocations,
-  onPress,
+  fetchLocationDetails,
   filterData,
 } from './actions';
 import { toggleFilter } from '../../components/Filter/actions';
@@ -26,7 +26,7 @@ class SearchContainer extends React.Component<Props, State> {
         fetchParkspots={this.props.fetchParkspots}
         fetchLocations={this.props.fetchLocations}
         showParkspots={this.props.showParkspots}
-        onPress={this.props.onPress}
+        fetchLocationDetails={this.props.fetchLocationDetails}
         isLoading={this.props.isLoading}
         toggleFilter={this.props.toggleFilter}
         filterData={this.props.filterData}
@@ -45,7 +45,7 @@ export interface Props {
   fetchParkspots: Function;
   fetchLocations: Function;
   showParkspots: Boolean;
-  onPress: Function;
+  fetchLocationDetails: Function;
   isLoading: Boolean;
   toggleFilter: Function;
   filterData: Function;
@@ -71,8 +71,8 @@ const mapDispatchToProps = dispatch => {
     fetchParkspots: (latitude, longitude, distance = 6000) => {
       dispatch(fetchParkspots(latitude, longitude, distance));
     },
-    onPress: rowData => {
-      dispatch(onPress(rowData));
+    fetchLocationDetails: rowData => {
+      dispatch(fetchLocationDetails(rowData));
     },
     toggleFilter: filterId => {
       dispatch(toggleFilter(filterId));

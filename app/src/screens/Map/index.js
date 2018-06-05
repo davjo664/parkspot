@@ -24,12 +24,11 @@ export interface Props {
   fetchParkspots: Function;
   parkspots: any;
   userPosition: any;
-  chosenParkspot: Object;
-  searchString: String;
 }
 
 export interface State {
   selectedParkspot: any;
+  selectedLocation: String;
   mapPosition: any;
   shouldCenterToUserPosition: boolean;
 }
@@ -63,6 +62,11 @@ class Map extends React.Component<Props, State> {
       }),
     });
   };
+  setSelectedLocation = (location: String) => {
+    this.setState({
+      selectedLocation: location
+    });
+  };
   setSelectedParkspot = (parkspot: Object) => {
     this.setState({
       selectedParkspot: parkspot,
@@ -83,7 +87,7 @@ class Map extends React.Component<Props, State> {
     });
   };
   searchButtonWasPressed = () => {
-    this.props.navigation.navigate('Search', {setSelectedParkspot: this.setSelectedParkspot});
+    this.props.navigation.navigate('Search', {setSelectedParkspot: this.setSelectedParkspot, setSelectedLocation: this.setSelectedLocation});
   };
   favoriteButtonWasPressed = () => {
     this.props.navigation.navigate('Favorites', {setSelectedParkspot: this.setSelectedParkspot});
@@ -144,19 +148,19 @@ class Map extends React.Component<Props, State> {
   };
 
   renderDirectionsOnMap = () => {
-    if (this.props.chosenParkspot) {
+    if (this.state.selectedParkspot) {
      return (
        <View>
           <MapViewDirections
             origin={{latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude}}
-            destination={{latitude: Number(this.props.chosenParkspot.lat), longitude: Number(this.props.chosenParkspot.lng)}}
+            destination={{latitude: Number(this.state.selectedParkspot.lat), longitude: Number(this.state.selectedParkspot.lng)}}
             apikey={config.googleApi.key}
             strokeWidth={5}
             strokeColor="#4f6367"
           />
           <MapViewDirections
-            origin={{latitude: Number(this.props.chosenParkspot.lat), longitude: Number(this.props.chosenParkspot.lng)}}
-            destination={this.props.searchString ? this.props.searchString : null}
+            origin={{latitude: Number(this.state.selectedParkspot.lat), longitude: Number(this.state.selectedParkspot.lng)}}
+            destination={this.state.selectedLocation ? this.state.selectedLocation : null}
             apikey={config.googleApi.key}
             strokeWidth={2}
             strokeColor="red"

@@ -32,13 +32,7 @@ export function fetchLocations(searchString, userPosition) {
       });
 }
 
-export function onPress(rowData) {
-  if (!rowData.place_id) {
-    return {
-      type: 'CHOOSE_PARKSPOT',
-      parkspot: {lat: rowData.lat, lng: rowData.lng},
-    };
-  } else {
+export function fetchLocationDetails(rowData) {
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${config.googleApi.key}&language=en&placeid=${
       rowData.place_id
     }`;
@@ -58,7 +52,6 @@ export function onPress(rowData) {
             );
           }
         });
-  }
 }
 
 export function filterData(filterId) {

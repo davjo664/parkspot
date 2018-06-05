@@ -28,9 +28,11 @@ const WINDOW = Dimensions.get('window');
 export default class SearchScreen extends Component {
   _onPress = rowData => {
     Keyboard.dismiss();
-    this.props.onPress(rowData);
     if (rowData.description) {
       this.props.updateSearchString(rowData.description);
+      //method passed via nav from Maps to set selectedLocation
+      this.props.navigation.state.params.setSelectedLocation(rowData.description);
+      this.props.fetchLocationDetails(rowData);
     } else {
       //method passed via nav from Maps to set selectedparkspot
       this.props.navigation.state.params.setSelectedParkspot(rowData);
@@ -40,6 +42,7 @@ export default class SearchScreen extends Component {
   _onChange = text => {
     this.props.updateSearchString(text);
     if (text.length == 0) {
+      this.props.navigation.state.params.setSelectedLocation('');
       this.props.fetchParkspots(
         this.props.userPosition.latitude,
         this.props.userPosition.longitude,
@@ -160,7 +163,7 @@ export interface Props {
   fetchParkspots: Function;
   fetchLocations: Function;
   showParkspots: Boolean;
-  onPress: Function;
+  fetchLocationDetails: Function;
   isLoading: Boolean;
   toggleFilter: Function;
   filterData: Function;
