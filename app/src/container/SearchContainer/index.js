@@ -1,14 +1,9 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import SearchScreen from '../../screens/Search';
-import { fetchParkspots } from '../MapContainer/actions';
-import {
-  updateSearchString,
-  fetchLocations,
-  fetchLocationDetails,
-  filterData,
-} from './actions';
-import { toggleFilter } from '../../components/Filter/actions';
+import {fetchParkspots} from '../MapContainer/actions';
+import {fetchLocationDetails, fetchLocations, filterData, updateSearchString,addFavourite, remFavourite,} from './actions';
+import {toggleFilter} from '../../components/Filter/actions';
 
 export interface State {
 }
@@ -30,6 +25,8 @@ class SearchContainer extends React.Component<Props, State> {
         isLoading={this.props.isLoading}
         toggleFilter={this.props.toggleFilter}
         filterData={this.props.filterData}
+        addFavourite={this.props.addFavourite}
+        remFavourite={this.props.remFavourite}
       />
     );
   }
@@ -49,6 +46,9 @@ export interface Props {
   isLoading: Boolean;
   toggleFilter: Function;
   filterData: Function;
+  addFavourite: Function;
+  remFavourite: Function;
+  favourites: any;
 }
 
 const mapStateToProps = state => ({
@@ -58,6 +58,7 @@ const mapStateToProps = state => ({
   filteredData: state.searchReducer.filteredData,
   showParkspots: state.searchReducer.showParkspots,
   isLoading: state.searchReducer.isLoading,
+  favourites: state.searchReducer.favourites,
 });
 
 const mapDispatchToProps = dispatch => {
@@ -79,6 +80,12 @@ const mapDispatchToProps = dispatch => {
     },
     filterData: filterId => {
       dispatch(filterData(filterId));
+    },
+    addFavourite: newFav => {
+      dispatch(addFavourite(newFav));
+    },
+    remFavourite: remFav => {
+      dispatch(remFavourite(remFav));
     },
   };
 };

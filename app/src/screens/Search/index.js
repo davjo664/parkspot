@@ -36,7 +36,13 @@ export default class SearchScreen extends Component {
     } else {
       //method passed via nav from Maps to set selectedparkspot
       this.props.navigation.state.params.setSelectedParkspot(rowData);
-      this.props.navigation.goBack()
+      this.props.navigation.goBack();
+    } else {
+      this.props.onPress(rowData);
+
+      //Temp. here - just to test the favourite function
+      this.props.addFavourite(rowData.description);
+
     }
   };
   _onChange = text => {
@@ -167,6 +173,9 @@ export interface Props {
   isLoading: Boolean;
   toggleFilter: Function;
   filterData: Function;
+  addFavourite: Function;
+  remFavourite: Function;
+  favourites: any;
 }
 
 export interface State {

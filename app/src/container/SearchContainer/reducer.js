@@ -5,7 +5,7 @@ const initialState = {
   showParkspots: true,
   isLoading: false,
   filters: [],
-  chosenParkspot: null
+  favourites: [],
 };
 
 export default function (state: any = initialState, action: Function) {
@@ -74,6 +74,39 @@ export default function (state: any = initialState, action: Function) {
       filteredData: filteredData,
     };
   }
+
+  //checks if newFav is element of favourites - if not yet, includes it
+  else if (action.type === 'ADD_FAVOURITE') {
+    if (state.favourites.includes(action.newFav)) {
+      return {
+        ...state,
+      };
+    }
+    else {
+      return {
+        ...state,
+        favourites: [...state.favourites, action.newFav]
+      };
+    }
+  }
+
+  //checks if remFav is element of favourites - if so, removes it
+  else if (action.type === 'REM_FAVOURITE') {
+    if (state.favourites.includes(action.remFav)) {
+
+      const newFavourites = state.favourites.filter(item => item.id !== action.remFav.id);
+      return {
+        ...state,
+        favourites: [...newFavourites]
+      };
+    }
+    else {
+      return {
+        ...state,
+      };
+    }
+  }
+
 
   return state;
 }
