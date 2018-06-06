@@ -32,7 +32,7 @@ build-android-app:
       - app/android/app/build/outputs/apk/
 build-ios-app:
   only:
-    - master
+    - ci-for-ios
   stage: build
   script:
     - cd app/ios
