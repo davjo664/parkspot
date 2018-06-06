@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {ActionSheet, Icon, Text} from 'native-base';
 
-import {Dimensions, Linking, SafeAreaView, Platform, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
 
 import MapViewDirections from 'react-native-maps-directions';
-import config from '../../config/config'
+import config from '../../config/config';
 
 import MapCard from '../../components/MapCard';
 
@@ -84,85 +84,85 @@ class Map extends React.Component<Props, State> {
 
   startNavigation = () => {
 
-    const isIOS = Platform.OS === 'ios'
+    const isIOS = Platform.OS === 'ios';
     const prefixes = {
       'apple-maps': isIOS ? 'http://maps.apple.com/' : 'applemaps://',
       'google-maps': isIOS ? 'comgooglemaps://' : 'https://maps.google.com/',
       'waze': 'waze://',
-    }
+    };
     const titles = {
       'apple-maps': 'Apple Maps',
       'google-maps': 'Google Maps',
       'waze': 'Waze',
-    }
+    };
     const userPosition = `${this.props.userPosition.latitude},${this.props.userPosition.longitude}`;
     const parkspotPosition = `${this.state.selectedParkspot.lat},${this.state.selectedParkspot.lng}`;
 
     isAppInstalled = (app) => {
       return new Promise((resolve) => {
         if (!(app in prefixes)) {
-          return resolve(false)
+          return resolve(false);
         }
 
         Linking.canOpenURL(prefixes[app])
           .then((result) => {
-            resolve(!!result)
+            resolve(!!result);
           })
-          .catch(() => resolve(false))
-      })
-    }
+          .catch(() => resolve(false));
+      });
+    };
 
     askAppChoice = () => {
       return new Promise(async (resolve) => {
-        let availableApps = []
+        let availableApps = [];
         for (let app in prefixes) {
-          let avail = await isAppInstalled(app)
+          let avail = await isAppInstalled(app);
           if (avail) {
-            availableApps.push(app)
+            availableApps.push(app);
           }
         }
 
-        let options = availableApps.map((app) => ({ text: titles[app] }))
-        options.push({ text: 'Cancel', style: 'cancel' })
+        let options = availableApps.map((app) => ({text: titles[app]}));
+        options.push({text: 'Cancel', style: 'cancel'});
 
         ActionSheet.show(
           {
             options: options,
-            title: "Which map do you want to use for navigation?"
+            title: 'Which map do you want to use for navigation?'
           },
           buttonIndex => {
             if (buttonIndex === options.length - 1) {
-              return resolve(null)
+              return resolve(null);
             }
-            return resolve(availableApps[buttonIndex])
+            return resolve(availableApps[buttonIndex]);
           }
-        )
-      })
-    }
+        );
+      });
+    };
 
     start = async () => {
-      const app = await askAppChoice()
+      const app = await askAppChoice();
       if (!app) {
         return;
       }
       let url = prefixes[app];
       switch (app) {
         case 'apple-maps':
-          url += `?saddr=${userPosition}&daddr=${parkspotPosition}`
-          url += `&q=Parkspot`
-          break
+          url += `?saddr=${userPosition}&daddr=${parkspotPosition}`;
+          url += `&q=Parkspot`;
+          break;
         case 'google-maps':
-          url += `?q=Parkspot`
-          url += (isIOS) ? '&api=1' : ''
-          url += `&saddr=${userPosition}&daddr=${parkspotPosition}`
-          break
+          url += `?q=Parkspot`;
+          url += (isIOS) ? '&api=1' : '';
+          url += `&saddr=${userPosition}&daddr=${parkspotPosition}`;
+          break;
         case 'waze':
-          url += `?ll=${parkspotPosition}&navigate=yes`
-          break
+          url += `?ll=${parkspotPosition}&navigate=yes`;
+          break;
       }
 
-      Linking.openURL(url)
-    }
+      Linking.openURL(url);
+    };
 
     start();
   };
@@ -174,7 +174,10 @@ class Map extends React.Component<Props, State> {
     });
   };
   searchButtonWasPressed = () => {
-    this.props.navigation.navigate('Search', {setSelectedParkspot: this.setSelectedParkspot, setSelectedLocation: this.setSelectedLocation});
+    this.props.navigation.navigate('Search', {
+      setSelectedParkspot: this.setSelectedParkspot,
+      setSelectedLocation: this.setSelectedLocation
+    });
   };
   favoriteButtonWasPressed = () => {
     this.props.navigation.navigate('Favorites', {setSelectedParkspot: this.setSelectedParkspot});
@@ -234,29 +237,43 @@ class Map extends React.Component<Props, State> {
     });
   };
 
-  renderDirectionsOnMap = () => {
+  renderWalkingDirectionsOnMap = () => {
     if (this.state.selectedParkspot) {
-     return (
-       <View>
-          <MapViewDirections
-            origin={{latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude}}
-            destination={{latitude: Number(this.state.selectedParkspot.lat), longitude: Number(this.state.selectedParkspot.lng)}}
-            apikey={config.googleApi.key}
-            strokeWidth={5}
-            strokeColor={colors.cement}
-          />
-          <MapViewDirections
-            origin={{latitude: Number(this.state.selectedParkspot.lat), longitude: Number(this.state.selectedParkspot.lng)}}
-            destination={this.state.selectedLocation ? this.state.selectedLocation : null}
-            apikey={config.googleApi.key}
-            strokeWidth={2}
-            strokeColor={colors.gunmetal}
-            mode="walking"
-          />
-        </View>
-      )
+      return (
+
+        <MapViewDirections
+          origin={{
+            latitude: Number(this.state.selectedParkspot.lat),
+            longitude: Number(this.state.selectedParkspot.lng)
+          }}
+          destination={this.state.selectedLocation ? this.state.selectedLocation : null}
+          apikey={config.googleApi.key}
+          strokeWidth={2}
+          strokeColor={colors.gunmetal}
+          mode="walking"
+        />
+
+      );
     }
-  }
+  };
+  renderDrivingDirectionsOnMap = () => {
+    if (this.state.selectedParkspot) {
+      return (
+        <MapViewDirections
+          origin={{latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude}}
+          destination={{
+            latitude: Number(this.state.selectedParkspot.lat),
+            longitude: Number(this.state.selectedParkspot.lng)
+          }}
+          apikey={config.googleApi.key}
+          strokeWidth={5}
+          strokeColor={colors.cement}
+        />
+
+      );
+    }
+  };
+
   constructor(props) {
     super(props);
 
@@ -380,7 +397,8 @@ class Map extends React.Component<Props, State> {
           renderMarker={this.renderMarker}
           renderCluster={this.renderCluster}
         >
-        {this.renderDirectionsOnMap()}
+          {this.renderDrivingDirectionsOnMap()}
+          {this.renderWalkingDirectionsOnMap()}
         </ClusteredMapView>
       </View>
     );
