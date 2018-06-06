@@ -12,6 +12,8 @@ export interface Props {
   fetchParkspots: Function;
   parkspots: any;
   userPosition: any;
+  mapPosition: Object;
+  updateMapPosition: Function;
 }
 
 export interface State {
