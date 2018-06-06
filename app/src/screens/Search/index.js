@@ -35,6 +35,10 @@ export default class SearchScreen extends Component {
       this.props.navigation.goBack();
     } else {
       this.props.onPress(rowData);
+
+      //Temp. here - just to test the favourite function
+      this.props.addFavourite(rowData.description);
+
     }
   };
   _onChange = text => {
@@ -164,6 +168,9 @@ export interface Props {
   isLoading: Boolean;
   toggleFilter: Function;
   filterData: Function;
+  addFavourite: Function;
+  remFavourite: Function;
+  favourites: any;
 }
 
 export interface State {
