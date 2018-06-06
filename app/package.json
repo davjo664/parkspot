@@ -5,7 +5,7 @@
   "devDependencies": {
     "appcenter-cli": "^1.0.17",
     "babel-eslint": "^8.2.3",
-	"babel-preset-react-native": "4.0.0",
+    "babel-preset-react-native": "^4.0.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "eslint": "^4.19.1",
     "eslint-plugin-flowtype": "^2.48.0",
@@ -62,7 +62,9 @@
     "react-native-code-push": "^5.3.4",
     "react-native-firebase": "^4.2.0",
     "react-native-interactable": "^0.1.10",
+    "react-native-map-markerclustering": "^1.0.12",
     "react-native-maps": "^0.21.0",
+    "react-native-maps-directions": "^1.6.0",
     "react-native-maps-super-cluster": "^1.4.1",
     "react-native-open-settings": "^1.0.1",
     "react-native-permissions": "^1.1.1",
