@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Icon, Text} from 'native-base';
-
+import colors from './../../theme/parkspotColors';
 import {Dimensions, SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
@@ -156,14 +156,14 @@ class Map extends React.Component<Props, State> {
             destination={{latitude: Number(this.state.selectedParkspot.lat), longitude: Number(this.state.selectedParkspot.lng)}}
             apikey={config.googleApi.key}
             strokeWidth={5}
-            strokeColor="#4f6367"
+            strokeColor={colors.cement}
           />
           <MapViewDirections
             origin={{latitude: Number(this.state.selectedParkspot.lat), longitude: Number(this.state.selectedParkspot.lng)}}
             destination={this.state.selectedLocation ? this.state.selectedLocation : null}
             apikey={config.googleApi.key}
             strokeWidth={2}
-            strokeColor="red"
+            strokeColor={colors.gunmetal}
             mode="walking"
           />
         </View>

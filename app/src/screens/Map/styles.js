@@ -1,5 +1,6 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
+
 const buttonStyleTemplate = {
   borderRadius: 85,
   backgroundColor: 'white',
