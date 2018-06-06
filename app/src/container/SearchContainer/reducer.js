@@ -6,6 +6,7 @@ const initialState = {
   isLoading: false,
   filters: [],
   favourites: [],
+  selectedLocation: null
 };
 
 export default function (state: any = initialState, action: Function) {
@@ -72,6 +73,11 @@ export default function (state: any = initialState, action: Function) {
       ...state,
       filters: filters,
       filteredData: filteredData,
+    };
+  } else if (action.type === 'UPDATE_SELECTED_LOCATION') {
+    return {
+      ...state,
+      selectedLocation: action.selectedLocation,
     };
   }
 

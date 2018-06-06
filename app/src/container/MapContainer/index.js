@@ -14,6 +14,7 @@ export interface Props {
   userPosition: any;
   mapPosition: Object;
   updateMapPosition: Function;
+  selectedLocation: Object;
 }
 
 export interface State {
@@ -35,6 +36,7 @@ class MapContainer extends React.Component<Props, State> {
         userPosition={this.props.userPosition}
         mapPosition={this.props.mapPosition}
         updateMapPosition={this.props.updateMapPosition}
+        selectedLocation={this.props.selectedLocation}
       />
     );
   }
@@ -58,5 +60,6 @@ const mapStateToProps = state => ({
   parkspots: state.mapReducer.parkspots,
   userPosition: state.mapReducer.userPosition,
   mapPosition: state.mapReducer.mapPosition,
+  selectedLocation: state.searchReducer.selectedLocation
 });
 export default connect(mapStateToProps, bindAction)(MapContainer);

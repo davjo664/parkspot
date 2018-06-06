@@ -28,11 +28,12 @@ export interface Props {
   parkspots: any;
   userPosition: any;
   mapPosition: any;
+  selectedLocation: Object;
 }
 
 export interface State {
   selectedParkspot: any;
-  selectedLocation: String;
+  mapPosition: any;
 }
 
 class Map extends React.Component<Props, State> {
@@ -62,11 +63,6 @@ class Map extends React.Component<Props, State> {
           parkspot.lng == event.nativeEvent.coordinate.longitude
         );
       }),
-    });
-  };
-  setSelectedLocation = (location: String) => {
-    this.setState({
-      selectedLocation: location
     });
   };
   setSelectedParkspot = (parkspot: Object) => {
@@ -178,10 +174,7 @@ class Map extends React.Component<Props, State> {
     );
   };
   searchButtonWasPressed = () => {
-    this.props.navigation.navigate('Search', {
-      setSelectedParkspot: this.setSelectedParkspot,
-      setSelectedLocation: this.setSelectedLocation
-    });
+    this.props.navigation.navigate('Search');
   };
   favoriteButtonWasPressed = () => {
     this.props.navigation.navigate('Favorites', { setSelectedParkspot: this.setSelectedParkspot });
@@ -254,7 +247,7 @@ class Map extends React.Component<Props, State> {
             latitude: Number(this.state.selectedParkspot.lat),
             longitude: Number(this.state.selectedParkspot.lng)
           }}
-          destination={this.state.selectedLocation ? this.state.selectedLocation : null}
+          destination={this.props.selectedLocation ? {latitude: this.props.selectedLocation.lat, longitude: this.props.selectedLocation.lng} : null}
           apikey={config.googleApi.key}
           strokeWidth={2}
           strokeColor={colors.gunmetal}
