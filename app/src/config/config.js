@@ -23,8 +23,11 @@ const config = {
       } else {
         return target.protocol + '://' + target.host + ':' + target.port + '/' + target.path + '/';
       }
-    },
+    }
   },
+  googleApi: {
+	  key: 'AIzaSyBtDPqZtRAMenSwz32oIUWWf1i_Gnub1dc'
+  }
 
 };
 

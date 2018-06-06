@@ -5,6 +5,7 @@ const initialState = {
   showParkspots: true,
   isLoading: false,
   filters: [],
+  chosenParkspot: null
 };
 
 export default function (state: any = initialState, action: Function) {
