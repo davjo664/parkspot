@@ -1,5 +1,6 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
+import colors from './../../theme/parkspotColors';
 
 const buttonStyleTemplate = {
   borderRadius: 85,
@@ -42,19 +43,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cluster: {
-    backgroundColor: 'deeppink',
-    width: 40,
-    height: 40,
-    borderRadius: 30,
-    borderColor: 'white',
-    borderWidth: 5,
+    width: 32,
+    height: 32,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.lightAquamarine,
+    borderRadius: 20,
   },
   clusterText: {
-    color: 'white',
-    fontWeight: '600',
+    width: 14,
+    height: 29,
+    fontSize: 24,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    letterSpacing: 0,
+    color: colors.white,
   }
 });
 export default styles;

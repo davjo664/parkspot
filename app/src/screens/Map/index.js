@@ -37,6 +37,8 @@ export interface State {
 
 class Map extends React.Component<Props, State> {
   onRegionChangeComplete = region => {
+    const previousRegion = this.state.mapPosition;
+
     this.state.mapPosition = {
       latitude: region.latitude,
       longitude: region.longitude,
@@ -222,7 +224,11 @@ class Map extends React.Component<Props, State> {
   };
   renderMarker = (data) => {
     return (
-      <Marker key={data.id} coordinate={data.location}/>
+      <Marker key={data.id} coordinate={data.location}>
+        <View style={styles.cluster}>
+          <Text style={styles.clusterText}>P</Text>
+        </View>
+      </Marker>
     );
   };
   transformParkspotsToData = (parkspots) => {
