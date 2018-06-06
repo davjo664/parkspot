@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Content, Header, Icon, Input, Item, List, Text} from 'native-base';
+import {ActionSheet, Button, Content, Header, Icon, Input, Item, List, Text} from 'native-base';
 import {
   ActivityIndicator,
   Dimensions,
@@ -9,6 +9,8 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  Linking,
+  Platform
 } from 'react-native';
 
 import defaultStyles from './styles';
@@ -28,12 +30,12 @@ const WINDOW = Dimensions.get('window');
 export default class SearchScreen extends Component {
   _onPress = rowData => {
     Keyboard.dismiss();
-    this.props.updateSearchString(rowData.description);
     if (!rowData.place_id) {
       //method passed via nav from Maps to set selectedparkspot
       this.props.navigation.state.params.setSelectedParkspot(rowData);
       this.props.navigation.goBack();
     } else {
+      this.props.updateSearchString(rowData.description);
       this.props.onPress(rowData);
     }
   };

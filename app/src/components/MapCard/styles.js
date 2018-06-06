@@ -57,17 +57,11 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
   panelButton: {
-    padding: 10,
-    backgroundColor: '#49828b',
-    marginVertical: 10,
+    backgroundColor: 'rgb(138,255,193)',
   },
   panelButtonTitle: {
     fontSize: 17,
     fontWeight: 'bold',
-    color: 'white',
-  },
-  panelButtonSubtitle: {
-    fontSize: 14,
     color: 'white',
   },
   moreContent: {

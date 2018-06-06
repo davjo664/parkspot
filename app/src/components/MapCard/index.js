@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Icon} from 'native-base';
+import {Icon, Button} from 'native-base';
 import Interactable from 'react-native-interactable';
 
 import styles from './styles';
@@ -84,10 +84,9 @@ export default class MapCard extends Component {
 
             <Text
               style={styles.panelSubtitle}>{this.props.parkspot.street} {this.props.parkspot.houseNumber}, {this.props.parkspot.city}, {this.props.parkspot.country}</Text>
-            <View style={styles.panelButton}>
-              <Text style={styles.panelButtonTitle}>Start navigation</Text>
-              <Text style={styles.panelButtonSubtitle}>xx min, {distance} away from your location</Text>
-            </View>
+            <Button block style={styles.panelButton} onPress={this.props.onStartNavigation}>
+              <Text style={styles.panelButtonTitle}>Go there!</Text>
+            </Button>
 
             <View style={styles.moreContent}>
               <View style={styles.iconsContainer}>
