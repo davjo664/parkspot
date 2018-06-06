@@ -1,5 +1,7 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
+import colors from './../../theme/parkspotColors';
+
 const Screen = {
   width: Dimensions.get('window').width,
   height: Dimensions.get('window').height - 75
@@ -57,17 +59,11 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
   panelButton: {
-    padding: 10,
-    backgroundColor: '#49828b',
-    marginVertical: 10,
+    backgroundColor: colors.lightAquamarine,
   },
   panelButtonTitle: {
     fontSize: 17,
     fontWeight: 'bold',
-    color: 'white',
-  },
-  panelButtonSubtitle: {
-    fontSize: 14,
     color: 'white',
   },
   moreContent: {

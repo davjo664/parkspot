@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Content, Header, Icon, Input, Item, List, Text} from 'native-base';
+import {ActionSheet, Button, Content, Header, Icon, Input, Item, List, Text} from 'native-base';
 import {
   ActivityIndicator,
   Dimensions,
