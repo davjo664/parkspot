@@ -22,7 +22,7 @@ export class UserController {
   }
 
   @Get('/:id')
-  @ApiResponse({status: HttpStatus.OK, description: 'Returns a single User', type: UserEntity})
+  @ApiResponse({status: HttpStatus.OK, description: 'Returns a single User'})
   @ApiResponse({status: HttpStatus.NOT_FOUND, description: 'When user doesn\'t exist'})
   async get(@Param('id') id: string): Promise<UserEntity> {
     try {
@@ -38,7 +38,6 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Updates a single User and returns the updated user as it is in the database',
-    type: UserEntity
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
@@ -57,7 +56,6 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'The User has been successfully created.',
-    type: UserEntity,
   })
   @ApiResponse({status: HttpStatus.CONFLICT, description: `Couldn't create user`})
   @Post()

@@ -14,7 +14,6 @@ export class ParkspotController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Returns a list of Parkspots',
-    type: ParkSpotEntity,
     isArray: true,
   })
   async getAll(@Query() params: ParkSpotQueryParams): Promise<ParkSpotEntity[]> {
@@ -22,7 +21,7 @@ export class ParkspotController {
   }
 
   @Get('/:id')
-  @ApiResponse({status: HttpStatus.OK, description: 'Returns a single ParkingSpot', type: ParkSpotEntity})
+  @ApiResponse({status: HttpStatus.OK, description: 'Returns a single ParkingSpot'})
   async get(@Param('id') id: number): Promise<ParkSpotEntity> {
     return await this.parkSpotService.findOne(id);
   }
@@ -38,7 +37,6 @@ export class ParkspotController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Returns a list of ParkingSpots by radius',
-    type: ParkSpotEntity,
     isArray: true,
   })
   @ApiResponse({
@@ -53,7 +51,6 @@ export class ParkspotController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Updates a single ParkingSpot',
-    type: ParkSpotEntity
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
@@ -67,7 +64,6 @@ export class ParkspotController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'The record has been successfully created.',
-    type: ParkSpotEntity,
   })
   @ApiResponse({status: HttpStatus.CONFLICT, description: 'Forbidden.'})
   @Post()
