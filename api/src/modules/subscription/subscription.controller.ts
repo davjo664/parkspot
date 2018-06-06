@@ -16,7 +16,6 @@ export class SubscriptionController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Returns a list of the subscriptions for a user. Currently lacks support of proper user validation and therefore takes the user id',
-    type: SubscriptionEntity,
     isArray: true,
   })
   async getMy(@Query() params: SubscriptionQueryParams): Promise<SubscriptionEntity[]> {
@@ -34,7 +33,6 @@ export class SubscriptionController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'The record has been successfully created.',
-    type: SubscriptionEntity,
   })
   @ApiResponse({status: HttpStatus.CONFLICT, description: 'Forbidden.'})
   @Post()
