@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {ActionSheet, Icon, Text} from 'native-base';
+import { ActionSheet, Icon, Text } from 'native-base';
 
-import {Dimensions, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
-import {Marker} from 'react-native-maps';
+import { Dimensions, Linking, Platform, SafeAreaView, TouchableOpacity, View } from 'react-native';
+import { Marker } from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
 
 import MapViewDirections from 'react-native-maps-directions';
@@ -24,30 +24,30 @@ export interface Props {
   watchLocation: Function;
   stopWatchLocation: Function;
   fetchParkspots: Function;
+  updateMapPosition: Function;
   parkspots: any;
   userPosition: any;
+  mapPosition: any;
 }
 
 export interface State {
   selectedParkspot: any;
   selectedLocation: String;
-  mapPosition: any;
-  shouldCenterToUserPosition: boolean;
 }
 
 class Map extends React.Component<Props, State> {
   onRegionChangeComplete = region => {
-    this.state.mapPosition = {
+    this.props.updateMapPosition({
       latitude: region.latitude,
       longitude: region.longitude,
       longitudeDelta: region.longitudeDelta,
       latitudeDelta: region.latitudeDelta,
-    };
+    });
 
     this.props.fetchParkspots(
-      this.state.mapPosition.latitude,
-      this.state.mapPosition.longitude,
-      this.approximateCurrentRegionRadius(this.state.mapPosition),
+      this.props.mapPosition.latitude,
+      this.props.mapPosition.longitude,
+      this.approximateCurrentRegionRadius(this.props.mapPosition),
     );
   };
   markerWasPressed = (event: any) => {
@@ -70,15 +70,14 @@ class Map extends React.Component<Props, State> {
     });
   };
   setSelectedParkspot = (parkspot: Object) => {
+    this.props.updateMapPosition({
+      latitude: Number(parkspot.lat),
+      longitude: Number(parkspot.lng),
+      latitudeDelta: 0.0005,
+      longitudeDelta: 0.005,
+    })
     this.setState({
       selectedParkspot: parkspot,
-      mapPosition: {
-        latitude: Number(parkspot.lat),
-        longitude: Number(parkspot.lng),
-        latitudeDelta: 0.0005,
-        longitudeDelta: 0.005,
-      },
-      shouldCenterToUserPosition: false,
     });
   };
 
@@ -122,8 +121,8 @@ class Map extends React.Component<Props, State> {
           }
         }
 
-        let options = availableApps.map((app) => ({text: titles[app]}));
-        options.push({text: 'Cancel', style: 'cancel'});
+        let options = availableApps.map((app) => ({ text: titles[app] }));
+        options.push({ text: 'Cancel', style: 'cancel' });
 
         ActionSheet.show(
           {
@@ -168,10 +167,14 @@ class Map extends React.Component<Props, State> {
   };
   findMeButtonWasPressed = () => {
     this.props.updateLocation();
-
-    this.setState({
-      shouldCenterToUserPosition: true,
-    });
+    this.props.updateMapPosition(
+      {
+        latitude: this.props.userPosition.latitude,
+        longitude: this.props.userPosition.longitude,
+        longitudeDelta: this.props.mapPosition.longitudeDelta,
+        latitudeDelta: this.props.mapPosition.latitudeDelta,
+      }
+    );
   };
   searchButtonWasPressed = () => {
     this.props.navigation.navigate('Search', {
@@ -180,7 +183,7 @@ class Map extends React.Component<Props, State> {
     });
   };
   favoriteButtonWasPressed = () => {
-    this.props.navigation.navigate('Favorites', {setSelectedParkspot: this.setSelectedParkspot});
+    this.props.navigation.navigate('Favorites', { setSelectedParkspot: this.setSelectedParkspot });
   };
   mapWasPressed = () => {
     this.deselectParkspot();
@@ -222,7 +225,7 @@ class Map extends React.Component<Props, State> {
   };
   renderMarker = (data) => {
     return (
-      <Marker key={data.id} coordinate={data.location}/>
+      <Marker key={data.id} coordinate={data.location} />
     );
   };
   transformParkspotsToData = (parkspots) => {
@@ -260,7 +263,7 @@ class Map extends React.Component<Props, State> {
     if (this.state.selectedParkspot) {
       return (
         <MapViewDirections
-          origin={{latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude}}
+          origin={{ latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude }}
           destination={{
             latitude: Number(this.state.selectedParkspot.lat),
             longitude: Number(this.state.selectedParkspot.lng)
@@ -279,19 +282,12 @@ class Map extends React.Component<Props, State> {
 
     this.state = {
       selectedParkspot: null,
-      mapPosition: {
-        latitude: 48.775,
-        longitude: 9.175,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-      },
-      shouldCenterToUserPosition: false,
     };
 
     this.props.fetchParkspots(
-      this.state.mapPosition.latitude,
-      this.state.mapPosition.longitude,
-      this.approximateCurrentRegionRadius(this.state.mapPosition),
+      this.props.mapPosition.latitude,
+      this.props.mapPosition.longitude,
+      this.approximateCurrentRegionRadius(this.props.mapPosition),
     );
   }
 
@@ -310,20 +306,6 @@ class Map extends React.Component<Props, State> {
     this.props.updateLocation();
   }
 
-  componentWillReceiveProps() {
-    if (this.state.shouldCenterToUserPosition) {
-      this.setState(previousState => {
-        return {
-          shouldCenterToUserPosition: false,
-          mapPosition: {
-            ...previousState.mapPosition,
-            longitude: this.props.userPosition.longitude,
-            latitude: this.props.userPosition.latitude,
-          },
-        };
-      });
-    }
-  }
 
   /** / Clustering **/
 
@@ -335,7 +317,7 @@ class Map extends React.Component<Props, State> {
         <View
           style={[
             styles.buttonsContainer,
-            {bottom: this.state.selectedParkspot ? 240 : 20},
+            { bottom: this.state.selectedParkspot ? 240 : 20 },
           ]}
         >
           <TouchableOpacity
@@ -343,14 +325,14 @@ class Map extends React.Component<Props, State> {
             style={styles.button}
             onPress={() => this.findMeButtonWasPressed()}
           >
-            <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon}/>
+            <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.button}
             onPress={() => this.favoriteButtonWasPressed()}
           >
-            <Icon type="MaterialIcons" name="star" style={{color: 'black'}}/>
+            <Icon type="MaterialIcons" name="star" style={{ color: 'black' }} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
@@ -360,7 +342,7 @@ class Map extends React.Component<Props, State> {
             <Icon
               name="search"
               type="MaterialIcons"
-              style={{color: 'black'}}
+              style={{ color: 'black' }}
             />
           </TouchableOpacity>
         </View>
@@ -380,7 +362,7 @@ class Map extends React.Component<Props, State> {
         <ClusteredMapView
           style={styles.map}
           showsUserLocation={true}
-          region={this.state.mapPosition}
+          region={this.props.mapPosition}
           onRegionChangeComplete={this.onRegionChangeComplete}
           showsMyLocationButton={false}
           showsPointsOfInterest={true}

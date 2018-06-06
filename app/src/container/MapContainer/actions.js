@@ -14,6 +14,13 @@ export function updateLocationSuccess(userPosition: Object) {
   };
 }
 
+export function updateMapPosition(mapPosition: Object) {
+  return {
+    type: 'UPDATE_MAP_POSITION',
+    mapPosition,
+  };
+}
+
 export function fetchParkspots(
   latitude: ?number,
   longitude: ?number,
@@ -28,7 +35,6 @@ export function fetchParkspots(
       .then(res => res.json())
       .then(data => {
         if (data.statusCode && data.statusCode != 200) {
-          console.log(data.message);
         } else {
           dispatch(fetchParkspotsSuccess(data));
         }
@@ -44,6 +50,6 @@ export function updateLocation() {
       error => {
         console.log(error.message);
       },
-      {enableHighAccuracy: true, timeout: 2500},
+      { enableHighAccuracy: true, timeout: 2500 },
     );
 }
