@@ -167,6 +167,7 @@ class Map extends React.Component<Props, State> {
   };
   findMeButtonWasPressed = () => {
     this.props.updateLocation();
+    //location is usually already set so no need to wait for that... if bugs check here
     this.props.updateMapPosition(
       {
         latitude: this.props.userPosition.latitude,
