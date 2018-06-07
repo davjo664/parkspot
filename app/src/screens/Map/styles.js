@@ -59,9 +59,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   clusterText: {
-    width: 14,
-    height: 29,
-    fontSize: 24,
+    width: 28,
+    height: 28,
+    textAlignVertical: 'center',
+    textAlign: 'center',
     fontWeight: 'normal',
     fontStyle: 'normal',
     letterSpacing: 0,

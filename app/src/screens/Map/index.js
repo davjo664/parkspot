@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ActionSheet, Icon, Text } from 'native-base';
+import {ActionSheet, Icon, Text} from 'native-base';
 
-import { Dimensions, Linking, Platform, SafeAreaView, TouchableOpacity, View } from 'react-native';
-import { Marker } from 'react-native-maps';
+import {Dimensions, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
 
 import MapViewDirections from 'react-native-maps-directions';
@@ -51,6 +51,7 @@ class Map extends React.Component<Props, State> {
       this.approximateCurrentRegionRadius(this.props.mapPosition),
     );
   };
+
   markerWasPressed = (event: any) => {
     /*
          * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
@@ -65,13 +66,14 @@ class Map extends React.Component<Props, State> {
       }),
     });
   };
+
   setSelectedParkspot = (parkspot: Object) => {
     this.props.updateMapPosition({
       latitude: Number(parkspot.lat),
       longitude: Number(parkspot.lng),
       latitudeDelta: 0.0005,
       longitudeDelta: 0.005,
-    })
+    });
     this.setState({
       selectedParkspot: parkspot,
     });
@@ -117,8 +119,8 @@ class Map extends React.Component<Props, State> {
           }
         }
 
-        let options = availableApps.map((app) => ({ text: titles[app] }));
-        options.push({ text: 'Cancel', style: 'cancel' });
+        let options = availableApps.map((app) => ({text: titles[app]}));
+        options.push({text: 'Cancel', style: 'cancel'});
 
         ActionSheet.show(
           {
@@ -161,6 +163,7 @@ class Map extends React.Component<Props, State> {
 
     start();
   };
+
   findMeButtonWasPressed = () => {
     this.props.updateLocation();
     //location is usually already set so no need to wait for that... if bugs check here
@@ -173,15 +176,19 @@ class Map extends React.Component<Props, State> {
       }
     );
   };
+
   searchButtonWasPressed = () => {
     this.props.navigation.navigate('Search');
   };
+
   favoriteButtonWasPressed = () => {
-    this.props.navigation.navigate('Favorites', { setSelectedParkspot: this.setSelectedParkspot });
+    this.props.navigation.navigate('Favorites', {setSelectedParkspot: this.setSelectedParkspot});
   };
+
   mapWasPressed = () => {
     this.deselectParkspot();
   };
+
   approximateCurrentRegionRadius = region => {
     const a = {
       longitude: region.longitude - region.longitudeDelta / 2,
@@ -198,31 +205,38 @@ class Map extends React.Component<Props, State> {
 
     return haversine(a, b, options).toFixed(0);
   };
+
   deselectParkspot = () => {
     this.setState({
       selectedParkspot: null,
     });
   };
-  /** Clustering **/
+
+  renderMarkerInner = (text, fontSize) => {
+    return (
+      <View style={styles.cluster}>
+        <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
+      </View>
+    );
+  }
 
   renderCluster = (cluster, onPress) => {
     const pointCount = cluster.pointCount,
       coordinate = cluster.coordinate;
 
+    const fontSize = pointCount <= 9 ? 18 : (pointCount <= 99 ? 15 : 15);
+    const text = pointCount <= 99 ? pointCount : '99+';
+
     return (
       <Marker coordinate={coordinate} onPress={onPress}>
-        <View style={styles.cluster}>
-          <Text style={styles.clusterText}>{pointCount}</Text>
-        </View>
+        {this.renderMarkerInner(text, fontSize)}
       </Marker>
     );
   };
   renderMarker = (data) => {
     return (
       <Marker key={data.id} coordinate={data.location}>
-        <View style={styles.cluster}>
-          <Text style={styles.clusterText}>P</Text>
-        </View>
+        {this.renderMarkerInner('P', 18)}
       </Marker>
     );
   };
@@ -247,7 +261,10 @@ class Map extends React.Component<Props, State> {
             latitude: Number(this.state.selectedParkspot.lat),
             longitude: Number(this.state.selectedParkspot.lng)
           }}
-          destination={this.props.selectedLocation ? {latitude: this.props.selectedLocation.lat, longitude: this.props.selectedLocation.lng} : null}
+          destination={this.props.selectedLocation ? {
+            latitude: this.props.selectedLocation.lat,
+            longitude: this.props.selectedLocation.lng
+          } : null}
           apikey={config.googleApi.key}
           strokeWidth={2}
           strokeColor={colors.gunmetal}
@@ -261,7 +278,7 @@ class Map extends React.Component<Props, State> {
     if (this.state.selectedParkspot) {
       return (
         <MapViewDirections
-          origin={{ latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude }}
+          origin={{latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude}}
           destination={{
             latitude: Number(this.state.selectedParkspot.lat),
             longitude: Number(this.state.selectedParkspot.lng)
@@ -305,8 +322,6 @@ class Map extends React.Component<Props, State> {
   }
 
 
-  /** / Clustering **/
-
   render() {
     const data = this.transformParkspotsToData(this.props.parkspots);
 
@@ -315,7 +330,7 @@ class Map extends React.Component<Props, State> {
         <View
           style={[
             styles.buttonsContainer,
-            { bottom: this.state.selectedParkspot ? 240 : 20 },
+            {bottom: this.state.selectedParkspot ? 240 : 20},
           ]}
         >
           <TouchableOpacity
@@ -323,14 +338,14 @@ class Map extends React.Component<Props, State> {
             style={styles.button}
             onPress={() => this.findMeButtonWasPressed()}
           >
-            <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon} />
+            <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon}/>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.button}
             onPress={() => this.favoriteButtonWasPressed()}
           >
-            <Icon type="MaterialIcons" name="star" style={{ color: 'black' }} />
+            <Icon type="MaterialIcons" name="star" style={{color: 'black'}}/>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
@@ -340,7 +355,7 @@ class Map extends React.Component<Props, State> {
             <Icon
               name="search"
               type="MaterialIcons"
-              style={{ color: 'black' }}
+              style={{color: 'black'}}
             />
           </TouchableOpacity>
         </View>
