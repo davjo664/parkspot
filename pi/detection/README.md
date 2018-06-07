@@ -33,7 +33,7 @@ $ nano settings.py
 **Set up the parking lot with its slots:**
 ```
 $ cd ./parkspot/pi/detection
-$ python pipark_setup.py 
+$ python pipark_setup.py
 ```
 1.  After appropriately mounting the PiPark unit its positioning may need to be fine-tuned. To do this, click on the 'Capture New Setup Image' button and then 'Yes' when the dialogue box appears. A full-screen display of the unit's image feed will now be shown. Fine-tune the positioning of the unit and adjust the focus of the lense of the camera, and once this has been finalised press the ENTER key to take a new setup image. Note: If at any time you wish to cancel the image feed without taking a new setup image press the ESCAPE button.
 
