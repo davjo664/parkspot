@@ -6,6 +6,8 @@ Author: Humphrey Shotton and Nicholas Sanders
 Version: 2.0 [2014/03/23]
 
 """
+# PiPark Settings
+import data.settings as s
 import Tkinter as tk
 
 # ==============================================================================
@@ -356,17 +358,14 @@ class Boxes:
     current_box = 1
     __type = 0
     
-    MAX_SPACES = 10
-    MAX_CPS = 3
-    
     def __init__(self, canvas, type = 0):
         if type == 0:
             self.__type = 0
-            self.boxes = [ParkingSpace(i, canvas) for i in range(self.MAX_SPACES)]
+            self.boxes = [ParkingSpace(i, canvas) for i in range(s.MAX_SPACES)]
         elif type == 1:
             self.__type = 1
             self.current_box = 0
-            self.boxes = [ControlPoint(j, canvas) for j in range(self.MAX_CPS)]
+            self.boxes = [ControlPoint(j, canvas) for j in range(s.MAX_CPS)]
         else:
             print "ERROR: setup_classes.Boxes requires type 0 or 1."
         return
