@@ -1,6 +1,6 @@
 {
   "name": "parkspot",
-  "version": "0.1.0",
+  "version": "1.4.0",
   "private": true,
   "devDependencies": {
     "appcenter-cli": "^1.0.17",
@@ -22,6 +22,7 @@
     "react-test-renderer": "^16.4.0"
   },
   "scripts": {
+    "version": "ios/version-ios.sh",
     "start": "react-native start",
     "android": "react-native run-android",
     "android-deploy": "yarn android-deploy-codepush && yarn android-deploy-build && yarn android-deploy-upload",
