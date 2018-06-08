@@ -19,10 +19,11 @@
     "jest-expo": "^27.0.1",
     "metro": "^0.37.1",
     "metro-core": "^0.37.1",
-    "react-test-renderer": "^16.4.0"
+    "react-test-renderer": "^16.4.0",
+    "replace-in-file": "^3.4.0"
   },
   "scripts": {
-    "version": "./ios_increase_build_verison.sh",
+    "version": "./increase_version.sh",
     "start": "react-native start",
     "android": "react-native run-android",
     "android-deploy": "yarn android-deploy-codepush && yarn android-deploy-build && yarn android-deploy-upload",
