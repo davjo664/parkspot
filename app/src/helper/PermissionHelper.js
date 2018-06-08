@@ -2,6 +2,7 @@ import {Alert, BackHandler, DeviceEventEmitter, Platform} from 'react-native';
 import Permissions from 'react-native-permissions';
 import OpenSettings from 'react-native-open-settings';
 import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
+import firebase from 'react-native-firebase';
 
 // @flow
 export type PermissionType = 'location' | 'notification';
@@ -60,6 +61,8 @@ export class PermissionHelper {
     // handle GPS being turned off on Android
     if (permissionType == 'location' && Platform.OS === 'android') {
       PermissionHelper._checkHardwareEnabled(permissionType, onHasPermission);
+    } else if (permissionType == 'notification' && Platform.OS === 'android') {
+      PermissionHelper._notificationsOnAndroid(onHasPermission);
     } else {
       PermissionHelper._checkPermission(permissionType, onHasPermission);
     }
@@ -169,7 +172,23 @@ export class PermissionHelper {
         PermissionHelper._showPermissionDeniedAlert(permissionType);
       });
     });
+  };
 
+
+  static _notificationsOnAndroid = (onHasPermission: Function) => {
+    firebase.messaging().hasPermission().then(enabled => {
+      if (enabled) {
+        onHasPermission();
+      } else {
+        firebase.messaging().requestPermission()
+          .then(() => {
+            onHasPermission();
+          })
+          .catch(error => {
+            PermissionHelper._showPermissionDeniedAlert('notification');
+          });
+      }
+    });
 
   };
 
@@ -187,6 +206,8 @@ export class PermissionHelper {
     switch (permissionType) {
       case 'location':
         return PermissionHelper.strings.location;
+      case 'notificaton':
+        return PermissionHelper.strings.notification;
       default:
         console.warn('Unsupported permission type: ', permissionType);
         return null;
