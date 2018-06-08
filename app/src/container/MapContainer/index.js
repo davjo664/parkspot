@@ -4,7 +4,6 @@ import { Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Map from '../../screens/Map';
 import { fetchParkspots, updateLocation, updateMapPosition } from './actions';
-import { PermissionHelper } from '../../helper/PermissionHelper';
 
 export interface Props {
   navigation: any;
@@ -21,11 +20,6 @@ export interface State {
 }
 
 class MapContainer extends React.Component<Props, State> {
-
-  componentDidMount() {
-    PermissionHelper.startPermissionFlow('location');
-  }
-
   render() {
     return (
       <Map
