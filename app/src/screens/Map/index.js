@@ -14,6 +14,7 @@ import styles from './styles';
 import codePush from 'react-native-code-push';
 
 import colors from './../../theme/parkspotColors';
+import {PermissionHelper} from '../../helper/PermissionHelper';
 
 
 const haversine = require('haversine-js');
@@ -34,6 +35,7 @@ export interface Props {
 export interface State {
   selectedParkspot: any;
   mapPosition: any;
+  showsUserLocation: boolean;
 }
 
 class Map extends React.Component<Props, State> {
@@ -165,16 +167,19 @@ class Map extends React.Component<Props, State> {
   };
 
   findMeButtonWasPressed = () => {
-    this.props.updateLocation();
-    //location is usually already set so no need to wait for that... if bugs check here
-    this.props.updateMapPosition(
-      {
-        latitude: this.props.userPosition.latitude,
-        longitude: this.props.userPosition.longitude,
-        longitudeDelta: 0.05,
-        latitudeDelta: 0.05,
-      }
-    );
+    PermissionHelper.hasPermission('location', () => {
+      this.props.updateLocation();
+      //location is usually already set so no need to wait for that... if bugs check here
+      this.props.updateMapPosition(
+        {
+          latitude: this.props.userPosition.latitude,
+          longitude: this.props.userPosition.longitude,
+          longitudeDelta: 0.05,
+          latitudeDelta: 0.05,
+        }
+      );
+      this.state.showsUserLocation = true;
+    }, true);
   };
 
   searchButtonWasPressed = () => {
@@ -297,6 +302,7 @@ class Map extends React.Component<Props, State> {
 
     this.state = {
       selectedParkspot: null,
+      showsUserLocation: false,
     };
 
     this.props.fetchParkspots(
@@ -318,7 +324,10 @@ class Map extends React.Component<Props, State> {
       });
     }
 
-    this.props.updateLocation();
+    PermissionHelper.hasPermission('location', () => {
+      this.props.updateLocation();
+      this.state.showsUserLocation = true;
+    }, true);
   }
 
 
@@ -374,7 +383,7 @@ class Map extends React.Component<Props, State> {
 
         <ClusteredMapView
           style={styles.map}
-          showsUserLocation={true}
+          showsUserLocation={this.state.showsUserLocation}
           region={this.props.mapPosition}
           onRegionChangeComplete={this.onRegionChangeComplete}
           showsMyLocationButton={false}

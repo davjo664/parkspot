@@ -19,11 +19,13 @@ export class PermissionHelper {
         title: 'You have denied location access!',
         description: 'You need to enable the access in the device settings...',
         yes: 'Take me there!',
+        no: 'Nope.',
       },
       permissionNotAvailableAlert: {
         title: 'Location is not available!',
         description: 'Ask a parent, guardian - or talk to you company IT - for access.',
         yes: 'Okay',
+        no: 'Nope.',
       },
       permissionTurnOnAlert: {
         title: 'Turn on your location in the device settings!',
@@ -34,38 +36,49 @@ export class PermissionHelper {
     },
   };
 
-  static startPermissionFlow = (permissionType: PermissionType) => {
-    // handle GPS being turned off on Android
-    if (permissionType == 'location' && Platform.OS === 'android') {
-      PermissionHelper.checkHardwareEnabled(permissionType);
-    } else {
-      PermissionHelper.checkPermission(permissionType);
+  static permissionReceived = {
+    location: false,
+  };
+
+  static hasPermission = (permissionType: PermissionType, onHasPermission: Function, requestIfNeeded: boolean = false) => {
+    if (requestIfNeeded) {
+      PermissionHelper._startPermissionFlow(permissionType, onHasPermission);
     }
   };
 
-  static checkPermission = (permissionType: PermissionType) => {
+  static _startPermissionFlow = (permissionType: PermissionType, onHasPermission: Function) => {
+    // handle GPS being turned off on Android
+    if (permissionType == 'location' && Platform.OS === 'android') {
+      PermissionHelper._checkHardwareEnabled(permissionType, onHasPermission);
+    } else {
+      PermissionHelper._checkPermission(permissionType, onHasPermission);
+    }
+  };
+
+  static _checkPermission = (permissionType: PermissionType, onHasPermission: Function) => {
     Permissions.check(permissionType).then(response => {
       if (response === 'authorized') {
-        // we have nothing left to do
+        PermissionHelper.permissionReceived[permissionType] == true;
+        onHasPermission();
       } else if (response === 'undetermined') {
         // user has not yet decided on access
-        PermissionHelper.showPermissionAlert(permissionType);
+        PermissionHelper._showPermissionAlert(permissionType, onHasPermission);
       } else {
         if (Platform.OS === 'ios') {
           if (response === 'denied') {
             // on iOS we cannot ask for access again
-            PermissionHelper.showPermissionDeniedAlert(permissionType);
+            PermissionHelper._showPermissionDeniedAlert(permissionType);
           } else if (response === 'restricted') {
             // on iOS this means the user cannot allow this due to e.g. parental control settings on the device
-            PermissionHelper.showPermissionNotAvailable(permissionType);
+            PermissionHelper._showPermissionNotAvailable(permissionType);
           }
         } else {
           if (response === 'denied') {
             // on Android we simply ask again
-            PermissionHelper.showPermissionAlert(permissionType);
+            PermissionHelper._showPermissionAlert(permissionType, onHasPermission);
           } else if (response === 'restricted') {
             // on Android this means the user has checked 'Never ask me again' and denied the request.
-            PermissionHelper.showPermissionDeniedAlert(permissionType);
+            PermissionHelper._showPermissionDeniedAlert(permissionType);
           }
         }
       }
@@ -73,27 +86,27 @@ export class PermissionHelper {
   };
 
 
-  static showPermissionAlert = (permissionType: PermissionType) => {
+  static _showPermissionAlert = (permissionType: PermissionType, onHasPermission: Function) => {
     const strings = PermissionHelper._getStringsFor(permissionType);
 
     Alert.alert(strings.permissionAlert.title, strings.permissionAlert.description, [
       {
         text: strings.permissionAlert.no,
         onPress: () => {
-          PermissionHelper.showPermissionDeniedAlert(permissionType);
+          PermissionHelper._showPermissionDeniedAlert(permissionType);
         },
         style: 'cancel',
       },
       {
         text: strings.permissionAlert.yes,
         onPress: () => {
-          PermissionHelper.requestPermission(permissionType);
+          PermissionHelper._requestPermission(permissionType, onHasPermission);
         },
       },
     ]);
   };
 
-  static showPermissionDeniedAlert = (permissionType: PermissionType) => {
+  static _showPermissionDeniedAlert = (permissionType: PermissionType) => {
     const strings = PermissionHelper._getStringsFor(permissionType);
 
     Alert.alert(strings.permissionDeniedAlert.title, strings.permissionDeniedAlert.description, [
@@ -102,11 +115,15 @@ export class PermissionHelper {
         onPress: () => {
           PermissionHelper._openSettings();
         },
+        text: strings.permissionDeniedAlert.no,
+        onPress: () => {
+        },
+        style: 'cancel',
       },
     ]);
   };
 
-  static showPermissionNotAvailable = (permissionType: PermissionType) => {
+  static _showPermissionNotAvailable = (permissionType: PermissionType) => {
     const strings = PermissionHelper._getStringsFor(permissionType);
 
     Alert.alert(strings.permissionNotAvailableAlert.title, strings.permissionNotAvailableAlert.description, [
@@ -118,12 +135,12 @@ export class PermissionHelper {
     ]);
   };
 
-  static checkHardwareEnabled = (permissionType: PermissionType) => {
+  static _checkHardwareEnabled = (permissionType: PermissionType, onHasPermission: Function) => {
     LocationServicesDialogBox.checkLocationServicesIsEnabled({
       showDialog: false,
       openLocationServices: false,
     }).then((success) => {
-      return;
+      onHasPermission();
     }).catch((error) => {
       const strings = PermissionHelper._getStringsFor(permissionType);
 
@@ -138,16 +155,16 @@ export class PermissionHelper {
         preventBackClick: false,
         providerListener: false
       }).then((success) => {
-        PermissionHelper.checkPermission(permissionType);
+        PermissionHelper._checkPermission(permissionType, onHasPermission);
       }).catch((error) => {
-        PermissionHelper.showPermissionDeniedAlert(permissionType);
+        PermissionHelper._showPermissionDeniedAlert(permissionType);
       });
     });
 
 
   };
 
-  static requestPermission = (permissionType: PermissionType, onCompletion: Function) => {
+  static _requestPermission = (permissionType: PermissionType, onCompletion: Function) => {
     Permissions.request(permissionType).then(response => {
       onCompletion(response);
     });
