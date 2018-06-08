@@ -74,6 +74,7 @@
     "react-native-maps-super-cluster": "^1.4.1",
     "react-native-open-settings": "^1.0.1",
     "react-native-permissions": "^1.1.1",
+    "react-native-streetview": "^0.1.4",
     "react-native-swipeable": "^0.6.0",
     "react-navigation": "^2.0.4",
     "react-redux": "^5.0.7",
