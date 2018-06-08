@@ -4,7 +4,7 @@ import OpenSettings from 'react-native-open-settings';
 import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
 
 // @flow
-export type PermissionType = 'location';
+export type PermissionType = 'location' | 'notifications';
 
 export class PermissionHelper {
   static strings = {
@@ -34,10 +34,20 @@ export class PermissionHelper {
         no: 'Cancel',
       }
     },
-  };
-
-  static permissionReceived = {
-    location: false,
+    notifications: {
+      permissionAlert: {
+        title: 'Can we send you notificaitons?',
+        description: 'We want to send you when your parking spot becomes free or was taken.',
+        yes: 'Sure!',
+        no: 'Nope.',
+      },
+      permissionDeniedAlert: {
+        title: 'You have denied notfications!',
+        description: 'You need to enable notifications in the device settings...',
+        yes: 'Take me there!',
+        no: 'Nope.',
+      },
+    }
   };
 
   static hasPermission = (permissionType: PermissionType, onHasPermission: Function, requestIfNeeded: boolean = false) => {
@@ -58,7 +68,6 @@ export class PermissionHelper {
   static _checkPermission = (permissionType: PermissionType, onHasPermission: Function) => {
     Permissions.check(permissionType).then(response => {
       if (response === 'authorized') {
-        PermissionHelper.permissionReceived[permissionType] == true;
         onHasPermission();
       } else if (response === 'undetermined') {
         // user has not yet decided on access
