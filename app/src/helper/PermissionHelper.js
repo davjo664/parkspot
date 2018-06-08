@@ -35,15 +35,15 @@ export class PermissionHelper {
         no: 'Cancel',
       }
     },
-    notifications: {
+    notification: {
       permissionAlert: {
-        title: 'Can we send you notificaitons?',
+        title: 'Can we send you notifications?',
         description: 'We want to send you when your parking spot becomes free or was taken.',
         yes: 'Sure!',
         no: 'Nope.',
       },
       permissionDeniedAlert: {
-        title: 'You have denied notfications!',
+        title: 'You have denied notifications!',
         description: 'You need to enable notifications in the device settings...',
         yes: 'Take me there!',
         no: 'Nope.',
@@ -206,7 +206,7 @@ export class PermissionHelper {
     switch (permissionType) {
       case 'location':
         return PermissionHelper.strings.location;
-      case 'notificaton':
+      case 'notification':
         return PermissionHelper.strings.notification;
       default:
         console.warn('Unsupported permission type: ', permissionType);
