@@ -4,6 +4,7 @@ import {ActionSheet, Icon, Text} from 'native-base';
 import {Dimensions, Image, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {Callout, Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
+import LinearGradient from 'react-native-linear-gradient';
 
 import MapViewDirections from 'react-native-maps-directions';
 import config from '../../config/config';
@@ -15,6 +16,7 @@ import codePush from 'react-native-code-push';
 
 import colors from './../../theme/parkspotColors';
 import {PermissionHelper} from '../../helper/PermissionHelper';
+import gradient from '../../theme/parkspotGradient';
 
 
 const haversine = require('haversine-js');
@@ -234,9 +236,10 @@ class Map extends React.Component<Props, State> {
 
   renderMarkerInner = (text, fontSize) => {
     return (
-      <View style={styles.cluster}>
+      <LinearGradient style={styles.cluster} colors={gradient.colors} start={gradient.start} end={gradient.end}
+                      locations={gradient.locations}>
         <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
-      </View>
+      </LinearGradient>
     );
   };
 
