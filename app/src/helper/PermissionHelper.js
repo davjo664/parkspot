@@ -19,11 +19,13 @@ export class PermissionHelper {
         title: 'You have denied location access!',
         description: 'You need to enable the access in the device settings...',
         yes: 'Take me there!',
+        no: 'Nope.',
       },
       permissionNotAvailableAlert: {
         title: 'Location is not available!',
         description: 'Ask a parent, guardian - or talk to you company IT - for access.',
         yes: 'Okay',
+        no: 'Nope.',
       },
       permissionTurnOnAlert: {
         title: 'Turn on your location in the device settings!',
@@ -113,6 +115,10 @@ export class PermissionHelper {
         onPress: () => {
           PermissionHelper._openSettings();
         },
+        text: strings.permissionDeniedAlert.no,
+        onPress: () => {
+        },
+        style: 'cancel',
       },
     ]);
   };
