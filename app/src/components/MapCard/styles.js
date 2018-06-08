@@ -91,7 +91,19 @@ const styles = StyleSheet.create({
     padding: 2,
     fontSize: 16,
     color: '#333333',
-  }
+  },
+  streetViewContainer: {
+    marginTop: 10,
+    flex: 1
+  },
+  streetView: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 150,
+  },
 });
 
 export default styles;
