@@ -4,7 +4,7 @@ import OpenSettings from 'react-native-open-settings';
 import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
 
 // @flow
-export type PermissionType = 'location' | 'notifications';
+export type PermissionType = 'location' | 'notification';
 
 export class PermissionHelper {
   static strings = {

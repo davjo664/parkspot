@@ -85,7 +85,7 @@ class NotificationsManager extends React.Component<Props, State> {
     });
 
     // check for Permisson and request if not there
-    PermissionHelper.hasPermission('notifications', () => {
+    PermissionHelper.hasPermission('notification', () => {
       this.handleNotifications();
     }, true);
   }
