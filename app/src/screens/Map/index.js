@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {ActionSheet, Icon, Text} from 'native-base';
 
-import {Dimensions, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
-import {Marker} from 'react-native-maps';
+import {Dimensions, Image, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {Callout, Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
 
 import MapViewDirections from 'react-native-maps-directions';
@@ -36,6 +36,7 @@ export interface State {
   selectedParkspot: any;
   mapPosition: any;
   showsUserLocation: boolean;
+  destination: any;
 }
 
 class Map extends React.Component<Props, State> {
@@ -217,13 +218,27 @@ class Map extends React.Component<Props, State> {
     });
   };
 
+  setDestination = (latitude: Number, longitude: Number, description: String) => {
+    this.state.destination = {
+      location: {
+        latitude: latitude,
+        longitude: longitude,
+      },
+      description: description,
+    };
+  };
+
+  unsetDestination = () => {
+    this.state.destination = null;
+  };
+
   renderMarkerInner = (text, fontSize) => {
     return (
       <View style={styles.cluster}>
         <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
       </View>
     );
-  }
+  };
 
   renderCluster = (cluster, onPress) => {
     const pointCount = cluster.pointCount,
@@ -245,6 +260,24 @@ class Map extends React.Component<Props, State> {
       </Marker>
     );
   };
+  renderDestination = (data) => {
+    if (data == null) {
+      return null;
+    }
+
+    return (
+      <Marker key={'destination'} coordinate={data.location}>
+        <Image
+          style={styles.destinationMarker}
+          source={require('../../assets/destinationPin.png')}
+        />
+        <Callout style={styles.destinationCallout}>
+          <Text style={styles.destinationCalloutText}>{data.description}</Text>
+        </Callout>
+      </Marker>
+    );
+  };
+
   transformParkspotsToData = (parkspots) => {
     return parkspots.map((parkspot) => {
       return {
@@ -401,6 +434,7 @@ class Map extends React.Component<Props, State> {
           renderMarker={this.renderMarker}
           renderCluster={this.renderCluster}
         >
+          {this.renderDestination(this.state.destination)}
           {this.renderDrivingDirectionsOnMap()}
           {this.renderWalkingDirectionsOnMap()}
         </ClusteredMapView>
