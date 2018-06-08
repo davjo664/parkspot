@@ -67,6 +67,19 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     letterSpacing: 0,
     color: colors.white,
+  },
+  destinationMarker: {
+    width: 22.4,
+    height: 29.3,
+  },
+  destinationCallout: {
+    width: 100,
+    height: 15,
+  },
+  destinationCalloutText: {
+    fontSize: 15,
+    textAlignVertical: "center",
+    textAlign: "center",
   }
 });
 export default styles;
