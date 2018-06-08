@@ -126,14 +126,16 @@ class Map extends React.Component<Props, State> {
 
         let options = availableApps.map((app) => ({text: titles[app]}));
         options.push({text: 'Cancel', style: 'cancel'});
+        const CANCEL_INDEX = options.length - 1;
 
         ActionSheet.show(
           {
             options: options,
-            title: 'Which map do you want to use for navigation?'
+            title: 'Which map do you want to use for navigation?',
+            cancelButtonIndex: CANCEL_INDEX,
           },
           buttonIndex => {
-            if (buttonIndex === options.length - 1) {
+            if (buttonIndex === CANCEL_INDEX) {
               return resolve(null);
             }
             return resolve(availableApps[buttonIndex]);
