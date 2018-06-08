@@ -328,8 +328,6 @@ class Application(tk.Frame):
         # activate buttons if they're disabled
         self.cps_button.config(state = tk.ACTIVE)
         self.spaces_button.config(state = tk.ACTIVE)
-        self.id_inputfield.config(state = 'normal')
-        self.id_inputfield_confirm_button.config(state = tk.ACTIVE)
     
     # --------------------------------------------------------------------------
     #   Escape-key-press Event Handler
@@ -438,6 +436,7 @@ class Application(tk.Frame):
         # turn off toggle buttons
         self.spaces_button.setOff()
         self.cps_button.setOff()
+        self.toggleInputField()
         
         # set initial responses
         response = False
@@ -482,6 +481,9 @@ class Application(tk.Frame):
 
 
     def clickConfirmId(self):
+        
+        self.display.focus_set()
+        
         global input_id
 
         #input_id = raw_input(self.v.get())
@@ -493,13 +495,6 @@ class Application(tk.Frame):
             self.__parking_spaces.setCurrentBox(int(input_id))
 
         if self.cps_button.getIsActive():
-            # ignore all other numbers, but 1, 2 and 3 as 3 is the maximum
-            # number of control points allowed.
-            if input_id not in ['1', '2', '3']: return
-
-            # NB: -1 from key press, because list indices are [0, 1, 2],
-            # but for ease of user selection the numbers 1, 2, 3 are used
-            # for input
             self.__control_points.setCurrentBox(int(input_id) - 1)
             
     
@@ -511,6 +506,7 @@ class Application(tk.Frame):
         # turn off toggle buttons
         self.spaces_button.setOff()
         self.cps_button.setOff()
+        self.toggleInputField()
         
         # clear the Tkinter display canvas, and all related setupdata. Then
         # turn on PiCam to allow for new image to be taken.
@@ -524,6 +520,7 @@ class Application(tk.Frame):
         # turn off toggle buttons
         self.spaces_button.setOff()
         self.cps_button.setOff()
+        self.toggleInputField()
 
         self.saveData()
     
@@ -533,6 +530,7 @@ class Application(tk.Frame):
         # turn off toggle buttons
         self.spaces_button.setOff()
         self.cps_button.setOff()
+        self.toggleInputField()
         
         if not self.loadImage(self.SETUP_IMAGE, self.display, 
                 s.PICTURE_RESOLUTION[0]/2, s.PICTURE_RESOLUTION[1]/2):
@@ -547,8 +545,6 @@ class Application(tk.Frame):
         self.clear_button.invoke()
         self.cps_button.config(state = tk.ACTIVE)
         self.spaces_button.config(state = tk.ACTIVE)
-        self.id_inputfield.config(state = 'normal')
-        self.id_inputfield_confirm_button.config(state = tk.ACTIVE)
     
     def clickClear(self):
         if self.__is_verbose: print "ACTION: Clicked 'Clear'"
@@ -561,11 +557,13 @@ class Application(tk.Frame):
 
     def clickSpaces(self):
         """Add/remove parking-space bounding boxes. """
-        if self.__is_verbose: print "ACTION: Clicked 'Add/Remove Spaces'"
+        if self.__is_verbose: print "ACTION: Clickted 'Add/Remove Spaces'"
         
         # toggle the button, and turn off other toggle buttons
         self.spaces_button.toggle()
-        if self.cps_button.getIsActive(): self.cps_button.setOff()
+        self.toggleInputField()
+        if self.cps_button.getIsActive():
+            self.cps_button.setOff()
 
     def clickCPs(self):
         """Add/remove control points. """
@@ -573,7 +571,18 @@ class Application(tk.Frame):
         
         # toggle the button, and turn off other toggle buttons
         self.cps_button.toggle()
-        if self.spaces_button.getIsActive(): self.spaces_button.setOff()
+        self.toggleInputField()
+        if self.spaces_button.getIsActive():
+            self.spaces_button.setOff()
+            
+    def toggleInputField(self):
+        if (self.spaces_button.getIsActive()|self.cps_button.getIsActive()):
+            self.id_inputfield.config(state = 'normal')
+            self.id_inputfield.focus()
+            self.id_inputfield_confirm_button.config(state = 'normal')
+        else:    
+            self.id_inputfield.config(state = 'disabled')
+            self.id_inputfield_confirm_button.config(state = 'disabled')
         
         
     def clickQuit(self):
@@ -583,6 +592,7 @@ class Application(tk.Frame):
         # turn off toggle buttons
         self.spaces_button.setOff()
         self.cps_button.setOff()
+        self.toggleInputField()
         
         response = True
         # if the user hasn't recently saved, ask if they really wish to quit
@@ -606,6 +616,7 @@ class Application(tk.Frame):
         # turn off toggle buttons
         self.spaces_button.setOff()
         self.cps_button.setOff()
+        self.toggleInputField()
         
         # load external README from command line
         # TODO: Put this in new Tkinter window with scroll bar
@@ -726,7 +737,7 @@ class Application(tk.Frame):
             sticky = tk.W + tk.E + tk.N + tk.S)
 
         # parkspot id input confirm button
-        self.id_inputfield_confirm_button = tk.Button(self, text='Submit',
+        self.id_inputfield_confirm_button = tk.Button(self, text = "Submit",
             command = self.clickConfirmId, padx = PADDING, state = tk.DISABLED)
         self.id_inputfield_confirm_button.grid(row = 1, column = 5, rowspan = 1, columnspan = 2,
             sticky = tk.W + tk.E + tk.N + tk.S)
