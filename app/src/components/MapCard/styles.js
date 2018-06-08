@@ -58,8 +58,11 @@ const styles = StyleSheet.create({
     color: '#333333',
     fontWeight: '300',
   },
+  panelGradient: {
+
+  },
   panelButton: {
-    backgroundColor: colors.lightAquamarine,
+    backgroundColor: 'transparent',
   },
   panelButtonTitle: {
     fontSize: 17,
