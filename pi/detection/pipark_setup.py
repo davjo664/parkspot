@@ -275,8 +275,8 @@ class Application(tk.Frame):
             elif self.__is_verbose:
                 print "ERROR: Box-type not set to either 0 or 1."
         
-        # data is valid if there is at least 1 space and exactly 3 control points
-        if len(space_boxes) > 0 and len(control_boxes) == 3: 
+        # data is valid if there is at least 1 space and more than 3 control points
+        if len(space_boxes) > 0 and len(control_boxes) > 3:
             valid_data = True
         else:
             valid_data = False

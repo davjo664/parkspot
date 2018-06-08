@@ -99,7 +99,7 @@ class MainApplication(tk.Frame):
             if i != None: num_spaces += 1
             if i == True: occupied += 1
         
-        self.__label = "Parking Spaces Available:", occupied, "/", num_spaces
+        self.__label = "Parking Spaces Occupied:", occupied, "/", num_spaces
         
         self.loadImage("./images/logo_main.jpeg", self.logo, 400/2, 148/2)
         self.logo.create_text((200, 130), text = self.__label, fill = "white")
@@ -299,7 +299,7 @@ def run():
     
     # assert that the correct number of spaces and CPs are present in the data
     assert num_spaces > 0
-    assert num_controls == 3
+    assert num_controls > 3
     
     # set initial values for status and ticks
     last_status = [None for i in range(10)]
