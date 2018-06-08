@@ -160,6 +160,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-streetview')
   implementation project(':react-native-linear-gradient')
   implementation project(':react-native-open-settings')
   implementation project(':react-native-maps')

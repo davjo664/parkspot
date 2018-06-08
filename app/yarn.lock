@@ -6891,6 +6891,10 @@ react-native-safe-area-view@^0.8.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
+react-native-streetview@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-streetview/-/react-native-streetview-0.1.4.tgz#9c8739ebf6b01cd95b694a4c474be23cd4929fbf"
+
 react-native-swipeable@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/react-native-swipeable/-/react-native-swipeable-0.6.0.tgz#0fe551330018b83c754d27f505709a594f554370"

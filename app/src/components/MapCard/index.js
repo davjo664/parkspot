@@ -3,6 +3,7 @@ import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} f
 import {Button, Icon} from 'native-base';
 import Interactable from 'react-native-interactable';
 import LinearGradient from 'react-native-linear-gradient';
+import StreetView from 'react-native-streetview';
 
 import styles from './styles';
 import gradient from './../../theme/parkspotGradient';
@@ -98,6 +99,18 @@ export default class MapCard extends Component {
                 {this.renderIcon(this.props.parkspot.accessible, 'accessibility', 'MaterialIcons', 'Easily accessible')}
               </View>
             </View>
+
+            <View style={styles.streetViewContainer}>
+              <StreetView
+                style={styles.streetView}
+                allGesturesEnabled={true}
+                coordinate={{
+                  'latitude': parseFloat(this.props.parkspot.lat),
+                  'longitude': parseFloat(this.props.parkspot.lng),
+                }}
+              />
+            </View>
+
           </View>
         </Interactable.View>
       </View>
