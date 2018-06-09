@@ -8,6 +8,8 @@ PODS:
     - AppCenter/Core (= 1.6.1)
   - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
+  - BVLinearGradient (2.4.0):
+    - React
   - CodePush (5.3.4):
     - Base64 (~> 1.1)
     - JWT (~> 3.0.0-beta.7)
@@ -138,6 +140,7 @@ DEPENDENCIES:
   - AppCenter/Analytics (~> 1.6.1)
   - AppCenter/Crashes (~> 1.6.1)
   - AppCenterReactNativeShared (~> 1.5.1)
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Firebase/Core (~> 4.13.0)
@@ -185,6 +188,8 @@ SPEC REPOS:
     - SSZipArchive
 
 EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   CodePush:
     :path: "../node_modules/react-native-code-push"
   DoubleConversion:
@@ -211,6 +216,7 @@ SPEC CHECKSUMS:
   AppCenterReactNativeShared: 5b40dc5bbaf891697d1982e0ae0e9b1120dd4274
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BVLinearGradient: 4b3f3bdf1ac1a52a5ef5e65c9585d793a7c3f825
   CodePush: f6b348759cdc42c734d9c3a46ceb2997c270b12e
   DoubleConversion: e22e0762848812a87afd67ffda3998d9ef29170c
   Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
@@ -234,6 +240,6 @@ SPEC CHECKSUMS:
   SSZipArchive: 51a800ebb77f95a8329b6ced1faaff394b47f509
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 5ea1d98fd1cc6c6268e0ea985ab058e32d0334e4
+PODFILE CHECKSUM: 695e664c5c75cd12c301c2f8a1c8743eb81f2c7e
 
 COCOAPODS: 1.5.3

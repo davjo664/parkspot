@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {ActionSheet, Icon, Text} from 'native-base';
+import { ActionSheet, Icon, Text } from 'native-base';
 
-import {Dimensions, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
-import {Marker} from 'react-native-maps';
+import { Dimensions, Linking, Platform, SafeAreaView, TouchableOpacity, View, Image } from 'react-native';
+import { Marker } from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
 
 import MapViewDirections from 'react-native-maps-directions';
@@ -14,8 +14,9 @@ import styles from './styles';
 import codePush from 'react-native-code-push';
 
 import colors from './../../theme/parkspotColors';
-
-
+import LinearGradient from 'react-native-linear-gradient';
+import textStyles from '../../theme/parkspotStyles';
+import ElevatedView from 'react-native-elevated-view'
 const haversine = require('haversine-js');
 
 export interface Props {
@@ -119,8 +120,8 @@ class Map extends React.Component<Props, State> {
           }
         }
 
-        let options = availableApps.map((app) => ({text: titles[app]}));
-        options.push({text: 'Cancel', style: 'cancel'});
+        let options = availableApps.map((app) => ({ text: titles[app] }));
+        options.push({ text: 'Cancel', style: 'cancel' });
 
         ActionSheet.show(
           {
@@ -181,9 +182,10 @@ class Map extends React.Component<Props, State> {
     this.props.navigation.navigate('Search');
   };
 
-  favoriteButtonWasPressed = () => {
-    this.props.navigation.navigate('Favorites', {setSelectedParkspot: this.setSelectedParkspot});
+  filterButtonWasPressed = () => {
+    console.log('Filter pressed');
   };
+
 
   mapWasPressed = () => {
     this.deselectParkspot();
@@ -215,7 +217,7 @@ class Map extends React.Component<Props, State> {
   renderMarkerInner = (text, fontSize) => {
     return (
       <View style={styles.cluster}>
-        <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
+        <Text style={[styles.clusterText, { fontSize: fontSize }]}>{text}</Text>
       </View>
     );
   }
@@ -233,6 +235,7 @@ class Map extends React.Component<Props, State> {
       </Marker>
     );
   };
+
   renderMarker = (data) => {
     return (
       <Marker key={data.id} coordinate={data.location}>
@@ -240,6 +243,7 @@ class Map extends React.Component<Props, State> {
       </Marker>
     );
   };
+
   transformParkspotsToData = (parkspots) => {
     return parkspots.map((parkspot) => {
       return {
@@ -278,7 +282,7 @@ class Map extends React.Component<Props, State> {
     if (this.state.selectedParkspot) {
       return (
         <MapViewDirections
-          origin={{latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude}}
+          origin={{ latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude }}
           destination={{
             latitude: Number(this.state.selectedParkspot.lat),
             longitude: Number(this.state.selectedParkspot.lng)
@@ -327,38 +331,44 @@ class Map extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        <View
+        <LinearGradient
+          colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.5)', 'rgba(255,255,255,1)']}
+          locations={[0, 0.1, 0.4]}
           style={[
-            styles.buttonsContainer,
-            {bottom: this.state.selectedParkspot ? 240 : 20},
-          ]}
-        >
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.button}
-            onPress={() => this.findMeButtonWasPressed()}
-          >
-            <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon}/>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.button}
-            onPress={() => this.favoriteButtonWasPressed()}
-          >
-            <Icon type="MaterialIcons" name="star" style={{color: 'black'}}/>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.button}
-            onPress={() => this.searchButtonWasPressed()}
-          >
-            <Icon
-              name="search"
-              type="MaterialIcons"
-              style={{color: 'black'}}
-            />
-          </TouchableOpacity>
-        </View>
+            styles.bottomContainer
+          ]}>
+
+          <View style={styles.searchRow}>
+            <ElevatedView style={styles.searchButtonView} elevation={5} >
+
+              <TouchableOpacity
+                style={styles.searchButton}
+                activeOpacity={0.7}
+                onPress={() => this.searchButtonWasPressed()}>
+                <View style={styles.buttonContent}>
+                  <Image source={require('../../../assets/group.png')} style={styles.searchIcon} />
+                  <Text style={textStyles.textStyle2}>Search for a parkspot</Text>
+                </View>
+              </TouchableOpacity>
+            </ElevatedView>
+
+          </View>
+          <View style={styles.buttonsRow}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => this.filterButtonWasPressed()}
+            >
+              <Icon type="MaterialIcons" name="filter-list" style={styles.icon} />
+            </TouchableOpacity>
+
+            <Text style={textStyles.textStyleMapHeading}>parkspot</Text>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => this.findMeButtonWasPressed()}>
+              <Image source={require('../../../assets/relocate.png')} style={styles.icon} />
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
 
         <SafeAreaView style={styles.safeArea}>
           <Text style={styles.versionLabel}>
@@ -395,7 +405,7 @@ class Map extends React.Component<Props, State> {
           {this.renderDrivingDirectionsOnMap()}
           {this.renderWalkingDirectionsOnMap()}
         </ClusteredMapView>
-      </View>
+      </View >
     );
   }
 }
