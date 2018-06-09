@@ -1,6 +1,6 @@
 {
   "name": "parkspot",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "private": true,
   "devDependencies": {
     "appcenter-cli": "^1.0.17",
@@ -39,7 +39,7 @@
     "test": "exit 0",
     "jest": "node node_modules/jest/bin/jest.js",
     "precommit": "yarn test",
-    "postinstall": "remotedev-debugger  --hostname localhost --port 5678 --injectserver"
+    "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver"
   },
   "jest": {
     "preset": "jest-expo",
