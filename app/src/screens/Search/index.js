@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ActionSheet, Button, Content, Header, Icon, Input, Item, List, Text} from 'native-base';
+import {ActionSheet, Button, Content, Header, Icon, Input, Item, List, ListItem, Text} from 'native-base';
 import {
   ActivityIndicator,
   Dimensions,
@@ -13,7 +13,8 @@ import {
 
 import defaultStyles from './styles';
 import Filter from '../../components/Filter/index';
-import {ParkspotListItem, PlaceListItem} from '../../components/ListItems';
+import {FavouriteListItem, PlaceListItem} from '../../components/ListItems';
+import textStyles from '../../theme/parkspotStyles';
 
 var filters = [
   {name: 'electricCharger', icon: 'ios-flash'},
@@ -28,22 +29,15 @@ const WINDOW = Dimensions.get('window');
 export default class SearchScreen extends Component {
   _onPress = rowData => {
     Keyboard.dismiss();
-    this.props.updateSearchString(rowData.description);
     //method passed via nav from Maps to set selectedLocation
     this.props.fetchLocationDetails(rowData);
-    //Temp. here - just to test the favourite function
-    this.props.addFavourite(rowData.description);
+    this.props.addLastSearched(rowData);
+    this.props.updateSearchString('');
     this.props.navigation.goBack();
   };
   _onChange = text => {
     this.props.updateSearchString(text);
-    if (text.length == 0) {
-      this.props.fetchParkspots(
-        this.props.userPosition.latitude,
-        this.props.userPosition.longitude,
-        (distance = 6000),
-      );
-    } else {
+    if (text.length > 0) {
       this.props.fetchLocations(text, this.props.userPosition);
     }
   };
@@ -83,17 +77,6 @@ export default class SearchScreen extends Component {
       </Header>
     );
   };
-  _renderNearbyText = () => {
-    if (this.props.showParkspots) {
-      return (
-        <Text
-          style={{fontSize: 18, color: 'grey', marginLeft: 12, marginTop: 12}}
-        >
-          Parking spots nearby
-        </Text>
-      );
-    }
-  };
   _renderFilter = () => {
     if (this.props.showParkspots) {
       return (
@@ -106,24 +89,53 @@ export default class SearchScreen extends Component {
       );
     }
   };
-  _renderList = () => {
-    let data = null;
-    if (this.props.showParkspots) {
-      data = this.props.filteredData.map(spot => (
-        <ParkspotListItem key={spot.id} parkspot={spot} onPress={() => this._onPress(spot)}/>
-      ));
-    } else {
-      data = this.props.data.map(place => (
-        <PlaceListItem key={place.id} place={place} onPress={() => this._onPress(place)}/>
-      ));
-    }
-    return (<Content>
-      <List>
-        {data}
-      </List>
-    </Content>);
+  _renderPlaceItem = (place) => {
+    return <PlaceListItem place={place} onPress={() => this._onPress(place)} addFavourite={() => this.props.addFavourite(place)}  remFavourite={() => this.props.remFavourite(place)}/>
   };
+  _renderList = () => {
+    if (!this.props.showLocations) {
+      let favourites = this.props.favourites.map(place => (
+        <View key={place.id}>
+          {this._renderPlaceItem(place)}
+        </View>
+      ));
+      let lastSearches = this.props.lastSearches.map(place => (
+        <View key={place.id}>
+          {this._renderPlaceItem(place)}
+        </View>
+      ));
 
+      let textStyle1 = { fontWeight: 'bold', fontSize: 22, color: 'rgb(29,30,24)'};
+      let textStyle2 = [textStyles.textStyle3, { paddingLeft: 20 }];
+      return (
+        <Content>
+          <List>
+          <ListItem itemHeader first style={ { paddingBottom: favourites.length > 0 ? 0 : 10 } }>
+            <Text style={ textStyle1 }>Favourites</Text>
+          </ListItem>
+            <Text style={ [textStyle2,{ display: favourites.length > 0 ? 'none' : 'flex'}] }> No favourites yet </Text>
+            {favourites}
+          <ListItem itemHeader first style={ { paddingBottom: lastSearches.length > 0 ? 0 : 10 } }>
+            <Text style={ textStyle1 }>Last searches</Text>
+          </ListItem>
+            <Text style={ [textStyle2,{ display: lastSearches.length > 0 ? 'none' : 'flex'}] }> No last searches yet </Text>
+            {lastSearches}
+          </List>
+        </Content>
+      );
+    } else {
+      let data = this.props.data.map(place => (
+        <View key={place.id}>
+          {this._renderPlaceItem(place)}
+        </View>
+      ));
+      return (<Content>
+        <List>
+          {data}
+        </List>
+      </Content>);
+    }
+  };
 
   componentDidMount() {
     if (this.props.data.length == 0) {
@@ -139,8 +151,7 @@ export default class SearchScreen extends Component {
       <SafeAreaView style={defaultStyles.safeArea}>
         <View style={[defaultStyles.container]} pointerEvents="box-none">
           {this._renderSearchBar()}
-          {this._renderFilter()}
-          {this._renderNearbyText()}
+          {/* {this._renderFilter()} */}
           {this._renderList()}
         </View>
       </SafeAreaView>
@@ -157,7 +168,7 @@ export interface Props {
   filteredData: Array;
   fetchParkspots: Function;
   fetchLocations: Function;
-  showParkspots: Boolean;
+  showLocations: Boolean;
   fetchLocationDetails: Function;
   isLoading: Boolean;
   toggleFilter: Function;
@@ -165,6 +176,8 @@ export interface Props {
   addFavourite: Function;
   remFavourite: Function;
   favourites: any;
+  addLastSearched: Function;
+  lastSearches: any;
 }
 
 export interface State {

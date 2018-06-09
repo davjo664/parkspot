@@ -66,18 +66,23 @@ export function filterData(filterId) {
   };
 }
 
-export function addFavourite(newFav) {
-  return dispatch =>
-    dispatch({
-      type: 'ADD_FAVOURITE',
-      newFav,
-    });
+export function addFavourite(fav) {
+  return {
+    type: 'ADD_FAVOURITE',
+    fav,
+  };
 }
 
-export function remFavourite(remFa) {
-  return dispatch =>
-    dispatch({
-      type: 'REM_FAVOURITE',
-      remFav,
-    });
+export function remFavourite(fav) {
+  return {
+    type: 'REM_FAVOURITE',
+    fav,
+  };
+}
+
+export function addLastSearched(place) {
+  return {
+    type: 'ADD_LAST_SEARCHED',
+    place,
+  };
 }
