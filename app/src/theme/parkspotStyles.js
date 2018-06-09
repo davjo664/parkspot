@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import colors from './parkspotColors';
 
 
@@ -17,6 +17,14 @@ const textStyles = StyleSheet.create({
     fontWeight: 'normal',
     fontStyle: 'normal',
     letterSpacing: -0.41,
+    color: colors.blackTwo
+  },
+  textStyleMapHeading: {
+    fontFamily: 'System',
+    fontSize: 24,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    letterSpacing: 0,
     color: colors.blackTwo
   },
   textStyle3: {
