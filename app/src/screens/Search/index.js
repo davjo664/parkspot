@@ -1,26 +1,18 @@
-import React, {Component} from 'react';
-import {ActionSheet, Button, Content, Header, Icon, Input, Item, List, Text} from 'native-base';
-import {
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
-  Keyboard,
-  Linking,
-  Platform,
-  SafeAreaView,
-  View,
-} from 'react-native';
-
-import defaultStyles from './styles';
+import { Content, List, Text } from 'native-base';
+import React, { Component } from 'react';
+import { ActivityIndicator, Dimensions, Keyboard, SafeAreaView, TouchableOpacity, View } from 'react-native';
 import Filter from '../../components/Filter/index';
-import {ParkspotListItem, PlaceListItem} from '../../components/ListItems';
+import { ParkspotListItem, PlaceListItem } from '../../components/ListItems';
+import SearchBar from '../../components/SearchBar';
+import defaultStyles from './styles';
+import textStyles from '../../theme/parkspotStyles';
 
 var filters = [
-  {name: 'electricCharger', icon: 'ios-flash'},
-  {name: 'cost', icon: 'ios-cash'},
-  {name: 'favorite', icon: 'ios-star'},
-  {name: 'time', icon: 'ios-timer'},
-  {name: 'handicapped', icon: 'ios-person'},
+  { name: 'electricCharger', icon: 'ios-flash' },
+  { name: 'cost', icon: 'ios-cash' },
+  { name: 'favorite', icon: 'ios-star' },
+  { name: 'time', icon: 'ios-timer' },
+  { name: 'handicapped', icon: 'ios-person' },
 ];
 
 const WINDOW = Dimensions.get('window');
@@ -49,45 +41,32 @@ export default class SearchScreen extends Component {
   };
 
   _renderLoader = () => {
-    if (this.props.isLoading === true) {
+    if (this.props.isLoading) {
       return (
         <ActivityIndicator
           animating={true}
           size="small"
-          style={{marginRight: 10}}
+          style={{ marginTop: 10 }}
         />
       );
     }
-
     return null;
   };
   _renderSearchBar = () => {
     return (
-      <Header noShadow searchBar rounded>
-        <Item>
-          <Icon name="ios-search"/>
-          <Input
-            placeholder="Search"
-            returnKeyType={'search'}
-            autoFocus={true}
-            value={this.props.searchString}
-            clearButtonMode="while-editing"
-            onChangeText={text => this._onChange(text)}
-            style={[defaultStyles.input]}
-          />
-          {this._renderLoader()}
-        </Item>
-        <Button transparent onPress={() => this.props.navigation.goBack()}>
-          <Text>Cancel</Text>
-        </Button>
-      </Header>
+      <View style={defaultStyles.searchBar} >
+        <SearchBar onChange={this._onChange} isLoading={this.props.isLoading} value={this.props.searchString} />
+        <TouchableOpacity style={defaultStyles.cancelButton} onPress={() => this.props.navigation.goBack()}>
+          <Text style={textStyles.textStyle2}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
     );
   };
   _renderNearbyText = () => {
     if (this.props.showParkspots) {
       return (
         <Text
-          style={{fontSize: 18, color: 'grey', marginLeft: 12, marginTop: 12}}
+          style={{ fontSize: 18, color: 'grey', marginLeft: 12, marginTop: 12 }}
         >
           Parking spots nearby
         </Text>
@@ -110,17 +89,18 @@ export default class SearchScreen extends Component {
     let data = null;
     if (this.props.showParkspots) {
       data = this.props.filteredData.map(spot => (
-        <ParkspotListItem key={spot.id} parkspot={spot} onPress={() => this._onPress(spot)}/>
+        <ParkspotListItem key={spot.id} parkspot={spot} onPress={() => this._onPress(spot)} />
       ));
     } else {
       data = this.props.data.map(place => (
-        <PlaceListItem key={place.id} place={place} onPress={() => this._onPress(place)}/>
+        <PlaceListItem key={place.id} place={place} onPress={() => this._onPress(place)} />
       ));
     }
     return (<Content>
       <List>
         {data}
       </List>
+      {this._renderLoader()}
     </Content>);
   };
 

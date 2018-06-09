@@ -6,8 +6,21 @@ const defaultStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  input: {},
+  input: {
+    backgroundColor: 'white',
+  },
   listView: {},
+  searchBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 20,
+    marginRight: 20,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  cancelButton: {
+    marginLeft: 10,
+  },
   row: {
     flexDirection: 'row',
     height: 40,

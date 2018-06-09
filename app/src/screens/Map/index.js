@@ -239,7 +239,7 @@ class Map extends React.Component<Props, State> {
   renderMarkerInner = (text, fontSize) => {
     return (
       <LinearGradient style={styles.cluster} colors={gradient.colors} start={gradient.start} end={gradient.end}
-                      locations={gradient.locations}>
+        locations={gradient.locations}>
         <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
       </LinearGradient>
     );
@@ -274,7 +274,7 @@ class Map extends React.Component<Props, State> {
       <Marker key={'destination'} coordinate={data.location}>
         <Image
           style={styles.destinationMarker}
-          source={require('../../assets/destinationPin.png')}
+          source={require('../../../assets/destinationPin.png')}
         />
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
@@ -385,14 +385,14 @@ class Map extends React.Component<Props, State> {
             style={styles.button}
             onPress={() => this.findMeButtonWasPressed()}
           >
-            <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon}/>
+            <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.button}
             onPress={() => this.favoriteButtonWasPressed()}
           >
-            <Icon type="MaterialIcons" name="star" style={{color: 'black'}}/>
+            <Icon type="MaterialIcons" name="star" style={{color: 'black'}} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}

@@ -65,6 +65,7 @@
     "react-native": "0.55.4",
     "react-native-android-location-services-dialog-box": "^2.5.0",
     "react-native-code-push": "^5.3.4",
+    "react-native-elevated-view": "0.0.6",
     "react-native-firebase": "^4.2.0",
     "react-native-interactable": "^0.1.10",
     "react-native-linear-gradient": "^2.4.0",
