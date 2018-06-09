@@ -7,7 +7,6 @@ import storage from 'redux-persist/es/storage';
 
 import searchReducer from '../container/SearchContainer/reducer';
 import filterReducer from '../components/Filter/reducer';
-import favReducer from '../container/FavoriteContainer/reducer';
 
 const config = {
   key: 'root',
@@ -19,7 +18,6 @@ const config = {
 export default persistCombineReducers(config, {
   mapReducer,
   notificationsReducer,
-  favReducer,
   filterReducer,
   searchReducer,
 });
