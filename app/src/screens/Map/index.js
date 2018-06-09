@@ -243,7 +243,7 @@ class Map extends React.Component<Props, State> {
   renderMarkerInner = (text, fontSize) => {
     return (
       <LinearGradient style={styles.cluster} colors={gradient.colors} start={gradient.start} end={gradient.end}
-                      locations={gradient.locations}>
+        locations={gradient.locations}>
         <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
       </LinearGradient>
     );
@@ -279,7 +279,7 @@ class Map extends React.Component<Props, State> {
       <Marker key={'destination'} coordinate={data.location}>
         <Image
           style={styles.destinationMarker}
-          source={require('../../assets/destinationPin.png')}
+          source={require('../../../assets/destinationPin.png')}
         />
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>

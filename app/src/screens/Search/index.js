@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ActionSheet, Button, Content, Header, Icon, Input, Item, List, ListItem, Text} from 'native-base';
+import {Content, List, ListItem, Text} from 'native-base';
 import {
   ActivityIndicator,
   Dimensions,
@@ -8,12 +8,14 @@ import {
   Linking,
   Platform,
   SafeAreaView,
-  View,
+  TouchableOpacity,
+  View
 } from 'react-native';
 
 import defaultStyles from './styles';
 import Filter from '../../components/Filter/index';
 import {FavouriteListItem, PlaceListItem} from '../../components/ListItems';
+import SearchBar from '../../components/SearchBar';
 import textStyles from '../../theme/parkspotStyles';
 
 var filters = [
@@ -43,40 +45,40 @@ export default class SearchScreen extends Component {
   };
 
   _renderLoader = () => {
-    if (this.props.isLoading === true) {
+    if (this.props.isLoading) {
       return (
         <ActivityIndicator
           animating={true}
           size="small"
-          style={{marginRight: 10}}
+          style={{marginTop: 10}}
         />
       );
     }
-
     return null;
   };
   _renderSearchBar = () => {
     return (
-      <Header noShadow searchBar rounded>
-        <Item>
-          <Icon name="ios-search"/>
-          <Input
-            placeholder="Search"
-            returnKeyType={'search'}
-            autoFocus={true}
-            value={this.props.searchString}
-            clearButtonMode="while-editing"
-            onChangeText={text => this._onChange(text)}
-            style={[defaultStyles.input]}
-          />
-          {this._renderLoader()}
-        </Item>
-        <Button transparent onPress={() => this.props.navigation.goBack()}>
-          <Text>Cancel</Text>
-        </Button>
-      </Header>
+      <View style={defaultStyles.searchBar}>
+        <SearchBar onChange={this._onChange} isLoading={this.props.isLoading} value={this.props.searchString}/>
+        <TouchableOpacity style={defaultStyles.cancelButton} onPress={() => this.props.navigation.goBack()}>
+          <Text style={textStyles.textStyle2}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
     );
   };
+
+  _renderNearbyText = () => {
+    if (this.props.showParkspots) {
+      return (
+        <Text
+          style={{fontSize: 18, color: 'grey', marginLeft: 12, marginTop: 12}}
+        >
+          Parking spots nearby
+        </Text>
+      );
+    }
+  };
+
   _renderFilter = () => {
     if (this.props.showParkspots) {
       return (
@@ -90,9 +92,12 @@ export default class SearchScreen extends Component {
     }
   };
   _renderPlaceItem = (place) => {
-    return <PlaceListItem place={place} onPress={() => this._onPress(place)} addFavourite={() => this.props.addFavourite(place)}  remFavourite={() => this.props.remFavourite(place)}/>
+    return <PlaceListItem place={place} onPress={() => this._onPress(place)}
+                          addFavourite={() => this.props.addFavourite(place)}
+                          remFavourite={() => this.props.remFavourite(place)}/>
   };
   _renderList = () => {
+    let data;
     if (!this.props.showLocations) {
       let favourites = this.props.favourites.map(place => (
         <View key={place.id}>
@@ -105,29 +110,28 @@ export default class SearchScreen extends Component {
         </View>
       ));
 
-      let textStyle1 = { fontWeight: 'bold', fontSize: 22, color: 'rgb(29,30,24)'};
-      let textStyle2 = [textStyles.textStyle3, { paddingLeft: 20 }];
+      let textStyle1 = {fontWeight: 'bold', fontSize: 22, color: 'rgb(29,30,24)'};
+      let textStyle2 = [textStyles.textStyle3, {paddingLeft: 20}];
       return (
         <Content>
           <List>
-          <ListItem itemHeader first style={ { paddingBottom: favourites.length > 0 ? 0 : 10 } }>
-            <Text style={ textStyle1 }>Favourites</Text>
-          </ListItem>
-            <Text style={ [textStyle2,{ display: favourites.length > 0 ? 'none' : 'flex'}] }> No favourites yet </Text>
+            <ListItem itemHeader first style={{paddingBottom: favourites.length > 0 ? 0 : 10}}>
+              <Text style={textStyle1}>Favourites</Text>
+            </ListItem>
+            <Text style={[textStyle2, {display: favourites.length > 0 ? 'none' : 'flex'}]}> No favourites yet </Text>
             {favourites}
-          <ListItem itemHeader first style={ { paddingBottom: lastSearches.length > 0 ? 0 : 10 } }>
-            <Text style={ textStyle1 }>Last searches</Text>
-          </ListItem>
-            <Text style={ [textStyle2,{ display: lastSearches.length > 0 ? 'none' : 'flex'}] }> No last searches yet </Text>
+            <ListItem itemHeader first style={{paddingBottom: lastSearches.length > 0 ? 0 : 10}}>
+              <Text style={textStyle1}>Last searches</Text>
+            </ListItem>
+            <Text style={[textStyle2, {display: lastSearches.length > 0 ? 'none' : 'flex'}]}> No last searches
+              yet </Text>
             {lastSearches}
           </List>
         </Content>
       );
     } else {
-      let data = this.props.data.map(place => (
-        <View key={place.id}>
-          {this._renderPlaceItem(place)}
-        </View>
+      data = this.props.data.map(place => (
+        <PlaceListItem key={place.id} place={place} onPress={() => this._onPress(place)}/>
       ));
       return (<Content>
         <List>
@@ -135,6 +139,12 @@ export default class SearchScreen extends Component {
         </List>
       </Content>);
     }
+    return (<Content>
+      <List>
+        {data}
+      </List>
+      {this._renderLoader()}
+    </Content>);
   };
 
   componentDidMount() {

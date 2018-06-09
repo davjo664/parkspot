@@ -6,3 +6,4 @@
 * Redesigns components on Map.
 * Shows Favourites and Last searches on search screen.
 * Can add locations as favourites from the search screen.
+* Contains Custom SearchBar.
