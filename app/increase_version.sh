@@ -8,5 +8,6 @@ node ./android_increase_build_version.js
 git add "./android/app/build.gradle"
 git add "./ios/parkspot/Info.plist"
 git add "./package.json"
+git add "./package-lock.json"
 
 git tag ${PACKAGE_VERSION}

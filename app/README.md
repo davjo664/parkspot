@@ -31,7 +31,8 @@ for the Android App you have to run `yarn android-deploy-build`. You can then fi
 #### Uploading
 To upload the built and archived apps you have to run `yarn ios-deploy-upload` and `yarn android-deploy-upload`.
 
-
+#### Cleaning
+After deploying both versions you need to clean the `RELEASE_NOTES.md`. Just run `yarn deploy-clean`.
 ## Parkspot App Development
 
 Based on:
