@@ -36,6 +36,7 @@ export interface Props {
   userPosition: any;
   mapPosition: any;
   selectedLocation: Object;
+  filterParkspots: Function;
 }
 
 export interface State {
@@ -66,6 +67,7 @@ class Map extends React.Component<Props, State> {
          * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
          * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
          */
+    this.setShowFilters(false)
     this.setState({
       selectedParkspot: this.props.parkspots.find(parkspot => {
         return (
@@ -195,15 +197,16 @@ class Map extends React.Component<Props, State> {
     this.props.navigation.navigate('Search');
   };
 
-  toggleShowFilters = () => {
+  setShowFilters = (show) => {
     this.setState({
-      showFilters: !this.state.showFilters
+      showFilters: show
     });
   };
 
 
   mapWasPressed = () => {
     this.deselectParkspot();
+    this.setShowFilters(false);
   };
 
   approximateCurrentRegionRadius = region => {
@@ -408,7 +411,7 @@ class Map extends React.Component<Props, State> {
           <View style={styles.buttonsRow}>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => this.toggleShowFilters()}
+              onPress={() => this.setShowFilters(true)}
             >
               <Icon type="MaterialIcons" name="filter-list" style={styles.icon} />
             </TouchableOpacity>
@@ -430,7 +433,8 @@ class Map extends React.Component<Props, State> {
 
         <FilterCard
           showFilters={this.state.showFilters}
-          onDismiss={this.toggleShowFilters}
+          onDismiss={() => {this.setShowFilters(false)}}
+          filterParkspots={this.props.filterParkspots}
         />
 
         <MapCard

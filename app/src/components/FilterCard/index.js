@@ -41,7 +41,11 @@ class FilterCard extends Component {
             <Text>{filter.name}</Text>
           </Body>
           <Right>
-            <Switch value={this.props[filter.id]} onValueChange={() => this.props.toggleFilter(filter.id)} />
+            <Switch value={this.props[filter.id]} onValueChange={() => {
+                  this.props.toggleFilter(filter.id);
+                  this.props.filterParkspots(filter.id);
+                }
+              } />
           </Right>
         </ListItem>
       )

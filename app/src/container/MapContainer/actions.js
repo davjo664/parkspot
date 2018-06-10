@@ -53,3 +53,10 @@ export function updateLocation() {
       { enableHighAccuracy: true, timeout: 2500 },
     );
 }
+
+export function filterParkspots(filterId) {
+  return {
+    type: 'FILTER_PARKSPOTS',
+    filter: filterId,
+  };
+}
