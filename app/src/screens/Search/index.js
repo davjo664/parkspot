@@ -130,8 +130,10 @@ export default class SearchScreen extends Component {
         </Content>
       );
     } else {
-      data = this.props.data.map(place => (
-        <PlaceListItem key={place.id} place={place} onPress={() => this._onPress(place)}/>
+      let data = this.props.data.map(place => (
+        <View key={place.id}>
+          {this._renderPlaceItem(place)}
+        </View>
       ));
       return (<Content>
         <List>
@@ -139,12 +141,6 @@ export default class SearchScreen extends Component {
         </List>
       </Content>);
     }
-    return (<Content>
-      <List>
-        {data}
-      </List>
-      {this._renderLoader()}
-    </Content>);
   };
 
   componentDidMount() {
