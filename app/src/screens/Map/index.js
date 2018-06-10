@@ -10,6 +10,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import config from '../../config/config';
 
 import MapCard from '../../components/MapCard';
+import FilterCard from '../../components/FilterCard';
 
 import styles from './styles';
 import codePush from 'react-native-code-push';
@@ -194,8 +195,10 @@ class Map extends React.Component<Props, State> {
     this.props.navigation.navigate('Search');
   };
 
-  filterButtonWasPressed = () => {
-    console.log('Filter pressed');
+  toggleShowFilters = () => {
+    this.setState({
+      showFilters: !this.state.showFilters
+    });
   };
 
 
@@ -346,6 +349,7 @@ class Map extends React.Component<Props, State> {
     this.state = {
       selectedParkspot: null,
       showsUserLocation: false,
+      showFilters: false
     };
 
     this.props.fetchParkspots(
@@ -404,7 +408,7 @@ class Map extends React.Component<Props, State> {
           <View style={styles.buttonsRow}>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => this.filterButtonWasPressed()}
+              onPress={() => this.toggleShowFilters()}
             >
               <Icon type="MaterialIcons" name="filter-list" style={styles.icon} />
             </TouchableOpacity>
@@ -423,6 +427,11 @@ class Map extends React.Component<Props, State> {
             {this.state.version}.{this.state.label}
           </Text>
         </SafeAreaView>
+
+        <FilterCard
+          showFilters={this.state.showFilters}
+          onDismiss={this.toggleShowFilters}
+        />
 
         <MapCard
           onStartNavigation={this.startNavigation}
