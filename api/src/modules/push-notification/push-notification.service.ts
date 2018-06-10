@@ -15,8 +15,8 @@ export class PushNotificationService {
   async send(title: string, message: string, target: PushTarget): Promise<string> {
     const fcmMsg: admin.messaging.Message = {
       notification: {
-        body: 'Test',
-        title: 'testtitle'
+        body: message,
+        title
       },
       token: target.fcmToken
     };

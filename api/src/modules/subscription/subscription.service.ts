@@ -13,6 +13,16 @@ export class SubscriptionService {
     return this.subscriptionRepo.find(params);
   }
 
+
+  /**
+   * Returns all subscriptions for a specific parking spot */
+  async getForSpot(parkSpotId: number): Promise<SubscriptionEntity[]> {
+    return this.subscriptionRepo.createQueryBuilder('sub')
+      .where(`sub."parkSpotId" = :parkSpotId`, {parkSpotId})
+      .leftJoinAndSelect('sub.user', 'user')
+      .getMany();
+  }
+
   async remove(id: number): Promise<void> {
     let subscriptionToRemove = await this.subscriptionRepo.findOne(id);
     await this.subscriptionRepo.remove(subscriptionToRemove);

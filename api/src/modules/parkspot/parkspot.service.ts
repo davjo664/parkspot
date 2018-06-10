@@ -36,7 +36,7 @@ export class ParkspotService {
 
   async update(id: number, updateData: Partial<ParkSpotEntity>): Promise<ParkSpotEntity> {
     try {
-      await this.parkspotRepo.update(id, updateData);
+      await this.parkspotRepo.save({id, ...updateData});
       return this.parkspotRepo.findOne(id);
     } catch (e) {
       throw new HttpException('ParkSpot with id ' + id + '  does not exist', HttpStatus.NOT_FOUND);
