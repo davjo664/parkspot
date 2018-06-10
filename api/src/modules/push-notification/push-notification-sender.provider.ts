@@ -17,6 +17,7 @@ export class PushNotificationSender {
  * replaced during tests. I'll submit any message "successful".  */
 class PushNotificationSenderMock implements Partial<PushNotificationSender> {
   async send(message: admin.messaging.Message, dryRun?: boolean): Promise<string> {
+    console.log('Sending a mock push notification', message);
     return Promise.resolve('I have no idea what the actual return is atm!');
   }
 }
