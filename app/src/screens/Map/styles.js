@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
     height: 29.3,
   },
   destinationCallout: {
-    width: 100,
-    height: 15,
+    flex:1,
+    width: 150,
   },
   destinationCalloutText: {
     fontSize: 15,
