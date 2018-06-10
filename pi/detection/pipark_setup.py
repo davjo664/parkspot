@@ -39,6 +39,7 @@ class Application(tk.Frame):
     # lists to hold parking space and control point references
     __parking_spaces = None
     __control_points = None
+
     
     # picamera
     __camera = None
@@ -71,11 +72,12 @@ class Application(tk.Frame):
         
         # create mouse button and key-press handlers -> set focus to this frame
         self.bind("<Return>", self.returnPressHandler)
-        self.bind("<Key>", self.keyPressHandler)
+#        self.bind("<Key>", self.keyPressHandler)
         self.bind("<Escape>", self.escapePressHandler)
         self.display.bind("<Button-1>", self.leftClickHandler)
         self.display.bind("<Button-3>", self.rightClickHandler)
         self.focus_set()
+        
 
         if self.__is_verbose:
             print "INFO: __parking_spaces length:", self.__parking_spaces.length()
@@ -281,82 +283,6 @@ class Application(tk.Frame):
         
         if self.__is_verbose: print "INFO: Data checked. Data is", valid_data
         return valid_data
-                    
-    # --------------------------------------------------------------------------
-    #   Register Data
-    # --------------------------------------------------------------------------
-    def register(self):
-        """Register the Pi with the server. """
-        
-        # if setup hasn't been saved recently since last change, ask the if 
-        # user to save first
-        if not self.__is_saved:
-            response = tkMessageBox.askokcancel(title = "Save Setup",
-                message = "Setup data must be saved before the registration"
-                + " process can be completed. Would you like to save now?")
-                
-            # if user selects 'yes' save the data and continue, else do not 
-            # register the pi
-            if response: 
-                self.saveData()
-            else:
-                tkMessageBox.showinfo(title = "PiPark Setup",
-                    message = "Registration not completed.")
-                return
-                
-        # check that most recent saved data is valid (#CPs == 3, #Spaces > 0)
-        if not self.checkData():
-
-            # data invalid, so display message and return
-            tkMessageBox.showinfo(
-                title = "PiPark Setup",
-                message = "Registration not complete.\n\nSaved data is "
-                + "invalid. Please ensure that there are 3 control points and "
-                + "at least 1 parking spaces marked."
-                )
-            return
-                
-        # attempt to import the setup data and ensure 'boxes' is a list
-        try:
-            import setup_data
-            reload(setup_data)
-            boxes = setup_data.boxes
-            if not isinstance(boxes, list): raise ValueError()
-        except:
-            print "ERROR: Setup data does not exist. Please run options 1 and 2 first."
-            return
-            
-        # attempt to import the server senddata module
-        try:
-            import senddata
-        except:
-            print "ERROR: Could not import send data file."
-            return
-        
-
-        # deregister all areas associated with this pi (start fresh)
-        out = senddata.deregister_pi()
-        
-        try:
-            out['error']
-            print "ERROR: Error in connecting to server. Please update settings.py."
-            return
-        except:
-            pass
-        
-        # register each box on the server
-        for box in boxes:
-            if box[1] == 0:
-                output = senddata.register_area(box[0])
-                if "error" in output.keys():
-                    if self.__is_verbose: print "ERROR:", output["error"]
-                    return
-                else:
-                    if self.__is_verbose:
-                        print "INFO: Registering area", box[0], "on server."
-         
-        # print success message if verbose        
-        if self.__is_verbose: print "\nINFO: Server registration successful."
         
         
 # ==============================================================================
@@ -402,6 +328,8 @@ class Application(tk.Frame):
         # activate buttons if they're disabled
         self.cps_button.config(state = tk.ACTIVE)
         self.spaces_button.config(state = tk.ACTIVE)
+        self.id_inputfield.config(state = 'normal')
+        self.id_inputfield_confirm_button.config(state = tk.ACTIVE)
     
     # --------------------------------------------------------------------------
     #   Escape-key-press Event Handler
@@ -426,31 +354,6 @@ class Application(tk.Frame):
             # image failed to close for some reason, show error message
             if self.__is_verbose:
                 print "ERROR: PiCam failed to close correctly."
-    
-    # --------------------------------------------------------------------------
-    #   Key-press Event Handler
-    # --------------------------------------------------------------------------
-    def keyPressHandler(self, event):
-        """Handle key-press events for numeric keys. """
-        
-        key = event.char
-        NUM_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-        
-        if key in NUM_KEYS:
-            if self.__is_verbose: print "INFO: Number-key pressed", key
-            
-            if self.spaces_button.getIsActive():
-                self.__parking_spaces.setCurrentBox(int(key))
-                
-            if self.cps_button.getIsActive():
-                # ignore all other numbers, but 1, 2 and 3 as 3 is the maximum
-                # number of control points allowed.
-                if key not in ['1', '2', '3']: return
-                
-                # NB: -1 from key press, because list indices are [0, 1, 2],
-                # but for ease of user selection the numbers 1, 2, 3 are used 
-                # for input
-                self.__control_points.setCurrentBox(int(key) - 1)
     
     # --------------------------------------------------------------------------
     #   LMB Event Handler
@@ -576,16 +479,28 @@ class Application(tk.Frame):
             self.quit_button.invoke()
             if self.__is_verbose: print "INFO: Setup application terminated. "
             main.main()
-    
-    def clickRegister(self):
-        """Register the car park with the server. """
-        if self.__is_verbose: print "ACTION: Clicked 'Register'"
-        
-        # turn off toggle buttons
-        self.spaces_button.setOff()
-        self.cps_button.setOff()
-        
-        self.register()
+
+
+    def clickConfirmId(self):
+        global input_id
+
+        #input_id = raw_input(self.v.get())
+        input_id = self.v.get()
+
+        if self.__is_verbose: print "ACTION: Clicked 'Confirm ID: '", input_id
+
+        if self.spaces_button.getIsActive():
+            self.__parking_spaces.setCurrentBox(int(input_id))
+
+        if self.cps_button.getIsActive():
+            # ignore all other numbers, but 1, 2 and 3 as 3 is the maximum
+            # number of control points allowed.
+            if input_id not in ['1', '2', '3']: return
+
+            # NB: -1 from key press, because list indices are [0, 1, 2],
+            # but for ease of user selection the numbers 1, 2, 3 are used
+            # for input
+            self.__control_points.setCurrentBox(int(input_id) - 1)
             
     
     def clickNewImage(self):
@@ -632,6 +547,8 @@ class Application(tk.Frame):
         self.clear_button.invoke()
         self.cps_button.config(state = tk.ACTIVE)
         self.spaces_button.config(state = tk.ACTIVE)
+        self.id_inputfield.config(state = 'normal')
+        self.id_inputfield_confirm_button.config(state = tk.ACTIVE)
     
     def clickClear(self):
         if self.__is_verbose: print "ACTION: Clicked 'Clear'"
@@ -716,7 +633,7 @@ class Application(tk.Frame):
             width = s.PICTURE_RESOLUTION[0],
             height = s.PICTURE_RESOLUTION[1]
             )
-        self.display.grid(row = 2, column = 0, rowspan = 1, columnspan = 6)
+        self.display.grid(row = 2, column = 0, rowspan = 1, columnspan = 8)
 
 
     # --------------------------------------------------------------------------
@@ -727,11 +644,13 @@ class Application(tk.Frame):
         
         # Layout:
         # -------
-        #  ------------------------------------------------------------------
-        # |   Start  ||   Capture New Image   || Add/Remove Spaces ||  Quit  |
-        #  ------------------------------------------------------------------
-        # | Register || Save || Load || Clear ||  Add/Remove CPs   || ReadMe |
-        #  ------------------------------------------------------------------
+        #  -------------------------------------------------------------------------------------------------
+        # |          ||   Capture New Image   || Add/Remove Spaces ||      Label ID || Input ID   ||  Quit  |
+        #     Start  ---------------------------------------------------------------------------------------
+        # |          || Save || Load || Clear ||  Add/Remove CPs   ||     Confirm ID Button       || ReadMe |
+        #  -------------------------------------------------------------------------------------------------
+        
+        self.v = tk.StringVar()
         
         # padding around buttons
         PADDING = 10;
@@ -739,16 +658,9 @@ class Application(tk.Frame):
         # start the main program
         self.start_button = tk.Button(self, text = "Start PiPark",
             command = self.clickStart, padx = PADDING)
-        self.start_button.grid(row = 0, column = 0,
+        self.start_button.grid(row = 0, column = 0, rowspan = 2, columnspan = 1,
             sticky = tk.W + tk.E + tk.N + tk.S)
-        
-        # register the car park button
-        self.register_button = tk.Button(self, text = "Register",
-            command = self.clickRegister, padx = PADDING,  state = tk.DISABLED)
-        self.register_button.grid(row = 1, column = 0,
-            sticky = tk.W + tk.E + tk.N + tk.S)
-        
-        
+
         # take new setup image button
         self.image_button = tk.Button(self, text = "Capture New Setup Image",
             command = self.clickNewImage, padx = PADDING)
@@ -792,13 +704,31 @@ class Application(tk.Frame):
         # quit setup
         self.quit_button = tk.Button(self, text = "Quit",
             command = self.clickQuit, padx = PADDING)
-        self.quit_button.grid(row = 0, column = 5,
+        self.quit_button.grid(row = 0, column = 7,
             sticky = tk.W + tk.E + tk.N + tk.S)
         
         # about button - display information about PiPark
         self.about_button = tk.Button(self, text = "Open ReadMe",
             command = self.clickAbout, padx = PADDING)
-        self.about_button.grid(row = 1, column = 5,
+        self.about_button.grid(row = 1, column = 7,
+            sticky = tk.W + tk.E + tk.N + tk.S)
+        
+
+        # parkspot id input label
+        self.id_inputfield_label = tk.Label(self, text = 'Parkspot/Control Point ID:', padx = PADDING)
+        self.id_inputfield_label.grid(row = 0, column = 5,
+            sticky = tk.W + tk.E + tk.N + tk.S)
+        
+
+        # parkspot id input field
+        self.id_inputfield = tk.Entry(self, textvariable = self.v, state = tk.DISABLED)
+        self.id_inputfield.grid(row = 0, column = 6,
+            sticky = tk.W + tk.E + tk.N + tk.S)
+
+        # parkspot id input confirm button
+        self.id_inputfield_confirm_button = tk.Button(self, text='Submit',
+            command = self.clickConfirmId, padx = PADDING, state = tk.DISABLED)
+        self.id_inputfield_confirm_button.grid(row = 1, column = 5, rowspan = 1, columnspan = 2,
             sticky = tk.W + tk.E + tk.N + tk.S)
 
 

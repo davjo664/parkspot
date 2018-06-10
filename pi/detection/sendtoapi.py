@@ -51,41 +51,6 @@ def send_update(area_id, status_code):
     
     return post_request(python_json_data, s.SERVER_URL)
 
-
-def register_area(area_id):
-    """
-    Sends the data to register a new parking space to the
-    server using a HTTP POST request.
-
-    Args:
-        area_id: The area id to register.
-
-    Returns:
-        Dictionary of elements from the JSON response.
-    """
-    # Create the post data
-    vals = {"register_password" : s.SERVER_PASS,
-            "register_park_id" : s.PARK_ID,
-            "register_pi_id" : s.PI_ID,
-            "register_area_id" : area_id}
-
-    return post_request(vals, s.SERVER_URL + "register.php")
-
-
-def deregister_pi():
-    """
-    Deregisters all areas associated with this pi.
-    
-    Returns:
-        Dictionary of elements from the JSON response.
-    """
-    # Create the post data
-    vals = {"deregister_password" : s.SERVER_PASS,
-            "deregister_pi_id" : s.PI_ID}
-
-    return post_request(vals, s.SERVER_URL + "deregister.php")
-
-
 if __name__ == "__main__":
     # Example for sending updates
     for i in range(0,5):

@@ -1,14 +1,9 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+
+import colors from './../../theme/parkspotColors';
 
 
-const buttonStyleTemplate = {
-  borderRadius: 85,
-  backgroundColor: 'white',
-  justifyContent: 'center',
-  alignItems: 'center',
-  shadowOpacity: 0.12,
-  opacity: 0.85,
-};
+
 
 const styles = StyleSheet.create({
   container: {
@@ -20,18 +15,57 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  buttonsContainer: {
+  bottomContainer: {
     zIndex: 3,
     position: 'absolute',
-    right: 15,
-    height: 180,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    height: '20%',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    display: 'flex',
   },
-  button: {
-    width: 50,
+  searchRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: '5%',
+  },
+  buttonsRow: {
+    width: '90%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: '5%',
+    marginRight: '5%',
+    marginBottom: 30,
+  },
+  searchButtonView: {
+    height: 36,
+    width: '90%',
+    backgroundColor: 'white',
+    borderStyle: 'solid',
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  searchButton: {
+    height: 36,
+    width: '80%',
+    justifyContent: 'center'
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  searchIcon: {
+    width: 14,
+    height: 14,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  searchBar: {
+    width: 100,
     height: 50,
-    ...buttonStyleTemplate,
   },
   versionLabel: {
     alignSelf: 'center',
@@ -42,19 +76,43 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cluster: {
-    backgroundColor: 'deeppink',
-    width: 40,
-    height: 40,
-    borderRadius: 30,
-    borderColor: 'white',
-    borderWidth: 5,
+    width: 32,
+    height: 32,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 20,
   },
   clusterText: {
-    color: 'white',
-    fontWeight: '600',
+    width: 28,
+    height: 28,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    letterSpacing: 0,
+    color: colors.white,
+  },
+  destinationMarker: {
+    width: 22.4,
+    height: 29.3,
+  },
+  destinationCallout: {
+    width: 100,
+    height: 15,
+  },
+  destinationCalloutText: {
+    fontSize: 15,
+    textAlignVertical: "center",
+    textAlign: "center",
   }
 });
 export default styles;

@@ -1,5 +1,5 @@
-import { fetchParkspots } from '../MapContainer/actions';
 import config from '../../config/config';
+import { updateMapPosition } from '../MapContainer/actions';
 
 export function updateSearchString(searchString: String) {
   return {
@@ -43,13 +43,18 @@ export function fetchLocationDetails(rowData) {
           if (data.statusCode && data.statusCode != 200) {
             console.log(data.message);
           } else {
-            dispatch(
-              fetchParkspots(
-                data.result.geometry.location.lat,
-                data.result.geometry.location.lng,
-                6000,
-              ),
-            );
+            const selectedLocation = {location: rowData.description, lat: data.result.geometry.location.lat, lng: data.result.geometry.location.lng}
+            const mapPosition = {
+              latitude: Number(selectedLocation.lat),
+              longitude: Number(selectedLocation.lng),
+              latitudeDelta: 0.0005,
+              longitudeDelta: 0.005,
+            }
+            dispatch(updateMapPosition(mapPosition));
+            dispatch({
+              type: 'UPDATE_SELECTED_LOCATION',
+              selectedLocation: selectedLocation,
+            });
           }
         });
 }
@@ -61,18 +66,23 @@ export function filterData(filterId) {
   };
 }
 
-export function addFavourite(newFav) {
-  return dispatch =>
-    dispatch({
-      type: 'ADD_FAVOURITE',
-      newFav,
-    });
+export function addFavourite(fav) {
+  return {
+    type: 'ADD_FAVOURITE',
+    fav,
+  };
 }
 
-export function remFavourite(remFa) {
-  return dispatch =>
-    dispatch({
-      type: 'REM_FAVOURITE',
-      remFav,
-    });
+export function remFavourite(fav) {
+  return {
+    type: 'REM_FAVOURITE',
+    fav,
+  };
+}
+
+export function addLastSearched(place) {
+  return {
+    type: 'ADD_LAST_SEARCHED',
+    place,
+  };
 }

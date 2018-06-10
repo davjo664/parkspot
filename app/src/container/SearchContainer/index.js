@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import SearchScreen from '../../screens/Search';
 import {fetchParkspots} from '../MapContainer/actions';
-import {fetchLocationDetails, fetchLocations, filterData, updateSearchString,addFavourite, remFavourite,} from './actions';
+import {fetchLocationDetails, fetchLocations, filterData, updateSearchString,addFavourite, addLastSearched, remFavourite,} from './actions';
 import {toggleFilter} from '../../components/Filter/actions';
 
 export interface State {
@@ -20,13 +20,16 @@ class SearchContainer extends React.Component<Props, State> {
         filteredData={this.props.filteredData}
         fetchParkspots={this.props.fetchParkspots}
         fetchLocations={this.props.fetchLocations}
-        showParkspots={this.props.showParkspots}
+        showLocations={this.props.showLocations}
         fetchLocationDetails={this.props.fetchLocationDetails}
         isLoading={this.props.isLoading}
         toggleFilter={this.props.toggleFilter}
         filterData={this.props.filterData}
+        favourites={this.props.favourites}
         addFavourite={this.props.addFavourite}
         remFavourite={this.props.remFavourite}
+        addLastSearched={this.props.addLastSearched}
+        lastSearches={this.props.lastSearches}
       />
     );
   }
@@ -41,7 +44,7 @@ export interface Props {
   filteredData: Array;
   fetchParkspots: Function;
   fetchLocations: Function;
-  showParkspots: Boolean;
+  showLocations: Boolean;
   fetchLocationDetails: Function;
   isLoading: Boolean;
   toggleFilter: Function;
@@ -49,6 +52,8 @@ export interface Props {
   addFavourite: Function;
   remFavourite: Function;
   favourites: any;
+  addLastSearched: Function;
+  lastSearches: any;
 }
 
 const mapStateToProps = state => ({
@@ -56,9 +61,10 @@ const mapStateToProps = state => ({
   searchString: state.searchReducer.searchString,
   data: state.searchReducer.data,
   filteredData: state.searchReducer.filteredData,
-  showParkspots: state.searchReducer.showParkspots,
+  showLocations: state.searchReducer.showLocations,
   isLoading: state.searchReducer.isLoading,
   favourites: state.searchReducer.favourites,
+  lastSearches: state.searchReducer.lastSearches,
 });
 
 const mapDispatchToProps = dispatch => {
@@ -81,12 +87,15 @@ const mapDispatchToProps = dispatch => {
     filterData: filterId => {
       dispatch(filterData(filterId));
     },
-    addFavourite: newFav => {
-      dispatch(addFavourite(newFav));
+    addFavourite: fav => {
+      dispatch(addFavourite(fav));
     },
-    remFavourite: remFav => {
-      dispatch(remFavourite(remFav));
+    remFavourite: fav => {
+      dispatch(remFavourite(fav));
     },
+    addLastSearched: place => {
+      dispatch(addLastSearched(place))
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer);

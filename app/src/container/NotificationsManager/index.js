@@ -3,6 +3,7 @@ import * as React from 'react';
 import firebase, {Notification} from 'react-native-firebase';
 import {connect} from 'react-redux';
 import {createUser, updateUser} from './actions';
+import {PermissionHelper} from '../../helper/PermissionHelper';
 
 
 export interface Props {
@@ -83,21 +84,10 @@ class NotificationsManager extends React.Component<Props, State> {
       }
     });
 
-    // check for Permisson and request if not there 
-    firebase.messaging().hasPermission().then(enabled => {
-      if (enabled) {
-        this.handleNotifications();
-      } else {
-        firebase.messaging().requestPermission()
-          .then(() => {
-            //console.log('got permission');
-            this.handleNotifications();
-          })
-          .catch(error => {
-            //console.warn('no permissions')
-          });
-      }
-    });
+    // check for Permisson and request if not there
+    PermissionHelper.hasPermission('notification', () => {
+      this.handleNotifications();
+    }, true);
   }
 
   componentWillUnmount() {
