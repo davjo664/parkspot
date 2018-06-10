@@ -43,10 +43,16 @@ export function fetchLocationDetails(rowData) {
           if (data.statusCode && data.statusCode != 200) {
             console.log(data.message);
           } else {
-            const selectedLocation = {location: rowData.description, lat: data.result.geometry.location.lat, lng: data.result.geometry.location.lng}
+            const selectedLocation = {
+              location: {
+                latitude: data.result.geometry.location.lat,
+                longitude: data.result.geometry.location.lng,
+              },
+              description: rowData.description,
+            }
             const mapPosition = {
-              latitude: Number(selectedLocation.lat),
-              longitude: Number(selectedLocation.lng),
+              latitude: Number(selectedLocation.location.latitude),
+              longitude: Number(selectedLocation.location.longitude),
               latitudeDelta: 0.0005,
               longitudeDelta: 0.005,
             }
