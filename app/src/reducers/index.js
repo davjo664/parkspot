@@ -11,7 +11,7 @@ import filterReducer from '../components/Filter/reducer';
 const config = {
   key: 'root',
   storage,
-  blacklist: ['searchReducer', 'filterReducer'],
+  blacklist: ['filterReducer'],
 };
 
 
