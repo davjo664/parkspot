@@ -226,20 +226,6 @@ class Map extends React.Component<Props, State> {
     });
   };
 
-  setDestination = (latitude: Number, longitude: Number, description: String) => {
-    this.state.destination = {
-      location: {
-        latitude: latitude,
-        longitude: longitude,
-      },
-      description: description,
-    };
-  };
-
-  unsetDestination = () => {
-    this.state.destination = null;
-  };
-
   renderMarkerInner = (text, fontSize) => {
     return (
       <LinearGradient style={styles.cluster} colors={gradient.colors} start={gradient.start} end={gradient.end}
@@ -276,11 +262,7 @@ class Map extends React.Component<Props, State> {
     }
 
     return (
-      <Marker key={'destination'} coordinate={data.location}>
-        <Image
-          style={styles.destinationMarker}
-          source={require('../../../assets/destinationPin.png')}
-        />
+      <Marker key={'destination'} coordinate={data.location} style={styles.destinationMarker} image={require('../../../assets/destinationPin.png')} >
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
         </Callout>
@@ -310,8 +292,8 @@ class Map extends React.Component<Props, State> {
             longitude: Number(this.state.selectedParkspot.lng)
           }}
           destination={this.props.selectedLocation ? {
-            latitude: this.props.selectedLocation.lat,
-            longitude: this.props.selectedLocation.lng
+            latitude: this.props.selectedLocation.location.latitude,
+            longitude: this.props.selectedLocation.location.longitude
           } : null}
           apikey={config.googleApi.key}
           strokeWidth={2}
@@ -450,7 +432,7 @@ class Map extends React.Component<Props, State> {
           renderMarker={this.renderMarker}
           renderCluster={this.renderCluster}
         >
-          {this.renderDestination(this.state.destination)}
+          {this.renderDestination(this.props.selectedLocation)}
           {this.renderDrivingDirectionsOnMap()}
           {this.renderWalkingDirectionsOnMap()}
         </ClusteredMapView>
