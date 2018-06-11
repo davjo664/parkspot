@@ -303,7 +303,7 @@ class Map extends React.Component<Props, State> {
           } : null}
           apikey={config.googleApi.key}
           strokeWidth={2}
-          strokeColor={colors.gunmetal}
+          strokeColor={colors.greyishTeal}
           mode="walking"
         />
 
@@ -321,7 +321,7 @@ class Map extends React.Component<Props, State> {
           }}
           apikey={config.googleApi.key}
           strokeWidth={5}
-          strokeColor={colors.cement}
+          strokeColor={colors.gunmetal}
         />
 
       );
