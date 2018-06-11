@@ -1,2 +1,2 @@
 # Release notes
-* Filtering on Map
+* Uses correct colors for displaying routes on map.
