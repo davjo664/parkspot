@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import defaultStyles from './styles';
-import {FavouriteListItem, PlaceListItem} from '../../components/ListItems';
+import {FavoriteListItem, PlaceListItem} from '../../components/ListItems';
 import SearchBar from '../../components/SearchBar';
 import textStyles from '../../theme/parkspotStyles';
 
@@ -72,13 +72,13 @@ export default class SearchScreen extends Component {
 
   _renderPlaceItem = (place) => {
     return <PlaceListItem place={place} onPress={() => this._onPress(place)}
-                          addFavourite={() => this.props.addFavourite(place)}
-                          remFavourite={() => this.props.remFavourite(place)}/>
+                          addFavorite={() => this.props.addFavorite(place)}
+                          remFavorite={() => this.props.remFavorite(place)}/>
   };
   _renderList = () => {
     let data;
     if (!this.props.showLocations) {
-      let favourites = this.props.favourites.map(place => (
+      let favorites = this.props.favorites.map(place => (
         <View key={place.id}>
           {this._renderPlaceItem(place)}
         </View>
@@ -94,11 +94,11 @@ export default class SearchScreen extends Component {
       return (
         <Content>
           <List>
-            <ListItem itemHeader first style={{paddingBottom: favourites.length > 0 ? 0 : 10}}>
-              <Text style={textStyle1}>Favourites</Text>
+            <ListItem itemHeader first style={{paddingBottom: favorites.length > 0 ? 0 : 10}}>
+              <Text style={textStyle1}>Favorites</Text>
             </ListItem>
-            <Text style={[textStyle2, {display: favourites.length > 0 ? 'none' : 'flex'}]}> No favourites yet </Text>
-            {favourites}
+            <Text style={[textStyle2, {display: favorites.length > 0 ? 'none' : 'flex'}]}> No favorites yet </Text>
+            {favorites}
             <ListItem itemHeader first style={{paddingTop: 50, paddingBottom: lastSearches.length > 0 ? 0 : 10}}>
               <Text style={textStyle1}>Last searches</Text>
             </ListItem>
@@ -154,9 +154,9 @@ export interface Props {
   showLocations: Boolean;
   fetchLocationDetails: Function;
   isLoading: Boolean;
-  addFavourite: Function;
-  remFavourite: Function;
-  favourites: any;
+  addFavorite: Function;
+  remFavorite: Function;
+  favorites: any;
   addLastSearched: Function;
   lastSearches: any;
 }

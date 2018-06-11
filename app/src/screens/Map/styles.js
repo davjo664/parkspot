@@ -1,8 +1,6 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 import colors from './../../theme/parkspotColors';
-
-
 
 
 const styles = StyleSheet.create({
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
     height: 29.3,
   },
   destinationCallout: {
-    flex:1,
+    flex: 1,
     width: 150,
   },
   destinationCalloutText: {

@@ -2,7 +2,14 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import SearchScreen from '../../screens/Search';
 import {fetchParkspots} from '../MapContainer/actions';
-import {fetchLocationDetails, fetchLocations, updateSearchString,addFavourite, addLastSearched, remFavourite,} from './actions';
+import {
+  addFavorite,
+  addLastSearched,
+  fetchLocationDetails,
+  fetchLocations,
+  remFavorite,
+  updateSearchString,
+} from './actions';
 
 export interface State {
 }
@@ -21,9 +28,9 @@ class SearchContainer extends React.Component<Props, State> {
         showLocations={this.props.showLocations}
         fetchLocationDetails={this.props.fetchLocationDetails}
         isLoading={this.props.isLoading}
-        favourites={this.props.favourites}
-        addFavourite={this.props.addFavourite}
-        remFavourite={this.props.remFavourite}
+        favorites={this.props.favorites}
+        addFavorite={this.props.addFavorite}
+        remFavorite={this.props.remFavorite}
         addLastSearched={this.props.addLastSearched}
         lastSearches={this.props.lastSearches}
       />
@@ -42,9 +49,9 @@ export interface Props {
   showLocations: Boolean;
   fetchLocationDetails: Function;
   isLoading: Boolean;
-  addFavourite: Function;
-  remFavourite: Function;
-  favourites: any;
+  addFavorite: Function;
+  remFavorite: Function;
+  favorites: any;
   addLastSearched: Function;
   lastSearches: any;
 }
@@ -55,7 +62,7 @@ const mapStateToProps = state => ({
   data: state.searchReducer.data,
   showLocations: state.searchReducer.showLocations,
   isLoading: state.searchReducer.isLoading,
-  favourites: state.searchReducer.favourites,
+  favorites: state.searchReducer.favorites,
   lastSearches: state.searchReducer.lastSearches,
 });
 
@@ -73,11 +80,11 @@ const mapDispatchToProps = dispatch => {
     fetchLocationDetails: rowData => {
       dispatch(fetchLocationDetails(rowData));
     },
-    addFavourite: fav => {
-      dispatch(addFavourite(fav));
+    addFavorite: fav => {
+      dispatch(addFavorite(fav));
     },
-    remFavourite: fav => {
-      dispatch(remFavourite(fav));
+    remFavorite: fav => {
+      dispatch(remFavorite(fav));
     },
     addLastSearched: place => {
       dispatch(addLastSearched(place))

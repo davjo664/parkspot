@@ -3,7 +3,7 @@ const initialState = {
   data: [],
   showLocations: false,
   isLoading: false,
-  favourites: [],
+  favorites: [],
   lastSearches: [],
   selectedLocation: null
 };
@@ -31,9 +31,9 @@ export default function (state: any = initialState, action: Function) {
     };
   } else if (action.type === 'FETCH_LOCATIONS_SUCCESS') {
     action.locations.forEach(location => {
-      state.favourites.find((fav) => {
+      state.favorites.find((fav) => {
         if (fav.id === location.id) {
-          location.favourite = true;
+          location.favorite = true;
         }
       });
     })
@@ -50,14 +50,14 @@ export default function (state: any = initialState, action: Function) {
     };
   }
 
-  //checks if fav is element of favourites - if not yet, includes it
-  else if (action.type === 'ADD_FAVOURITE') {
-    var found = state.favourites.find((fav) => {
+  //checks if fav is element of favorites - if not yet, includes it
+  else if (action.type === 'ADD_FAVORITE') {
+    var found = state.favorites.find((fav) => {
       return fav.id === action.fav.id;
     });
     state.lastSearches.find((fav) => {
-      if ( fav.id === action.fav.id ) {
-        fav.favourite = true;
+      if (fav.id === action.fav.id) {
+        fav.favorite = true;
         return true;
       }
     });
@@ -66,34 +66,34 @@ export default function (state: any = initialState, action: Function) {
         ...state,
       };
     } else {
-      action.fav.favourite = true;
+      action.fav.favorite = true;
       return {
         ...state,
-        favourites: [...state.favourites, action.fav]
+        favorites: [...state.favorites, action.fav]
       };
     }
   }
 
-  //checks if fav is element of favourites - if so, removes it
-  else if (action.type === 'REM_FAVOURITE') {
-    const newFavourites = state.favourites;
-    state.favourites.find((fav) => {
+  //checks if fav is element of favorites - if so, removes it
+  else if (action.type === 'REM_FAVORITE') {
+    const newFavorites = state.favorites;
+    state.favorites.find((fav) => {
       if (fav.id === action.fav.id) {
-        action.fav.favourite = false;
-        fav.favourite = false;
-        newFavourites = state.favourites.filter(item => item.id !== action.fav.id);
+        action.fav.favorite = false;
+        fav.favorite = false;
+        newFavorites = state.favorites.filter(item => item.id !== action.fav.id);
       }
       return fav.id === action.fav.id
     });
     state.lastSearches.find((fav) => {
-      if ( fav.id === action.fav.id ) {
-        fav.favourite = false;
+      if (fav.id === action.fav.id) {
+        fav.favorite = false;
         return true;
       }
     });
     return {
       ...state,
-      favourites: [...newFavourites]
+      favorites: [...newFavorites]
     };
   }
 

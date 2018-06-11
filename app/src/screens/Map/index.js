@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionSheet, Icon, Text } from 'native-base';
+import {ActionSheet, Icon, Text} from 'native-base';
 
 import {Dimensions, Image, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {Callout, Marker} from 'react-native-maps';
@@ -235,7 +235,7 @@ class Map extends React.Component<Props, State> {
   renderMarkerInner = (text, fontSize) => {
     return (
       <LinearGradient style={styles.cluster} colors={gradient.colors} start={gradient.start} end={gradient.end}
-        locations={gradient.locations}>
+                      locations={gradient.locations}>
         <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
       </LinearGradient>
     );
@@ -268,7 +268,8 @@ class Map extends React.Component<Props, State> {
     }
 
     return (
-      <Marker key={'destination'} coordinate={data.location} style={styles.destinationMarker} image={require('../../../assets/destinationPin.png')} >
+      <Marker key={'destination'} coordinate={data.location} style={styles.destinationMarker}
+              image={require('../../../assets/destinationPin.png')}>
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
         </Callout>
@@ -314,7 +315,7 @@ class Map extends React.Component<Props, State> {
     if (this.state.selectedParkspot) {
       return (
         <MapViewDirections
-          origin={{ latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude }}
+          origin={{latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude}}
           destination={{
             latitude: Number(this.state.selectedParkspot.lat),
             longitude: Number(this.state.selectedParkspot.lng)
@@ -376,14 +377,14 @@ class Map extends React.Component<Props, State> {
           ]}>
 
           <View style={styles.searchRow}>
-            <ElevatedView style={styles.searchButtonView} elevation={5} >
+            <ElevatedView style={styles.searchButtonView} elevation={5}>
 
               <TouchableOpacity
                 style={styles.searchButton}
                 activeOpacity={0.7}
                 onPress={() => this.searchButtonWasPressed()}>
                 <View style={styles.buttonContent}>
-                  <Image source={require('../../../assets/group.png')} style={styles.searchIcon} />
+                  <Image source={require('../../../assets/group.png')} style={styles.searchIcon}/>
                   <Text style={textStyles.textStyle2}>Search for a parkspot</Text>
                 </View>
               </TouchableOpacity>
@@ -395,14 +396,14 @@ class Map extends React.Component<Props, State> {
               activeOpacity={0.7}
               onPress={() => this.setShowFilters(true)}
             >
-              <Icon type="MaterialIcons" name="filter-list" style={styles.icon} />
+              <Icon type="MaterialIcons" name="filter-list" style={styles.icon}/>
             </TouchableOpacity>
 
             <Text style={textStyles.textStyleMapHeading}>parkspot</Text>
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => this.findMeButtonWasPressed()}>
-              <Image source={require('../../../assets/relocate.png')} style={styles.icon} />
+              <Image source={require('../../../assets/relocate.png')} style={styles.icon}/>
             </TouchableOpacity>
           </View>
         </LinearGradient>
@@ -415,7 +416,9 @@ class Map extends React.Component<Props, State> {
 
         <FilterCard
           showFilters={this.state.showFilters}
-          onDismiss={() => {this.setShowFilters(false)}}
+          onDismiss={() => {
+            this.setShowFilters(false)
+          }}
           filterParkspots={this.props.filterParkspots}
         />
 
@@ -449,7 +452,7 @@ class Map extends React.Component<Props, State> {
           {this.renderDrivingDirectionsOnMap()}
           {this.renderWalkingDirectionsOnMap()}
         </ClusteredMapView>
-      </View >
+      </View>
     );
   }
 }
