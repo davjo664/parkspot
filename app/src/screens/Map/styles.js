@@ -73,21 +73,21 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  cluster: {
+  pin: {
     width: 32,
     height: 32,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  clusterText: {
+  pinText: {
     fontSize: 24,
     fontWeight: 'normal',
     fontStyle: 'normal',
     letterSpacing: 0,
     color: colors.white,
   },
-  destinationMarker: {
+  destinationPin: {
     width: 22.4,
     height: 29.3,
   },

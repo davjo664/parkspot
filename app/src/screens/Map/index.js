@@ -239,9 +239,9 @@ class Map extends React.Component<Props, State> {
     const text = pointCount <= 99 ? pointCount : '99+';
 
     return (
-      <Marker style={styles.cluster} coordinate={coordinate} onPress={onPress}
+      <Marker style={styles.pin} coordinate={coordinate} onPress={onPress}
               image={require('../../../assets/map/clusterPin.png')}>
-        <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
+        <Text style={[styles.pinText, {fontSize: fontSize}]}>{text}</Text>
       </Marker>
     );
   };
@@ -253,8 +253,8 @@ class Map extends React.Component<Props, State> {
       require('../../../assets/map/markerPin.png');
 
     return (
-      <Marker style={styles.cluster} key={data.id} coordinate={data.location} image={image}>
-        <Text style={[styles.clusterText, {fontSize: 18}]}>P</Text>
+      <Marker style={styles.pin} key={data.id} coordinate={data.location} image={image}>
+        <Text style={[styles.pinText, {fontSize: 18}]}>P</Text>
       </Marker>
     );
   };
@@ -265,7 +265,7 @@ class Map extends React.Component<Props, State> {
     }
 
     return (
-      <Marker key={'destination'} coordinate={data.location} style={styles.destinationMarker}
+      <Marker key={'destination'} coordinate={data.location} style={styles.destinationPin}
               image={require('../../../assets/map/destinationPin.png')}>
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
