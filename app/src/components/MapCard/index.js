@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, ImageBackground, View} from 'react-native';
 import {Button, Icon} from 'native-base';
 import Interactable from 'react-native-interactable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -89,16 +89,16 @@ export default class MapCard extends Component {
               style={styles.panelSubtitle}>{this.props.parkspot.street} {this.props.parkspot.houseNumber}, {this.props.parkspot.city}, {this.props.parkspot.country}</Text>
             <LinearGradient style={styles.panelGradient} colors={gradient.colors} start={gradient.start}
                             end={gradient.end} locations={gradient.locations}>
-              <Button block style={styles.panelButton} onPress={this.props.onStartNavigation}>
-                <Text style={styles.panelButtonTitle}>Go there!</Text>
-              </Button>
+              <TouchableOpacity block style={styles.panelButton} onPress={this.props.onStartNavigation}>
+                <ImageBackground style={styles.panelImage} source={require('../../../assets/navigationButton.png')}>
+                    <Text style={styles.panelButtonTitle}>Go there!</Text>
+                </ImageBackground>
+              </TouchableOpacity>
             </LinearGradient>
 
-            <View style={styles.moreContent}>
-              <View style={styles.iconsContainer}>
-                {this.renderIcon(this.props.parkspot.electricCharger, 'ios-flash', 'Ionicons', 'Charging possible')}
-                {this.renderIcon(this.props.parkspot.accessible, 'accessibility', 'MaterialIcons', 'Easily accessible')}
-              </View>
+            <View style={styles.iconsContainer}>
+              {this.renderIcon(this.props.parkspot.electricCharger, 'ios-flash', 'Ionicons', 'Charging possible')}
+              {this.renderIcon(this.props.parkspot.accessible, 'accessibility', 'MaterialIcons', 'Easily accessible')}
             </View>
 
             <View style={styles.streetViewContainer}>
