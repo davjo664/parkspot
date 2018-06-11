@@ -87,7 +87,8 @@ export default class MapCard extends Component {
 
             <Text
               style={styles.panelSubtitle}>{this.props.parkspot.street} {this.props.parkspot.houseNumber}, {this.props.parkspot.city}, {this.props.parkspot.country}</Text>
-            <LinearGradient style={styles.panelGradient} colors={gradient.colors} start={gradient.start} end={gradient.end} locations={gradient.locations}>
+            <LinearGradient style={styles.panelGradient} colors={gradient.colors} start={gradient.start}
+                            end={gradient.end} locations={gradient.locations}>
               <Button block style={styles.panelButton} onPress={this.props.onStartNavigation}>
                 <Text style={styles.panelButtonTitle}>Go there!</Text>
               </Button>

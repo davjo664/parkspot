@@ -56,7 +56,7 @@ export default function (state: any = initialState, action: Function) {
       return fav.id === action.fav.id;
     });
     state.lastSearches.find((fav) => {
-      if ( fav.id === action.fav.id ) {
+      if (fav.id === action.fav.id) {
         fav.favorite = true;
         return true;
       }
@@ -86,7 +86,7 @@ export default function (state: any = initialState, action: Function) {
       return fav.id === action.fav.id
     });
     state.lastSearches.find((fav) => {
-      if ( fav.id === action.fav.id ) {
+      if (fav.id === action.fav.id) {
         fav.favorite = false;
         return true;
       }

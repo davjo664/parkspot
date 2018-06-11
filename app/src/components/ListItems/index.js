@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Animated, Dimensions ,Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Icon, ListItem} from 'native-base';
 
 import styles from './styles';
@@ -38,14 +38,14 @@ export class PlaceListItem extends Component {
         <TouchableOpacity
           key={p.id}
           onPress={() => {
-            if ( p.favorite ) {
+            if (p.favorite) {
               this.props.remFavorite()
             } else {
               this.props.addFavorite();
             }
           }}
         >
-          <Icon name={p.favorite ? 'ios-star' : 'ios-star-outline'} />
+          <Icon name={p.favorite ? 'ios-star' : 'ios-star-outline'}/>
         </TouchableOpacity>
       </ListItem>
     );

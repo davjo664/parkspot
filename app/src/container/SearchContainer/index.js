@@ -2,7 +2,14 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import SearchScreen from '../../screens/Search';
 import {fetchParkspots} from '../MapContainer/actions';
-import {fetchLocationDetails, fetchLocations, updateSearchString,addFavorite, addLastSearched, remFavorite,} from './actions';
+import {
+  addFavorite,
+  addLastSearched,
+  fetchLocationDetails,
+  fetchLocations,
+  remFavorite,
+  updateSearchString,
+} from './actions';
 
 export interface State {
 }

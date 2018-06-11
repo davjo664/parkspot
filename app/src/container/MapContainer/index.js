@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
-import { Alert, Platform } from 'react-native';
-import { connect } from 'react-redux';
+import {Alert, Platform} from 'react-native';
+import {connect} from 'react-redux';
 import Map from '../../screens/Map';
-import { fetchParkspots, updateLocation, updateMapPosition, filterParkspots } from './actions';
+import {fetchParkspots, filterParkspots, updateLocation, updateMapPosition} from './actions';
 
 export interface Props {
   navigation: any;

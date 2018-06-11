@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Button, Icon, List, ListItem, Switch, Left, Right, Body, Container, Content} from 'native-base';
+import {Body, Icon, Left, List, ListItem, Right, Switch} from 'native-base';
 import Interactable from 'react-native-interactable';
 import {connect} from 'react-redux';
 
@@ -25,6 +25,7 @@ class FilterCard extends Component {
       this.props.onDismiss();
     }
   };
+
   constructor(props) {
     super(props);
     this._deltaY = new Animated.Value(Screen.height - 100);
@@ -35,17 +36,17 @@ class FilterCard extends Component {
       return (
         <ListItem key={filter.id} icon>
           <Left>
-            <Icon style={{width:34, textAlign:'center'}} name={filter.icon} type={'FontAwesome'} />
+            <Icon style={{width: 34, textAlign: 'center'}} name={filter.icon} type={'FontAwesome'}/>
           </Left>
           <Body>
-            <Text>{filter.name}</Text>
+          <Text>{filter.name}</Text>
           </Body>
           <Right>
             <Switch value={this.props[filter.id]} onValueChange={() => {
-                  this.props.toggleFilter(filter.id);
-                  this.props.filterParkspots(filter.id);
-                }
-              } />
+              this.props.toggleFilter(filter.id);
+              this.props.filterParkspots(filter.id);
+            }
+            }/>
           </Right>
         </ListItem>
       )
@@ -56,7 +57,7 @@ class FilterCard extends Component {
       </List>
     )
   }
-  
+
   render() {
     if (!this.props.showFilters) {
       return null;

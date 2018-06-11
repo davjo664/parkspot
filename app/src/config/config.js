@@ -26,7 +26,7 @@ const config = {
     }
   },
   googleApi: {
-	  key: 'AIzaSyBtDPqZtRAMenSwz32oIUWWf1i_Gnub1dc'
+    key: 'AIzaSyBtDPqZtRAMenSwz32oIUWWf1i_Gnub1dc'
   }
 
 };
