@@ -38,14 +38,14 @@ export class PlaceListItem extends Component {
         <TouchableOpacity
           key={p.id}
           onPress={() => {
-            if ( p.favourite ) {
-              this.props.remFavourite()
+            if ( p.favorite ) {
+              this.props.remFavorite()
             } else {
-              this.props.addFavourite();
-            } 
+              this.props.addFavorite();
+            }
           }}
         >
-          <Icon name={p.favourite ? 'ios-star' : 'ios-star-outline'} />
+          <Icon name={p.favorite ? 'ios-star' : 'ios-star-outline'} />
         </TouchableOpacity>
       </ListItem>
     );

@@ -65,16 +65,16 @@ export function fetchLocationDetails(rowData) {
         });
 }
 
-export function addFavourite(fav) {
+export function addFavorite(fav) {
   return {
-    type: 'ADD_FAVOURITE',
+    type: 'ADD_FAVORITE',
     fav,
   };
 }
 
-export function remFavourite(fav) {
+export function remFavorite(fav) {
   return {
-    type: 'REM_FAVOURITE',
+    type: 'REM_FAVORITE',
     fav,
   };
 }
