@@ -17,7 +17,6 @@ import codePush from 'react-native-code-push';
 
 import colors from './../../theme/parkspotColors';
 import {PermissionHelper} from '../../helper/PermissionHelper';
-import gradient from '../../theme/parkspotGradient';
 
 import textStyles from '../../theme/parkspotStyles';
 import ElevatedView from 'react-native-elevated-view'
@@ -232,15 +231,6 @@ class Map extends React.Component<Props, State> {
     });
   };
 
-  renderMarkerInner = (text, fontSize) => {
-    return (
-      <LinearGradient style={styles.cluster} colors={gradient.colors} start={gradient.start} end={gradient.end}
-                      locations={gradient.locations}>
-        <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
-      </LinearGradient>
-    );
-  };
-
   renderCluster = (cluster, onPress) => {
     const pointCount = cluster.pointCount,
       coordinate = cluster.coordinate;
@@ -249,19 +239,26 @@ class Map extends React.Component<Props, State> {
     const text = pointCount <= 99 ? pointCount : '99+';
 
     return (
-      <Marker coordinate={coordinate} onPress={onPress}>
-        {this.renderMarkerInner(text, fontSize)}
+      <Marker style={styles.cluster} coordinate={coordinate} onPress={onPress}
+              image={require('../../../assets/map/clusterPin.png')}>
+        <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
       </Marker>
     );
   };
 
   renderMarker = (data) => {
+
+    const image = this.state.selectedParkspot != null && this.state.selectedParkspot.id == data.id ?
+      require('../../../assets/map/selectedPin.png') :
+      require('../../../assets/map/markerPin.png');
+
     return (
-      <Marker key={data.id} coordinate={data.location}>
-        {this.renderMarkerInner('P', 18)}
+      <Marker style={styles.cluster} key={data.id} coordinate={data.location} image={image}>
+        <Text style={[styles.clusterText, {fontSize: 18}]}>P</Text>
       </Marker>
     );
   };
+
   renderDestination = (data) => {
     if (data == null) {
       return null;
@@ -269,7 +266,7 @@ class Map extends React.Component<Props, State> {
 
     return (
       <Marker key={'destination'} coordinate={data.location} style={styles.destinationMarker}
-              image={require('../../../assets/destinationPin.png')}>
+              image={require('../../../assets/map/destinationPin.png')}>
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
         </Callout>

@@ -76,24 +76,12 @@ const styles = StyleSheet.create({
   cluster: {
     width: 32,
     height: 32,
-    shadowColor: 'rgba(0, 0, 0, 0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowRadius: 4,
-    shadowOpacity: 1,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderRadius: 20,
   },
   clusterText: {
-    width: 28,
-    height: 28,
-    textAlignVertical: 'center',
-    textAlign: 'center',
+    fontSize: 24,
     fontWeight: 'normal',
     fontStyle: 'normal',
     letterSpacing: 0,
