@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Map from '../../screens/Map';
-import { fetchParkspots, updateLocation, updateMapPosition } from './actions';
+import { fetchParkspots, updateLocation, updateMapPosition, filterParkspots } from './actions';
 
 export interface Props {
   navigation: any;
@@ -14,6 +14,7 @@ export interface Props {
   mapPosition: Object;
   updateMapPosition: Function;
   selectedLocation: Object;
+  filterParkspots: Function;
 }
 
 export interface State {
@@ -31,6 +32,7 @@ class MapContainer extends React.Component<Props, State> {
         mapPosition={this.props.mapPosition}
         updateMapPosition={this.props.updateMapPosition}
         selectedLocation={this.props.selectedLocation}
+        filterParkspots={this.props.filterParkspots}
       />
     );
   }
@@ -46,7 +48,8 @@ function bindAction(dispatch) {
       dispatch(fetchParkspots(latitude, longitude, distance));
     },
     updateLocation: () => dispatch(updateLocation()),
-    updateMapPosition: (mapPosition) => dispatch(updateMapPosition(mapPosition))
+    updateMapPosition: (mapPosition) => dispatch(updateMapPosition(mapPosition)),
+    filterParkspots: (filterId) => dispatch(filterParkspots(filterId))
   };
 }
 

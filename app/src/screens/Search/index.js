@@ -13,18 +13,9 @@ import {
 } from 'react-native';
 
 import defaultStyles from './styles';
-import Filter from '../../components/Filter/index';
 import {FavouriteListItem, PlaceListItem} from '../../components/ListItems';
 import SearchBar from '../../components/SearchBar';
 import textStyles from '../../theme/parkspotStyles';
-
-var filters = [
-  {name: 'electricCharger', icon: 'ios-flash'},
-  {name: 'cost', icon: 'ios-cash'},
-  {name: 'favorite', icon: 'ios-star'},
-  {name: 'time', icon: 'ios-timer'},
-  {name: 'handicapped', icon: 'ios-person'},
-];
 
 const WINDOW = Dimensions.get('window');
 
@@ -79,18 +70,6 @@ export default class SearchScreen extends Component {
     }
   };
 
-  _renderFilter = () => {
-    if (this.props.showParkspots) {
-      return (
-        <Filter
-          toggleFilter={filterId => {
-            this.props.toggleFilter(filterId);
-            this.props.filterData(filterId);
-          }}
-        />
-      );
-    }
-  };
   _renderPlaceItem = (place) => {
     return <PlaceListItem place={place} onPress={() => this._onPress(place)}
                           addFavourite={() => this.props.addFavourite(place)}
@@ -157,7 +136,6 @@ export default class SearchScreen extends Component {
       <SafeAreaView style={defaultStyles.safeArea}>
         <View style={[defaultStyles.container]} pointerEvents="box-none">
           {this._renderSearchBar()}
-          {/* {this._renderFilter()} */}
           {this._renderList()}
         </View>
       </SafeAreaView>
@@ -171,14 +149,11 @@ export interface Props {
   updateSearchString: Function;
   searchString: String;
   data: Array;
-  filteredData: Array;
   fetchParkspots: Function;
   fetchLocations: Function;
   showLocations: Boolean;
   fetchLocationDetails: Function;
   isLoading: Boolean;
-  toggleFilter: Function;
-  filterData: Function;
   addFavourite: Function;
   remFavourite: Function;
   favourites: any;

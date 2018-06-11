@@ -1,6 +1,8 @@
 const initialState = {
   userPosition: null,
   parkspots: [],
+  originalParkspots: [],
+  filters: [],
   mapPosition: {
     latitude: 48.775,
     longitude: 9.175,
@@ -32,14 +34,58 @@ export default function (state: any = initialState, action: Function) {
         }
       }
     }
+    // Apply current filters on fetched parkspots
+    let filteredParkspots = [];
+    filteredParkspots = combined.filter(obj => {
+      let showParkspot = true;
+      state.filters.forEach(filter => {
+        if (!obj[filter]) {
+          showParkspot = false;
+          return;
+        }
+      });
+      return showParkspot;
+    });
     return {
       ...state,
-      parkspots: combined,
+      parkspots: filteredParkspots,
+      originalParkspots: combined
     };
   } else if (action.type === 'UPDATE_MAP_POSITION') {
     return {
       ...state,
       mapPosition: action.mapPosition,
+    };
+  } else if (action.type === 'FILTER_PARKSPOTS') {
+    let filters = state.filters;
+    let filteredParkspots = [];
+    if (filters.includes(action.filter)) {
+      // Filter turned off -> needs to filter the original data
+      filters = filters.filter(filter => filter !== action.filter);
+      filteredParkspots = state.originalParkspots.filter(obj => {
+        let showData = true;
+        filters.forEach(filter => {
+          if (!obj[filter]) {
+            showData = false;
+            return;
+          }
+        });
+        return showData;
+      });
+    } else {
+      // Filter turned on -> adds filter on top of filteredParkspots
+      filters.push(action.filter);
+      filteredParkspots = state.parkspots.filter(obj => {
+        if (!obj[action.filter]) {
+          return false;
+        }
+        return true;
+      });
+    }
+    return {
+      ...state,
+      filters: filters,
+      parkspots: filteredParkspots,
     };
   }
 

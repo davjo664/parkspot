@@ -10,6 +10,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import config from '../../config/config';
 
 import MapCard from '../../components/MapCard';
+import FilterCard from '../../components/FilterCard';
 
 import styles from './styles';
 import codePush from 'react-native-code-push';
@@ -35,6 +36,7 @@ export interface Props {
   userPosition: any;
   mapPosition: any;
   selectedLocation: Object;
+  filterParkspots: Function;
 }
 
 export interface State {
@@ -65,6 +67,7 @@ class Map extends React.Component<Props, State> {
          * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
          * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
          */
+    this.setShowFilters(false)
     this.setState({
       selectedParkspot: this.props.parkspots.find(parkspot => {
         return (
@@ -194,13 +197,16 @@ class Map extends React.Component<Props, State> {
     this.props.navigation.navigate('Search');
   };
 
-  filterButtonWasPressed = () => {
-    console.log('Filter pressed');
+  setShowFilters = (show) => {
+    this.setState({
+      showFilters: show
+    });
   };
 
 
   mapWasPressed = () => {
     this.deselectParkspot();
+    this.setShowFilters(false);
   };
 
   approximateCurrentRegionRadius = region => {
@@ -328,6 +334,7 @@ class Map extends React.Component<Props, State> {
     this.state = {
       selectedParkspot: null,
       showsUserLocation: false,
+      showFilters: false
     };
 
     this.props.fetchParkspots(
@@ -386,7 +393,7 @@ class Map extends React.Component<Props, State> {
           <View style={styles.buttonsRow}>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => this.filterButtonWasPressed()}
+              onPress={() => this.setShowFilters(true)}
             >
               <Icon type="MaterialIcons" name="filter-list" style={styles.icon} />
             </TouchableOpacity>
@@ -405,6 +412,12 @@ class Map extends React.Component<Props, State> {
             {this.state.version}.{this.state.label}
           </Text>
         </SafeAreaView>
+
+        <FilterCard
+          showFilters={this.state.showFilters}
+          onDismiss={() => {this.setShowFilters(false)}}
+          filterParkspots={this.props.filterParkspots}
+        />
 
         <MapCard
           onStartNavigation={this.startNavigation}

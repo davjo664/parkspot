@@ -6,12 +6,12 @@ import { persistCombineReducers } from 'redux-persist';
 import storage from 'redux-persist/es/storage';
 
 import searchReducer from '../container/SearchContainer/reducer';
-import filterReducer from '../components/Filter/reducer';
+import filterReducer from '../components/FilterCard/reducer';
 
 const config = {
   key: 'root',
   storage,
-  blacklist: ['filterReducer'],
+  blacklist: [],
 };
 
 

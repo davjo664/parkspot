@@ -65,13 +65,6 @@ export function fetchLocationDetails(rowData) {
         });
 }
 
-export function filterData(filterId) {
-  return {
-    type: 'FILTER_DATA',
-    filter: filterId,
-  };
-}
-
 export function addFavourite(fav) {
   return {
     type: 'ADD_FAVOURITE',
