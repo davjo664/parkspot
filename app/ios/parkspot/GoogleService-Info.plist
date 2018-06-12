@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>165611854538-ln472n6v4oip7gblrhktqkb3q4jg15do.apps.googleusercontent.com</string>
+	<string>399543883368-cpnhtpsamqq28r502roah99obi23r77j.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.165611854538-ln472n6v4oip7gblrhktqkb3q4jg15do</string>
+	<string>com.googleusercontent.apps.399543883368-cpnhtpsamqq28r502roah99obi23r77j</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDqxR_vf9BdnX3PF2DwhrEpoWhYGocxV58</string>
+	<string>AIzaSyDyDYwU4pQ6GWuNxtNwI_F7Ramd5BaOLT0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>165611854538</string>
+	<string>399543883368</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>de.hdmstuttgart.parkspot</string>
 	<key>PROJECT_ID</key>
-	<string>parkspot-200807</string>
+	<string>parkspot11</string>
 	<key>STORAGE_BUCKET</key>
-	<string>parkspot-200807.appspot.com</string>
+	<string>parkspot11.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:165611854538:ios:e527088bee12edbb</string>
+	<string>1:399543883368:ios:e527088bee12edbb</string>
 	<key>DATABASE_URL</key>
-	<string>https://parkspot-200807.firebaseio.com</string>
+	<string>https://parkspot11.firebaseio.com</string>
 </dict>
 </plist>

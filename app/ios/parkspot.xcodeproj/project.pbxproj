@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -44,6 +45,7 @@
 		A678405007A14390AF7186F1 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		A6E949DC2D3845DDAA8A683C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA766036227B4306B6B40CFE /* FontAwesome.ttf */; };
 		A7CC48C202454A948C527EA4 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE61D991DBFC4B45911284E5 /* SimpleLineIcons.ttf */; };
+		A8387370E2864A65AFEDB7C8 /* libNSTStreetview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDE7A2BBC49E47259D13BBD9 /* libNSTStreetview.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B3370B9C34DF4B1594B75389 /* libAppCenterReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2005F84820624C39ACC59F53 /* libAppCenterReactNative.a */; };
 		BB3A706BE80F4452A3653ED3 /* libAppCenterReactNativeCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92D57C78714B43DCB6414689 /* libAppCenterReactNativeCrashes.a */; };
@@ -54,7 +56,6 @@
 		DC200976A67F43EB9F527B4D /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A36D952F04934319B9F3AD42 /* libRNVectorIcons.a */; };
 		DD7348D820AEC0F200254F88 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD7348AE20AEC0F200254F88 /* GoogleService-Info.plist */; };
 		F0C0B0C151AC4EF5B558E122 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86116449F1B94AE788108E7E /* Roboto_medium.ttf */; };
-		A8387370E2864A65AFEDB7C8 /* libNSTStreetview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDE7A2BBC49E47259D13BBD9 /* libNSTStreetview.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -359,6 +360,13 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		DD663C6B20CEBB0E0092BF70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 333AC9013CDC499D9E7B5B78 /* NSTStreetView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = NSTStreetview;
+		};
 		DD7348DC20AEC1B400254F88 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E17159E0724F43B7BA64DD6E /* React Native Open Settings.xcodeproj */;
@@ -404,6 +412,7 @@
 		2AEDBA888FCC4D46A88DC059 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		2C32FCCC55EE40E296163955 /* AppCenterReactNativeAnalytics.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AppCenterReactNativeAnalytics.xcodeproj; path = "../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics.xcodeproj"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		333AC9013CDC499D9E7B5B78 /* NSTStreetView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = NSTStreetView.xcodeproj; path = "../node_modules/react-native-streetview/ios/NSTStreetView.xcodeproj"; sourceTree = "<group>"; };
 		3885C5C63CA944CD87F20434 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		60C5235ADAD14657A03476B9 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
@@ -426,6 +435,7 @@
 		A93AF93936F2EF1104AA6C9A /* Pods-parkspot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parkspot.release.xcconfig"; path = "Pods/Target Support Files/Pods-parkspot/Pods-parkspot.release.xcconfig"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B7C00D53EC3345A7A411560D /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		CDE7A2BBC49E47259D13BBD9 /* libNSTStreetview.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libNSTStreetview.a; sourceTree = "<group>"; };
 		CE61D991DBFC4B45911284E5 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		D667A8AA4A9344D3BE787C98 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		DD7348AE20AEC0F200254F88 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "parkspot/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -438,8 +448,6 @@
 		F659675F47094C048DC12458 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		FA766036227B4306B6B40CFE /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		FC2E50459A20EB4C9902E238 /* libPods-parkspot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-parkspot.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		333AC9013CDC499D9E7B5B78 /* NSTStreetView.xcodeproj */ = {isa = PBXFileReference; name = "NSTStreetView.xcodeproj"; path = "../node_modules/react-native-streetview/ios/NSTStreetView.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		CDE7A2BBC49E47259D13BBD9 /* libNSTStreetview.a */ = {isa = PBXFileReference; name = "libNSTStreetview.a"; path = "libNSTStreetview.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -774,8 +782,17 @@
 				A93AF93936F2EF1104AA6C9A /* Pods-parkspot.release.xcconfig */,
 				13BB5D66FB104C65B0CDB45C /* libReact Native Open Settings.a */,
 				3885C5C63CA944CD87F20434 /* libRNFirebase.a */,
+				CDE7A2BBC49E47259D13BBD9 /* libNSTStreetview.a */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		DD663C6820CEBB0E0092BF70 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD663C6C20CEBB0E0092BF70 /* libNSTStreetview.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		DD7348D920AEC1B400254F88 /* Products */ = {
@@ -888,6 +905,10 @@
 				{
 					ProductGroup = DD473E73209CC36800272892 /* Products */;
 					ProjectRef = F545F1D3F4DC4499B4165362 /* AppCenterReactNativeCrashes.xcodeproj */;
+				},
+				{
+					ProductGroup = DD663C6820CEBB0E0092BF70 /* Products */;
+					ProjectRef = 333AC9013CDC499D9E7B5B78 /* NSTStreetView.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -1251,6 +1272,13 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = DD473EAC209CC36900272892 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD663C6C20CEBB0E0092BF70 /* libNSTStreetview.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libNSTStreetview.a;
+			remoteRef = DD663C6B20CEBB0E0092BF70 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		DD7348DD20AEC1B400254F88 /* libReact Native Open Settings.a */ = {
