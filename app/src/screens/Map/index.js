@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {ActionSheet, Icon, Text} from 'native-base';
 
-import {Dimensions, Image, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Image, ImageBackground, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {Callout, Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
 import LinearGradient from 'react-native-linear-gradient';
@@ -232,31 +232,44 @@ class Map extends React.Component<Props, State> {
   };
 
   renderCluster = (cluster, onPress) => {
-    const pointCount = cluster.pointCount,
-      coordinate = cluster.coordinate;
+    const pointCount = cluster.pointCount;
+
 
     const fontSize = pointCount <= 9 ? 18 : (pointCount <= 99 ? 15 : 15);
     const text = pointCount <= 99 ? pointCount : '99+';
 
-    return (
-      <Marker style={styles.pin} coordinate={coordinate} onPress={onPress}
-              image={require('../../../assets/map/clusterPin.png')}>
-        <Text style={[styles.pinText, {fontSize: fontSize}]}>{text}</Text>
-      </Marker>
-    );
+    return this.renderPin(cluster.coordinate, require('../../../assets/map/clusterPin.png'), '', text, fontSize, onPress);
   };
 
   renderMarker = (data) => {
+    const isSelected = this.state.selectedParkspot != null && this.state.selectedParkspot.id == data.id
 
-    const image = this.state.selectedParkspot != null && this.state.selectedParkspot.id == data.id ?
-      require('../../../assets/map/selectedPin.png') :
-      require('../../../assets/map/markerPin.png');
+    const image = isSelected ? require('../../../assets/map/selectedPin.png') : require('../../../assets/map/markerPin.png');
+    const fontSize = isSelected ? 15 : 18;
+    const additionalTextStyles = isSelected ? { paddingBottom: 8 } : null;
 
-    return (
-      <Marker style={styles.pin} key={data.id} coordinate={data.location} image={image}>
-        <Text style={[styles.pinText, {fontSize: 18}]}>P</Text>
-      </Marker>
-    );
+    return this.renderPin(data.location, image, data.id, 'P', fontSize, null, additionalTextStyles);
+  };
+
+  renderPin = (coordinate: Object, image: String, key: String, text: String, fontSize: Number, onPress: ?Function, additionalTextStyles: ?Object) => {
+
+    // Android does not seem to like background images...
+    if (Platform.OS === 'ios') {
+      return (
+        <Marker key={key} coordinate={coordinate} onPress={onPress}>
+          <ImageBackground style={styles.pin} source={image}>
+            <Text style={[styles.pinText, {fontSize: fontSize}, additionalTextStyles]}>{text}</Text>
+        </ImageBackground>
+        </Marker>
+      );
+    } else {
+      return (
+        <Marker style={styles.pin} key={key} coordinate={coordinate} onPress={onPress} image={image}>
+          <Text style={[styles.pinText, {fontSize: fontSize, paddingLeft: 4, paddingTop: 4}, additionalTextStyles]}>{text}</Text>
+        </Marker>
+      );
+    }
+
   };
 
   renderDestination = (data) => {
