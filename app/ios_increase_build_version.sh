@@ -7,7 +7,7 @@ INFOPLIST_DIR="${PROJECT_DIR}/${INFOPLIST_FILE}"
 PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')
 
 BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${INFOPLIST_DIR}")
-BUILD_NUMBER=$(($BUILD_NUMBER + 1))
+BUILD_NUMBER=$(echo "1")
 
 
 # Update plist with new values
