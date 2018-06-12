@@ -48,7 +48,6 @@
     ]
   },
   "dependencies": {
-    "metro": "^0.37.1",
     "ajv": "^6.5.0",
     "appcenter": "^1.5.1",
     "appcenter-analytics": "^1.5.1",
@@ -56,6 +55,7 @@
     "flow-types": "^1.0.0",
     "haversine-js": "^1.0.0",
     "lodash": "^4.17.10",
+    "metro": "^0.37.1",
     "native-base": "^2.4.5",
     "prettier": "^1.13.3",
     "pretty-format": "^23.0.1",
@@ -66,6 +66,7 @@
     "react-native-code-push": "^5.3.4",
     "react-native-elevated-view": "0.0.6",
     "react-native-firebase": "^4.2.0",
+    "react-native-fused-location": "^0.2.1",
     "react-native-interactable": "^0.1.10",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-map-markerclustering": "^1.0.12",
