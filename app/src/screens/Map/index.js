@@ -246,7 +246,7 @@ class Map extends React.Component<Props, State> {
 
     const image = isSelected ? require('../../../assets/map/selectedPin.png') : require('../../../assets/map/markerPin.png');
     const fontSize = isSelected ? 15 : 18;
-    const additionalTextStyles = isSelected ? { paddingBottom: 8 } : null;
+    const additionalTextStyles = isSelected ? {paddingBottom: 8} : null;
 
     return this.renderPin(data.location, image, data.id, 'P', fontSize, null, additionalTextStyles);
   };
@@ -259,7 +259,7 @@ class Map extends React.Component<Props, State> {
         <Marker key={key} coordinate={coordinate} onPress={onPress}>
           <ImageBackground style={styles.pin} source={image}>
             <Text style={[styles.pinText, {fontSize: fontSize}, additionalTextStyles]}>{text}</Text>
-        </ImageBackground>
+          </ImageBackground>
         </Marker>
       );
     } else {
@@ -279,7 +279,7 @@ class Map extends React.Component<Props, State> {
 
     return (
       <Marker key={'destination'} coordinate={data.location} style={styles.destinationPin}
-              image={require('../../../assets/map/destinationPin.png')}>
+        image={require('../../../assets/map/destinationPin.png')}>
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
         </Callout>
@@ -387,7 +387,7 @@ class Map extends React.Component<Props, State> {
           ]}>
 
           <View style={styles.searchRow}>
-            <ElevatedView style={styles.searchButtonView} elevation={5}>
+            <ElevatedView style={styles.searchButtonView} elevation={Platform.OS === 'ios' ? 5 : 3}>
 
               <TouchableOpacity
                 style={styles.searchButton}

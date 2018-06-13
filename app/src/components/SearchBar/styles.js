@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import parkspotColors from '../../theme/parkspotColors';
 
 
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     marginLeft: 5,
+    height: 50,
   },
   icon: {
     marginLeft: 5,

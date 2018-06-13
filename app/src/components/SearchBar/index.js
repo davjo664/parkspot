@@ -32,6 +32,7 @@ export default class SearchBar extends Component {
           autoFocus={true}
           value={this.props.searchString}
           clearButtonMode="while-editing"
+          underlineColorAndroid="transparent"
           onChangeText={text => this.props.onChange(text)}
           onFocus={() => {
             this.props.onFocus ? this.props.onFocus() : null;
