@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    flex: 1,
   },
 
   map: {
@@ -21,7 +22,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     height: '20%',
     flexDirection: 'column',
-    justifyContent: 'space-between',
     display: 'flex',
   },
   searchRow: {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: '5%',
     marginRight: '5%',
-    marginBottom: 30,
+    marginTop: 20,
   },
   searchButtonView: {
     height: 36,

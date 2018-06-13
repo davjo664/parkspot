@@ -235,7 +235,7 @@ class Map extends React.Component<Props, State> {
   renderMarkerInner = (text, fontSize) => {
     return (
       <LinearGradient style={styles.cluster} colors={gradient.colors} start={gradient.start} end={gradient.end}
-                      locations={gradient.locations}>
+        locations={gradient.locations}>
         <Text style={[styles.clusterText, {fontSize: fontSize}]}>{text}</Text>
       </LinearGradient>
     );
@@ -269,7 +269,7 @@ class Map extends React.Component<Props, State> {
 
     return (
       <Marker key={'destination'} coordinate={data.location} style={styles.destinationMarker}
-              image={require('../../../assets/destinationPin.png')}>
+        image={require('../../../assets/destinationPin.png')}>
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
         </Callout>
@@ -368,7 +368,7 @@ class Map extends React.Component<Props, State> {
     const data = this.transformParkspotsToData(this.props.parkspots);
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <LinearGradient
           colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.5)', 'rgba(255,255,255,1)']}
           locations={[0, 0.1, 0.4]}
@@ -384,7 +384,7 @@ class Map extends React.Component<Props, State> {
                 activeOpacity={0.7}
                 onPress={() => this.searchButtonWasPressed()}>
                 <View style={styles.buttonContent}>
-                  <Image source={require('../../../assets/group.png')} style={styles.searchIcon}/>
+                  <Image source={require('../../../assets/group.png')} style={styles.searchIcon} />
                   <Text style={textStyles.textStyle2}>Search for a parkspot</Text>
                 </View>
               </TouchableOpacity>
@@ -396,23 +396,23 @@ class Map extends React.Component<Props, State> {
               activeOpacity={0.7}
               onPress={() => this.setShowFilters(true)}
             >
-              <Icon type="MaterialIcons" name="filter-list" style={styles.icon}/>
+              <Icon type="MaterialIcons" name="filter-list" style={styles.icon} />
             </TouchableOpacity>
 
             <Text style={textStyles.textStyleMapHeading}>parkspot</Text>
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => this.findMeButtonWasPressed()}>
-              <Image source={require('../../../assets/relocate.png')} style={styles.icon}/>
+              <Image source={require('../../../assets/relocate.png')} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </LinearGradient>
 
-        <SafeAreaView style={styles.safeArea}>
+        <View style={styles.safeArea}>
           <Text style={styles.versionLabel}>
             {this.state.version}.{this.state.label}
           </Text>
-        </SafeAreaView>
+        </View>
 
         <FilterCard
           showFilters={this.state.showFilters}
@@ -452,7 +452,7 @@ class Map extends React.Component<Props, State> {
           {this.renderDrivingDirectionsOnMap()}
           {this.renderWalkingDirectionsOnMap()}
         </ClusteredMapView>
-      </View>
+      </SafeAreaView>
     );
   }
 }
