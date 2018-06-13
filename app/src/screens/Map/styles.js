@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: '5%',
     marginRight: '5%',
-    marginTop: 20,
+    marginTop: 10,
   },
   searchButtonView: {
     height: 36,
