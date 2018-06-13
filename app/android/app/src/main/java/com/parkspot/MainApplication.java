@@ -3,6 +3,7 @@ package com.parkspot;
 import android.app.Application;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
+import com.mustansirzia.fused.FusedLocationPackage;
 import co.il.nester.android.react.streetview.NSTStreetViewPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
@@ -42,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new FusedLocationPackage(),
             new NSTStreetViewPackage(),
             new LinearGradientPackage(),
         new OpenSettingsPackage(),

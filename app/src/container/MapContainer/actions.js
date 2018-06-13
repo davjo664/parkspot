@@ -1,4 +1,5 @@
 import config from '../../config/config';
+import {LocationAccessHelper} from "../../helper/LocationAccessHelper";
 
 export function fetchParkspotsSuccess(data: Object) {
   return {
@@ -43,15 +44,11 @@ export function fetchParkspots(
 
 export function updateLocation() {
   return dispatch =>
-    navigator.geolocation.getCurrentPosition(
-      userPosition => {
-        dispatch(updateLocationSuccess(userPosition));
-      },
-      error => {
-        console.log(error.message);
-      },
-      {enableHighAccuracy: true, timeout: 2500},
-    );
+    LocationAccessHelper.getLocation((userPosition) => {
+      dispatch(updateLocationSuccess(userPosition));
+    }, (error) => {
+      console.warn(error);
+    });
 }
 
 export function filterParkspots(filterId) {

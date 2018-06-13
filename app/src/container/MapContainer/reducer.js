@@ -17,8 +17,8 @@ export default function (state: any = initialState, action: Function) {
       ...state,
       userPosition: {
         ...state.userPosition,
-        latitude: action.userPosition.coords.latitude,
-        longitude: action.userPosition.coords.longitude,
+        latitude: action.userPosition.latitude,
+        longitude: action.userPosition.longitude,
       }
     };
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
