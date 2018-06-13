@@ -14,7 +14,7 @@
 
 ## Environment
 ### App version
-<!-- e.g. 1.6.3. -->
+<!-- e.g. 1.6.3 -->
 
 ### Device
 - [ ] Android
