@@ -13,8 +13,10 @@
 
 
 ## Environment
+### App version
+<!-- e.g. 1.6.3. -->
 
-<pre><code>Device:
+### Device
 - [ ] Android
 - [ ] iOS
-</code></pre>
+
