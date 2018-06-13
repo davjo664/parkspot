@@ -14,12 +14,14 @@ const App = StackNavigator(
   {
     initialRouteName: 'Map',
     headerMode: 'none',
+    mode: 'modal',
+
   },
 );
 
 export default () => (
   <Root>
-    <NotificationsManager/>
-    <App/>
+    <NotificationsManager />
+    <App />
   </Root>
 );
