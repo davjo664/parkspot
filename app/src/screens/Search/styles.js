@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet, Platform} from 'react-native';
 import {isIphoneX} from '../../helper/iPhoneX';
 
 let {width, height} = Dimensions.get('window');
@@ -7,8 +7,8 @@ let {width, height} = Dimensions.get('window');
 
 const defaultStyles = StyleSheet.create({
   container: {
-    //flex: 1,
-    marginTop: isIphoneX() ? 40 : 30,
+    flex: 1,
+    marginTop: Platform.OS === 'ios' ? (isIphoneX() ? 40 : 30) : 20,
   },
   input: {
     backgroundColor: 'white',
