@@ -58,12 +58,26 @@ const styles = StyleSheet.create({
   },
   panelGradient: {},
   panelButton: {
-    backgroundColor: 'transparent',
+    flex: 1,
+    width: 221,
+    position:'absolute',
+    right: 0,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+  },
+  panelImage: {
+    flexGrow:1,
+    alignItems: 'center',
+    justifyContent:'center',
+    width: '100%',
+    height: 44,
   },
   panelButtonTitle: {
-    fontSize: 17,
-    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 21,
+    fontWeight: 'normal',
     color: 'white',
+    letterSpacing: -0.51,
   },
   moreContent: {
     marginTop: 10,
@@ -74,6 +88,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   iconContainer: {
+    marginTop: 52,
     height: 26,
     flexDirection: 'row',
     justifyContent: 'space-between',
