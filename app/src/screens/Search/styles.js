@@ -1,10 +1,14 @@
 import {Dimensions, StyleSheet} from 'react-native';
+import {isIphoneX} from '../../helper/iPhoneX';
 
 let {width, height} = Dimensions.get('window');
 
+
+
 const defaultStyles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
+    marginTop: isIphoneX() ? 40 : 30,
   },
   input: {
     backgroundColor: 'white',
@@ -16,7 +20,7 @@ const defaultStyles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     alignItems: 'center',
-    marginTop: 10,
+
   },
   cancelButton: {
     marginLeft: 10,
