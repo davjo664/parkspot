@@ -257,14 +257,14 @@ class Map extends React.Component<Props, State> {
     if (Platform.OS === 'ios') {
       return (
         <Marker key={key} coordinate={coordinate} onPress={onPress}>
-          <ImageBackground style={styles.pin} source={image}>
+          <ImageBackground style={[styles.pin, styles.pinShadow]} source={image}>
             <Text style={[styles.pinText, {fontSize: fontSize}, additionalTextStyles]}>{text}</Text>
           </ImageBackground>
         </Marker>
       );
     } else {
       return (
-        <Marker style={styles.pin} key={key} coordinate={coordinate} onPress={onPress} image={image}>
+        <Marker style={[styles.pin, styles.pinShadow]} key={key} coordinate={coordinate} onPress={onPress} image={image}>
           <Text style={[styles.pinText, {fontSize: fontSize, paddingLeft: 4, paddingTop: 4}, additionalTextStyles]}>{text}</Text>
         </Marker>
       );

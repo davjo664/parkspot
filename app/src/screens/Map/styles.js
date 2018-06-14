@@ -80,6 +80,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  pinShadow: {
+    shadowColor: "rgba(0, 0, 0, 0.16)",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowRadius: 8,
+    shadowOpacity: 1
+  },
   pinText: {
     fontSize: 24,
     fontWeight: 'normal',
