@@ -65,6 +65,15 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
   },
+  buttonShadow: {
+    shadowColor: "rgba(0, 0, 0, 0.16)",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowRadius: 8,
+    shadowOpacity: 1,
+  },
   panelImage: {
     flexGrow:1,
     alignItems: 'center',
