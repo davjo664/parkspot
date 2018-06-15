@@ -104,8 +104,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     padding: 2,
-    fontSize: 26,
-    color: '#3762d2',
   },
   iconText: {
     padding: 2,
@@ -113,7 +111,6 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   streetViewContainer: {
-    marginTop: 10,
     flex: 1
   },
   streetView: {

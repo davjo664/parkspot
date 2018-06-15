@@ -24,7 +24,7 @@ export default class SearchBar extends Component {
       <ElevatedView elevation={5} style={[styles.container, this.props.style]}>
         <Image
           style={styles.icon}
-          source={require('../../../assets/group.png')}
+          source={require('../../../assets/icons/misc/search.png')}
         />
         <TextInput
           placeholder="Search for a parkspot"
