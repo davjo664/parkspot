@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   streetViewContainer: {
-    marginTop: 10,
     flex: 1
   },
   streetView: {

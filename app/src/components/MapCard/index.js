@@ -51,6 +51,8 @@ export default class MapCard extends Component {
 
     const distance = humanizeDistance(this.props.parkspot.dist);
 
+    const anyIconShown = this.props.parkspot.electricCharger || this.props.parkspot.accessible;
+
     return (
       <View style={styles.panelContainer} pointerEvents={'box-none'}>
         <Animated.View
@@ -104,7 +106,7 @@ export default class MapCard extends Component {
 
             <View style={styles.streetViewContainer}>
               <StreetView
-                style={styles.streetView}
+                style={[styles.streetView, {marginTop: anyIconShown ? 12 : 54}]}
                 allGesturesEnabled={true}
                 coordinate={{
                   'latitude': parseFloat(this.props.parkspot.lat),
