@@ -13,10 +13,10 @@ const Screen = {
 };
 
 const filters = [
-  {name: 'Electric charger', id: 'electricCharger', icon: 'flash'},
-  {name: 'Free parking', id: 'cost', icon: 'money'},
-  {name: 'Unlimited parking time', id: 'time', icon: 'clock-o'},
-  {name: 'Handicap parking', id: 'handicapped', icon: 'wheelchair'},
+  {name: 'Electric charger', id: 'electricCharger', icon: require('../../../assets/icons/filter/electricCharger.png')},
+  {name: 'Free parking', id: 'cost', icon: require('../../../assets/icons/filter/nomoney.png')},
+  {name: 'Unlimited parking time', id: 'time', icon: require('../../../assets/icons/filter/clock.png')},
+  {name: 'Handicap parking', id: 'handicapped', icon: require('../../../assets/icons/filter/accessible.png')},
 ];
 
 class FilterCard extends Component {
@@ -36,7 +36,9 @@ class FilterCard extends Component {
       return (
         <ListItem key={filter.id} icon>
           <Left>
-            <Icon style={{width: 34, textAlign: 'center'}} name={filter.icon} type={'FontAwesome'}/>
+            <View style={{height: 24, width: 24}}>
+            <Image source={filter.icon} />
+            </View>
           </Left>
           <Body>
           <Text>{filter.name}</Text>

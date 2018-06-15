@@ -238,13 +238,13 @@ class Map extends React.Component<Props, State> {
     const fontSize = pointCount <= 9 ? 18 : (pointCount <= 99 ? 15 : 15);
     const text = pointCount <= 99 ? pointCount : '99+';
 
-    return this.renderPin(cluster.coordinate, require('../../../assets/map/clusterPin.png'), '', text, fontSize, onPress);
+    return this.renderPin(cluster.coordinate, require('../../../assets/icons/map/clusterPin.png'), '', text, fontSize, onPress);
   };
 
   renderMarker = (data) => {
     const isSelected = this.state.selectedParkspot != null && this.state.selectedParkspot.id == data.id
 
-    const image = isSelected ? require('../../../assets/map/selectedPin.png') : require('../../../assets/map/markerPin.png');
+    const image = isSelected ? require('../../../assets/icons/map/selectedPin.png') : require('../../../assets/icons/map/markerPin.png');
     const fontSize = isSelected ? 15 : 18;
     const additionalTextStyles = isSelected ? {paddingBottom: 8} : null;
 
@@ -279,7 +279,7 @@ class Map extends React.Component<Props, State> {
 
     return (
       <Marker key={'destination'} coordinate={data.location} style={styles.destinationPin}
-        image={require('../../../assets/map/destinationPin.png')}>
+        image={require('../../../assets/icons/map/destinationPin.png')}>
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
         </Callout>
@@ -394,7 +394,7 @@ class Map extends React.Component<Props, State> {
                 activeOpacity={0.7}
                 onPress={() => this.searchButtonWasPressed()}>
                 <View style={styles.buttonContent}>
-                  <Image source={require('../../../assets/group.png')} style={styles.searchIcon} />
+                  <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
                   <Text style={textStyles.textStyle2}>Search for a parkspot</Text>
                 </View>
               </TouchableOpacity>
@@ -406,14 +406,14 @@ class Map extends React.Component<Props, State> {
               activeOpacity={0.7}
               onPress={() => this.setShowFilters(true)}
             >
-              <Icon type="MaterialIcons" name="filter-list" style={styles.icon} />
+              <Image source={require('../../../assets/icons/misc/filter.png')} style={styles.icon} />
             </TouchableOpacity>
 
             <Text style={textStyles.textStyleMapHeading}>parkspot</Text>
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => this.findMeButtonWasPressed()}>
-              <Image source={require('../../../assets/relocate.png')} style={styles.icon} />
+              <Image source={require('../../../assets/icons/misc/relocate.png')} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </LinearGradient>
