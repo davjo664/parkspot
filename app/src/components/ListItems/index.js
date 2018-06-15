@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Icon, ListItem} from 'native-base';
+import {ListItem} from 'native-base';
 
 import styles from './styles';
 import textStyles from '../../theme/parkspotStyles';

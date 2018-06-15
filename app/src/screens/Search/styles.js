@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet, Platform} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {isIphoneX} from '../../helper/iPhoneX';
 
 let {width, height} = Dimensions.get('window');

@@ -1,7 +1,16 @@
 import * as React from 'react';
-import {ActionSheet, Icon, Text} from 'native-base';
+import {ActionSheet, Text} from 'native-base';
 
-import {Dimensions, Image, ImageBackground, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  ImageBackground,
+  Linking,
+  Platform,
+  SafeAreaView,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import {Callout, Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
 import LinearGradient from 'react-native-linear-gradient';
