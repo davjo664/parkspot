@@ -76,7 +76,10 @@ export default class MapCard extends Component {
         <Interactable.View
           style={styles.interactable}
           verticalOnly={true}
-          snapPoints={[{y: Screen.height + 250, id: 'closed'}, {y: Screen.height - 102, id: 'open'}, {y: Screen.height - 302, id: 'expanded'}]}
+          snapPoints={[{y: Screen.height + 250, id: 'closed'}, {
+            y: Screen.height - 102,
+            id: 'open'
+          }, {y: Screen.height - 302, id: 'expanded'}]}
           onSnap={this.onSnap}
           initialPosition={{y: Screen.height - 100}}
           animatedValueY={this._deltaY}>
@@ -121,7 +124,15 @@ export default class MapCard extends Component {
             }
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity block style={[styles.panelButton, styles.buttonShadow]}
+              <TouchableOpacity block style={[styles.favoriteButton, styles.buttonShadow]}
+                                onPress={() => console.warn("Not implemented.")}>
+                <ImageBackground style={[styles.buttonImage, {backgroundColor: 'deeppink'}]}>
+                  <Image
+                    source={this.props.parkspot.favorite ? require('../../../assets/icons/favorite/white-full.png') : require('../../../assets/icons/favorite/white-empty.png')}/>
+                </ImageBackground>
+              </TouchableOpacity>
+
+              <TouchableOpacity block style={[styles.navigationButton, styles.buttonShadow]}
                                 onPress={this.props.onStartNavigation}>
                 <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/navigation.png')}>
                   <Text style={styles.panelButtonTitle}>Go there!</Text>

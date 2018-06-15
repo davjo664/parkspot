@@ -7,4 +7,5 @@ export default {
   blackThree: '#030303',
   cement: '#989896',
   greyishTeal: '#7a9e9f',
+  gray: 'rgba(152, 152, 150, 0.55)',
 };
