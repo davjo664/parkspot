@@ -432,11 +432,13 @@ class Map extends React.Component<Props, State> {
           filterParkspots={this.props.filterParkspots}
         />
 
+        {this.state.selectedParkspot &&
         <MapCard
           onStartNavigation={this.startNavigation}
           parkspot={this.state.selectedParkspot}
           onDismiss={this.deselectParkspot}
         />
+        }
 
         <ClusteredMapView
           style={styles.map}

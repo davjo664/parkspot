@@ -22,6 +22,11 @@ const Screen = {
 };
 
 export default class MapCard extends Component {
+  state = {
+    snappedTo: 'open',
+  };
+
+
   renderIcon = (state, icon, text) => {
     return state || true ? (
       <View style={styles.iconContainer}>
@@ -36,7 +41,7 @@ export default class MapCard extends Component {
       snappedTo: event.nativeEvent.id,
     });
 
-    if (this.state.snappedTo === 'closed') {
+    if (event.nativeEvent.id === 'closed') {
       this.props.parkspot = null;
       this.props.onDismiss();
     }
@@ -47,17 +52,8 @@ export default class MapCard extends Component {
     this._deltaY = new Animated.Value(Screen.height - 100);
   }
 
-  componentDidMount() {
-    this.setState({
-      snappedTo: 'open',
-    });
-  }
 
   render() {
-    if (!this.props.parkspot) {
-      return null;
-    }
-
     const distance = humanizeDistance(this.props.parkspot.dist);
 
 
@@ -76,7 +72,7 @@ export default class MapCard extends Component {
         <Interactable.View
           style={styles.interactable}
           verticalOnly={true}
-          snapPoints={[{y: Screen.height + 250, id: 'closed'}, {
+          snapPoints={[{y: Screen.height + 102, id: 'closed'}, {
             y: Screen.height - 102,
             id: 'open'
           }, {y: Screen.height - 302, id: 'expanded'}]}
