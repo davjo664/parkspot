@@ -133,7 +133,7 @@ x
               {this.props.destinationName &&
               <TouchableOpacity block style={[styles.favoriteButton, styles.buttonShadow]}
                                 onPress={() => console.warn("Not implemented.")}>
-                <ImageBackground style={[styles.buttonImage, {backgroundColor: 'deeppink'}]}>
+                <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/favorite.png')}>
                   <Image
                     source={this.props.parkspot.favorite ? require('../../../assets/icons/favorite/white-full.png') : require('../../../assets/icons/favorite/white-empty.png')}/>
                 </ImageBackground>
