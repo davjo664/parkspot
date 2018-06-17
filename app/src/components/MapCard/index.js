@@ -12,6 +12,7 @@ export interface Props {
   onDismiss: Function;
   walkingDirections: any;
   drivingDirections: any;
+  destinationName: String;
 }
 
 export interface State {
@@ -47,6 +48,7 @@ export default class MapCard extends Component {
       this.props.parkspot = null;
       this.props.drivingDirections = null;
       this.props.walkingDirections = null;
+      this.props.destinationName = null;
       this.props.onDismiss();
     }
   };
@@ -91,7 +93,7 @@ x
             </View>
 
             <Text style={styles.panelTitle}>
-              Parkspot near XXX
+              Parkspot{this.props.destinationName && <Text> near {this.props.destinationName}</Text>}
               <Text style={styles.panelDistance}> {distance} away</Text>
             </Text>
 
