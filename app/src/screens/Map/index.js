@@ -63,9 +63,9 @@ class Map extends React.Component<Props, State> {
 
   markerWasPressed = (event: any) => {
     /*
-         * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
-         * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
-         */
+     * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
+     * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
+     */
     this.setShowFilters(false)
     this.setState({
       selectedParkspot: this.props.parkspots.find(parkspot => {
