@@ -119,6 +119,9 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
   },
+  navigationButtonFullWidth : {
+    width: 221 + 105 + 10,
+  },
   buttonContainer: {
     marginTop: 20,
   },

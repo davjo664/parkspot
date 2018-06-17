@@ -130,6 +130,7 @@ x
             }
 
             <View style={styles.buttonContainer}>
+              {this.props.destinationName &&
               <TouchableOpacity block style={[styles.favoriteButton, styles.buttonShadow]}
                                 onPress={() => console.warn("Not implemented.")}>
                 <ImageBackground style={[styles.buttonImage, {backgroundColor: 'deeppink'}]}>
@@ -137,8 +138,9 @@ x
                     source={this.props.parkspot.favorite ? require('../../../assets/icons/favorite/white-full.png') : require('../../../assets/icons/favorite/white-empty.png')}/>
                 </ImageBackground>
               </TouchableOpacity>
+              }
 
-              <TouchableOpacity block style={[styles.navigationButton, styles.buttonShadow]}
+              <TouchableOpacity block style={[styles.navigationButton, styles.buttonShadow, this.props.destinationName ? {} : styles.navigationButtonFullWidth]}
                                 onPress={this.props.onStartNavigation}>
                 <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/navigation.png')}>
                   <Text style={styles.panelButtonTitle}>Go there!</Text>
