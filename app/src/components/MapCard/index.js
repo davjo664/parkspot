@@ -5,11 +5,13 @@ import StreetView from 'react-native-streetview';
 
 import styles from './styles';
 
-const humanizeDistance = require('../../helper/humanizeDistance');
+import {HumanizeHelper} from '../../helper/HumanizeHelper';
 
 export interface Props {
   parkspot: any;
   onDismiss: Function;
+  walkingDirections: any;
+  drivingDirections: any;
 }
 
 export interface State {
@@ -43,6 +45,8 @@ export default class MapCard extends Component {
 
     if (event.nativeEvent.id === 'closed') {
       this.props.parkspot = null;
+      this.props.drivingDirections = null;
+      this.props.walkingDirections = null;
       this.props.onDismiss();
     }
   };
@@ -51,11 +55,13 @@ export default class MapCard extends Component {
     super(props);
     this._deltaY = new Animated.Value(Screen.height - 100);
   }
-
+x
 
   render() {
-    const distance = humanizeDistance(this.props.parkspot.dist);
+    const distance = HumanizeHelper.humanizeDistance(this.props.parkspot.dist);
 
+    const walkingdistance = this.props.walkingDirections ? HumanizeHelper.humanizeDistance(this.props.walkingDirections.distance) : null;
+    const duration = this.props.drivingDirections ? HumanizeHelper.humanizeDuration(this.props.drivingDirections.duration * 60) : null;
 
     return (
       <View style={styles.panelContainer} pointerEvents={'box-none'}>
@@ -89,9 +95,11 @@ export default class MapCard extends Component {
               <Text style={styles.panelDistance}> {distance} away</Text>
             </Text>
 
+            {duration &&
             <Text style={styles.panelSubtitle}>
-              x h yy min · zzz m from your destination
+              {duration}{walkingdistance && <Text> · {walkingdistance} from your destination</Text>}
             </Text>
+            }
 
             <Text style={styles.panelSubtitle}>
               {this.props.parkspot.street} {this.props.parkspot.houseNumber}, {this.props.parkspot.city}, {this.props.parkspot.country}

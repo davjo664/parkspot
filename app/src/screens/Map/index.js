@@ -52,6 +52,8 @@ export interface State {
   mapPosition: any;
   showsUserLocation: boolean;
   destination: any;
+  drivingDirections: any;
+  walkingDirections: any;
 }
 
 class Map extends React.Component<Props, State> {
@@ -237,6 +239,8 @@ class Map extends React.Component<Props, State> {
   deselectParkspot = () => {
     this.setState({
       selectedParkspot: null,
+      walkingDirections: null,
+      drivingDirections: null,
     });
   };
 
@@ -325,6 +329,11 @@ class Map extends React.Component<Props, State> {
           strokeWidth={2}
           strokeColor={colors.greyishTeal}
           mode="walking"
+          onReady={(result) => {
+            this.setState({
+              walkingDirections: result
+            });
+          }}
         />
 
       );
@@ -342,8 +351,12 @@ class Map extends React.Component<Props, State> {
           apikey={config.googleApi.key}
           strokeWidth={5}
           strokeColor={colors.gunmetal}
+          onReady={(result) => {
+            this.setState({
+              drivingDirections: result
+            });
+          }}
         />
-
       );
     }
   };
@@ -446,6 +459,8 @@ class Map extends React.Component<Props, State> {
           onStartNavigation={this.startNavigation}
           parkspot={this.state.selectedParkspot}
           onDismiss={this.deselectParkspot}
+          drivingDirections={this.state.drivingDirections}
+          walkingDirections={this.state.walkingDirections}
         />
         }
 
