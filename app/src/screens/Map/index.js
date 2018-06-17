@@ -61,6 +61,15 @@ class Map extends React.Component<Props, State> {
     );
   };
 
+
+  clusterWasPressed = (clusterId, children) => {
+    const childIds = children.map((child) => {
+      return child.id;
+    });
+
+    this.map.getMapRef().fitToSuppliedMarkers(childIds, true);
+  };
+
   markerWasPressed = (event: any) => {
     /*
      * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
@@ -353,6 +362,8 @@ class Map extends React.Component<Props, State> {
       this.props.mapPosition.longitude,
       this.approximateCurrentRegionRadius(this.props.mapPosition),
     );
+
+    this.map = undefined;
   }
 
   componentDidMount() {
@@ -451,9 +462,8 @@ class Map extends React.Component<Props, State> {
           loadingEnabled={true}
           onPress={this.mapWasPressed}
           onMarkerPress={this.markerWasPressed}
-          ref={(r) => {
-            this.map = r;
-          }}
+          onClusterPress={this.clusterWasPressed}
+          ref={(r) => { this.map = r }}
           data={data}
           renderMarker={this.renderMarker}
           renderCluster={this.renderCluster}
