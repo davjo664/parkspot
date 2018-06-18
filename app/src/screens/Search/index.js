@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Content, List, ListItem, Text} from 'native-base';
 import {
-  ActivityIndicator,
   Dimensions,
   FlatList,
   Keyboard,
@@ -35,22 +34,10 @@ export default class SearchScreen extends Component {
     }
   };
 
-  _renderLoader = () => {
-    if (this.props.isLoading) {
-      return (
-        <ActivityIndicator
-          animating={true}
-          size="small"
-          style={{marginTop: 10}}
-        />
-      );
-    }
-    return null;
-  };
   _renderSearchBar = () => {
     return (
       <View style={defaultStyles.searchBar}>
-        <SearchBar onChange={this._onChange} isLoading={this.props.isLoading} value={this.props.searchString}/>
+        <SearchBar onChange={this._onChange} isLoading={this.props.isLoading} searchString={this.props.searchString}/>
         <TouchableOpacity style={defaultStyles.cancelButton} onPress={() => this.props.navigation.goBack()}>
           <Text style={textStyles.textStyle2}>Cancel</Text>
         </TouchableOpacity>
