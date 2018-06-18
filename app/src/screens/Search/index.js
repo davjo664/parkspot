@@ -122,15 +122,6 @@ export default class SearchScreen extends Component {
     }
   };
 
-  componentDidMount() {
-    if (this.props.data.length == 0) {
-      this.props.fetchParkspots(
-        this.props.userPosition.latitude,
-        this.props.userPosition.longitude,
-      );
-    }
-  }
-
   render() {
     return (
       <SafeAreaView style={defaultStyles.safeArea}>
@@ -149,7 +140,6 @@ export interface Props {
   updateSearchString: Function;
   searchString: String;
   data: Array;
-  fetchParkspots: Function;
   fetchLocations: Function;
   showLocations: Boolean;
   fetchLocationDetails: Function;

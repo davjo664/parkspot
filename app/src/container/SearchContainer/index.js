@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import SearchScreen from '../../screens/Search';
-import {fetchParkspots} from '../MapContainer/actions';
 import {
   addFavorite,
   addLastSearched,
@@ -23,7 +22,6 @@ class SearchContainer extends React.Component<Props, State> {
         searchString={this.props.searchString}
         updateSearchString={this.props.updateSearchString}
         data={this.props.data}
-        fetchParkspots={this.props.fetchParkspots}
         fetchLocations={this.props.fetchLocations}
         showLocations={this.props.showLocations}
         fetchLocationDetails={this.props.fetchLocationDetails}
@@ -44,7 +42,6 @@ export interface Props {
   updateSearchString: Function;
   searchString: String;
   data: Array;
-  fetchParkspots: Function;
   fetchLocations: Function;
   showLocations: Boolean;
   fetchLocationDetails: Function;
@@ -73,9 +70,6 @@ const mapDispatchToProps = dispatch => {
     },
     fetchLocations: (searchString, userPosition) => {
       dispatch(fetchLocations(searchString, userPosition));
-    },
-    fetchParkspots: (latitude, longitude, distance = 6000) => {
-      dispatch(fetchParkspots(latitude, longitude, distance));
     },
     fetchLocationDetails: rowData => {
       dispatch(fetchLocationDetails(rowData));

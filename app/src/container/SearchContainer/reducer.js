@@ -22,13 +22,6 @@ export default function (state: any = initialState, action: Function) {
       searchString: action.searchString,
       isLoading: true,
     };
-  } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
-    return {
-      ...state,
-      data: action.data,
-      showParkspots: true,
-      isLoading: false,
-    };
   } else if (action.type === 'FETCH_LOCATIONS_SUCCESS') {
     action.locations.forEach(location => {
       state.favorites.find((fav) => {
