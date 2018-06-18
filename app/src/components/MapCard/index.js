@@ -97,7 +97,6 @@ export default class MapCard extends Component {
                 </ImageBackground>
               </TouchableOpacity>
             </LinearGradient>
-            (state, icon, text)
 
             <View style={styles.iconsContainer}>
               {this.renderIcon(this.props.parkspot.electricCharger, require('../../../assets/icons/filter/electricCharger.png'), 'Charging possible')}
