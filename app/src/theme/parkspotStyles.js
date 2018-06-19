@@ -19,6 +19,14 @@ const textStyles = StyleSheet.create({
     letterSpacing: -0.41,
     color: colors.blackTwo
   },
+  textStyle2Placeholder: {
+    fontFamily: 'System',
+    fontSize: 17,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    letterSpacing: -0.41,
+    color: colors.placeHolderNative
+  },
   textStyleMapHeading: {
     fontFamily: 'System',
     fontSize: 24,

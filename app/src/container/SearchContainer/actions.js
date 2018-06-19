@@ -85,3 +85,10 @@ export function addLastSearched(place) {
     place,
   };
 }
+
+export function clearSelectedLocation() {
+  return {
+    type: 'UPDATE_SELECTED_LOCATION',
+    selectedLocation: null
+  };
+}

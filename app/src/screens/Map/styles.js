@@ -39,21 +39,39 @@ const styles = StyleSheet.create({
   },
   searchButtonView: {
     height: 36,
-    width: '90%',
+    marginLeft: '5%',
+    marginRight: '5%',
     backgroundColor: 'white',
     borderStyle: 'solid',
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 10,
+    flex: 1,
   },
   searchButton: {
-    height: 36,
-    width: '80%',
-    justifyContent: 'center'
+    flex: 1
   },
   buttonContent: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  textContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flex: 12,
+    marginRight: 25,
+  },
+  deleteButton: {
+    width: 14,
+    height: 14,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  deleteButtonView: {
+    flex: 1
   },
   searchIcon: {
     width: 14,
