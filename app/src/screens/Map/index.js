@@ -45,6 +45,7 @@ export interface Props {
   mapPosition: any;
   selectedLocation: Object;
   filterParkspots: Function;
+  clearSelectedLocation: Function;
 }
 
 export interface State {
@@ -407,6 +408,34 @@ class Map extends React.Component<Props, State> {
   }
 
 
+  _renderSearchButton = () => {
+
+    let text = this.props.selectedLocation ? this.props.selectedLocation.description : 'Search for a parkspot';
+    let textStyle = this.props.selectedLocation ? textStyles.textStyle2 : textStyles.textStyle2Placeholder;
+    let displayClose = this.props.selectedLocation ? 'flex' : 'none';
+    return (
+      <ElevatedView style={styles.searchButtonView} elevation={Platform.OS === 'ios' ? 5 : 3}>
+
+        <TouchableOpacity
+          style={styles.searchButton}
+          activeOpacity={0.7}
+          onPress={() => this.searchButtonWasPressed()}>
+          <View style={styles.buttonContent}>
+            <View style={styles.textContent}>
+              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
+              <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
+            </View>
+            <View style={[styles.deleteButtonView, {display: displayClose}]}>
+              <TouchableOpacity onPress={this.props.clearSelectedLocation} >
+                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </ElevatedView>
+    )
+  }
+
   render() {
     const data = this.transformParkspotsToData(this.props.parkspots);
 
@@ -420,18 +449,8 @@ class Map extends React.Component<Props, State> {
           ]}>
 
           <View style={styles.searchRow}>
-            <ElevatedView style={styles.searchButtonView} elevation={Platform.OS === 'ios' ? 5 : 3}>
+            {this._renderSearchButton()}
 
-              <TouchableOpacity
-                style={styles.searchButton}
-                activeOpacity={0.7}
-                onPress={() => this.searchButtonWasPressed()}>
-                <View style={styles.buttonContent}>
-                  <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
-                  <Text style={textStyles.textStyle2}>Search for a parkspot</Text>
-                </View>
-              </TouchableOpacity>
-            </ElevatedView>
 
           </View>
           <View style={styles.buttonsRow}>
@@ -466,14 +485,14 @@ class Map extends React.Component<Props, State> {
         />
 
         {this.state.selectedParkspot &&
-        <MapCard
-          onStartNavigation={this.startNavigation}
-          parkspot={this.state.selectedParkspot}
-          onDismiss={this.deselectParkspot}
-          drivingDirections={this.state.drivingDirections}
-          walkingDirections={this.state.walkingDirections}
-          destinationName={"TODO add prop"}
-        />
+          <MapCard
+            onStartNavigation={this.startNavigation}
+            parkspot={this.state.selectedParkspot}
+            onDismiss={this.deselectParkspot}
+            drivingDirections={this.state.drivingDirections}
+            walkingDirections={this.state.walkingDirections}
+            destinationName={this.props.selectedLocation.description}
+          />
         }
 
         <ClusteredMapView
