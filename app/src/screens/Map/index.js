@@ -458,12 +458,13 @@ class Map extends React.Component<Props, State> {
           showsPointsOfInterest={true}
           showsScale={true}
           zoomControlEnabled={false}
+          pitchEnabled={false}
           rotateEnabled={false}
           loadingEnabled={true}
           onPress={this.mapWasPressed}
           onMarkerPress={this.markerWasPressed}
           onClusterPress={this.clusterWasPressed}
-          ref={(r) => { this.map = r }}
+          ref={(r) => {this.map = r}}
           data={data}
           renderMarker={this.renderMarker}
           renderCluster={this.renderCluster}
