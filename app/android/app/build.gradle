@@ -102,8 +102,8 @@ android {
     applicationId "com.parkspot"
     minSdkVersion 23
     targetSdkVersion 27
-    versionCode 170
-    versionName "1.7.0"
+    versionCode 180
+    versionName "1.8.0"
     ndk {
       abiFilters "armeabi-v7a", "x86"
     }
