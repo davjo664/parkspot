@@ -1,7 +1,16 @@
 import * as React from 'react';
-import {ActionSheet, Icon, Text} from 'native-base';
+import {ActionSheet, Text} from 'native-base';
 
-import {Dimensions, Image, ImageBackground, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  ImageBackground,
+  Linking,
+  Platform,
+  SafeAreaView,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import {Callout, Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
 import LinearGradient from 'react-native-linear-gradient';
@@ -43,6 +52,8 @@ export interface State {
   mapPosition: any;
   showsUserLocation: boolean;
   destination: any;
+  drivingDirections: any;
+  walkingDirections: any;
 }
 
 class Map extends React.Component<Props, State> {
@@ -237,6 +248,8 @@ class Map extends React.Component<Props, State> {
   deselectParkspot = () => {
     this.setState({
       selectedParkspot: null,
+      walkingDirections: null,
+      drivingDirections: null,
     });
   };
 
@@ -325,6 +338,11 @@ class Map extends React.Component<Props, State> {
           strokeWidth={2}
           strokeColor={colors.greyishTeal}
           mode="walking"
+          onReady={(result) => {
+            this.setState({
+              walkingDirections: result
+            });
+          }}
         />
 
       );
@@ -342,8 +360,12 @@ class Map extends React.Component<Props, State> {
           apikey={config.googleApi.key}
           strokeWidth={5}
           strokeColor={colors.gunmetal}
+          onReady={(result) => {
+            this.setState({
+              drivingDirections: result
+            });
+          }}
         />
-
       );
     }
   };
@@ -443,11 +465,16 @@ class Map extends React.Component<Props, State> {
           filterParkspots={this.props.filterParkspots}
         />
 
+        {this.state.selectedParkspot &&
         <MapCard
           onStartNavigation={this.startNavigation}
           parkspot={this.state.selectedParkspot}
           onDismiss={this.deselectParkspot}
+          drivingDirections={this.state.drivingDirections}
+          walkingDirections={this.state.walkingDirections}
+          destinationName={"TODO add prop"}
         />
+        }
 
         <ClusteredMapView
           style={styles.map}

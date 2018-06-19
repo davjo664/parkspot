@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Body, Icon, Left, List, ListItem, Right, Switch} from 'native-base';
+import {Body, Left, List, ListItem, Right, Switch} from 'native-base';
 import Interactable from 'react-native-interactable';
 import {connect} from 'react-redux';
 

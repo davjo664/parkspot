@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Icon, ListItem} from 'native-base';
+import {ListItem} from 'native-base';
 
 import styles from './styles';
 import textStyles from '../../theme/parkspotStyles';
+import {HumanizeHelper} from '../../helper/HumanizeHelper';
 
 
 export interface Props {
@@ -16,13 +17,12 @@ export interface State {
 
 }
 
-const humanizeDistance = require('../../helper/humanizeDistance');
 
 export class PlaceListItem extends Component {
 
   render() {
     const p = this.props.place;
-    // const distance = humanizeDistance(this.props.parkspot.dist);
+    // const distance = HumanizeHelper.humanizeDistance(this.props.parkspot.dist);
     return (
       <ListItem style={styles.listContainer} onPress={() => {
         this.props.onPress();

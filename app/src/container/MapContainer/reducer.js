@@ -23,7 +23,7 @@ export default function (state: any = initialState, action: Function) {
     };
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
     // adding all new parkspots to the data
-    var combined = _.unionBy(state.parkspots, action.data, 'id')
+    var combined = _.unionBy(state.parkspots, action.data, 'id');
     // updating the values for all existing parkspots without recreating
     // the object to prevent the map from rerendering too much.
     for (var old in state.parkspots) {
@@ -34,6 +34,16 @@ export default function (state: any = initialState, action: Function) {
         }
       }
     }
+
+    // mocking some data TODO use API when ready
+    state.parkspots.map(parkspot => {
+      parkspot.unlimited = Math.random() < 0.5;
+      parkspot.noCost = Math.random() < 0.5;
+    });
+
+
+
+
     // Apply current filters on fetched parkspots
     let filteredParkspots = [];
     filteredParkspots = combined.filter(obj => {
