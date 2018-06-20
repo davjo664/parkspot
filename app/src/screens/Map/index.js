@@ -9,7 +9,8 @@ import {
   Platform,
   SafeAreaView,
   TouchableOpacity,
-  View
+  View,
+  findNodeHandle,
 } from 'react-native';
 import {Callout, Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
@@ -29,6 +30,7 @@ import {PermissionHelper} from '../../helper/PermissionHelper';
 
 import textStyles from '../../theme/parkspotStyles';
 import ElevatedView from 'react-native-elevated-view'
+import { BlurView, VibrancyView } from 'react-native-blur';
 
 
 const haversine = require('haversine-js');
@@ -377,7 +379,8 @@ class Map extends React.Component<Props, State> {
     this.state = {
       selectedParkspot: null,
       showsUserLocation: false,
-      showFilters: false
+      showFilters: false,
+      viewRef: null,
     };
 
     this.props.fetchParkspots(
@@ -436,6 +439,10 @@ class Map extends React.Component<Props, State> {
     )
   }
 
+  onMapReady = () => {
+    this.setState({ viewRef: findNodeHandle(this.map) });
+  }
+
   render() {
     const data = this.transformParkspotsToData(this.props.parkspots);
 
@@ -476,6 +483,13 @@ class Map extends React.Component<Props, State> {
           </Text>
         </View>
 
+        <BlurView
+          style={{position: "absolute", top: 0, left: 0, bottom: 0, right: 0,}}
+          viewRef={this.state.viewRef}
+          blurType="light"
+          blurAmount={5}
+        />
+
         <FilterCard
           showFilters={this.state.showFilters}
           onDismiss={() => {
@@ -514,6 +528,7 @@ class Map extends React.Component<Props, State> {
           data={data}
           renderMarker={this.renderMarker}
           renderCluster={this.renderCluster}
+          onMapReady={this.onMapReady.bind(this)}
         >
           {this.renderDestination(this.props.selectedLocation)}
           {this.renderDrivingDirectionsOnMap()}
