@@ -3,6 +3,8 @@ import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} f
 import {Body, Left, List, ListItem, Right, Switch} from 'native-base';
 import Interactable from 'react-native-interactable';
 import {connect} from 'react-redux';
+import { BlurView, VibrancyView } from 'react-native-blur';
+
 
 import {toggleFilter} from './actions';
 import styles from '../MapCard/styles';
@@ -67,6 +69,12 @@ class FilterCard extends Component {
 
     return (
       <View style={styles.panelContainer} pointerEvents={'box-none'}>
+        <BlurView
+          style={{position: "absolute", top: 0, left: 0, bottom: 0, right: 0,}}
+          // viewRef={this.state.viewRef}
+          blurType="light"
+          blurAmount={5}
+        />
         <Animated.View
           pointerEvents={'box-none'}
           style={[styles.panelContainer, {
