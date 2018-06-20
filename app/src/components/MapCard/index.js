@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Animated, Dimensions, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Interactable from 'react-native-interactable';
 import StreetView from 'react-native-streetview';
+import { BlurView, VibrancyView } from 'react-native-blur';
+
 
 import styles from './styles';
 
@@ -67,6 +69,12 @@ export default class MapCard extends Component {
 
     return (
       <View style={styles.panelContainer} pointerEvents={'box-none'}>
+        <BlurView
+          style={{position: "absolute", top: 0, left: 0, bottom: 0, right: 0,}}
+          // viewRef={this.state.viewRef}
+          blurType="light"
+          blurAmount={5}
+        />
         <Animated.View
           pointerEvents={'box-none'}
           style={[styles.panelContainer, {

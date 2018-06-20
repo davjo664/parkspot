@@ -6794,6 +6794,12 @@ react-native-android-location-services-dialog-box@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/react-native-android-location-services-dialog-box/-/react-native-android-location-services-dialog-box-2.5.0.tgz#9323670422a4f5a655c24d0f67a948fb1ee040ac"
 
+react-native-blur@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-3.2.2.tgz#5bfb50638d148982c9560436554ed01d77d6d07d"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-code-push@^5.3.4:
   version "5.3.4"
   resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-5.3.4.tgz#db5da06550435a1fcb64d94a79436d90d8ab8c58"

@@ -107,6 +107,10 @@ android {
     ndk {
       abiFilters "armeabi-v7a", "x86"
     }
+    defaultConfig {
+      renderscriptTargetApi 23
+      renderscriptSupportModeEnabled true
+    }
   }
 
   signingConfigs {
@@ -157,6 +161,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-blur')
   implementation project(':react-native-fused-location')
   implementation project(':react-native-streetview')
   implementation project(':react-native-linear-gradient')
