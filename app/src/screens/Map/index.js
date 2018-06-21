@@ -311,7 +311,9 @@ class Map extends React.Component<Props, State> {
   };
 
   transformParkspotsToData = (parkspots) => {
-    return parkspots.map((parkspot) => {
+    return parkspots.filter(parkspot => {
+      return parkspot.available;
+    }).map((parkspot) => {
       return {
         id: parkspot.id,
         location: {
