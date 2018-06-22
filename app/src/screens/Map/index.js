@@ -428,7 +428,7 @@ class Map extends React.Component<Props, State> {
               <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
             </View>
             <View style={[styles.deleteButtonView, {display: displayClose}]}>
-              <TouchableOpacity onPress={this.props.clearSelectedLocation} >
+              <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation} >
                 <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
               </TouchableOpacity>
             </View>
@@ -493,7 +493,7 @@ class Map extends React.Component<Props, State> {
             onDismiss={this.deselectParkspot}
             drivingDirections={this.state.drivingDirections}
             walkingDirections={this.state.walkingDirections}
-            destinationName={this.props.selectedLocation.description}
+            destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
           />
         }
 
