@@ -93,7 +93,8 @@ export default class MapCard extends Component {
             </View>
 
             <Text style={styles.panelTitle}>
-              Parkspot{this.props.destinationName && <Text> near {this.props.destinationName}</Text>}
+
+              Parkspot{this.props.destinationName ? <Text> near {this.props.destinationName}</Text> : <Text> near {this.props.parkspot.street}</Text>}
               <Text style={styles.panelDistance}> {distance} away</Text>
             </Text>
 

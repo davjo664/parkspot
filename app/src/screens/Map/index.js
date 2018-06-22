@@ -493,7 +493,7 @@ class Map extends React.Component<Props, State> {
             onDismiss={this.deselectParkspot}
             drivingDirections={this.state.drivingDirections}
             walkingDirections={this.state.walkingDirections}
-            destinationName={this.props.selectedLocation.description}
+            destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
           />
         }
 
