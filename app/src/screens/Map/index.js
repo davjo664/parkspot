@@ -428,7 +428,7 @@ class Map extends React.Component<Props, State> {
               <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
             </View>
             <View style={[styles.deleteButtonView, {display: displayClose}]}>
-              <TouchableOpacity onPress={this.props.clearSelectedLocation} >
+              <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation} >
                 <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
               </TouchableOpacity>
             </View>

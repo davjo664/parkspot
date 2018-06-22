@@ -67,11 +67,15 @@ const styles = StyleSheet.create({
   deleteButton: {
     width: 14,
     height: 14,
-    marginLeft: 5,
-    marginRight: 5,
+    alignSelf: 'center'
   },
   deleteButtonView: {
-    flex: 1
+    flex: 2,
+
+  },
+  deleteButtonTouchable: {
+    height: 36,
+    justifyContent: 'center'
   },
   searchIcon: {
     width: 14,
