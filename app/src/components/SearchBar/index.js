@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, TextInput} from 'react-native';
+import {ActivityIndicator, Image, TextInput} from 'react-native';
 import ElevatedView from 'react-native-elevated-view';
 import textStyles from '../../theme/parkspotStyles';
 import styles from './styles';
@@ -38,6 +38,11 @@ export default class SearchBar extends Component {
             this.props.onFocus ? this.props.onFocus() : null;
           }}
           style={[styles.input, textStyles.textStyle2]}
+        />
+        <ActivityIndicator
+          animating={true}
+          size="small"
+          style={{marginRight: 10, display: this.props.isLoading ? 'flex' : 'none'}}
         />
       </ElevatedView>
     );
