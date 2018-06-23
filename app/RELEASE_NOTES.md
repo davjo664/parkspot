@@ -6,3 +6,4 @@
 * Limit last searches to 5 most recent locations.
 * Shows loading indicator in search bar when loading locations. 
 * Displays previous search string when returning to search screen.
+* Replaces favorite asset with correct black version on ListItem.
