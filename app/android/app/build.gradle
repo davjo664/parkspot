@@ -154,6 +154,10 @@ android {
       }
     }
   }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 }
 
 dependencies {
@@ -175,19 +179,17 @@ dependencies {
   implementation project(':appcenter')
   implementation project(':react-native-open-settings')
   implementation project(':react-native-interactable')
-  implementation(project(':react-native-firebase')) {
-    transitive = false
-  }
-  implementation "com.google.android.gms:play-services-base:15.0.1"
-  implementation "com.google.firebase:firebase-core:15.0.2"
-  implementation "com.google.firebase:firebase-messaging:15.0.2"
+  implementation project(':react-native-firebase')
+  implementation 'com.google.android.gms:play-services-base:15.0.1'
+  implementation 'com.google.firebase:firebase-core:15.0.2'
+  implementation 'com.google.firebase:firebase-messaging:15.0.2'
   implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
   // <-- Add this line if you wish to use badge on Android
-
   implementation project(':react-native-vector-icons')
-  implementation fileTree(dir: "libs", include: ["*.jar"])
-  implementation "com.android.support:appcompat-v7:27.1.1"
-  implementation "com.facebook.react:react-native:+"  // From node_modules
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
+  implementation 'com.android.support:appcompat-v7:27.1.1'
+  implementation 'com.facebook.react:react-native:0.55.4'
+  // From node_modules
   implementation(project(':react-native-maps')) {
     exclude group: 'com.google.android.gms', module: 'play-services-base'
     exclude group: 'com.google.android.gms', module: 'play-services-maps'
@@ -202,4 +204,14 @@ task copyDownloadableDepsToLibs(type: Copy) {
   into 'libs'
 }
 
-apply plugin: 'com.google.gms.google-services'
+// checking java version
+task checkJavaVersion << {
+  if (!JavaVersion.current().isJava8()) {
+    String message = "ERROR: Java 1.8 required but " + JavaVersion.current() + " found. Change your JAVA_HOME environment variable."
+    throw new IllegalStateException(message)
+  }
+}
+
+tasks.withType(JavaCompile) {
+  compileTask -> compileTask.dependsOn checkJavaVersion
+}
