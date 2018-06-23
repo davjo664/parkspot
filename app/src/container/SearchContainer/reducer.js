@@ -91,21 +91,17 @@ export default function (state: any = initialState, action: Function) {
   }
 
   else if (action.type === 'ADD_LAST_SEARCHED') {
-    var found = state.lastSearches.find((place) => {
-      return place.id === action.place.id;
+    const lastSearches = state.lastSearches.filter((place) => {
+      return place.id !== action.place.id;
     });
-    if (found) {
-      return {
-        ...state,
-      };
-    } else {
-      return {
-        ...state,
-        lastSearches: [...state.lastSearches, action.place]
-      };
+    if (lastSearches.length === 5) {
+      lastSearches.pop();
     }
+    return {
+      ...state,
+      lastSearches: [action.place, ...lastSearches]
+    };
   }
-
 
   return state;
 }
