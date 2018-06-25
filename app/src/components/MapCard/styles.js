@@ -7,6 +7,9 @@ const Screen = {
   height: Dimensions.get('window').height - 75
 };
 
+const cardPadding = 20;
+const cardWidth = Screen.width - 2 * cardPadding;
+
 const streetViewHeight = 103;
 
 const styles = StyleSheet.create({
@@ -19,11 +22,11 @@ const styles = StyleSheet.create({
     zIndex: 3,
   },
   interactable: {
-    zIndex: 10
+    zIndex: 10,
   },
   panel: {
     height: Screen.height + 300,
-    padding: 20,
+    padding: cardPadding,
     backgroundColor: 'white',
     borderRadius: 14,
     shadowColor: '#000000',
@@ -56,7 +59,7 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: -0.41,
-    color: colors.steel
+    color: colors.steel,
   },
   panelSubtitle: {
     marginTop: 3,
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: -0.41,
-    color: colors.steel
+    color: colors.steel,
   },
   iconsContainer: {
     marginTop: 20,
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: -0.41,
-    color: colors.steel
+    color: colors.steel,
   },
   streetViewContainer: {
     height: streetViewHeight,
@@ -104,40 +107,39 @@ const styles = StyleSheet.create({
     height: streetViewHeight,
   },
   navigationButton: {
-    flex: 1,
-    width: 221,
-    position:'absolute',
+    width: (0.6 * cardWidth),
+    position: 'absolute',
     right: 0,
     alignItems: 'stretch',
     justifyContent: 'center',
   },
-  favoriteButton : {
-    flex: 1,
-    width: 105,
-    position:'absolute',
+  navigationButtonFullWidth: {
+    width: (1.0 * cardWidth),
+  },
+  favoriteButton: {
+    width: (0.4 * cardWidth) - 15,
+    position: 'absolute',
     left: 0,
     alignItems: 'stretch',
     justifyContent: 'center',
   },
-  navigationButtonFullWidth : {
-    width: 221 + 105 + 10,
-  },
   buttonContainer: {
     marginTop: 20,
+    width: '100%',
   },
   buttonShadow: {
     shadowColor: "rgba(0, 0, 0, 0.16)",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowRadius: 8,
     shadowOpacity: 1,
   },
   buttonImage: {
-    flexGrow:1,
+    flexGrow: 1,
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     width: '100%',
     height: 44,
   },
@@ -149,7 +151,7 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     letterSpacing: -0.51,
     textAlign: "right",
-    color: colors.white
+    color: colors.white,
   },
 });
 
