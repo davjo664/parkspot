@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     height: streetViewHeight,
   },
   navigationButton: {
-    // calculating with according to zeplin specification
+    // calculating width according to zeplin specification
     width: ((221/(105+221)) * cardWidth),
     position: 'absolute',
     right: 0,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     width: (1.0 * cardWidth),
   },
   favoriteButton: {
-    // calculating with according to zeplin specification
+    // calculating width according to zeplin specification
     width: ((105/(105+221)) * cardWidth) - 15,
     position: 'absolute',
     left: 0,
