@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     bottom: 0,
-    height: '20%',
+    height: 150,
     flexDirection: 'column',
     display: 'flex',
   },

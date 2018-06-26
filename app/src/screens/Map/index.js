@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ActionSheet, Text} from 'native-base';
+import {ActionSheet, Text, List} from 'native-base';
 
 import {
   Dimensions,
@@ -9,6 +9,7 @@ import {
   Platform,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
   View
 } from 'react-native';
 import {Callout, Marker} from 'react-native-maps';
@@ -20,6 +21,7 @@ import config from '../../config/config';
 
 import MapCard from '../../components/MapCard';
 import FilterCard from '../../components/FilterCard';
+import {ParkspotItem} from '../../components/ParkspotItem';
 
 import styles from './styles';
 import codePush from 'react-native-code-push';
@@ -28,7 +30,7 @@ import colors from './../../theme/parkspotColors';
 import {PermissionHelper} from '../../helper/PermissionHelper';
 
 import textStyles from '../../theme/parkspotStyles';
-import ElevatedView from 'react-native-elevated-view'
+import ElevatedView from 'react-native-elevated-view';
 
 
 const haversine = require('haversine-js');
@@ -46,6 +48,9 @@ export interface Props {
   selectedLocation: Object;
   filterParkspots: Function;
   clearSelectedLocation: Function;
+  closestParkspots: List;
+  deleteClosestSpotWithID: Function;
+  deleteClosestParkspots: Function;
 }
 
 export interface State {
@@ -110,7 +115,7 @@ class Map extends React.Component<Props, State> {
     });
   };
 
-  startNavigation = () => {
+  startNavigation = (parkspot) => {
 
     const isIOS = Platform.OS === 'ios';
     const prefixes = {
@@ -124,7 +129,7 @@ class Map extends React.Component<Props, State> {
       'waze': 'Waze',
     };
     const userPosition = `${this.props.userPosition.latitude},${this.props.userPosition.longitude}`;
-    const parkspotPosition = `${this.state.selectedParkspot.lat},${this.state.selectedParkspot.lng}`;
+    const parkspotPosition = `${parkspot.lat},${parkspot.lng}`;
 
     isAppInstalled = (app) => {
       return new Promise((resolve) => {
@@ -164,6 +169,8 @@ class Map extends React.Component<Props, State> {
             if (buttonIndex === CANCEL_INDEX) {
               return resolve(null);
             }
+            //reset closest spots -> nevermind if already empty
+            this.props.deleteClosestParkspots();
             return resolve(availableApps[buttonIndex]);
           }
         );
@@ -215,6 +222,7 @@ class Map extends React.Component<Props, State> {
 
   searchButtonWasPressed = () => {
     this.props.navigation.navigate('Search');
+    this.props.clearClosestSpots();
   };
 
   setShowFilters = (show) => {
@@ -438,11 +446,52 @@ class Map extends React.Component<Props, State> {
     )
   }
 
+  onPressClosestItem = (parkspot) => {
+    this.startNavigation(parkspot);
+  }
+  _renderClosestParkspotsList = () => {
+    const spots = this.props.closestParkspots.map((parkspot) => {
+      return (
+        <View key={parkspot.id} style={{
+          width: '100%',
+          height: 75,
+          borderRadius: 10,
+          backgroundColor: colors.white,
+          marginBottom: 11,
+          paddingLeft: 9
+        }}>
+          <TouchableOpacity onPress={() => {this.onPressClosestItem(parkspot)}}>
+            <TouchableOpacity style={{alignSelf: 'flex-end', marginRight: 9, marginTop: 9}} onPress={() => {this.props.deleteClosestSpotWithID(parkspot.id)}} >
+              <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+            </TouchableOpacity>
+            <ParkspotItem
+              parkspot={parkspot}
+              destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null} />
+          </TouchableOpacity>
+        </View>
+      );
+    })
+    if (spots.length > 0) {
+      return (<ScrollView contentContainerStyle={{justifyContent: 'flex-end', }} style={{
+        position: 'absolute',
+        right: 16,
+        left: 16,
+        bottom: 150,
+        zIndex: 2,
+        marginBottom: -11,
+
+      }}>{spots}</ScrollView>)
+    }
+  }
+
+
   render() {
     const data = this.transformParkspotsToData(this.props.parkspots);
 
     return (
       <SafeAreaView style={styles.container}>
+
+        {this._renderClosestParkspotsList()}
         <LinearGradient
           colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.5)', 'rgba(255,255,255,1)']}
           locations={[0, 0.1, 0.4]}
@@ -452,8 +501,6 @@ class Map extends React.Component<Props, State> {
 
           <View style={styles.searchRow}>
             {this._renderSearchButton()}
-
-
           </View>
           <View style={styles.buttonsRow}>
             <TouchableOpacity
@@ -488,7 +535,7 @@ class Map extends React.Component<Props, State> {
 
         {this.state.selectedParkspot &&
           <MapCard
-            onStartNavigation={this.startNavigation}
+            onStartNavigation={(parkspot) => this.startNavigation(parkspot)}
             parkspot={this.state.selectedParkspot}
             onDismiss={this.deselectParkspot}
             drivingDirections={this.state.drivingDirections}
