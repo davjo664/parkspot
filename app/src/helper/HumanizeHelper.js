@@ -20,7 +20,7 @@ export class HumanizeHelper {
   static humanizeDuration = (durationInSeconds : Number, options : ?Object = {}) => {
     const hours = Math.floor(durationInSeconds / 3600);
     const minutes = Math.floor((durationInSeconds - (hours * 3600)) / 60);
-    const seconds = durationInSeconds - (hours * 3600) - (minutes * 60);
+    const seconds = Math.ceil(durationInSeconds - (hours * 3600) - (minutes * 60));
 
     const showHours = options['showHours'] || hours > 0;
     const showMinutes = options['showMinutes'] || showHours || minutes > 0;
