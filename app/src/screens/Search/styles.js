@@ -15,15 +15,18 @@ const defaultStyles = StyleSheet.create({
   },
   listView: {},
   listHeader: {
-    marginTop: 40,
+    marginTop: 15,
     marginLeft: 5,
     borderBottomWidth: 0,
+  },
+  listHeaderNotFirst: {
+    marginTop: 30,
   },
   searchBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 20,
-    marginTop: 20,
+    marginTop: 10,
     alignItems: 'center',
 
   },
