@@ -97,6 +97,22 @@ export default function (state: any = initialState, action: Function) {
       filters: filters,
       parkspots: filteredParkspots,
     };
+  } else if (action.type === 'UPDATE_PARKSPOT_WITH_ID') {
+    let spots = [];
+    for (var i = 0; i < state.parkspots.length; i++) {
+      if (state.parkspots[i].id === action.id) {
+        let spot = Object.assign(state.parkspots[i], {id: 1, available: !state.parkspots[i].available});
+        spots.push(spot)
+      } else {
+        spots.push(state.parkspots[i])
+      }
+    }
+    //spots => spots.sort(() => Math.random() - 0.5);
+    console.log(spots)
+    return {
+      ...state,
+      parkspots: spots,
+    };
   }
 
   return state;

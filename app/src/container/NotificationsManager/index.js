@@ -1,8 +1,9 @@
 import * as React from 'react';
-
+import {TouchableOpacity, Text} from 'react-native'
 import firebase, {Notification} from 'react-native-firebase';
 import {connect} from 'react-redux';
 import {createUser, updateUser} from './actions';
+import {updateParkspotByID} from '../MapContainer/actions';
 import {PermissionHelper} from '../../helper/PermissionHelper';
 
 
@@ -52,8 +53,17 @@ class NotificationsManager extends React.Component<Props, State> {
 
     // when a particular notification has been received in foreground
     this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+      //alert(notification.data)
+      if (notification.data) {
+        if (notification.data.type === 'UPDATE_SPOT') {
+          // this.props.updateParkspot(notification.data.id, notification.data.available);
+          this.props.updateParkspot(1, false);
+
+        }
+      }
+      this.props.updateParkspot(1, false);
       console.log('onNotification');
-      console.log(notification);
+      console.log(notification.data);
     });
 
 
@@ -97,7 +107,7 @@ class NotificationsManager extends React.Component<Props, State> {
   }
 
   render() {
-    return null;
+    return (<TouchableOpacity style={{marginTop: 100}} onPress={() => this.props.updateParkspot(1, false)}><Text>toggle spot</Text></TouchableOpacity>);
   }
 }
 
@@ -105,6 +115,7 @@ function bindAction(dispatch) {
   return {
     updateUser: (user) => dispatch(updateUser(user)),
     createUser: (user) => dispatch(createUser(user)),
+    updateParkspot: (id, status) => dispatch(updateParkspotByID(id, status)),
   };
 }
 

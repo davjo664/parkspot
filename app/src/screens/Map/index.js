@@ -271,15 +271,17 @@ class Map extends React.Component<Props, State> {
     const fontSize = isSelected ? 15 : 18;
     const additionalTextStyles = isSelected ? {paddingBottom: 8} : null;
 
-    return this.renderPin(data.location, image, data.id, 'P', fontSize, null, additionalTextStyles);
+    return this.renderPin(data.location, image, data.id, 'P', fontSize, null, additionalTextStyles, data.available);
   };
 
-  renderPin = (coordinate: Object, image: String, key: String, text: String, fontSize: Number, onPress: ?Function, additionalTextStyles: ?Object) => {
-
+  renderPin = (coordinate: Object, image: String, key: String, text: String, fontSize: Number, onPress: ?Function, additionalTextStyles: ?Object, available: Boolean) => {
+    const hashKey = (String(key) + String(available))
     // Android does not seem to like background images...
+
+    //console.warn('rerender')
     if (Platform.OS === 'ios') {
       return (
-        <Marker key={key} coordinate={coordinate} onPress={onPress}>
+        <Marker key={hashKey} coordinate={coordinate} onPress={onPress} >
           <ImageBackground style={[styles.pin, styles.pinShadow]} source={image}>
             <Text style={[styles.pinText, {fontSize: fontSize}, additionalTextStyles]}>{text}</Text>
           </ImageBackground>
@@ -287,7 +289,7 @@ class Map extends React.Component<Props, State> {
       );
     } else {
       return (
-        <Marker style={[styles.pin, styles.pinShadow]} key={key} coordinate={coordinate} onPress={onPress} image={image}>
+        <Marker style={[styles.pin, styles.pinShadow]} key={hashKey} coordinate={coordinate} onPress={onPress} image={image}>
           <Text style={[styles.pinText, {fontSize: fontSize, paddingLeft: 4, paddingTop: 4}, additionalTextStyles]}>{text}</Text>
         </Marker>
       );
@@ -319,7 +321,8 @@ class Map extends React.Component<Props, State> {
         location: {
           longitude: parseFloat(parkspot.lng),
           latitude: parseFloat(parkspot.lat),
-        }
+        },
+        available: parkspot.available
       };
     });
   };
