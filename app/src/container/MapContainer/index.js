@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Alert, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import Map from '../../screens/Map';
-import {fetchParkspots, filterParkspots, updateLocation, updateMapPosition} from './actions';
+import {fetchParkspots, filterParkspots, updateLocation, updateMapPosition, deleteClosestSpotWithID, deleteClosestParkspots} from './actions';
 import {clearSelectedLocation} from '../SearchContainer/actions';
 export interface Props {
   navigation: any;
@@ -35,6 +35,9 @@ class MapContainer extends React.Component<Props, State> {
         selectedLocation={this.props.selectedLocation}
         filterParkspots={this.props.filterParkspots}
         clearSelectedLocation={this.props.clearSelectedLocation}
+        closestParkspots={this.props.closestParkspots}
+        deleteClosestSpotWithID={this.props.deleteClosestSpotWithID}
+        deleteClosestParkspots={this.props.deleteClosestParkspots}
       />
     );
   }
@@ -53,6 +56,8 @@ function bindAction(dispatch) {
     updateMapPosition: (mapPosition) => dispatch(updateMapPosition(mapPosition)),
     filterParkspots: (filterId) => dispatch(filterParkspots(filterId)),
     clearSelectedLocation: () => dispatch(clearSelectedLocation()),
+    deleteClosestSpotWithID: (id) => dispatch(deleteClosestSpotWithID(id)),
+    deleteClosestParkspots: () => dispatch(deleteClosestParkspots()),
   };
 }
 
@@ -60,6 +65,7 @@ const mapStateToProps = state => ({
   parkspots: state.mapReducer.parkspots,
   userPosition: state.mapReducer.userPosition,
   mapPosition: state.mapReducer.mapPosition,
-  selectedLocation: state.searchReducer.selectedLocation
+  selectedLocation: state.searchReducer.selectedLocation,
+  closestParkspots: state.mapReducer.closestParkspots,
 });
 export default connect(mapStateToProps, bindAction)(MapContainer);

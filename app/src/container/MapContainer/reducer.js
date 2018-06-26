@@ -9,6 +9,7 @@ const initialState = {
     latitudeDelta: 0.05,
     longitudeDelta: 0.05,
   },
+  closestParkspots: [],
 };
 
 export default function (state: any = initialState, action: Function) {
@@ -97,7 +98,21 @@ export default function (state: any = initialState, action: Function) {
       filters: filters,
       parkspots: filteredParkspots,
     };
+  } else if (action.type === 'SET_CLOSEST_PARKSPOTS') {
+    return {
+      ...state,
+      closestParkspots: [state.parkspots[0], state.parkspots[1], state.parkspots[2]]
+    };
+  } else if (action.type === 'DELETE_ALL_CLOSEST_PARKSPOTS') {
+    return {
+      ...state,
+      closestParkspots: []
+    };
+  } else if (action.type === 'DELETE_CLOSEST_PARKSPOT_BY_ID') {
+    return {
+      ...state,
+      closestParkspots: state.closestParkspots.filter((el) => {return el.id !== action.id;})
+    };
   }
-
   return state;
 }
