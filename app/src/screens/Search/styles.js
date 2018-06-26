@@ -22,8 +22,8 @@ const defaultStyles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 20,
-    marginRight: 20,
+    marginHorizontal: 20,
+    marginTop: 20,
     alignItems: 'center',
 
   },
