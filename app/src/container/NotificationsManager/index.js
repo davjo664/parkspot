@@ -3,6 +3,7 @@ import * as React from 'react';
 import firebase, {Notification} from 'react-native-firebase';
 import {connect} from 'react-redux';
 import {createUser, updateUser} from './actions';
+import {setClosestParkspots} from '../MapContainer/actions';
 import {PermissionHelper} from '../../helper/PermissionHelper';
 
 
@@ -26,6 +27,10 @@ class NotificationsManager extends React.Component<Props, State> {
       }
 
     }
+  }
+
+  showNewClosestSpots() {
+    this.props.setClosestParkspots();
   }
 
   handleNotifications() {
@@ -65,11 +70,13 @@ class NotificationsManager extends React.Component<Props, State> {
       const notification: Notification = notificationOpen.notification;
       console.log('onNotificationOpened in fore or background');
       console.log(notification);
-
+      this.showNewClosestSpots();
     });
   }
 
   componentDidMount() {
+
+
     //check if app was opened via notification when App was closed
     firebase.notifications().getInitialNotification().then((notificationOpen: NotificationOpen) => {
       if (notificationOpen) {
@@ -78,6 +85,8 @@ class NotificationsManager extends React.Component<Props, State> {
         const action = notificationOpen.action;
         // Get information about the notification that was opened
         const notification: Notification = notificationOpen.notification;
+        this.showNewClosestSpots();
+
         console.log('onNotificationOpened when closed');
         console.log(notificationOpen);
 
@@ -105,6 +114,7 @@ function bindAction(dispatch) {
   return {
     updateUser: (user) => dispatch(updateUser(user)),
     createUser: (user) => dispatch(createUser(user)),
+    setClosestParkspots: () => dispatch(setClosestParkspots()),
   };
 }
 
