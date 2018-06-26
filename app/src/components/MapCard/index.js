@@ -80,10 +80,11 @@ export default class MapCard extends Component {
         <Interactable.View
           style={styles.interactable}
           verticalOnly={true}
-          snapPoints={[{y: Screen.height + 102, id: 'closed'}, {
-            y: Screen.height - 102,
-            id: 'open'
-          }, {y: Screen.height - 302, id: 'expanded'}]}
+          snapPoints={[
+            {y: Screen.height + 102, id: 'closed'},
+            {y: Screen.height - 102, id: 'open'},
+            {y: Screen.height - 322, id: 'expanded'}
+            ]}
           onSnap={this.onSnap}
           initialPosition={{y: Screen.height - 100}}
           animatedValueY={this._deltaY}>
