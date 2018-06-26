@@ -14,6 +14,11 @@ const defaultStyles = StyleSheet.create({
     backgroundColor: 'white',
   },
   listView: {},
+  listHeader: {
+    marginTop: 40,
+    marginLeft: 5,
+    borderBottomWidth: 0,
+  },
   searchBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
