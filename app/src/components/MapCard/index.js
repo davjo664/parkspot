@@ -6,6 +6,7 @@ import StreetView from 'react-native-streetview';
 import styles from './styles';
 
 import {HumanizeHelper} from '../../helper/HumanizeHelper';
+import {ParkspotItem} from '../ParkspotItem';
 
 export interface Props {
   parkspot: any;
@@ -91,23 +92,7 @@ export default class MapCard extends Component {
             <View style={styles.panelHeader}>
               <View style={styles.panelHandle} />
             </View>
-
-            <Text style={styles.panelTitle}>
-
-              Parkspot{this.props.destinationName ? <Text> near {this.props.destinationName}</Text> : <Text> near {this.props.parkspot.street}</Text>}
-              <Text style={styles.panelDistance}> {distance} away</Text>
-            </Text>
-
-            {duration &&
-              <Text style={styles.panelSubtitle}>
-                {duration}{walkingdistance && <Text> · {walkingdistance} from your destination</Text>}
-              </Text>
-            }
-
-            <Text style={styles.panelSubtitle}>
-              {this.props.parkspot.street} {this.props.parkspot.houseNumber}, {this.props.parkspot.city}, {this.props.parkspot.country}
-            </Text>
-
+            <ParkspotItem parkspot={this.props.parkspot} walkingDirections={this.props.walkingDirections} drivingDirections={this.props.drivingDirections} destinationName={this.props.destinationName} />
             {this.state.snappedTo === 'expanded' &&
               <View style={styles.iconsContainer}>
                 {this.renderIcon(this.props.parkspot.electricCharger, require('../../../assets/icons/filter/electricCharger.png'), 'Electric charger')}
@@ -142,7 +127,7 @@ export default class MapCard extends Component {
               }
 
               <TouchableOpacity block style={[styles.navigationButton, styles.buttonShadow, this.props.destinationName ? {} : styles.navigationButtonFullWidth]}
-                onPress={this.props.onStartNavigation}>
+                onPress={() => this.props.onStartNavigation(this.props.parkspot)}>
                 <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/navigation.png')}>
                   <Text style={styles.panelButtonTitle}>Go there!</Text>
                 </ImageBackground>
