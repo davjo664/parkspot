@@ -452,14 +452,7 @@ class Map extends React.Component<Props, State> {
   _renderClosestParkspotsList = () => {
     const spots = this.props.closestParkspots.map((parkspot) => {
       return (
-        <View key={parkspot.id} style={{
-          width: '100%',
-          height: 75,
-          borderRadius: 10,
-          backgroundColor: colors.white,
-          marginBottom: 11,
-          paddingLeft: 9
-        }}>
+        <View key={parkspot.id} style={styles.closestItemCard}>
           <TouchableOpacity onPress={() => {this.onPressClosestItem(parkspot)}}>
             <TouchableOpacity style={{alignSelf: 'flex-end', marginRight: 9, marginTop: 9}} onPress={() => {this.props.deleteClosestSpotWithID(parkspot.id)}} >
               <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
@@ -472,15 +465,7 @@ class Map extends React.Component<Props, State> {
       );
     })
     if (spots.length > 0) {
-      return (<ScrollView contentContainerStyle={{justifyContent: 'flex-end', }} style={{
-        position: 'absolute',
-        right: 16,
-        left: 16,
-        bottom: 150,
-        zIndex: 2,
-        marginBottom: -11,
-
-      }}>{spots}</ScrollView>)
+      return (<ScrollView contentContainerStyle={{justifyContent: 'flex-end', }} style={styles.closesItemContainer}>{spots}</ScrollView>)
     }
   }
 

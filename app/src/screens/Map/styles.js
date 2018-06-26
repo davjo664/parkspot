@@ -130,6 +130,23 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlignVertical: "center",
     textAlign: "center",
+  },
+  closestItemCard: {
+    width: '100%',
+    height: 75,
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    marginBottom: 11,
+    paddingLeft: 9
+  },
+  closesItemContainer: {
+    position: 'absolute',
+    right: 16,
+    left: 16,
+    bottom: 150,
+    zIndex: 2,
+    marginBottom: -11,
+
   }
 });
 export default styles;

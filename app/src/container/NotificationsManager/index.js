@@ -57,6 +57,8 @@ class NotificationsManager extends React.Component<Props, State> {
 
     // when a particular notification has been received in foreground
     this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+      alert(notification.body)
+      this.showNewClosestSpots();
       console.log('onNotification');
       console.log(notification);
     });
