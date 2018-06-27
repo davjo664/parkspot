@@ -33,9 +33,9 @@ export default function (state: any = initialState, action: Function) {
       }
     })
 
-    console.log(newArray)
+    //console.log(newArray)
 
-    state.parkspots = combined;
+    //state.parkspots = combined;
     // updating the values for all existing parkspots without recreating
     // the object to prevent the map from rerendering too much.
     // for (var old in state.parkspots) {
