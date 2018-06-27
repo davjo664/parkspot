@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   destinationPin: {
-    width: 22.4,
-    height: 29.3,
+    width: 33,
+    height: 38,
   },
   destinationCallout: {
     flex: 1,
