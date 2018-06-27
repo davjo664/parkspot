@@ -22,44 +22,57 @@ export default function (state: any = initialState, action: Function) {
       }
     };
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
+    //console.log(action.data)
     // adding all new parkspots to the data
     var combined = _.unionBy(state.parkspots, action.data, 'id');
+    var newArray = []
+    action.data.forEach(parkspot => {newArray.push(parkspot)})
+    state.parkspots.forEach(parkspot => {
+      if (!newArray.find(p => {return p.id === parkspot.id})) {
+        {newArray.push(parkspot)}
+      }
+    })
+
+    console.log(newArray)
+
+    state.parkspots = combined;
     // updating the values for all existing parkspots without recreating
     // the object to prevent the map from rerendering too much.
-    for (var old in state.parkspots) {
-      var updated = action.data.find(p => p.id === old.id);
-      if (updated) {
-        for (var key in old) {
-          old[key] = updated[key];
-        }
-      }
-    }
+    // for (var old in state.parkspots) {
+    //   var updated = action.data.find(p => p.id === old.id);
+    //   console.warn(updated)
+    //   if (updated) {
+    //     for (var key in old) {
+    //       old[key] = updated[key];
+    //     }
+    //   }
+    // }
 
-    // mocking some data TODO use API when ready
-    state.parkspots.map(parkspot => {
-      parkspot.unlimited = Math.random() < 0.5;
-      parkspot.noCost = Math.random() < 0.5;
-    });
+    // // mocking some data TODO use API when ready
+    // state.parkspots.map(parkspot => {
+    //   parkspot.unlimited = 1;
+    //   parkspot.noCost = 1;
+    // });
 
 
 
 
     // Apply current filters on fetched parkspots
-    let filteredParkspots = [];
-    filteredParkspots = combined.filter(obj => {
-      let showParkspot = true;
-      state.filters.forEach(filter => {
-        if (!obj[filter]) {
-          showParkspot = false;
-          return;
-        }
-      });
-      return showParkspot;
-    });
+    // let filteredParkspots = [];
+    // filteredParkspots = state.parkspots.filter(obj => {
+    //   let showParkspot = true;
+    //   state.filters.forEach(filter => {
+    //     if (!obj[filter]) {
+    //       showParkspot = false;
+    //       return;
+    //     }
+    //   });
+    //   return showParkspot;
+    // });
     return {
       ...state,
-      parkspots: filteredParkspots,
-      originalParkspots: combined
+      parkspots: newArray,
+      originalParkspots: state.parkspots
     };
   } else if (action.type === 'UPDATE_MAP_POSITION') {
     return {
