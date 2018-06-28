@@ -50,6 +50,16 @@
     "pit": false
   },
   "rules": {
+    // disallow for-in
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ForInStatement",
+        "message": "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.",
+      },
+    ],
+
+
     // Flow Plugin
     // The following rules are made available via `eslint-plugin-flowtype`
     "flowtype/define-flow-type": 1,
