@@ -9,7 +9,8 @@
   "plugins": [
     "flowtype",
     "prettier",
-    "react"
+    "react",
+    "immutable",
   ],
   // Map from global var to bool specifying if it can be redefined
   "globals": {
@@ -230,8 +231,12 @@
       }
     ],
     // disallow declaration of variables that are not used in the code
-    "no-use-before-define": 0,
+    "no-use-before-define": 2,
     // disallow use of variables before they are defined
+    "no-var": 2,
+    // disallow use of var.
+    "no-param-reassign": 2,
+    // prevents assigning to variables introduced as function parameters
 
     // Node.js
     // These rules are specific to JavaScript running on Node.js.
@@ -375,6 +380,11 @@
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 1,
     "react/self-closing-comp": 1,
-    "react/wrap-multilines": 0
+    "react/wrap-multilines": 0,
+
+    // prevent mutations
+    "immutable/no-let": 2,
+    "immutable/no-this": 0,
+    "immutable/no-mutation": 2
   }
 }
