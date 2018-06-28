@@ -31,7 +31,7 @@ export default class MapCard extends Component {
 
 
   renderIcon = (state, icon, text) => {
-    return state || true ? (
+    return state ? (
       <View style={styles.iconContainer}>
         <Image style={styles.icon} source={icon} />
         <Text style={styles.iconText}>{text}</Text>
