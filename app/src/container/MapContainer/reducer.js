@@ -23,13 +23,13 @@ export default function (state: any = initialState, action: Function) {
     };
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
     // adding all new parkspots to the data
-    var combined = _.unionBy(state.parkspots, action.data, 'id');
+    const combined = _.unionBy(state.parkspots, action.data, 'id');
     // updating the values for all existing parkspots without recreating
     // the object to prevent the map from rerendering too much.
-    for (var old in state.parkspots) {
-      var updated = action.data.find(p => p.id === old.id);
+    for (let old in state.parkspots) {
+      const updated = action.data.find(p => p.id === old.id);
       if (updated) {
-        for (var key in old) {
+        for (let key in old) {
           old[key] = updated[key];
         }
       }
@@ -75,7 +75,6 @@ export default function (state: any = initialState, action: Function) {
         filters.forEach(filter => {
           if (!obj[filter]) {
             showData = false;
-
           }
         });
         return showData;
@@ -84,10 +83,7 @@ export default function (state: any = initialState, action: Function) {
       // Filter turned on -> adds filter on top of filteredParkspots
       filters.push(action.filter);
       filteredParkspots = state.parkspots.filter(obj => {
-        if (!obj[action.filter]) {
-          return false;
-        }
-        return true;
+        return obj[action.filter];
       });
     }
     return {

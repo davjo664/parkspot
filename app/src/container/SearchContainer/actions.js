@@ -24,7 +24,7 @@ export function fetchLocations(searchString, userPosition) {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        if (data.statusCode && data.statusCode != 200) {
+        if (data.statusCode && data.statusCode !== 200) {
           console.log(data.message);
         } else {
           dispatch(fetchLocationsSuccess(data.predictions));
@@ -40,7 +40,7 @@ export function fetchLocationDetails(rowData) {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        if (data.statusCode && data.statusCode != 200) {
+        if (data.statusCode && data.statusCode !== 200) {
           console.log(data.message);
         } else {
           const selectedLocation = {

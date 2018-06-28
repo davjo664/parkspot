@@ -45,7 +45,7 @@ export default function (state: any = initialState, action: Function) {
 
   //checks if fav is element of favorites - if not yet, includes it
   else if (action.type === 'ADD_FAVORITE') {
-    var found = state.favorites.find((fav) => {
+    const found = state.favorites.find((fav) => {
       return fav.id === action.fav.id;
     });
     state.lastSearches.find((fav) => {

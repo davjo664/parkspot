@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   navigationButtonFullWidth: {
-    width: (1.0 * cardWidth),
+    width: (cardWidth),
   },
   favoriteButton: {
     // calculating width according to zeplin specification

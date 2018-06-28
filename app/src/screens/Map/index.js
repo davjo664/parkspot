@@ -91,8 +91,8 @@ class Map extends React.Component<Props, State> {
     this.setState({
       selectedParkspot: this.props.parkspots.find(parkspot => {
         return (
-          parkspot.lat == event.nativeEvent.coordinate.latitude &&
-          parkspot.lng == event.nativeEvent.coordinate.longitude
+          parkspot.lat === event.nativeEvent.coordinate.latitude &&
+          parkspot.lng === event.nativeEvent.coordinate.longitude
         );
       }),
     });
@@ -265,7 +265,7 @@ class Map extends React.Component<Props, State> {
   };
 
   renderMarker = (data) => {
-    const isSelected = this.state.selectedParkspot != null && this.state.selectedParkspot.id == data.id;
+    const isSelected = this.state.selectedParkspot != null && this.state.selectedParkspot.id === data.id;
 
     const image = isSelected ? require('../../../assets/icons/map/selectedPin.png') : require('../../../assets/icons/map/markerPin.png');
     const fontSize = isSelected ? 15 : 18;
