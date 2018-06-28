@@ -33,7 +33,7 @@ export default class MapCard extends Component {
   renderIcon = (state, icon, text) => {
     return state ? (
       <View style={styles.iconContainer}>
-        <Image style={styles.icon} source={icon} />
+        <Image style={styles.icon} source={icon}/>
         <Text style={styles.iconText}>{text}</Text>
       </View>
     ) : null;
@@ -52,12 +52,12 @@ export default class MapCard extends Component {
       this.props.onDismiss();
     }
   };
+  x;
 
   constructor(props) {
     super(props);
     this._deltaY = new Animated.Value(Screen.height - 100);
   }
-  x
 
   render() {
     const distance = HumanizeHelper.humanizeDistance(this.props.parkspot.dist);
@@ -76,7 +76,7 @@ export default class MapCard extends Component {
               outputRange: [0.5, 0],
               extrapolateRight: 'clamp'
             }),
-          }]} />
+          }]}/>
         <Interactable.View
           style={styles.interactable}
           verticalOnly={true}
@@ -89,19 +89,20 @@ export default class MapCard extends Component {
           animatedValueY={this._deltaY}>
           <View style={styles.panel}>
             <View style={styles.panelHeader}>
-              <View style={styles.panelHandle} />
+              <View style={styles.panelHandle}/>
             </View>
 
             <Text style={styles.panelTitle}>
 
-              Parkspot{this.props.destinationName ? <Text> near {this.props.destinationName}</Text> : <Text> near {this.props.parkspot.street}</Text>}
+              Parkspot{this.props.destinationName ? <Text> near {this.props.destinationName}</Text> :
+              <Text> near {this.props.parkspot.street}</Text>}
               <Text style={styles.panelDistance}> {distance} away</Text>
             </Text>
 
             {duration &&
-              <Text style={styles.panelSubtitle}>
-                {duration}{walkingdistance && <Text> · {walkingdistance} from your destination</Text>}
-              </Text>
+            <Text style={styles.panelSubtitle}>
+              {duration}{walkingdistance && <Text> · {walkingdistance} from your destination</Text>}
+            </Text>
             }
 
             <Text style={styles.panelSubtitle}>
@@ -109,40 +110,41 @@ export default class MapCard extends Component {
             </Text>
 
             {this.state.snappedTo === 'expanded' &&
-              <View style={styles.iconsContainer}>
-                {this.renderIcon(this.props.parkspot.electricCharger, require('../../../assets/icons/filter/electricCharger.png'), 'Electric charger')}
-                {this.renderIcon(this.props.parkspot.accessible, require('../../../assets/icons/filter/accessible.png'), 'Handicapped parking')}
-                {this.renderIcon(this.props.parkspot.noCost, require('../../../assets/icons/filter/nomoney.png'), 'Free Parking')}
-                {this.renderIcon(this.props.parkspot.unlimited, require('../../../assets/icons/filter/clock.png'), 'Unlimited parking time')}
-              </View>
+            <View style={styles.iconsContainer}>
+              {this.renderIcon(this.props.parkspot.electricCharger, require('../../../assets/icons/filter/electricCharger.png'), 'Electric charger')}
+              {this.renderIcon(this.props.parkspot.accessible, require('../../../assets/icons/filter/accessible.png'), 'Handicapped parking')}
+              {this.renderIcon(this.props.parkspot.noCost, require('../../../assets/icons/filter/nomoney.png'), 'Free Parking')}
+              {this.renderIcon(this.props.parkspot.unlimited, require('../../../assets/icons/filter/clock.png'), 'Unlimited parking time')}
+            </View>
             }
 
             {this.state.snappedTo === 'expanded' &&
-              <View style={styles.streetViewContainer}>
-                <StreetView
-                  style={styles.streetView}
-                  allGesturesEnabled={true}
-                  coordinate={{
-                    'latitude': parseFloat(this.props.parkspot.lat),
-                    'longitude': parseFloat(this.props.parkspot.lng),
-                  }}
-                />
-              </View>
+            <View style={styles.streetViewContainer}>
+              <StreetView
+                style={styles.streetView}
+                allGesturesEnabled={true}
+                coordinate={{
+                  'latitude': parseFloat(this.props.parkspot.lat),
+                  'longitude': parseFloat(this.props.parkspot.lng),
+                }}
+              />
+            </View>
             }
 
             <View style={styles.buttonContainer}>
               {this.props.destinationName &&
-                <TouchableOpacity block style={[styles.favoriteButton, styles.buttonShadow]}
-                  onPress={() => console.warn("Not implemented.")}>
-                  <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/favorite.png')}>
-                    <Image
-                      source={this.props.parkspot.favorite ? require('../../../assets/icons/favorite/white-full.png') : require('../../../assets/icons/favorite/white-empty.png')} />
-                  </ImageBackground>
-                </TouchableOpacity>
+              <TouchableOpacity block style={[styles.favoriteButton, styles.buttonShadow]}
+                                onPress={() => console.warn('Not implemented.')}>
+                <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/favorite.png')}>
+                  <Image
+                    source={this.props.parkspot.favorite ? require('../../../assets/icons/favorite/white-full.png') : require('../../../assets/icons/favorite/white-empty.png')}/>
+                </ImageBackground>
+              </TouchableOpacity>
               }
 
-              <TouchableOpacity block style={[styles.navigationButton, styles.buttonShadow, this.props.destinationName ? {} : styles.navigationButtonFullWidth]}
-                onPress={this.props.onStartNavigation}>
+              <TouchableOpacity block
+                                style={[styles.navigationButton, styles.buttonShadow, this.props.destinationName ? {} : styles.navigationButtonFullWidth]}
+                                onPress={this.props.onStartNavigation}>
                 <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/navigation.png')}>
                   <Text style={styles.panelButtonTitle}>Go there!</Text>
                 </ImageBackground>

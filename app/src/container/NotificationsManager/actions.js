@@ -28,7 +28,7 @@ export function createUser(fcmToken: String) {
     }) // Redux Thunk handles these
       .then(res => res.json())
       .then(data => {
-        if (data.statusCode && data.statusCode != 200) {
+        if (data.statusCode && data.statusCode !== 200) {
           console.log(data);
         } else {
           dispatch(updateUserSuccess(data));
@@ -53,7 +53,7 @@ export function updateUser(id: Number, fcmToken: String) {
     }) // Redux Thunk handles these
       .then(res => res.json())
       .then(data => {
-        if (data.statusCode && data.statusCode != 200) {
+        if (data.statusCode && data.statusCode !== 200) {
           console.log(data);
         } else {
           dispatch(updateUserSuccess(data));

@@ -1,7 +1,6 @@
+// @flow
 import {Platform} from 'react-native';
 import FusedLocation from 'react-native-fused-location';
-
-// @flow
 
 export class LocationAccessHelper {
   static getLocation = async (onCompletion: ?Function, onError: ?Function) => {

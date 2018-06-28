@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pinShadow: {
-    shadowColor: "rgba(0, 0, 0, 0.16)",
+    shadowColor: 'rgba(0, 0, 0, 0.16)',
     shadowOffset: {
       width: 0,
       height: 2
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
   },
   destinationCalloutText: {
     fontSize: 15,
-    textAlignVertical: "center",
-    textAlign: "center",
+    textAlignVertical: 'center',
+    textAlign: 'center',
   }
 });
 export default styles;

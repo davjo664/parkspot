@@ -9,6 +9,7 @@
     "babel-preset-react-native-stage-0": "^1.0.1",
     "eslint": "^4.19.1",
     "eslint-plugin-flowtype": "^2.48.0",
+    "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.0",
@@ -39,7 +40,8 @@
     "test": "exit 0",
     "jest": "node node_modules/jest/bin/jest.js",
     "precommit": "yarn test",
-    "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver"
+    "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver",
+    "lint": "./node_modules/.bin/eslint . --ext js,ts"
   },
   "jest": {
     "preset": "jest-expo",

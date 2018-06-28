@@ -4,7 +4,6 @@ import {ListItem} from 'native-base';
 
 import styles from './styles';
 import textStyles from '../../theme/parkspotStyles';
-import {HumanizeHelper} from '../../helper/HumanizeHelper';
 
 
 export interface Props {
@@ -39,13 +38,14 @@ export class PlaceListItem extends Component {
           key={p.id}
           onPress={() => {
             if (p.favorite) {
-              this.props.remFavorite()
+              this.props.remFavorite();
             } else {
               this.props.addFavorite();
             }
           }}
         >
-          <Image source={p.favorite ? require('../../../assets/icons/favorite/full.png') : require('../../../assets/icons/favorite/empty.png')} />
+          <Image
+            source={p.favorite ? require('../../../assets/icons/favorite/full.png') : require('../../../assets/icons/favorite/empty.png')}/>
         </TouchableOpacity>
       </ListItem>
     );

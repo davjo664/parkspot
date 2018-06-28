@@ -27,12 +27,12 @@ export default class SearchBar extends Component {
           source={require('../../../assets/icons/misc/search.png')}
         />
         <TextInput
-          placeholder="Search for a parkspot"
+          placeholder='Search for a parkspot'
           returnKeyType={'search'}
           autoFocus={true}
           value={this.props.searchString}
-          clearButtonMode="while-editing"
-          underlineColorAndroid="transparent"
+          clearButtonMode='while-editing'
+          underlineColorAndroid='transparent'
           onChangeText={text => this.props.onChange(text)}
           onFocus={() => {
             this.props.onFocus ? this.props.onFocus() : null;
@@ -41,7 +41,7 @@ export default class SearchBar extends Component {
         />
         <ActivityIndicator
           animating={true}
-          size="small"
+          size='small'
           style={{marginRight: 10, display: this.props.isLoading ? 'flex' : 'none'}}
         />
       </ElevatedView>
