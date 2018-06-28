@@ -1,5 +1,5 @@
 import config from '../../config/config';
-import {LocationAccessHelper} from "../../helper/LocationAccessHelper";
+import {LocationAccessHelper} from '../../helper/LocationAccessHelper';
 
 export function fetchParkspotsSuccess(data: Object) {
   return {

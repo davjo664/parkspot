@@ -22,13 +22,13 @@ export class HumanizeHelper {
     const minutes = Math.floor((durationInSeconds - (hours * 3600)) / 60);
     const seconds = Math.ceil(durationInSeconds - (hours * 3600) - (minutes * 60));
 
-    const showHours = options['showHours'] || hours > 0;
-    const showMinutes = options['showMinutes'] || showHours || minutes > 0;
-    const showSeconds = options['showSeconds'] || !showHours;
+    const showHours = options.showHours || hours > 0;
+    const showMinutes = options.showMinutes || showHours || minutes > 0;
+    const showSeconds = options.showSeconds || !showHours;
 
 
-    let result = (showHours ? hours.pad(1) + " h" : "") + (showMinutes ? minutes.pad(1) + " min " : "") + (showSeconds ? seconds.pad(1) + " s " : "");
-    result = result.trim().replace("  ", " ");
+    let result = (showHours ? hours.pad(1) + ' h' : '') + (showMinutes ? minutes.pad(1) + ' min ' : '') + (showSeconds ? seconds.pad(1) + ' s ' : '');
+    result = result.trim().replace('  ', ' ');
 
     return result;
   };
@@ -37,6 +37,6 @@ export class HumanizeHelper {
 
 Number.prototype.pad = function(size) {
   var s = String(this);
-  while (s.length < (size || 2)) {s = "0" + s;}
+  while (s.length < (size || 2)) {s = '0' + s;}
   return s;
-}
+};

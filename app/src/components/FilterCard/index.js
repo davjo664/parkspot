@@ -51,13 +51,13 @@ class FilterCard extends Component {
             }/>
           </Right>
         </ListItem>
-      )
-    })
+      );
+    });
     return (
       <List>
         {filterItems}
       </List>
-    )
+    );
   }
 
   render() {

@@ -39,7 +39,7 @@ export class PlaceListItem extends Component {
           key={p.id}
           onPress={() => {
             if (p.favorite) {
-              this.props.remFavorite()
+              this.props.remFavorite();
             } else {
               this.props.addFavorite();
             }

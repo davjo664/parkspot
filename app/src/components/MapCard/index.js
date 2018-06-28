@@ -133,7 +133,7 @@ export default class MapCard extends Component {
             <View style={styles.buttonContainer}>
               {this.props.destinationName &&
                 <TouchableOpacity block style={[styles.favoriteButton, styles.buttonShadow]}
-                  onPress={() => console.warn("Not implemented.")}>
+                  onPress={() => console.warn('Not implemented.')}>
                   <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/favorite.png')}>
                     <Image
                       source={this.props.parkspot.favorite ? require('../../../assets/icons/favorite/white-full.png') : require('../../../assets/icons/favorite/white-empty.png')} />

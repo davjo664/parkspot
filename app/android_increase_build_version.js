@@ -5,7 +5,7 @@ const pjson = require('./package.json');
 
 
 const version = pjson.version;
-const code = version.replace(/\./g, "");
+const code = version.replace(/\./g, '');
 
 
 replace({

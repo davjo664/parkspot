@@ -11,4 +11,4 @@ export const isIphoneX = () => {
         // Accounting for the height in either orientation
         (height === 812 || width === 812)
     );
-}
+};

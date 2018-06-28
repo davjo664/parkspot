@@ -49,13 +49,13 @@ export function fetchLocationDetails(rowData) {
               longitude: data.result.geometry.location.lng,
             },
             description: rowData.description,
-          }
+          };
           const mapPosition = {
             latitude: Number(selectedLocation.location.latitude),
             longitude: Number(selectedLocation.location.longitude),
             latitudeDelta: 0.0005,
             longitudeDelta: 0.005,
-          }
+          };
           dispatch(updateMapPosition(mapPosition));
           dispatch({
             type: 'UPDATE_SELECTED_LOCATION',

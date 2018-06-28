@@ -60,7 +60,7 @@ export default class SearchScreen extends Component {
   _renderPlaceItem = (place) => {
     return <PlaceListItem place={place} onPress={() => this._onPress(place)}
                           addFavorite={() => this.props.addFavorite(place)}
-                          remFavorite={() => this.props.remFavorite(place)}/>
+                          remFavorite={() => this.props.remFavorite(place)}/>;
   };
   _renderList = () => {
     let data;
@@ -112,7 +112,7 @@ export default class SearchScreen extends Component {
   render() {
     return (
       <SafeAreaView style={defaultStyles.safeArea}>
-        <View style={[defaultStyles.container]} pointerEvents="box-none">
+        <View style={[defaultStyles.container]} pointerEvents='box-none'>
           {this._renderSearchBar()}
           {this._renderList()}
         </View>

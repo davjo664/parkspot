@@ -28,7 +28,7 @@ import colors from './../../theme/parkspotColors';
 import {PermissionHelper} from '../../helper/PermissionHelper';
 
 import textStyles from '../../theme/parkspotStyles';
-import ElevatedView from 'react-native-elevated-view'
+import ElevatedView from 'react-native-elevated-view';
 
 
 const haversine = require('haversine-js');
@@ -87,7 +87,7 @@ class Map extends React.Component<Props, State> {
      * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
      * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
      */
-    this.setShowFilters(false)
+    this.setShowFilters(false);
     this.setState({
       selectedParkspot: this.props.parkspots.find(parkspot => {
         return (
@@ -179,10 +179,10 @@ class Map extends React.Component<Props, State> {
       switch (app) {
         case 'apple-maps':
           url += `?saddr=${userPosition}&daddr=${parkspotPosition}`;
-          url += `&q=Parkspot`;
+          url += '&q=Parkspot';
           break;
         case 'google-maps':
-          url += `?q=Parkspot`;
+          url += '?q=Parkspot';
           url += (isIOS) ? '&api=1' : '';
           url += `&saddr=${userPosition}&daddr=${parkspotPosition}`;
           break;
@@ -265,7 +265,7 @@ class Map extends React.Component<Props, State> {
   };
 
   renderMarker = (data) => {
-    const isSelected = this.state.selectedParkspot != null && this.state.selectedParkspot.id == data.id
+    const isSelected = this.state.selectedParkspot != null && this.state.selectedParkspot.id == data.id;
 
     const image = isSelected ? require('../../../assets/icons/map/selectedPin.png') : require('../../../assets/icons/map/markerPin.png');
     const fontSize = isSelected ? 15 : 18;
@@ -340,7 +340,7 @@ class Map extends React.Component<Props, State> {
           apikey={config.googleApi.key}
           strokeWidth={2}
           strokeColor={colors.greyishTeal}
-          mode="walking"
+          mode='walking'
           onReady={(result) => {
             this.setState({
               walkingDirections: result
@@ -435,7 +435,7 @@ class Map extends React.Component<Props, State> {
           </View>
         </TouchableOpacity>
       </ElevatedView>
-    )
+    );
   }
 
   render() {
@@ -481,7 +481,7 @@ class Map extends React.Component<Props, State> {
         <FilterCard
           showFilters={this.state.showFilters}
           onDismiss={() => {
-            this.setShowFilters(false)
+            this.setShowFilters(false);
           }}
           filterParkspots={this.props.filterParkspots}
         />
@@ -512,7 +512,7 @@ class Map extends React.Component<Props, State> {
           onPress={this.mapWasPressed}
           onMarkerPress={this.markerWasPressed}
           onClusterPress={this.clusterWasPressed}
-          ref={(r) => {this.map = r}}
+          ref={(r) => {this.map = r;}}
           data={data}
           renderMarker={this.renderMarker}
           renderCluster={this.renderCluster}

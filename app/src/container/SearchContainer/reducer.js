@@ -10,7 +10,7 @@ const initialState = {
 
 export default function (state: any = initialState, action: Function) {
   if (action.type === 'UPDATE_SEARCH_STRING') {
-    if (action.searchString === "") {
+    if (action.searchString === '') {
       return {
         ...state,
         showLocations: false,
@@ -29,7 +29,7 @@ export default function (state: any = initialState, action: Function) {
           location.favorite = true;
         }
       });
-    })
+    });
     return {
       ...state,
       data: action.locations,
@@ -76,7 +76,7 @@ export default function (state: any = initialState, action: Function) {
         fav.favorite = false;
         newFavorites = state.favorites.filter(item => item.id !== action.fav.id);
       }
-      return fav.id === action.fav.id
+      return fav.id === action.fav.id;
     });
     state.lastSearches.find((fav) => {
       if (fav.id === action.fav.id) {
