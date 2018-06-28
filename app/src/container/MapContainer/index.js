@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import Map from '../../screens/Map';
 import {fetchParkspots, filterParkspots, updateLocation, updateMapPosition} from './actions';
 import {clearSelectedLocation} from '../SearchContainer/actions';
+
 export interface Props {
   navigation: any;
   updateLocation: Function;

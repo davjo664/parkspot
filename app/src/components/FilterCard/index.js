@@ -37,7 +37,7 @@ class FilterCard extends Component {
         <ListItem key={filter.id} icon>
           <Left>
             <View style={{height: 24, width: 24}}>
-            <Image source={filter.icon} />
+              <Image source={filter.icon}/>
             </View>
           </Left>
           <Body>

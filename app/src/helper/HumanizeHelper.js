@@ -1,7 +1,7 @@
 // @flow
 
 export class HumanizeHelper {
-  static humanizeDistance = (distanceInKm : Number) => {
+  static humanizeDistance = (distanceInKm: Number) => {
     const result = {distance: distanceInKm, unit: 'km', smallUnit: 'm', factor: 1000, smallBorder: 0.9};
 
     if (result.distance < result.smallBorder) {
@@ -17,7 +17,7 @@ export class HumanizeHelper {
     return `${Math.round(result.distance * 100) / 100} ${result.unit}`;
   };
 
-  static humanizeDuration = (durationInSeconds : Number, options : ?Object = {}) => {
+  static humanizeDuration = (durationInSeconds: Number, options: ?Object = {}) => {
     const hours = Math.floor(durationInSeconds / 3600);
     const minutes = Math.floor((durationInSeconds - (hours * 3600)) / 60);
     const seconds = Math.ceil(durationInSeconds - (hours * 3600) - (minutes * 60));
@@ -35,8 +35,10 @@ export class HumanizeHelper {
 }
 
 
-Number.prototype.pad = function(size) {
+Number.prototype.pad = function (size) {
   var s = String(this);
-  while (s.length < (size || 2)) {s = '0' + s;}
+  while (s.length < (size || 2)) {
+    s = '0' + s;
+  }
   return s;
 };

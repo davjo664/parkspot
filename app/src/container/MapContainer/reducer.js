@@ -42,8 +42,6 @@ export default function (state: any = initialState, action: Function) {
     });
 
 
-
-
     // Apply current filters on fetched parkspots
     let filteredParkspots = [];
     filteredParkspots = combined.filter(obj => {
@@ -51,7 +49,7 @@ export default function (state: any = initialState, action: Function) {
       state.filters.forEach(filter => {
         if (!obj[filter]) {
           showParkspot = false;
-          return;
+
         }
       });
       return showParkspot;
@@ -77,7 +75,7 @@ export default function (state: any = initialState, action: Function) {
         filters.forEach(filter => {
           if (!obj[filter]) {
             showData = false;
-            return;
+
           }
         });
         return showData;

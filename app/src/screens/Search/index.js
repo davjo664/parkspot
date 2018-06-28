@@ -1,15 +1,6 @@
 import React, {Component} from 'react';
 import {Content, List, ListItem, Text} from 'native-base';
-import {
-  Dimensions,
-  FlatList,
-  Keyboard,
-  Linking,
-  Platform,
-  SafeAreaView,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import {Dimensions, FlatList, Keyboard, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
 
 import defaultStyles from './styles';
 import {FavoriteListItem, PlaceListItem} from '../../components/ListItems';

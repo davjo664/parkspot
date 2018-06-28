@@ -287,8 +287,13 @@ class Map extends React.Component<Props, State> {
       );
     } else {
       return (
-        <Marker style={[styles.pin, styles.pinShadow]} key={key} coordinate={coordinate} onPress={onPress} image={image}>
-          <Text style={[styles.pinText, {fontSize: fontSize, paddingLeft: 4, paddingTop: 4}, additionalTextStyles]}>{text}</Text>
+        <Marker style={[styles.pin, styles.pinShadow]} key={key} coordinate={coordinate} onPress={onPress}
+                image={image}>
+          <Text style={[styles.pinText, {
+            fontSize: fontSize,
+            paddingLeft: 4,
+            paddingTop: 4
+          }, additionalTextStyles]}>{text}</Text>
         </Marker>
       );
     }
@@ -302,7 +307,7 @@ class Map extends React.Component<Props, State> {
 
     return (
       <Marker key={'destination'} coordinate={data.location} style={styles.destinationPin}
-        image={require('../../../assets/icons/map/destinationPin.png')}>
+              image={require('../../../assets/icons/map/destinationPin.png')}>
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
         </Callout>
@@ -372,6 +377,33 @@ class Map extends React.Component<Props, State> {
       );
     }
   };
+  _renderSearchButton = () => {
+
+    let text = this.props.selectedLocation ? this.props.selectedLocation.description : 'Search for a parkspot';
+    let textStyle = this.props.selectedLocation ? textStyles.textStyle2 : textStyles.textStyle2Placeholder;
+    let displayClose = this.props.selectedLocation ? 'flex' : 'none';
+    return (
+      <ElevatedView style={styles.searchButtonView} elevation={Platform.OS === 'ios' ? 5 : 3}>
+
+        <TouchableOpacity
+          style={styles.searchButton}
+          activeOpacity={0.7}
+          onPress={() => this.searchButtonWasPressed()}>
+          <View style={styles.buttonContent}>
+            <View style={styles.textContent}>
+              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon}/>
+              <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
+            </View>
+            <View style={[styles.deleteButtonView, {display: displayClose}]}>
+              <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation}>
+                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton}/>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </ElevatedView>
+    );
+  };
 
   constructor(props) {
     super(props);
@@ -409,35 +441,6 @@ class Map extends React.Component<Props, State> {
     }, true);
   }
 
-
-  _renderSearchButton = () => {
-
-    let text = this.props.selectedLocation ? this.props.selectedLocation.description : 'Search for a parkspot';
-    let textStyle = this.props.selectedLocation ? textStyles.textStyle2 : textStyles.textStyle2Placeholder;
-    let displayClose = this.props.selectedLocation ? 'flex' : 'none';
-    return (
-      <ElevatedView style={styles.searchButtonView} elevation={Platform.OS === 'ios' ? 5 : 3}>
-
-        <TouchableOpacity
-          style={styles.searchButton}
-          activeOpacity={0.7}
-          onPress={() => this.searchButtonWasPressed()}>
-          <View style={styles.buttonContent}>
-            <View style={styles.textContent}>
-              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
-              <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
-            </View>
-            <View style={[styles.deleteButtonView, {display: displayClose}]}>
-              <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation} >
-                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </ElevatedView>
-    );
-  }
-
   render() {
     const data = this.transformParkspotsToData(this.props.parkspots);
 
@@ -460,14 +463,14 @@ class Map extends React.Component<Props, State> {
               activeOpacity={0.7}
               onPress={() => this.setShowFilters(true)}
             >
-              <Image source={require('../../../assets/icons/misc/filter.png')} style={styles.icon} />
+              <Image source={require('../../../assets/icons/misc/filter.png')} style={styles.icon}/>
             </TouchableOpacity>
 
             <Text style={textStyles.textStyleMapHeading}>parkspot</Text>
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => this.findMeButtonWasPressed()}>
-              <Image source={require('../../../assets/icons/misc/relocate.png')} style={styles.icon} />
+              <Image source={require('../../../assets/icons/misc/relocate.png')} style={styles.icon}/>
             </TouchableOpacity>
           </View>
         </LinearGradient>
@@ -487,14 +490,14 @@ class Map extends React.Component<Props, State> {
         />
 
         {this.state.selectedParkspot &&
-          <MapCard
-            onStartNavigation={this.startNavigation}
-            parkspot={this.state.selectedParkspot}
-            onDismiss={this.deselectParkspot}
-            drivingDirections={this.state.drivingDirections}
-            walkingDirections={this.state.walkingDirections}
-            destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
-          />
+        <MapCard
+          onStartNavigation={this.startNavigation}
+          parkspot={this.state.selectedParkspot}
+          onDismiss={this.deselectParkspot}
+          drivingDirections={this.state.drivingDirections}
+          walkingDirections={this.state.walkingDirections}
+          destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
+        />
         }
 
         <ClusteredMapView
@@ -512,7 +515,9 @@ class Map extends React.Component<Props, State> {
           onPress={this.mapWasPressed}
           onMarkerPress={this.markerWasPressed}
           onClusterPress={this.clusterWasPressed}
-          ref={(r) => {this.map = r;}}
+          ref={(r) => {
+            this.map = r;
+          }}
           data={data}
           renderMarker={this.renderMarker}
           renderCluster={this.renderCluster}
