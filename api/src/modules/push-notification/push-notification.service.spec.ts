@@ -25,11 +25,17 @@ describe('PushNotificationService', () => {
 
       const service = app.get<PushNotificationService>(PushNotificationService);
 
-      const res = await   service.send(`Hello`, `Some message`, {
+      const res = await service.send(`Hello`, `Some message`, {
         fcmToken: 'someToken',
         fcmTokenType: FCMTokenType.Android
+      }, {type: 'spot-taken', payload: '1'});
+      expect(res).toEqual({
+        canonicalRegistrationTokenCount: 1,
+        failureCount: 0,
+        multicastId: 0,
+        results: [],
+        successCount: 1,
       });
-      expect(res).toBe(`I have no idea what the actual return is atm!`);
     });
   });
 });

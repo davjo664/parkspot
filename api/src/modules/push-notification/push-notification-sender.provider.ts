@@ -6,8 +6,16 @@ import {FirebaseApp} from '../firebase-app/firebase-app.provider';
  * I am a wrapper to the firebase interace. At some point it might be required to pass the default app initialisation to me.
  * Then use a Factory to provide me and inject the configuration. */
 export class PushNotificationSender {
-  async send(message: admin.messaging.Message, dryRun?: boolean): Promise<string> {
-    return admin.messaging().send(message, dryRun);
+  async send(title: string, text: string, token: string, data: { [key: string]: string }): Promise<admin.messaging.MessagingDevicesResponse> {
+
+    console.log("data", data);
+    return admin.messaging().sendToDevice(token, {
+      data: data,
+      notification: {
+        title,
+        text,
+      }
+    });
   }
 }
 
@@ -16,9 +24,14 @@ export class PushNotificationSender {
  * I am the mock of the sender wrapper. So that the external dependency to firebase-admin can be
  * replaced during tests. I'll submit any message "successful".  */
 class PushNotificationSenderMock implements Partial<PushNotificationSender> {
-  async send(message: admin.messaging.Message, dryRun?: boolean): Promise<string> {
-    console.log('Sending a mock push notification', message);
-    return Promise.resolve('I have no idea what the actual return is atm!');
+  async send(title: string, text: string, token: string, data: { [key: string]: string }): Promise<admin.messaging.MessagingDevicesResponse> {
+    return Promise.resolve({
+      canonicalRegistrationTokenCount: 1,
+      failureCount: 0,
+      multicastId: 0,
+      results: [],
+      successCount: 1,
+    });
   }
 }
 

@@ -28,7 +28,7 @@ export class ParkspotSurveillanceService {
   private async notify(update: ParkspotUpdate) {
     const userToNotify = await this.subscriptionService.getForSpot(update.id);
     await userToNotify.map(async subscription => {
-      await this.pushNotificationService.send('Parkspot Update', `Your parking spot status has changed availability from ${update.availabilityBefore} to ${update.availabilityAfter}`, subscription.user);
+      await this.pushNotificationService.send('Parkspot', `Your parking spot is sadly no longer available!`, subscription.user, {type: 'spot-taken', payload: `${update.id}`});
     });
 
   }

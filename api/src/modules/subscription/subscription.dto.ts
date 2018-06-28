@@ -4,16 +4,15 @@ import {SubscriptionEntity} from './subscription.entity';
 import {ParkSpotEntity} from '../parkspot/parkspot.entity';
 import {UserEntity} from '../user/user.entity';
 
-export class SubscriptionDto implements Partial<SubscriptionEntity> {
+export class SubscriptionDto {
+
   @IsNumber()
   @ApiModelProperty()
-  id: number;
+  parkSpotId: number;
 
   @ApiModelProperty()
-  parkSpot: ParkSpotEntity;
-
-  @ApiModelProperty()
-  user: UserEntity;
+  @IsNumber()
+  userId: number;
 }
 
 /**
