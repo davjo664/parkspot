@@ -40,7 +40,8 @@
     "test": "exit 0",
     "jest": "node node_modules/jest/bin/jest.js",
     "precommit": "yarn test",
-    "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver"
+    "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver",
+    "lint": "./node_modules/.bin/eslint . --ext js,ts"
   },
   "jest": {
     "preset": "jest-expo",
