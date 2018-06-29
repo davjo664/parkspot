@@ -222,7 +222,7 @@ class Map extends React.Component<Props, State> {
 
   searchButtonWasPressed = () => {
     this.props.navigation.navigate('Search');
-    this.props.clearClosestSpots();
+    this.props.deleteClosestParkspots();
   };
 
   setShowFilters = (show) => {
@@ -454,7 +454,7 @@ class Map extends React.Component<Props, State> {
       return (
         <View key={parkspot.id} style={styles.closestItemCard}>
           <TouchableOpacity onPress={() => {this.onPressClosestItem(parkspot)}}>
-            <TouchableOpacity style={{alignSelf: 'flex-end', marginRight: 9, marginTop: 9}} onPress={() => {this.props.deleteClosestSpotWithID(parkspot.id)}} >
+            <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: 9, paddingRight: 9, paddingTop: 9}} onPress={() => {this.props.deleteClosestSpotWithID(parkspot.id)}} >
               <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
             </TouchableOpacity>
             <ParkspotItem

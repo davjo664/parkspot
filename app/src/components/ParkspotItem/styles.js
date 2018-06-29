@@ -11,6 +11,14 @@ const styles = StyleSheet.create({
         letterSpacing: -0.41,
         color: colors.blackThree,
     },
+    panel: {
+        width: '80%'
+    },
+    panelTitelView: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
     panelDistance: {
         height: 14,
         fontSize: 12,
@@ -18,6 +26,8 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         letterSpacing: -0.41,
         color: colors.steel,
+        paddingRight: 9,
+        paddingLeft: 5,
     },
     panelSubtitle: {
         marginTop: 3,

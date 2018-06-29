@@ -58,13 +58,14 @@ export function filterParkspots(filterId) {
   };
 }
 
-export function setClosestParkspots() {
+export function setClosestParkspots(id: Integer) {
   return {
+    id,
     type: 'SET_CLOSEST_PARKSPOTS',
   };
 }
 
-export function deleteClosestSpotWithID(id: number) {
+export function deleteClosestSpotWithID(id: Integer) {
   return {
     type: 'DELETE_CLOSEST_PARKSPOT_BY_ID',
     id,

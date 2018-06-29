@@ -1,3 +1,5 @@
+const haversine = require('haversine-js');
+
 const initialState = {
   userPosition: null,
   parkspots: [],
@@ -99,9 +101,24 @@ export default function (state: any = initialState, action: Function) {
       parkspots: filteredParkspots,
     };
   } else if (action.type === 'SET_CLOSEST_PARKSPOTS') {
+    //get taken spot from PN
+    const takenSpot = state.parkspots.find((spot) => {
+      return spot.id === action.id;
+    });
+
+    // get only available spots
+    let sortedSpots = state.parkspots.filter((spot) => {
+      return spot.available
+    });
+
+    //sort spots by distance to taken spot
+    sortedSpots.sort((a, b) => {
+      haversine(a, [takenSpot.lat, takenSpot.lng]) < haversine(b, [takenSpot.lat, takenSpot.lng]);
+    });
+
     return {
       ...state,
-      closestParkspots: [state.parkspots[0], state.parkspots[1], state.parkspots[2]]
+      closestParkspots: sortedSpots.slice(0, 3)
     };
   } else if (action.type === 'DELETE_ALL_CLOSEST_PARKSPOTS') {
     return {

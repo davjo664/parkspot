@@ -25,12 +25,12 @@ export class ParkspotItem extends Component {
         const duration = this.props.drivingDirections ? HumanizeHelper.humanizeDuration(this.props.drivingDirections.duration * 60) : null;
         // const distance = HumanizeHelper.humanizeDistance(this.props.parkspot.dist);
         return (
-            <View>
-                <Text style={styles.panelTitle}>
+            <View style={styles.panel} >
+                <View style={styles.panelTitelView}>
 
-                    Parkspot{this.props.destinationName ? <Text> near {this.props.destinationName}</Text> : <Text> near {this.props.parkspot.street}</Text>}
+                    <Text style={styles.panelTitle} numberOfLines={1} ellipsizeMode={'tail'}>Parkspot{this.props.destinationName ? ' near ' + this.props.destinationName : ' near ' + this.props.parkspot.street}</Text>
                     <Text style={styles.panelDistance}> {distance} away</Text>
-                </Text>
+                </View>
 
                 {duration &&
                     <Text style={styles.panelSubtitle}>

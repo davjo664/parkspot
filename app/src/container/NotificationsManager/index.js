@@ -2,9 +2,13 @@ import * as React from 'react';
 
 import firebase, {Notification} from 'react-native-firebase';
 import {connect} from 'react-redux';
+import {View, TouchableOpacity, Text} from 'react-native';
+
 import {createUser, updateUser} from './actions';
 import {setClosestParkspots} from '../MapContainer/actions';
 import {PermissionHelper} from '../../helper/PermissionHelper';
+
+
 
 
 export interface Props {
@@ -29,8 +33,8 @@ class NotificationsManager extends React.Component<Props, State> {
     }
   }
 
-  showNewClosestSpots() {
-    this.props.setClosestParkspots();
+  showNewClosestSpots(id: Integer) {
+    this.props.setClosestParkspots(id);
   }
 
   handleNotifications() {
@@ -58,7 +62,9 @@ class NotificationsManager extends React.Component<Props, State> {
     // when a particular notification has been received in foreground
     this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
       alert(notification.body)
-      this.showNewClosestSpots();
+      if (notification.data.type === 'spot-taken') {
+        this.showNewClosestSpots(parseInt(notification.data.payload, 10));
+      }
       console.log('onNotification');
       console.log(notification);
     });
@@ -72,7 +78,9 @@ class NotificationsManager extends React.Component<Props, State> {
       const notification: Notification = notificationOpen.notification;
       console.log('onNotificationOpened in fore or background');
       console.log(notification);
-      this.showNewClosestSpots();
+      if (notification.data.type === 'spot-taken') {
+        this.showNewClosestSpots(parseInt(notification.data.payload, 10));
+      }
     });
   }
 
@@ -87,7 +95,9 @@ class NotificationsManager extends React.Component<Props, State> {
         const action = notificationOpen.action;
         // Get information about the notification that was opened
         const notification: Notification = notificationOpen.notification;
-        this.showNewClosestSpots();
+        if (notificationOpen.notification.data.type === 'spot-taken') {
+          this.showNewClosestSpots(parseInt(notificationOpen.notification.data.payload, 10));
+        }
 
         console.log('onNotificationOpened when closed');
         console.log(notificationOpen);
@@ -116,7 +126,7 @@ function bindAction(dispatch) {
   return {
     updateUser: (user) => dispatch(updateUser(user)),
     createUser: (user) => dispatch(createUser(user)),
-    setClosestParkspots: () => dispatch(setClosestParkspots()),
+    setClosestParkspots: (id) => dispatch(setClosestParkspots(id)),
   };
 }
 
