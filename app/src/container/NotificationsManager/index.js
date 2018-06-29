@@ -19,13 +19,11 @@ class NotificationsManager extends React.Component<Props, State> {
     if (this.props.user.id === undefined) {
       console.log('create user');
       this.props.createUser(token);
-
     } else {
       if (this.props.user.fcmToken != token) {
         console.log('update user');
         this.props.updateUser(this.props.user.id, token);
       }
-
     }
   }
 
@@ -53,15 +51,11 @@ class NotificationsManager extends React.Component<Props, State> {
 
     // when a particular notification has been received in foreground
     this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
-      //alert(notification.data)
       if (notification.data) {
-        if (notification.data.type === 'UPDATE_SPOT') {
-          // this.props.updateParkspot(notification.data.id, notification.data.available);
-          this.props.updateParkspot(1, false);
-
+        if (notification.data.type === 'spot-updated') {
+          this.props.updateParkspot(parseInt(notification.data.payload.id, 10), notification.data.payload.available);
         }
       }
-      this.props.updateParkspot(1, false);
       console.log('onNotification');
       console.log(notification.data);
     });
@@ -107,7 +101,7 @@ class NotificationsManager extends React.Component<Props, State> {
   }
 
   render() {
-    return (<TouchableOpacity style={{marginTop: 100}} onPress={() => this.props.updateParkspot(1, false)}><Text>toggle spot</Text></TouchableOpacity>);
+    return null;
   }
 }
 
