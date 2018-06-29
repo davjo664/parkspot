@@ -75,8 +75,10 @@ class Map extends React.Component<Props, State> {
 
 
   clusterWasPressed = (clusterId, children) => {
-    const childIds = children.map((child) => {
+    const childIds = children.map((child: Object) => {
       return child.id;
+    }).map((id: Number) => {
+      return id.toString();
     });
 
     this.map.getMapRef().fitToSuppliedMarkers(childIds, true);
@@ -259,7 +261,7 @@ class Map extends React.Component<Props, State> {
 
 
     const fontSize = pointCount <= 9 ? 18 : (pointCount <= 99 ? 15 : 15);
-    const text = pointCount <= 99 ? pointCount : '99+';
+    const text = pointCount <= 99 ? pointCount.toString() : '99+';
 
     return this.renderPin(cluster.coordinate, require('../../../assets/icons/map/clusterPin.png'), '', text, fontSize, onPress);
   };
@@ -274,7 +276,7 @@ class Map extends React.Component<Props, State> {
     return this.renderPin(data.location, image, data.id, 'P', fontSize, null, additionalTextStyles);
   };
 
-  renderPin = (coordinate: Object, image: String, key: String, text: String, fontSize: Number, onPress: ?Function, additionalTextStyles: ?Object) => {
+  renderPin = (coordinate: Object, image: Number, key: String, text: String, fontSize: Number, onPress: ?Function, additionalTextStyles: ?Object) => {
 
     // Android does not seem to like background images...
     if (Platform.OS === 'ios') {
