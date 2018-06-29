@@ -25,53 +25,40 @@ export default function (state: any = initialState, action: Function) {
     //console.log(action.data)
     // adding all new parkspots to the data
     var combined = _.unionBy(state.parkspots, action.data, 'id');
-    var newArray = []
-    action.data.forEach(parkspot => {newArray.push(parkspot)})
-    state.parkspots.forEach(parkspot => {
-      if (!newArray.find(p => {return p.id === parkspot.id})) {
-        {newArray.push(parkspot)}
+
+    //updating the values for all existing parkspots without recreating
+    //the object to prevent the map from rerendering too much.
+    for (var old in state.parkspots) {
+      var updated = action.data.find(p => p.id === old.id);
+      if (updated) {
+        for (var key in old) {
+          old[key] = updated[key];
+        }
       }
-    })
+    }
 
-    //console.log(newArray)
-
-    //state.parkspots = combined;
-    // updating the values for all existing parkspots without recreating
-    // the object to prevent the map from rerendering too much.
-    // for (var old in state.parkspots) {
-    //   var updated = action.data.find(p => p.id === old.id);
-    //   console.warn(updated)
-    //   if (updated) {
-    //     for (var key in old) {
-    //       old[key] = updated[key];
-    //     }
-    //   }
-    // }
-
-    // // mocking some data TODO use API when ready
-    // state.parkspots.map(parkspot => {
-    //   parkspot.unlimited = 1;
-    //   parkspot.noCost = 1;
-    // });
+    // mocking some data TODO use API when ready
+    state.parkspots.map(parkspot => {
+      parkspot.unlimited = 1;
+      parkspot.noCost = 1;
+    });
 
 
-
-
-    // Apply current filters on fetched parkspots
-    // let filteredParkspots = [];
-    // filteredParkspots = state.parkspots.filter(obj => {
-    //   let showParkspot = true;
-    //   state.filters.forEach(filter => {
-    //     if (!obj[filter]) {
-    //       showParkspot = false;
-    //       return;
-    //     }
-    //   });
-    //   return showParkspot;
-    // });
+    //Apply current filters on fetched parkspots
+    let filteredParkspots = [];
+    filteredParkspots = state.parkspots.filter(obj => {
+      let showParkspot = true;
+      state.filters.forEach(filter => {
+        if (!obj[filter]) {
+          showParkspot = false;
+          return;
+        }
+      });
+      return showParkspot;
+    });
     return {
       ...state,
-      parkspots: newArray,
+      parkspots: combined,
       originalParkspots: state.parkspots
     };
   } else if (action.type === 'UPDATE_MAP_POSITION') {
@@ -111,20 +98,18 @@ export default function (state: any = initialState, action: Function) {
       parkspots: filteredParkspots,
     };
   } else if (action.type === 'UPDATE_PARKSPOT_WITH_ID') {
-    let spots = [];
-    for (var i = 0; i < state.parkspots.length; i++) {
-      if (state.parkspots[i].id === action.id) {
-        let spot = Object.assign(state.parkspots[i], {id: 1, available: !state.parkspots[i].available});
-        spots.push(spot)
+    let updatedSpots = state.parkspots.map((spot) => {
+      if (spot.id === action.id) {
+        let tmpSpot = spot;
+        tmpSpot.available = action.available;
+        return tmpSpot;
       } else {
-        spots.push(state.parkspots[i])
+        return spot;
       }
-    }
-    //spots => spots.sort(() => Math.random() - 0.5);
-    console.log(spots)
+    });
     return {
       ...state,
-      parkspots: spots,
+      parkspots: updatedSpots,
     };
   }
 
