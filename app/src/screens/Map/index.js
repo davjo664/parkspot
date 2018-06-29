@@ -85,18 +85,25 @@ class Map extends React.Component<Props, State> {
   };
 
   markerWasPressed = (event: any) => {
+    // finding parkspot that corresponds to the supplied coordinates.
+    // Note: we have to handle float compares so we are using epsilon comparison below.
+    const clickedParkspot = this.props.parkspots.find(parkspot => {
+      return Math.abs(event.nativeEvent.coordinate.latitude - parkspot.lat) <= Number.EPSILON &&
+        Math.abs(event.nativeEvent.coordinate.longitude - parkspot.lng) <= Number.EPSILON;
+    });
+
+    if (!clickedParkspot) {
+      // this should mean we clicked a cluster, so we do not need to continue here.
+      return;
+    }
+
     /*
      * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
      * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
      */
     this.setShowFilters(false);
     this.setState({
-      selectedParkspot: this.props.parkspots.find(parkspot => {
-        return (
-          parkspot.lat === event.nativeEvent.coordinate.latitude &&
-          parkspot.lng === event.nativeEvent.coordinate.longitude
-        );
-      }),
+      selectedParkspot: clickedParkspot,
     });
   };
 
