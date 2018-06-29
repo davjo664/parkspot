@@ -72,12 +72,12 @@ export default class SearchScreen extends Component {
       return (
         <Content>
           <List>
-            <ListItem itemHeader first style={{paddingBottom: favorites.length > 0 ? 0 : 10}}>
+            <ListItem itemHeader first style={[{paddingBottom: favorites.length > 0 ? 0 : 10}, defaultStyles.listHeader]}>
               <Text style={textStyle1}>Favorites</Text>
             </ListItem>
             <Text style={[textStyle2, {display: favorites.length > 0 ? 'none' : 'flex'}]}> No favorites yet </Text>
             {favorites}
-            <ListItem itemHeader first style={{paddingTop: 50, paddingBottom: lastSearches.length > 0 ? 0 : 10}}>
+            <ListItem itemHeader first style={[{paddingBottom: lastSearches.length > 0 ? 0 : 10}, defaultStyles.listHeader, defaultStyles.listHeaderNotFirst]}>
               <Text style={textStyle1}>Last searches</Text>
             </ListItem>
             <Text style={[textStyle2, {display: lastSearches.length > 0 ? 'none' : 'flex'}]}> No last searches
