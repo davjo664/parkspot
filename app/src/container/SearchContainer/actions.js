@@ -24,7 +24,7 @@ export function fetchLocations(searchString, userPosition) {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        if (data.statusCode && data.statusCode != 200) {
+        if (data.statusCode && data.statusCode !== 200) {
           console.log(data.message);
         } else {
           dispatch(fetchLocationsSuccess(data.predictions));
@@ -40,7 +40,7 @@ export function fetchLocationDetails(rowData) {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        if (data.statusCode && data.statusCode != 200) {
+        if (data.statusCode && data.statusCode !== 200) {
           console.log(data.message);
         } else {
           const selectedLocation = {
@@ -49,13 +49,13 @@ export function fetchLocationDetails(rowData) {
               longitude: data.result.geometry.location.lng,
             },
             description: rowData.description,
-          }
+          };
           const mapPosition = {
             latitude: Number(selectedLocation.location.latitude),
             longitude: Number(selectedLocation.location.longitude),
             latitudeDelta: 0.0005,
             longitudeDelta: 0.005,
-          }
+          };
           dispatch(updateMapPosition(mapPosition));
           dispatch({
             type: 'UPDATE_SELECTED_LOCATION',

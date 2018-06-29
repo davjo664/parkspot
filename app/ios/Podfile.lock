@@ -10,7 +10,7 @@ PODS:
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.4.0):
     - React
-  - CodePush (5.3.4):
+  - CodePush (5.3.5):
     - Base64 (~> 1.1)
     - JWT (~> 3.0.0-beta.7)
     - React
@@ -70,14 +70,14 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - Interactable (0.1.10):
     - React
-  - JWT (3.0.0-beta.8):
+  - JWT (3.0.0-beta.9):
     - Base64 (~> 1.1.2)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
-  - Protobuf (3.5.0)
+  - Protobuf (3.6.0)
   - React (0.55.4):
     - React/Core (= 0.55.4)
   - react-native-google-maps (0.21.0):
@@ -230,9 +230,9 @@ SPEC CHECKSUMS:
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   Interactable: 45e5d4d1bb2d196f08b011010c6913469ccf4d0a
-  JWT: 6e7ec473b6febcb7498affc84f0e75d393914411
+  JWT: 8ace44791ddd338cfeff39d03b8397af53f5d63e
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
+  Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
   React: aa2040dbb6f317b95314968021bd2888816e03d5
   react-native-google-maps: 2cfe3b01f8422c7dae51d8764139fd70f888cfce
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449

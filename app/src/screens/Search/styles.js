@@ -4,7 +4,6 @@ import {isIphoneX} from '../../helper/iPhoneX';
 let {width, height} = Dimensions.get('window');
 
 
-
 const defaultStyles = StyleSheet.create({
   container: {
     flex: 1,

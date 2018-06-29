@@ -24,24 +24,24 @@ export class ParkSpotUpdateSubscriber implements EntitySubscriberInterface<ParkS
 
   async beforeUpdate?(event: UpdateEvent<ParkSpotEntity>): Promise<void> {
     if (!event.entity) {
-      console.log('Skipping subscription since event.entity is undefined due to .update() call instead of .save() ');
+      // console.log('Skipping subscription since event.entity is undefined due to .update() call instead of .save() ');
       return;
     }
     const oldEntity = await  event.manager.getRepository(ParkSpotEntity).findOne(event.entity.id);
 
     if (!oldEntity) {
-      console.log('Skipping subscription since there is no entity matching the update');
+      // console.log('Skipping subscription since there is no entity matching the update');
       return;
     }
 
-    if (typeof event.entity.available === typeof true && oldEntity.available !== event.entity.available) {
+    if (typeof event.entity.available === typeof true && oldEntity.available === true && event.entity.available === false) {
       ParkSpotUpdateSubscriber._parkspotUpdates$.next({
         id: oldEntity.id,
         availabilityBefore: oldEntity.available,
         availabilityAfter: event.entity.available
       });
     } else {
-      console.log('Skipping subscription since nothing changed or data missing');
+      // console.log('Skipping subscription since nothing changed or data missing');
     }
   };
 }
