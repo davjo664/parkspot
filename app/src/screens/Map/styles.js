@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pinShadow: {
-    shadowColor: "rgba(0, 0, 0, 0.16)",
+    shadowColor: 'rgba(0, 0, 0, 0.16)',
     shadowOffset: {
       width: 0,
       height: 2
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   destinationPin: {
-    width: 22.4,
-    height: 29.3,
+    width: 33,
+    height: 38,
   },
   destinationCallout: {
     flex: 1,
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
   },
   destinationCalloutText: {
     fontSize: 15,
-    textAlignVertical: "center",
-    textAlign: "center",
+    textAlignVertical: 'center',
+    textAlign: 'center',
   }
 });
 export default styles;

@@ -81,7 +81,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(remFavorite(fav));
     },
     addLastSearched: place => {
-      dispatch(addLastSearched(place))
+      dispatch(addLastSearched(place));
     }
   };
 };

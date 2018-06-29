@@ -1,7 +1,7 @@
 import {Module} from '@nestjs/common';
 import {ConfigModule} from '../config/config.module';
 import {PushNotificationService} from './push-notification.service';
-import {pushNotificationMockProvider} from './push-notification-sender.provider';
+import {pushNotificationProvider} from './push-notification-sender.provider';
 import {FirebaseAppModule} from '../firebase-app/firebase-app.module';
 
 @Module({
@@ -12,7 +12,7 @@ import {FirebaseAppModule} from '../firebase-app/firebase-app.module';
   controllers: [],
   components: [
     PushNotificationService,
-    pushNotificationMockProvider,
+    pushNotificationProvider,
 
   ],
   exports: [

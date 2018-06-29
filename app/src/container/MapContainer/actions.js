@@ -1,5 +1,5 @@
 import config from '../../config/config';
-import {LocationAccessHelper} from "../../helper/LocationAccessHelper";
+import {LocationAccessHelper} from '../../helper/LocationAccessHelper';
 
 export function fetchParkspotsSuccess(data: Object) {
   return {
@@ -35,7 +35,7 @@ export function fetchParkspots(
     fetch(url) // Redux Thunk handles these
       .then(res => res.json())
       .then(data => {
-        if (data.statusCode && data.statusCode != 200) {
+        if (data.statusCode && data.statusCode !== 200) {
         } else {
           dispatch(fetchParkspotsSuccess(data));
         }
