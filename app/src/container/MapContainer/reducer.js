@@ -3,6 +3,7 @@ const initialState = {
   parkspots: [],
   originalParkspots: [],
   filters: [],
+  distance: 0,
   mapPosition: {
     latitude: 48.775,
     longitude: 9.175,
@@ -22,18 +23,26 @@ export default function (state: any = initialState, action: Function) {
       }
     };
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
-    // adding all new parkspots to the data
-    var combined = _.unionBy(state.parkspots, action.data, 'id')
-    // updating the values for all existing parkspots without recreating
-    // the object to prevent the map from rerendering too much.
-    for (var old in state.parkspots) {
-      var updated = action.data.find(p => p.id === old.id);
-      if (updated) {
-        for (var key in old) {
-          old[key] = updated[key];
+    console.log("SUCCESS");
+    console.log(action.data.length);
+    var combined;
+    if (!action.refresh) {
+      // adding all new parkspots to the data
+      combined = _.unionBy(state.parkspots, action.data, 'id')
+      // updating the values for all existing parkspots without recreating
+      // the object to prevent the map from rerendering too much.
+      for (var old in state.parkspots) {
+        var updated = action.data.find(p => p.id === old.id);
+        if (updated) {
+          for (var key in old) {
+            old[key] = updated[key];
+          }
         }
       }
+    } else {
+      combined = action.data;
     }
+
     // Apply current filters on fetched parkspots
     let filteredParkspots = [];
     filteredParkspots = combined.filter(obj => {
@@ -86,6 +95,11 @@ export default function (state: any = initialState, action: Function) {
       ...state,
       filters: filters,
       parkspots: filteredParkspots,
+    };
+  } else if (action.type === 'FILTER_DISTANCE') {
+    return {
+      ...state,
+      distance: action.distance
     };
   }
 

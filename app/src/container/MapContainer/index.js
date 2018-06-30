@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Alert, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import Map from '../../screens/Map';
-import {fetchParkspots, filterParkspots, updateLocation, updateMapPosition} from './actions';
+import {fetchParkspots, filterDistance, filterParkspots, updateLocation, updateMapPosition} from './actions';
 
 export interface Props {
   navigation: any;
@@ -15,6 +15,8 @@ export interface Props {
   updateMapPosition: Function;
   selectedLocation: Object;
   filterParkspots: Function;
+  filterDistance: Function;
+  distanceFilterValue: Number;
 }
 
 export interface State {
@@ -33,6 +35,8 @@ class MapContainer extends React.Component<Props, State> {
         updateMapPosition={this.props.updateMapPosition}
         selectedLocation={this.props.selectedLocation}
         filterParkspots={this.props.filterParkspots}
+        filterDistance={this.props.filterDistance}
+        distanceFilterValue={this.props.distanceFilterValue}
       />
     );
   }
@@ -44,12 +48,16 @@ function bindAction(dispatch) {
       latitude: ?number,
       longitude: ?number,
       distance: ?number,
+      refresh: ?Boolean,
     ) => {
-      dispatch(fetchParkspots(latitude, longitude, distance));
+      console.log("INDEX");
+      console.log(distance);
+      dispatch(fetchParkspots(latitude, longitude, distance, refresh));
     },
     updateLocation: () => dispatch(updateLocation()),
     updateMapPosition: (mapPosition) => dispatch(updateMapPosition(mapPosition)),
-    filterParkspots: (filterId) => dispatch(filterParkspots(filterId))
+    filterParkspots: (filterId) => dispatch(filterParkspots(filterId)),
+    filterDistance: (distance) => dispatch(filterDistance(distance))
   };
 }
 
@@ -57,6 +65,7 @@ const mapStateToProps = state => ({
   parkspots: state.mapReducer.parkspots,
   userPosition: state.mapReducer.userPosition,
   mapPosition: state.mapReducer.mapPosition,
-  selectedLocation: state.searchReducer.selectedLocation
+  selectedLocation: state.searchReducer.selectedLocation,
+  distanceFilterValue: state.filterReducer.distance,
 });
 export default connect(mapStateToProps, bindAction)(MapContainer);

@@ -1,10 +1,12 @@
 import config from '../../config/config';
 import {LocationAccessHelper} from "../../helper/LocationAccessHelper";
+import {store} from '../../boot/setup'
 
-export function fetchParkspotsSuccess(data: Object) {
+export function fetchParkspotsSuccess(data: Object, refresh: Boolean) {
   return {
     type: 'FETCH_PARKSPOTS_SUCCESS',
     data,
+    refresh,
   };
 }
 
@@ -26,7 +28,11 @@ export function fetchParkspots(
   latitude: ?number,
   longitude: ?number,
   distance: ?number,
+  refresh: ?Boolean,
 ) {
+  if (!distance && store.getState().filterReducer.distance) {
+    distance = store.getState().filterReducer.distance;
+  }
   const url =
     !latitude || !longitude || !distance
       ? config.api.url
@@ -37,7 +43,8 @@ export function fetchParkspots(
       .then(data => {
         if (data.statusCode && data.statusCode != 200) {
         } else {
-          dispatch(fetchParkspotsSuccess(data));
+          console.log(url);
+          dispatch(fetchParkspotsSuccess(data, refresh));
         }
       });
 }
@@ -57,3 +64,11 @@ export function filterParkspots(filterId) {
     filter: filterId,
   };
 }
+
+export function filterDistance(distance) {
+  return {
+    type: 'FILTER_DISTANCE',
+    distance: distance,
+  };
+}
+

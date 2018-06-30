@@ -31,6 +31,8 @@ class SearchContainer extends React.Component<Props, State> {
         remFavorite={this.props.remFavorite}
         addLastSearched={this.props.addLastSearched}
         lastSearches={this.props.lastSearches}
+        distanceFilterValue={this.props.distanceFilterValue}
+        
       />
     );
   }
@@ -61,6 +63,7 @@ const mapStateToProps = state => ({
   isLoading: state.searchReducer.isLoading,
   favorites: state.searchReducer.favorites,
   lastSearches: state.searchReducer.lastSearches,
+  distanceFilterValue: state.filterReducer.distance,
 });
 
 const mapDispatchToProps = dispatch => {
@@ -71,8 +74,8 @@ const mapDispatchToProps = dispatch => {
     fetchLocations: (searchString, userPosition) => {
       dispatch(fetchLocations(searchString, userPosition));
     },
-    fetchLocationDetails: rowData => {
-      dispatch(fetchLocationDetails(rowData));
+    fetchLocationDetails: (rowData, distanceFilterValue) => {
+      dispatch(fetchLocationDetails(rowData, distanceFilterValue));
     },
     addFavorite: fav => {
       dispatch(addFavorite(fav));

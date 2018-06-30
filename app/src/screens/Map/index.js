@@ -36,6 +36,7 @@ export interface Props {
   mapPosition: any;
   selectedLocation: Object;
   filterParkspots: Function;
+  distanceFilterValue: Number;
 }
 
 export interface State {
@@ -54,11 +55,13 @@ class Map extends React.Component<Props, State> {
       latitudeDelta: region.latitudeDelta,
     });
 
-    this.props.fetchParkspots(
-      this.props.mapPosition.latitude,
-      this.props.mapPosition.longitude,
-      this.approximateCurrentRegionRadius(this.props.mapPosition),
-    );
+    if (!(this.props.distanceFilterValue && this.props.selectedLocation)) {
+      this.props.fetchParkspots(
+        this.props.mapPosition.latitude,
+        this.props.mapPosition.longitude,
+        this.approximateCurrentRegionRadius(this.props.mapPosition),
+      );
+    }
   };
 
 
@@ -97,6 +100,19 @@ class Map extends React.Component<Props, State> {
       selectedParkspot: parkspot,
     });
   };
+
+  fetchParkspotsByDistance = (v) => {
+    if (this.props.selectedLocation) {
+      console.log("fetchParkspotsByDistance");
+      console.log(v);
+        this.props.fetchParkspots(
+          this.props.selectedLocation.location.latitude,
+          this.props.selectedLocation.location.longitude,
+          v ? v/1000 : this.approximateCurrentRegionRadius(this.props.mapPosition),
+          true
+        );
+    }
+  }
 
   startNavigation = () => {
 
@@ -285,7 +301,7 @@ class Map extends React.Component<Props, State> {
     if (data == null) {
       return null;
     }
-
+    
     return (
       <Marker key={'destination'} coordinate={data.location} style={styles.destinationPin}
         image={require('../../../assets/icons/map/destinationPin.png')}>
@@ -357,13 +373,35 @@ class Map extends React.Component<Props, State> {
       showFilters: false
     };
 
-    this.props.fetchParkspots(
-      this.props.mapPosition.latitude,
-      this.props.mapPosition.longitude,
-      this.approximateCurrentRegionRadius(this.props.mapPosition),
-    );
-
     this.map = undefined;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    //WHY
+    console.log("CONSTRSCURTOROR");
+    console.log(this.props.distanceFilterValue);
+    console.log(nextProps.distanceFilterValue);
+    console.log(this.props.selectedLocation);
+    console.log(nextProps.selectedLocation);
+      
+    let fetchedByDistance = false;
+    if ((!this.props.distanceFilterValue && nextProps.distanceFilterValue) ||
+    (!this.props.selectedLocation && nextProps.selectedLocation)) {
+      console.log("YEPP1");
+      if (nextProps.distanceFilterValue && nextProps.selectedLocation) {
+        console.log("YEPP2");
+        this.fetchParkspotsByDistance(nextProps.distanceFilterValue);
+        fetchedByDistance = true;
+      }
+    }
+
+    if (!fetchedByDistance && this.props.parkspots.length == 0) {
+      this.props.fetchParkspots(
+        this.props.mapPosition.latitude,
+        this.props.mapPosition.longitude,
+        this.approximateCurrentRegionRadius(this.props.mapPosition),
+      );
+    }
   }
 
   componentDidMount() {
@@ -441,6 +479,7 @@ class Map extends React.Component<Props, State> {
             this.setShowFilters(false)
           }}
           filterParkspots={this.props.filterParkspots}
+          fetchParkspotsByDistance={this.fetchParkspotsByDistance}
         />
 
         <MapCard

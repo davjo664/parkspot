@@ -1,5 +1,5 @@
 import config from '../../config/config';
-import {updateMapPosition} from '../MapContainer/actions';
+import {fetchParkspots, updateMapPosition} from '../MapContainer/actions';
 
 export function updateSearchString(searchString: String) {
   return {
@@ -32,7 +32,7 @@ export function fetchLocations(searchString, userPosition) {
       });
 }
 
-export function fetchLocationDetails(rowData) {
+export function fetchLocationDetails(rowData, distanceFilterValue) {
   const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${config.googleApi.key}&language=en&placeid=${
     rowData.place_id
     }`;
@@ -57,6 +57,9 @@ export function fetchLocationDetails(rowData) {
             longitudeDelta: 0.005,
           }
           dispatch(updateMapPosition(mapPosition));
+          if (distanceFilterValue) {
+            dispatch(fetchParkspots(Number(selectedLocation.location.latitude),Number(selectedLocation.location.longitude),distanceFilterValue, true));
+          }
           dispatch({
             type: 'UPDATE_SELECTED_LOCATION',
             selectedLocation: selectedLocation,

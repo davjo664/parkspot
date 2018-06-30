@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Body, Icon, Left, List, ListItem, Right, Switch} from 'native-base';
 import Interactable from 'react-native-interactable';
+import Slider from "../Slider";
 import {connect} from 'react-redux';
 
-import {toggleFilter} from './actions';
+import {toggleFilter, updateDistanceFilter} from './actions';
 import styles from '../MapCard/styles';
 
 const Screen = {
@@ -29,13 +30,15 @@ class FilterCard extends Component {
   constructor(props) {
     super(props);
     this._deltaY = new Animated.Value(Screen.height - 100);
+    this.state={distance:this.props.distanceFilterValue}
+
   }
 
   renderFilters() {
     const filterItems = filters.map((filter) => {
       return (
-        <ListItem key={filter.id} icon>
-          <Left>
+        <ListItem key={filter.id} icon style={{marginLeft: 0}}>
+          <Left style={{borderBottomWidth: 0.666, borderBottomColor: '#c9c9c9'}} >
             <View style={{height: 24, width: 24}}>
             <Image source={filter.icon} />
             </View>
@@ -43,8 +46,13 @@ class FilterCard extends Component {
           <Body>
           <Text>{filter.name}</Text>
           </Body>
-          <Right>
-            <Switch value={this.props[filter.id]} onValueChange={() => {
+          <Right style={{borderBottomWidth: 0.666}}>
+            <Switch 
+            thumbTintColor='#ffffff'
+            onTintColor='#7ee0af'
+            tintColor='#c9c9c9'
+            value={this.props[filter.id]} 
+            onValueChange={() => {
               this.props.toggleFilter(filter.id);
               this.props.filterParkspots(filter.id);
             }
@@ -80,22 +88,45 @@ class FilterCard extends Component {
         <Interactable.View
           style={styles.interactable}
           verticalOnly={true}
-          snapPoints={[{y: Screen.height - 230, id: 'open'}, {
+          snapPoints={[{y: Screen.height - 320, id: 'open'}, {
             y: Screen.height + 70,
             id: 'closed'
           }]}
           onSnap={this.onSnap}
-          boundaries={{top: -300}}
-          initialPosition={{y: Screen.height - 230}}
+          boundaries={{top: -340}}
+          initialPosition={{y: Screen.height - 320}}
           animatedValueY={this._deltaY}>
-          <View style={styles.panel}>
-            <View style={styles.panelHeader}>
-              <View style={styles.panelHandle}/>
+          <View style={[styles.panel, {padding:0}]}>
+            <View style={{padding:20, paddingBottom: 8}}>
+              <View style={styles.panelHeader}>
+                <View style={styles.panelHandle}/>
+              </View>
+              <Text style={styles.panelTitle}>
+                Filters
+              </Text>
+              {this.renderFilters()}
+              <Text style={{paddingTop: 20}}> Distance from destination </Text>
+            </View >
+            <View >
+              <Slider
+                minimumValue={0}
+                maximumValue={1000}
+                value={this.props.distanceFilterValue}
+                maximumTrackTintColor='rgba(208, 212, 215,1)'
+                minimumTrackTintColor='rgba(208, 212, 215,1)'
+                thumbImage={require('../../../assets/icons/map/markerPin.png')}
+                onValueChange={(v) => {
+                  this.setState({
+                    distance: Number(v.toFixed())
+                  })
+                }}
+                onSlidingComplete={(v) => {
+                  // this.props.updateDistanceFilter(Number(v.toFixed()));
+                  // this.props.fetchParkspotsByDistance(Number(v.toFixed()))
+                  this.props.filterDistance(v.toFixed());
+                }}
+              />
             </View>
-            <Text style={styles.panelTitle}>
-              Filters
-            </Text>
-            {this.renderFilters()}
           </View>
         </Interactable.View>
       </View>
@@ -110,6 +141,7 @@ export interface Props {
   time: boolean;
   handicapped: boolean;
   toggleFilter: Function;
+  distance: Number;
 }
 
 const mapStateToProps = state => ({
@@ -118,13 +150,17 @@ const mapStateToProps = state => ({
   favorite: state.filterReducer.favorite,
   time: state.filterReducer.time,
   handicapped: state.filterReducer.handicapped,
+  distanceFilterValue: state.filterReducer.distance,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     toggleFilter: filterId => {
       dispatch(toggleFilter(filterId));
-    }
+    },
+    updateDistanceFilter: value => {
+      dispatch(updateDistanceFilter(value));
+    },
   };
 };
 
