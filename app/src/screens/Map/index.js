@@ -91,8 +91,8 @@ class Map extends React.Component<Props, State> {
     this.setState({
       selectedParkspot: this.props.parkspots.find(parkspot => {
         return (
-          parkspot.lat === event.nativeEvent.coordinate.latitude &&
-          parkspot.lng === event.nativeEvent.coordinate.longitude
+          Number(parkspot.lat) === Number(event.nativeEvent.coordinate.latitude) &&
+          Number(parkspot.lng) === Number(event.nativeEvent.coordinate.longitude)
         );
       }),
     });
