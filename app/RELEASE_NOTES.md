@@ -5,4 +5,5 @@
 * Adds margin above first header in SearchScreen.
 * Adds margin above search field in SearchScreen.
 * Added slider component to filter card including functionality for fetching parkspots by distance.
+* Adding/removing parkspot location to favorites from mapCard is now possible.
 

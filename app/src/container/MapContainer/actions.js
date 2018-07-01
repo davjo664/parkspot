@@ -1,5 +1,6 @@
 import config from '../../config/config';
 import {LocationAccessHelper} from '../../helper/LocationAccessHelper';
+import {addFavorite, remFavorite} from '../SearchContainer/actions';
 
 export function fetchParkspotsSuccess(data: Object, refresh: Boolean) {
   return {
@@ -59,3 +60,27 @@ export function filterParkspots(filterId) {
     filter: filterId,
   };
 }
+
+export function addFavoriteByDescription(description) {
+  return dispatch =>
+    LocationAccessHelper.getLocation((userPosition) => {
+      const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?location=${
+      userPosition.latitude
+      },${userPosition.longitude}
+      &radius=500&components=country:de|country:nl&input=${description}&key=${config.googleApi.key}&language=en`;
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if (data.statusCode && data.statusCode !== 200) {
+            console.log(data.message);
+          } else {
+            const favorite = data.predictions[0];
+            favorite.description = description;
+            dispatch(addFavorite(favorite));
+          }
+        });
+    }, (error) => {
+      console.warn(error);
+    });
+}
+

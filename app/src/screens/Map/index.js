@@ -47,6 +47,9 @@ export interface Props {
   filterParkspots: Function;
   distanceFilterValue: Number;
   clearSelectedLocation: Function;
+  addFavoriteByDescription: Function;
+  remFavorite: Function;
+  favorites: Object;
 }
 
 export interface State {
@@ -93,10 +96,23 @@ class Map extends React.Component<Props, State> {
     this.setShowFilters(false);
     this.setState({
       selectedParkspot: this.props.parkspots.find(parkspot => {
-        return (
+        if (
           Number(parkspot.lat) === Number(event.nativeEvent.coordinate.latitude) &&
           Number(parkspot.lng) === Number(event.nativeEvent.coordinate.longitude)
-        );
+        ) {
+          // Check if location is added to Favorites
+          parkspot.favorite = false;
+          parkspot.locationId = null;
+          parkspot.description = parkspot.street+' '+parkspot.houseNumber+', '+parkspot.city+', '+parkspot.country;
+          this.props.favorites.find((fav) => {
+            if (fav.description === parkspot.description) {
+              parkspot.favorite = true;
+              parkspot.locationId = fav.id;
+              return true;
+            }
+          });
+          return true;
+        }
       }),
     });
   };
@@ -421,7 +437,7 @@ class Map extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
-
+    
     // If distance filter value or selected location changes we have to
     // fetch the parkspots. This will always be true the first time loading
     // because this.props is null from the beginning. 
@@ -443,6 +459,28 @@ class Map extends React.Component<Props, State> {
           this.props.mapPosition.longitude,
           this.approximateCurrentRegionRadius(this.props.mapPosition),
         );
+      }
+    }
+
+    // If favorite field changed from the mapCard we need to update the selectedParkspot
+    if (this.state.selectedParkspot && this.props.favorites.length != nextProps.favorites.length) {
+      let parkspot = this.state.selectedParkspot;
+      const found = nextProps.favorites.find((fav) => {
+        if (fav.description === parkspot.description) {
+          parkspot.favorite = true;
+          parkspot.locationId = fav.id;
+          this.setState({
+            selectedParkspot: parkspot
+          })
+          return true;
+        }
+      });
+      if (!found){
+        parkspot.favorite = false;
+        parkspot.locationId = null;
+        this.setState({
+          selectedParkspot: parkspot
+        })
       }
     }
   }
@@ -521,6 +559,8 @@ class Map extends React.Component<Props, State> {
           drivingDirections={this.state.drivingDirections}
           walkingDirections={this.state.walkingDirections}
           destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
+          addFavoriteByDescription={this.props.addFavoriteByDescription}
+          remFavorite={this.props.remFavorite}
         />
         }
 
