@@ -12,7 +12,6 @@ const WINDOW = Dimensions.get('window');
 export default class SearchScreen extends Component {
   _onPress = rowData => {
     Keyboard.dismiss();
-    //method passed via nav from Maps to set selectedLocation
     this.props.fetchLocationDetails(rowData);
     this.props.addLastSearched(rowData);
     this.props.updateSearchString('');

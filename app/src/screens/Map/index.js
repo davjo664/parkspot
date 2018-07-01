@@ -45,6 +45,7 @@ export interface Props {
   mapPosition: any;
   selectedLocation: Object;
   filterParkspots: Function;
+  distanceFilterValue: Number;
   clearSelectedLocation: Function;
 }
 
@@ -66,11 +67,13 @@ class Map extends React.Component<Props, State> {
       latitudeDelta: region.latitudeDelta,
     });
 
-    this.props.fetchParkspots(
-      this.props.mapPosition.latitude,
-      this.props.mapPosition.longitude,
-      this.approximateCurrentRegionRadius(this.props.mapPosition),
-    );
+    if (!(this.props.distanceFilterValue && this.props.selectedLocation)) {
+      this.props.fetchParkspots(
+        this.props.mapPosition.latitude,
+        this.props.mapPosition.longitude,
+        this.approximateCurrentRegionRadius(this.props.mapPosition),
+      );
+    }
   };
 
 
@@ -91,8 +94,8 @@ class Map extends React.Component<Props, State> {
     this.setState({
       selectedParkspot: this.props.parkspots.find(parkspot => {
         return (
-          parkspot.lat === event.nativeEvent.coordinate.latitude &&
-          parkspot.lng === event.nativeEvent.coordinate.longitude
+          Number(parkspot.lat) === Number(event.nativeEvent.coordinate.latitude) &&
+          Number(parkspot.lng) === Number(event.nativeEvent.coordinate.longitude)
         );
       }),
     });
@@ -304,7 +307,7 @@ class Map extends React.Component<Props, State> {
     if (data == null) {
       return null;
     }
-
+    
     return (
       <Marker key={'destination'} coordinate={data.location} style={styles.destinationPin}
               image={require('../../../assets/icons/map/destinationPin.png')}>
@@ -414,13 +417,34 @@ class Map extends React.Component<Props, State> {
       showFilters: false
     };
 
-    this.props.fetchParkspots(
-      this.props.mapPosition.latitude,
-      this.props.mapPosition.longitude,
-      this.approximateCurrentRegionRadius(this.props.mapPosition),
-    );
-
     this.map = undefined;
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    // If distance filter value or selected location changes we have to
+    // fetch the parkspots. This will always be true the first time loading
+    // because this.props is null from the beginning. 
+    if ((this.props.distanceFilterValue != nextProps.distanceFilterValue) ||
+    (this.props.selectedLocation != nextProps.selectedLocation)) {
+      
+      // Parkspots will only be filtered by distance if the distance filter value
+      // is greater than 0 and if a location is selected. Else fetch parkspots as usual.
+      if (nextProps.distanceFilterValue && nextProps.selectedLocation) {
+        this.props.fetchParkspots(
+          nextProps.selectedLocation.location.latitude,
+          nextProps.selectedLocation.location.longitude,
+          nextProps.distanceFilterValue,
+          true
+        );
+      } else {
+        this.props.fetchParkspots(
+          this.props.mapPosition.latitude,
+          this.props.mapPosition.longitude,
+          this.approximateCurrentRegionRadius(this.props.mapPosition),
+        );
+      }
+    }
   }
 
   componentDidMount() {

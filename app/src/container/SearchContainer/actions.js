@@ -1,5 +1,5 @@
 import config from '../../config/config';
-import {updateMapPosition} from '../MapContainer/actions';
+import {fetchParkspots, updateMapPosition} from '../MapContainer/actions';
 
 export function updateSearchString(searchString: String) {
   return {

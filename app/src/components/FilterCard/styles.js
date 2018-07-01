@@ -26,9 +26,11 @@ const additionalStyles = StyleSheet.create({
   closeIcon: {
     height: 24,
     width: 24,
-    marginTop: 28,
     marginLeft: 20,
   },
+  sliderContainer: {
+    marginTop: 20,
+  }
 });
 
 export default additionalStyles;

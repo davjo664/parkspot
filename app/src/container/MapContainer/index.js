@@ -16,6 +16,7 @@ export interface Props {
   updateMapPosition: Function;
   selectedLocation: Object;
   filterParkspots: Function;
+  distanceFilterValue: Number;
   clearSelectedLocation: Function;
 }
 
@@ -35,6 +36,7 @@ class MapContainer extends React.Component<Props, State> {
         updateMapPosition={this.props.updateMapPosition}
         selectedLocation={this.props.selectedLocation}
         filterParkspots={this.props.filterParkspots}
+        distanceFilterValue={this.props.distanceFilterValue}
         clearSelectedLocation={this.props.clearSelectedLocation}
       />
     );
@@ -47,8 +49,10 @@ function bindAction(dispatch) {
       latitude: ?number,
       longitude: ?number,
       distance: ?number,
+      refresh: ?Boolean,
     ) => {
-      dispatch(fetchParkspots(latitude, longitude, distance));
+      console.log("INDEX");
+      dispatch(fetchParkspots(latitude, longitude, distance, refresh));
     },
     updateLocation: () => dispatch(updateLocation()),
     updateMapPosition: (mapPosition) => dispatch(updateMapPosition(mapPosition)),
@@ -61,6 +65,7 @@ const mapStateToProps = state => ({
   parkspots: state.mapReducer.parkspots,
   userPosition: state.mapReducer.userPosition,
   mapPosition: state.mapReducer.mapPosition,
-  selectedLocation: state.searchReducer.selectedLocation
+  selectedLocation: state.searchReducer.selectedLocation,
+  distanceFilterValue: state.filterReducer.distance,
 });
 export default connect(mapStateToProps, bindAction)(MapContainer);

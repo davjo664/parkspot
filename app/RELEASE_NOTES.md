@@ -5,3 +5,4 @@
 * Adds margin above first header in SearchScreen.
 * Adds margin above search field in SearchScreen.
 * Redesigned FilterCard: Adds 'x' button, disables dragging, formatted texts and adds borders.
+* Added slider component to filter card including functionality for fetching parkspots by distance.
