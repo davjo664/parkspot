@@ -1,9 +1,16 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
+import colors from '../../theme/parkspotColors';
+
 const Screen = {
   width: Dimensions.get('window').width,
   height: Dimensions.get('window').height - 75
 };
+
+const cardPadding = 20;
+const cardWidth = Screen.width - 2 * cardPadding;
+
+const streetViewHeight = 103;
 
 const styles = StyleSheet.create({
   panelContainer: {
@@ -15,14 +22,13 @@ const styles = StyleSheet.create({
     zIndex: 3,
   },
   interactable: {
-    zIndex: 10
+    zIndex: 10,
   },
   panel: {
     height: Screen.height + 300,
-    padding: 20,
+    padding: cardPadding,
     backgroundColor: 'white',
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
+    borderRadius: 14,
     shadowColor: '#000000',
     shadowOffset: {width: 0, height: 0},
     shadowRadius: 5,
@@ -32,86 +38,65 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   panelHandle: {
-    width: 40,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#00000040',
+    width: 30,
+    height: 3,
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: colors.gray,
     marginBottom: 10,
   },
   panelTitle: {
-    color: 'black',
-    fontWeight: '300',
-    fontSize: 22,
-    height: 35,
-  },
-  panelSubtitle: {
-    fontSize: 14,
-    color: '#333333',
-    fontWeight: '300',
-    height: 30,
-    marginBottom: 10,
+    height: 20,
+    fontSize: 17,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    letterSpacing: -0.41,
+    color: colors.blackThree,
   },
   panelDistance: {
-    fontSize: 14,
-    color: '#333333',
-    fontWeight: '300',
-  },
-  panelGradient: {},
-  panelButton: {
-    flex: 1,
-    width: 221,
-    position:'absolute',
-    right: 0,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-  },
-  buttonShadow: {
-    shadowColor: "rgba(0, 0, 0, 0.16)",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowRadius: 8,
-    shadowOpacity: 1,
-  },
-  panelImage: {
-    flexGrow:1,
-    alignItems: 'center',
-    justifyContent:'center',
-    width: '100%',
-    height: 44,
-  },
-  panelButtonTitle: {
-    textAlign: 'center',
-    fontSize: 21,
+    height: 14,
+    fontSize: 12,
     fontWeight: 'normal',
-    color: 'white',
-    letterSpacing: -0.51,
+    fontStyle: 'normal',
+    letterSpacing: -0.41,
+    color: colors.steel,
   },
-  moreContent: {
-    marginTop: 10,
+  panelSubtitle: {
+    marginTop: 3,
+    height: 14,
+    fontSize: 12,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    letterSpacing: -0.41,
+    color: colors.steel,
   },
   iconsContainer: {
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
   },
   iconContainer: {
-    marginTop: 52,
     height: 26,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 20,
   },
   icon: {
     padding: 2,
   },
   iconText: {
-    padding: 2,
-    fontSize: 16,
-    color: '#333333',
+    marginTop: 5,
+    paddingLeft: 10,
+    height: 14,
+    fontSize: 12,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    letterSpacing: -0.41,
+    color: colors.steel,
   },
   streetViewContainer: {
-    flex: 1
+    height: streetViewHeight,
   },
   streetView: {
     position: 'absolute',
@@ -119,7 +104,56 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 150,
+    height: streetViewHeight,
+  },
+  navigationButton: {
+    // calculating width according to zeplin specification
+    width: ((221 / (105 + 221)) * cardWidth),
+    position: 'absolute',
+    right: 0,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+  },
+  navigationButtonFullWidth: {
+    width: (cardWidth),
+  },
+  favoriteButton: {
+    // calculating width according to zeplin specification
+    width: ((105 / (105 + 221)) * cardWidth) - 15,
+    position: 'absolute',
+    left: 0,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    marginTop: 20,
+    width: '100%',
+  },
+  buttonShadow: {
+    shadowColor: 'rgba(0, 0, 0, 0.16)',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 8,
+    shadowOpacity: 1,
+  },
+  buttonImage: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: 44,
+  },
+  panelButtonTitle: {
+    width: 88,
+    height: 25,
+    fontSize: 21,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    letterSpacing: -0.51,
+    textAlign: 'right',
+    color: colors.white,
   },
 });
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Body, Icon, Left, List, ListItem, Right, Switch} from 'native-base';
+import {Body, Left, List, ListItem, Right, Switch} from 'native-base';
 import Interactable from 'react-native-interactable';
 import Slider from "../Slider";
 import {connect} from 'react-redux';
@@ -40,7 +40,7 @@ class FilterCard extends Component {
         <ListItem key={filter.id} icon style={{marginLeft: 0}}>
           <Left style={{borderBottomWidth: 0.666, borderBottomColor: '#c9c9c9'}} >
             <View style={{height: 24, width: 24}}>
-            <Image source={filter.icon} />
+              <Image source={filter.icon}/>
             </View>
           </Left>
           <Body>
@@ -59,13 +59,13 @@ class FilterCard extends Component {
             }/>
           </Right>
         </ListItem>
-      )
-    })
+      );
+    });
     return (
       <List>
         {filterItems}
       </List>
-    )
+    );
   }
 
   render() {

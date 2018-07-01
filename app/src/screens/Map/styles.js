@@ -39,21 +39,43 @@ const styles = StyleSheet.create({
   },
   searchButtonView: {
     height: 36,
-    width: '90%',
+    marginLeft: '5%',
+    marginRight: '5%',
     backgroundColor: 'white',
     borderStyle: 'solid',
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 10,
+    flex: 1,
   },
   searchButton: {
-    height: 36,
-    width: '80%',
-    justifyContent: 'center'
+    flex: 1
   },
   buttonContent: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  textContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flex: 12,
+    marginRight: 25,
+  },
+  deleteButton: {
+    width: 14,
+    height: 14,
+    alignSelf: 'center'
+  },
+  deleteButtonView: {
+    flex: 2,
+
+  },
+  deleteButtonTouchable: {
+    height: 36,
+    justifyContent: 'center'
   },
   searchIcon: {
     width: 14,
@@ -81,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pinShadow: {
-    shadowColor: "rgba(0, 0, 0, 0.16)",
+    shadowColor: 'rgba(0, 0, 0, 0.16)',
     shadowOffset: {
       width: 0,
       height: 2
@@ -97,8 +119,8 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   destinationPin: {
-    width: 22.4,
-    height: 29.3,
+    width: 33,
+    height: 38,
   },
   destinationCallout: {
     flex: 1,
@@ -106,8 +128,8 @@ const styles = StyleSheet.create({
   },
   destinationCalloutText: {
     fontSize: 15,
-    textAlignVertical: "center",
-    textAlign: "center",
+    textAlignVertical: 'center',
+    textAlign: 'center',
   }
 });
 export default styles;

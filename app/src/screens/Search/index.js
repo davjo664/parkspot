@@ -1,16 +1,6 @@
 import React, {Component} from 'react';
 import {Content, List, ListItem, Text} from 'native-base';
-import {
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
-  Keyboard,
-  Linking,
-  Platform,
-  SafeAreaView,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import {Dimensions, FlatList, Keyboard, Linking, Platform, SafeAreaView, TouchableOpacity, View} from 'react-native';
 
 import defaultStyles from './styles';
 import {FavoriteListItem, PlaceListItem} from '../../components/ListItems';
@@ -34,22 +24,10 @@ export default class SearchScreen extends Component {
     }
   };
 
-  _renderLoader = () => {
-    if (this.props.isLoading) {
-      return (
-        <ActivityIndicator
-          animating={true}
-          size="small"
-          style={{marginTop: 10}}
-        />
-      );
-    }
-    return null;
-  };
   _renderSearchBar = () => {
     return (
       <View style={defaultStyles.searchBar}>
-        <SearchBar onChange={this._onChange} isLoading={this.props.isLoading} value={this.props.searchString}/>
+        <SearchBar onChange={this._onChange} isLoading={this.props.isLoading} searchString={this.props.searchString}/>
         <TouchableOpacity style={defaultStyles.cancelButton} onPress={() => this.props.navigation.goBack()}>
           <Text style={textStyles.textStyle2}>Cancel</Text>
         </TouchableOpacity>
@@ -72,7 +50,7 @@ export default class SearchScreen extends Component {
   _renderPlaceItem = (place) => {
     return <PlaceListItem place={place} onPress={() => this._onPress(place)}
                           addFavorite={() => this.props.addFavorite(place)}
-                          remFavorite={() => this.props.remFavorite(place)}/>
+                          remFavorite={() => this.props.remFavorite(place)}/>;
   };
   _renderList = () => {
     let data;
@@ -93,12 +71,12 @@ export default class SearchScreen extends Component {
       return (
         <Content>
           <List>
-            <ListItem itemHeader first style={{paddingBottom: favorites.length > 0 ? 0 : 10}}>
+            <ListItem itemHeader first style={[{paddingBottom: favorites.length > 0 ? 0 : 10}, defaultStyles.listHeader]}>
               <Text style={textStyle1}>Favorites</Text>
             </ListItem>
             <Text style={[textStyle2, {display: favorites.length > 0 ? 'none' : 'flex'}]}> No favorites yet </Text>
             {favorites}
-            <ListItem itemHeader first style={{paddingTop: 50, paddingBottom: lastSearches.length > 0 ? 0 : 10}}>
+            <ListItem itemHeader first style={[{paddingBottom: lastSearches.length > 0 ? 0 : 10}, defaultStyles.listHeader, defaultStyles.listHeaderNotFirst]}>
               <Text style={textStyle1}>Last searches</Text>
             </ListItem>
             <Text style={[textStyle2, {display: lastSearches.length > 0 ? 'none' : 'flex'}]}> No last searches
@@ -124,7 +102,7 @@ export default class SearchScreen extends Component {
   render() {
     return (
       <SafeAreaView style={defaultStyles.safeArea}>
-        <View style={[defaultStyles.container]} pointerEvents="box-none">
+        <View style={[defaultStyles.container]} pointerEvents='box-none'>
           {this._renderSearchBar()}
           {this._renderList()}
         </View>

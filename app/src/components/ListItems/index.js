@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Icon, ListItem} from 'native-base';
+import {ListItem} from 'native-base';
 
 import styles from './styles';
 import textStyles from '../../theme/parkspotStyles';
@@ -16,13 +16,12 @@ export interface State {
 
 }
 
-const humanizeDistance = require('../../helper/humanizeDistance');
 
 export class PlaceListItem extends Component {
 
   render() {
     const p = this.props.place;
-    // const distance = humanizeDistance(this.props.parkspot.dist);
+    // const distance = HumanizeHelper.humanizeDistance(this.props.parkspot.dist);
     return (
       <ListItem style={styles.listContainer} onPress={() => {
         this.props.onPress();
@@ -39,13 +38,14 @@ export class PlaceListItem extends Component {
           key={p.id}
           onPress={() => {
             if (p.favorite) {
-              this.props.remFavorite()
+              this.props.remFavorite();
             } else {
               this.props.addFavorite();
             }
           }}
         >
-          <Image source={p.favorite ? require('../../../assets/icons/favorite/full.png') : require('../../../assets/icons/favorite/empty.png')} />
+          <Image
+            source={p.favorite ? require('../../../assets/icons/favorite/full.png') : require('../../../assets/icons/favorite/empty.png')}/>
         </TouchableOpacity>
       </ListItem>
     );

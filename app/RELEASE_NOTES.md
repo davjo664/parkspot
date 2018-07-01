@@ -1,4 +1,7 @@
 # Release notes
-* Fixes Marker shadows and button duplicate text.
-* Replaces filter icons and other assets with newer version.
-* Zooms to markers on cluster press with custom handler using underlying mapview.
+## Changes
+* Adds padding for home indicator to MapCard.
+* Removes small lines under 'favorites' and 'searches'.
+* Adds margin above first header in SearchScreen.
+* Adds margin above search field in SearchScreen.
+

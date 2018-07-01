@@ -21,7 +21,7 @@ const App = StackNavigator(
 
 export default () => (
   <Root>
-    <NotificationsManager />
-    <App />
+    <NotificationsManager/>
+    <App/>
   </Root>
 );

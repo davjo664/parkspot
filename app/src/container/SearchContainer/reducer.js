@@ -10,7 +10,7 @@ const initialState = {
 
 export default function (state: any = initialState, action: Function) {
   if (action.type === 'UPDATE_SEARCH_STRING') {
-    if (action.searchString === "") {
+    if (action.searchString === '') {
       return {
         ...state,
         showLocations: false,
@@ -29,7 +29,7 @@ export default function (state: any = initialState, action: Function) {
           location.favorite = true;
         }
       });
-    })
+    });
     return {
       ...state,
       data: action.locations,
@@ -45,7 +45,7 @@ export default function (state: any = initialState, action: Function) {
 
   //checks if fav is element of favorites - if not yet, includes it
   else if (action.type === 'ADD_FAVORITE') {
-    var found = state.favorites.find((fav) => {
+    const found = state.favorites.find((fav) => {
       return fav.id === action.fav.id;
     });
     state.lastSearches.find((fav) => {
@@ -76,7 +76,7 @@ export default function (state: any = initialState, action: Function) {
         fav.favorite = false;
         newFavorites = state.favorites.filter(item => item.id !== action.fav.id);
       }
-      return fav.id === action.fav.id
+      return fav.id === action.fav.id;
     });
     state.lastSearches.find((fav) => {
       if (fav.id === action.fav.id) {
@@ -91,21 +91,17 @@ export default function (state: any = initialState, action: Function) {
   }
 
   else if (action.type === 'ADD_LAST_SEARCHED') {
-    var found = state.lastSearches.find((place) => {
-      return place.id === action.place.id;
+    const lastSearches = state.lastSearches.filter((place) => {
+      return place.id !== action.place.id;
     });
-    if (found) {
-      return {
-        ...state,
-      };
-    } else {
-      return {
-        ...state,
-        lastSearches: [...state.lastSearches, action.place]
-      };
+    if (lastSearches.length === 5) {
+      lastSearches.pop();
     }
+    return {
+      ...state,
+      lastSearches: [action.place, ...lastSearches]
+    };
   }
-
 
   return state;
 }

@@ -1,8 +1,7 @@
-import {Dimensions, StyleSheet, Platform} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {isIphoneX} from '../../helper/iPhoneX';
 
 let {width, height} = Dimensions.get('window');
-
 
 
 const defaultStyles = StyleSheet.create({
@@ -14,11 +13,19 @@ const defaultStyles = StyleSheet.create({
     backgroundColor: 'white',
   },
   listView: {},
+  listHeader: {
+    marginTop: 15,
+    marginLeft: 5,
+    borderBottomWidth: 0,
+  },
+  listHeaderNotFirst: {
+    marginTop: 30,
+  },
   searchBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 20,
-    marginRight: 20,
+    marginHorizontal: 20,
+    marginTop: 10,
     alignItems: 'center',
 
   },

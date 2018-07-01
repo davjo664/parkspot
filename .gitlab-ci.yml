@@ -3,8 +3,9 @@ build api:
   stage: build
   script:
     - cd api
-    - npm install --progress=false
-    - npm run build
+    - npm i -g yarn  --progress=false
+    - yarn
+    - yarn build
   artifacts:
     expire_in: 1 week
     paths:
@@ -33,8 +34,9 @@ api-test:
   stage: test
   script:
     - cd api
-    - npm install --progress=false
-    - npm run test:cov
+    - npm i -g yarn  --progress=false
+    - yarn
+    - yarn test:cov
   coverage: /All files\s*\|\s*([\d\.]+)/
 #
 #deploy api:

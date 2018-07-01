@@ -1,10 +1,10 @@
+// @flow
 import {Alert, BackHandler, DeviceEventEmitter, Platform} from 'react-native';
 import Permissions from 'react-native-permissions';
 import OpenSettings from 'react-native-open-settings';
 import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
 import firebase from 'react-native-firebase';
 
-// @flow
 export type PermissionType = 'location' | 'notification';
 
 export class PermissionHelper {
@@ -59,9 +59,9 @@ export class PermissionHelper {
 
   static _startPermissionFlow = (permissionType: PermissionType, onHasPermission: Function) => {
     // handle GPS being turned off on Android
-    if (permissionType == 'location' && Platform.OS === 'android') {
+    if (permissionType === 'location' && Platform.OS === 'android') {
       PermissionHelper._checkHardwareEnabled(permissionType, onHasPermission);
-    } else if (permissionType == 'notification' && Platform.OS === 'android') {
+    } else if (permissionType === 'notification' && Platform.OS === 'android') {
       PermissionHelper._notificationsOnAndroid(onHasPermission);
     } else {
       PermissionHelper._checkPermission(permissionType, onHasPermission);
