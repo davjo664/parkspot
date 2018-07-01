@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Body, Left, List, ListItem, Right, Switch} from 'native-base';
 import Interactable from 'react-native-interactable';
-import Slider from "../Slider";
+import Slider from '../Slider';
 import {connect} from 'react-redux';
 
 import {toggleFilter, updateDistanceFilter} from './actions';
@@ -47,11 +47,11 @@ class FilterCard extends Component {
           <Text>{filter.name}</Text>
           </Body>
           <Right style={{borderBottomWidth: 0.666}}>
-            <Switch 
+            <Switch
             thumbTintColor='#ffffff'
             onTintColor='#7ee0af'
             tintColor='#c9c9c9'
-            value={this.props[filter.id]} 
+            value={this.props[filter.id]}
             onValueChange={() => {
               this.props.toggleFilter(filter.id);
               this.props.filterParkspots(filter.id);

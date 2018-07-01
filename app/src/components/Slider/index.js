@@ -19,10 +19,10 @@ import {
 
 import PropTypes from 'prop-types';
 
-import styles from './MapCard/styles';
+import styles from '../MapCard/styles';
+import {THUMB_SIZE} from './styles';
+import defaultStyles from './styles';
 
-var TRACK_SIZE = 1;
-var THUMB_SIZE = 30;
 
 function Rect(x, y, width, height) {
   this.x = x;
@@ -33,9 +33,9 @@ function Rect(x, y, width, height) {
 
 Rect.prototype.containsPoint = function(x, y) {
   return (x >= this.x
-          && y >= this.y
-          && x <= this.x + this.width
-          && y <= this.y + this.height);
+    && y >= this.y
+    && x <= this.x + this.width
+    && y <= this.y + this.height);
 };
 
 var DEFAULT_ANIMATION_CONFIGS = {
@@ -500,7 +500,7 @@ export default class Slider extends PureComponent {
         style={positionStyle}
         pointerEvents='none'
       >
-      <Text style={{width: thumbTouchRect.width, textAlign: 'center', color: 'rgb(152, 152, 150)'}}>{this._getCurrentValue() ? this._getCurrentValue().toFixed()+' m' : 'Off'}</Text>
+        <Text style={{width: thumbTouchRect.width, textAlign: 'center', color: 'rgb(152, 152, 150)'}}>{this._getCurrentValue() ? this._getCurrentValue().toFixed()+' m' : 'Off'}</Text>
       </Animated.View>
     );
   };
@@ -514,33 +514,3 @@ export default class Slider extends PureComponent {
     return <Image style={[styles.pinShadow, {width:THUMB_SIZE, height:THUMB_SIZE}]} source={thumbImage} />;
   };
 }
-
-var defaultStyles = StyleSheet.create({
-  container: {
-    height: 40,
-    justifyContent: 'center',
-  },
-  track: {
-    height: TRACK_SIZE,
-    borderRadius: TRACK_SIZE / 2,
-  },
-  thumb: {
-    position: 'absolute',
-    width: THUMB_SIZE,
-    height: THUMB_SIZE,
-    borderRadius: THUMB_SIZE / 2,
-  },
-  touchArea: {
-    position: 'absolute',
-    backgroundColor: 'transparent',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  debugThumbTouchArea: {
-    position: 'absolute',
-    backgroundColor: 'green',
-    opacity: 0.5,
-  }
-});
