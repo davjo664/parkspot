@@ -52,7 +52,6 @@ export default class MapCard extends Component {
       this.props.onDismiss();
     }
   };
-  x;
 
   constructor(props) {
     super(props);
