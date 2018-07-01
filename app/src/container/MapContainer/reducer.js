@@ -23,8 +23,6 @@ export default function (state: any = initialState, action: Function) {
       }
     };
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
-    console.log("SUCCESS");
-    console.log(action.data.length);
     var combined;
     if (!action.refresh) {
       // adding all new parkspots to the data

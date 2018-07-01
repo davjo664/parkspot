@@ -15,7 +15,6 @@ export interface State {
   isLoading: boolean;
 }
 
-let store;
 export default class Setup extends React.Component<Props, State> {
   constructor() {
     super();
@@ -23,7 +22,6 @@ export default class Setup extends React.Component<Props, State> {
       isLoading: false,
       store: configureStore(() => this.setState({isLoading: false}))
     };
-    store = this.state.store;
   }
 
   render() {
@@ -36,5 +34,3 @@ export default class Setup extends React.Component<Props, State> {
     );
   }
 }
-
-export {store};

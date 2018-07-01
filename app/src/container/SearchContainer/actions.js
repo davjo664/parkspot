@@ -32,7 +32,7 @@ export function fetchLocations(searchString, userPosition) {
       });
 }
 
-export function fetchLocationDetails(rowData, distanceFilterValue) {
+export function fetchLocationDetails(rowData) {
   const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${config.googleApi.key}&language=en&placeid=${
     rowData.place_id
     }`;
@@ -57,9 +57,6 @@ export function fetchLocationDetails(rowData, distanceFilterValue) {
             longitudeDelta: 0.005,
           }
           dispatch(updateMapPosition(mapPosition));
-          if (distanceFilterValue) {
-            dispatch(fetchParkspots(Number(selectedLocation.location.latitude),Number(selectedLocation.location.longitude),distanceFilterValue, true));
-          }
           dispatch({
             type: 'UPDATE_SELECTED_LOCATION',
             selectedLocation: selectedLocation,

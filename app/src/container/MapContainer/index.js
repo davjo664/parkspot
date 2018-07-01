@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Alert, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import Map from '../../screens/Map';
-import {fetchParkspots, filterDistance, filterParkspots, updateLocation, updateMapPosition} from './actions';
+import {fetchParkspots, filterParkspots, updateLocation, updateMapPosition} from './actions';
 
 export interface Props {
   navigation: any;
@@ -15,7 +15,6 @@ export interface Props {
   updateMapPosition: Function;
   selectedLocation: Object;
   filterParkspots: Function;
-  filterDistance: Function;
   distanceFilterValue: Number;
 }
 
@@ -35,7 +34,6 @@ class MapContainer extends React.Component<Props, State> {
         updateMapPosition={this.props.updateMapPosition}
         selectedLocation={this.props.selectedLocation}
         filterParkspots={this.props.filterParkspots}
-        filterDistance={this.props.filterDistance}
         distanceFilterValue={this.props.distanceFilterValue}
       />
     );
@@ -51,13 +49,11 @@ function bindAction(dispatch) {
       refresh: ?Boolean,
     ) => {
       console.log("INDEX");
-      console.log(distance);
       dispatch(fetchParkspots(latitude, longitude, distance, refresh));
     },
     updateLocation: () => dispatch(updateLocation()),
     updateMapPosition: (mapPosition) => dispatch(updateMapPosition(mapPosition)),
     filterParkspots: (filterId) => dispatch(filterParkspots(filterId)),
-    filterDistance: (distance) => dispatch(filterDistance(distance))
   };
 }
 

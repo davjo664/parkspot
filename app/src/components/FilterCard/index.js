@@ -111,7 +111,7 @@ class FilterCard extends Component {
               <Slider
                 minimumValue={0}
                 maximumValue={1000}
-                value={this.props.distanceFilterValue}
+                value={this.props.distanceFilterValue*1000}
                 maximumTrackTintColor='rgba(208, 212, 215,1)'
                 minimumTrackTintColor='rgba(208, 212, 215,1)'
                 thumbImage={require('../../../assets/icons/map/markerPin.png')}
@@ -121,9 +121,7 @@ class FilterCard extends Component {
                   })
                 }}
                 onSlidingComplete={(v) => {
-                  // this.props.updateDistanceFilter(Number(v.toFixed()));
-                  // this.props.fetchParkspotsByDistance(Number(v.toFixed()))
-                  this.props.filterDistance(v.toFixed());
+                  this.props.updateDistanceFilter(Number(v.toFixed()/1000));
                 }}
               />
             </View>

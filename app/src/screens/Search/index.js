@@ -22,7 +22,7 @@ const WINDOW = Dimensions.get('window');
 export default class SearchScreen extends Component {
   _onPress = rowData => {
     Keyboard.dismiss();
-    this.props.fetchLocationDetails(rowData, this.props.distanceFilterValue/1000);
+    this.props.fetchLocationDetails(rowData);
     this.props.addLastSearched(rowData);
     this.props.updateSearchString('');
     this.props.navigation.goBack();

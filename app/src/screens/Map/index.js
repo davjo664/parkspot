@@ -101,19 +101,6 @@ class Map extends React.Component<Props, State> {
     });
   };
 
-  fetchParkspotsByDistance = (v) => {
-    if (this.props.selectedLocation) {
-      console.log("fetchParkspotsByDistance");
-      console.log(v);
-        this.props.fetchParkspots(
-          this.props.selectedLocation.location.latitude,
-          this.props.selectedLocation.location.longitude,
-          v ? v/1000 : this.approximateCurrentRegionRadius(this.props.mapPosition),
-          true
-        );
-    }
-  }
-
   startNavigation = () => {
 
     const isIOS = Platform.OS === 'ios';
@@ -377,30 +364,29 @@ class Map extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
-    //WHY
-    console.log("CONSTRSCURTOROR");
-    console.log(this.props.distanceFilterValue);
-    console.log(nextProps.distanceFilterValue);
-    console.log(this.props.selectedLocation);
-    console.log(nextProps.selectedLocation);
-      
-    let fetchedByDistance = false;
-    if ((!this.props.distanceFilterValue && nextProps.distanceFilterValue) ||
-    (!this.props.selectedLocation && nextProps.selectedLocation)) {
-      console.log("YEPP1");
-      if (nextProps.distanceFilterValue && nextProps.selectedLocation) {
-        console.log("YEPP2");
-        this.fetchParkspotsByDistance(nextProps.distanceFilterValue);
-        fetchedByDistance = true;
-      }
-    }
 
-    if (!fetchedByDistance && this.props.parkspots.length == 0) {
-      this.props.fetchParkspots(
-        this.props.mapPosition.latitude,
-        this.props.mapPosition.longitude,
-        this.approximateCurrentRegionRadius(this.props.mapPosition),
-      );
+    // If distance filter value or selected location changes we have to
+    // fetch the parkspots. This will always be true the first time loading
+    // because this.props is null from the beginning. 
+    if ((this.props.distanceFilterValue != nextProps.distanceFilterValue) ||
+    (this.props.selectedLocation != nextProps.selectedLocation)) {
+      
+      // Parkspots will only be filtered by distance if the distance filter value
+      // is greater than 0 and if a location is selected. Else fetch parkspots as usual.
+      if (nextProps.distanceFilterValue && nextProps.selectedLocation) {
+        this.props.fetchParkspots(
+          nextProps.selectedLocation.location.latitude,
+          nextProps.selectedLocation.location.longitude,
+          nextProps.distanceFilterValue,
+          true
+        );
+      } else {
+        this.props.fetchParkspots(
+          this.props.mapPosition.latitude,
+          this.props.mapPosition.longitude,
+          this.approximateCurrentRegionRadius(this.props.mapPosition),
+        );
+      }
     }
   }
 
@@ -479,7 +465,6 @@ class Map extends React.Component<Props, State> {
             this.setShowFilters(false)
           }}
           filterParkspots={this.props.filterParkspots}
-          fetchParkspotsByDistance={this.fetchParkspotsByDistance}
         />
 
         <MapCard
