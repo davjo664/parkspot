@@ -4,4 +4,5 @@
 * Removes small lines under 'favorites' and 'searches'.
 * Adds margin above first header in SearchScreen.
 * Adds margin above search field in SearchScreen.
+* Adding/removing parkspot location to favorites from mapCard is now possible.
 

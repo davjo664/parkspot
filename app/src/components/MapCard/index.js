@@ -133,18 +133,22 @@ export default class MapCard extends Component {
             }
 
             <View style={styles.buttonContainer}>
-              {this.props.destinationName &&
               <TouchableOpacity block style={[styles.favoriteButton, styles.buttonShadow]}
-                                onPress={() => console.warn('Not implemented.')}>
+                                onPress={() => {
+                                  if (this.props.parkspot.favorite) {
+                                    this.props.remFavorite({id: this.props.parkspot.locationId, favorite: true})
+                                  } else {
+                                    this.props.addFavoriteByDescription(this.props.parkspot.description)
+                                  }
+                                }}>
                 <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/favorite.png')}>
                   <Image
                     source={this.props.parkspot.favorite ? require('../../../assets/icons/favorite/white-full.png') : require('../../../assets/icons/favorite/white-empty.png')}/>
                 </ImageBackground>
               </TouchableOpacity>
-              }
 
               <TouchableOpacity block
-                                style={[styles.navigationButton, styles.buttonShadow, this.props.destinationName ? {} : styles.navigationButtonFullWidth]}
+                                style={[styles.navigationButton, styles.buttonShadow]}
                                 onPress={this.props.onStartNavigation}>
                 <ImageBackground style={styles.buttonImage} source={require('../../../assets/buttons/navigation.png')}>
                   <Text style={styles.panelButtonTitle}>Go there!</Text>
