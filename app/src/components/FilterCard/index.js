@@ -30,7 +30,7 @@ class FilterCard extends Component {
   constructor(props) {
     super(props);
     this._deltaY = new Animated.Value(Screen.height - 100);
-    this.state={distance:this.props.distanceFilterValue}
+    this.state = {distance: this.props.distanceFilterValue}
 
   }
 
@@ -40,23 +40,22 @@ class FilterCard extends Component {
         <ListItem key={filter.id} icon style={{marginLeft: 0}}>
           <Left style={{borderBottomWidth: 0.666, borderBottomColor: '#c9c9c9'}} >
             <View style={{height: 24, width: 24}}>
-              <Image source={filter.icon}/>
+              <Image source={filter.icon} />
             </View>
           </Left>
           <Body>
-          <Text>{filter.name}</Text>
+            <Text>{filter.name}</Text>
           </Body>
           <Right style={{borderBottomWidth: 0.666}}>
             <Switch
-            thumbTintColor='#ffffff'
-            onTintColor='#7ee0af'
-            tintColor='#c9c9c9'
-            value={this.props[filter.id]}
-            onValueChange={() => {
-              this.props.toggleFilter(filter.id);
-              this.props.filterParkspots(filter.id);
-            }
-            }/>
+              onTintColor='#7ee0af'
+              tintColor='#c9c9c9'
+              value={this.props[filter.id]}
+              onValueChange={() => {
+                this.props.toggleFilter(filter.id);
+                this.props.filterParkspots(filter.id);
+              }
+              } />
           </Right>
         </ListItem>
       );
@@ -84,7 +83,7 @@ class FilterCard extends Component {
               outputRange: [0.5, 0],
               extrapolateRight: 'clamp'
             }),
-          }]}/>
+          }]} />
         <Interactable.View
           style={styles.interactable}
           verticalOnly={true}
@@ -96,10 +95,10 @@ class FilterCard extends Component {
           boundaries={{top: -340}}
           initialPosition={{y: Screen.height - 320}}
           animatedValueY={this._deltaY}>
-          <View style={[styles.panel, {padding:0}]}>
-            <View style={{padding:20, paddingBottom: 8}}>
+          <View style={[styles.panel, {padding: 0}]}>
+            <View style={{padding: 20, paddingBottom: 8}}>
               <View style={styles.panelHeader}>
-                <View style={styles.panelHandle}/>
+                <View style={styles.panelHandle} />
               </View>
               <Text style={styles.panelTitle}>
                 Filters
@@ -111,7 +110,7 @@ class FilterCard extends Component {
               <Slider
                 minimumValue={0}
                 maximumValue={1000}
-                value={this.props.distanceFilterValue*1000}
+                value={this.props.distanceFilterValue * 1000}
                 maximumTrackTintColor='rgba(208, 212, 215,1)'
                 minimumTrackTintColor='rgba(208, 212, 215,1)'
                 thumbImage={require('../../../assets/icons/map/markerPin.png')}
@@ -121,7 +120,7 @@ class FilterCard extends Component {
                   })
                 }}
                 onSlidingComplete={(v) => {
-                  this.props.updateDistanceFilter(Number(v.toFixed()/1000));
+                  this.props.updateDistanceFilter(Number(v.toFixed() / 1000));
                 }}
               />
             </View>
