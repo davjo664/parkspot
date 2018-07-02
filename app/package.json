@@ -1,6 +1,6 @@
 {
   "name": "parkspot",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "private": true,
   "devDependencies": {
     "appcenter-cli": "^1.0.17",
