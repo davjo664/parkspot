@@ -7,6 +7,8 @@ import {connect} from 'react-redux';
 
 import {toggleFilter, updateDistanceFilter} from './actions';
 import styles from '../MapCard/styles';
+import additionalStyles from './styles';
+
 
 const Screen = {
   width: Dimensions.get('window').width,
@@ -16,17 +18,11 @@ const Screen = {
 const filters = [
   {name: 'Electric charger', id: 'electricCharger', icon: require('../../../assets/icons/filter/electricCharger.png')},
   {name: 'Free parking', id: 'cost', icon: require('../../../assets/icons/filter/nomoney.png')},
-  {name: 'Unlimited parking time', id: 'time', icon: require('../../../assets/icons/filter/clock.png')},
   {name: 'Handicap parking', id: 'handicapped', icon: require('../../../assets/icons/filter/accessible.png')},
+  {name: 'Unlimited parking time', id: 'time', icon: require('../../../assets/icons/filter/clock.png')},
 ];
 
 class FilterCard extends Component {
-  onSnap = (event) => {
-    if (event.nativeEvent.id === 'closed') {
-      this.props.onDismiss();
-    }
-  };
-
   constructor(props) {
     super(props);
     this._deltaY = new Animated.Value(Screen.height - 100);
@@ -34,23 +30,31 @@ class FilterCard extends Component {
 
   }
 
+
+  onSnap = (event) => {
+    this.setState({
+      snappedTo: event.nativeEvent.id,
+    });
+
+    if (event.nativeEvent.id === 'closed') {
+      this.props.onDismiss();
+    }
+  };
+
   renderFilters() {
     const filterItems = filters.map((filter) => {
       return (
-        <ListItem key={filter.id} icon style={{marginLeft: 0}}>
-          <Left style={{borderBottomWidth: 0.666, borderBottomColor: '#c9c9c9'}} >
-            <View style={{height: 24, width: 24}}>
+        <ListItem key={filter.id} icon style={additionalStyles.listItem}>
+          <Left style={additionalStyles.noBorder}>
+            <View style={[{height: 24, width: 24}, additionalStyles.noBorder]}>
               <Image source={filter.icon} />
             </View>
           </Left>
-          <Body>
-            <Text>{filter.name}</Text>
+          <Body style={additionalStyles.noBorder}>
+            <Text style={additionalStyles.filterName}>{filter.name}</Text>
           </Body>
-          <Right style={{borderBottomWidth: 0.666}}>
-            <Switch
-              onTintColor='#7ee0af'
-              tintColor='#c9c9c9'
-              value={this.props[filter.id]}
+          <Right style={additionalStyles.noBorder}>
+            <Switch onTintColor='#7ee0af' tintColor='#c9c9c9' value={this.props[filter.id]}
               onValueChange={() => {
                 this.props.toggleFilter(filter.id);
                 this.props.filterParkspots(filter.id);
@@ -87,26 +91,25 @@ class FilterCard extends Component {
         <Interactable.View
           style={styles.interactable}
           verticalOnly={true}
-          snapPoints={[{y: Screen.height - 320, id: 'open'}, {
-            y: Screen.height + 70,
-            id: 'closed'
-          }]}
+          snapPoints={[
+            {y: Screen.height - 350, id: 'open'},
+            {y: Screen.height + 102, id: 'closed'}
+          ]}
           onSnap={this.onSnap}
-          boundaries={{top: -340}}
-          initialPosition={{y: Screen.height - 320}}
+          boundaries={{top: -300}}
+          initialPosition={{y: Screen.height - 350}}
           animatedValueY={this._deltaY}>
-          <View style={[styles.panel, {padding: 0}]}>
-            <View style={{padding: 20, paddingBottom: 8}}>
-              <View style={styles.panelHeader}>
-                <View style={styles.panelHandle} />
-              </View>
-              <Text style={styles.panelTitle}>
-                Filters
-              </Text>
-              {this.renderFilters()}
-              <Text style={{paddingTop: 20}}> Distance from destination </Text>
-            </View >
-            <View >
+          <View style={styles.panel}>
+            <View style={styles.panelHeader}>
+              <View style={styles.panelHandle} />
+            </View>
+            <Text style={additionalStyles.title}>
+              Filters
+            </Text>
+            {this.renderFilters()}
+
+            <View style={additionalStyles.sliderContainer}>
+              <Text style={[additionalStyles.filterName]}>Distance from destination</Text>
               <Slider
                 minimumValue={0}
                 maximumValue={1000}
@@ -123,6 +126,13 @@ class FilterCard extends Component {
                   this.props.updateDistanceFilter(Number(v.toFixed() / 1000));
                 }}
               />
+            </View>
+            <View style={additionalStyles.closeIcon}>
+              <TouchableOpacity style={{flex: 1}} onPress={() => {
+                this.props.onDismiss();
+              }}>
+                <Image source={require('../../../assets/icons/misc/close.png')} style={{flex: 1, width: 24, height: 24}} />
+              </TouchableOpacity>
             </View>
           </View>
         </Interactable.View>

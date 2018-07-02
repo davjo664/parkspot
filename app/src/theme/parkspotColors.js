@@ -9,4 +9,5 @@ export default {
   greyishTeal: '#7a9e9f',
   gray: 'rgba(152, 152, 150, 0.55)',
   placeHolderNative: '#C7C7CD',
+  lightGray: 'rgb(208, 212, 215)',
 };

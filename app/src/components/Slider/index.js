@@ -31,7 +31,7 @@ function Rect(x, y, width, height) {
   this.height = height;
 }
 
-Rect.prototype.containsPoint = function(x, y) {
+Rect.prototype.containsPoint = function (x, y) {
   return (x >= this.x
     && y >= this.y
     && x <= this.x + this.width
@@ -39,14 +39,14 @@ Rect.prototype.containsPoint = function(x, y) {
 };
 
 var DEFAULT_ANIMATION_CONFIGS = {
-  spring : {
-    friction : 7,
-    tension  : 100
+  spring: {
+    friction: 7,
+    tension: 100
   },
-  timing : {
-    duration : 150,
-    easing   : Easing.inOut(Easing.ease),
-    delay    : 0
+  timing: {
+    duration: 150,
+    easing: Easing.inOut(Easing.ease),
+    delay: 0
   },
   // decay : { // This has a serious bug
   //   velocity     : 1,
@@ -161,17 +161,17 @@ export default class Slider extends PureComponent {
     /**
      * Set to true to animate values with default 'timing' animation type
      */
-    animateTransitions : PropTypes.bool,
+    animateTransitions: PropTypes.bool,
 
     /**
      * Custom Animation type. 'spring' or 'timing'.
      */
-    animationType : PropTypes.oneOf(['spring', 'timing']),
+    animationType: PropTypes.oneOf(['spring', 'timing']),
 
     /**
      * Used to configure the animation parameters.  These are the same parameters in the Animated library.
      */
-    animationConfig : PropTypes.object,
+    animationConfig: PropTypes.object,
   };
 
   static defaultProps = {
@@ -239,7 +239,7 @@ export default class Slider extends PureComponent {
     var mainStyles = styles || defaultStyles;
     var thumbLeft = value.interpolate({
       inputRange: [minimumValue, maximumValue],
-      outputRange: [0, containerSize.width - thumbSize.width - 20],
+      outputRange: [0, containerSize.width - thumbSize.width],
       //extrapolate: 'clamp',
     });
     var valueVisibleStyle = {};
@@ -257,14 +257,14 @@ export default class Slider extends PureComponent {
     var touchOverflowStyle = this._getTouchOverflowStyle();
 
     return (
-      <View {...other} style={[mainStyles.container, style, {height:70, marginLeft:20}]} onLayout={this._measureContainer}>
+      <View {...other} style={[mainStyles.container, style, {height: 70}]} onLayout={this._measureContainer}>
         <View
-          style={[{backgroundColor: maximumTrackTintColor,}, mainStyles.track, trackStyle, {marginRight:20}]}
+          style={[{backgroundColor: maximumTrackTintColor, }, mainStyles.track, trackStyle]}
           renderToHardwareTextureAndroid={true}
           onLayout={this._measureTrack} />
         <Animated.View
           renderToHardwareTextureAndroid={true}
-          style={[mainStyles.track, trackStyle, minimumTrackStyle, {marginRight:20}]} />
+          style={[mainStyles.track, trackStyle, minimumTrackStyle]} />
         <Animated.View
           onLayout={this._measureThumb}
           renderToHardwareTextureAndroid={true}
@@ -272,8 +272,8 @@ export default class Slider extends PureComponent {
             mainStyles.thumb, thumbStyle,
             {
               transform: [
-                { translateX: thumbLeft },
-                { translateY: 0 }
+                {translateX: thumbLeft},
+                {translateY: 0}
               ],
               ...valueVisibleStyle
             }
@@ -416,12 +416,12 @@ export default class Slider extends PureComponent {
   };
 
   _setCurrentValueAnimated = (value: number) => {
-    var animationType   = this.props.animationType;
+    var animationType = this.props.animationType;
     var animationConfig = Object.assign(
       {},
       DEFAULT_ANIMATION_CONFIGS[animationType],
       this.props.animationConfig,
-      {toValue : value}
+      {toValue: value}
     );
 
     Animated[animationType](this.state.value, animationConfig).start();
@@ -500,7 +500,7 @@ export default class Slider extends PureComponent {
         style={positionStyle}
         pointerEvents='none'
       >
-        <Text style={{width: thumbTouchRect.width, textAlign: 'center', color: 'rgb(152, 152, 150)'}}>{this._getCurrentValue() ? this._getCurrentValue().toFixed()+' m' : 'Off'}</Text>
+        <Text style={{width: thumbTouchRect.width, textAlign: 'center', color: 'rgb(152, 152, 150)'}}>{this._getCurrentValue() ? this._getCurrentValue().toFixed() + ' m' : 'Off'}</Text>
       </Animated.View>
     );
   };
@@ -511,6 +511,6 @@ export default class Slider extends PureComponent {
 
     if (!thumbImage) return;
 
-    return <Image style={[styles.pinShadow, {width:THUMB_SIZE, height:THUMB_SIZE}]} source={thumbImage} />;
+    return <Image style={[styles.pinShadow, {width: THUMB_SIZE, height: THUMB_SIZE}]} source={thumbImage} />;
   };
 }
