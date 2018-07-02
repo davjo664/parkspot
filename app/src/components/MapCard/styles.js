@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
   },
   panel: {
     height: Screen.height + 300,
-    padding: cardPadding,
+    paddingTop: 10,
+    paddingHorizontal: cardPadding,
     backgroundColor: 'white',
     borderRadius: 14,
     shadowColor: '#000000',
@@ -38,11 +39,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   panelHandle: {
-    width: 30,
-    height: 3,
-    borderStyle: 'solid',
-    borderWidth: 2,
+    // calculating width according to zeplin specification
+    width: ((30 / (30 + 174 + 171)) * cardWidth) - 2,
+    height: 1,
+    borderWidth: 1,
     borderColor: colors.gray,
+    backgroundColor: colors.gray,
+    borderRadius: 1,
     marginBottom: 10,
   },
   panelTitle: {

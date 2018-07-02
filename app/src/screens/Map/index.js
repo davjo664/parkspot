@@ -81,39 +81,50 @@ class Map extends React.Component<Props, State> {
 
 
   clusterWasPressed = (clusterId, children) => {
-    const childIds = children.map((child) => {
+    const childIds = children.map((child: Object) => {
       return child.id;
+    }).map((id: Number) => {
+      return id.toString();
     });
 
     this.map.getMapRef().fitToSuppliedMarkers(childIds, true);
   };
 
   markerWasPressed = (event: any) => {
+    // finding parkspot that corresponds to the supplied coordinates.
+    // Note: we have to handle float compares so we are using epsilon comparison below.
+    const clickedParkspot = this.props.parkspots.find(parkspot => {
+      if (
+        Math.abs(event.nativeEvent.coordinate.latitude - parkspot.lat) <= Number.EPSILON &&
+        Math.abs(event.nativeEvent.coordinate.longitude - parkspot.lng) <= Number.EPSILON
+      ) {
+        // Check if location is added to Favorites
+        parkspot.favorite = false;
+        parkspot.locationId = null;
+        parkspot.description = parkspot.street+' '+parkspot.houseNumber+', '+parkspot.city+', '+parkspot.country;
+        this.props.favorites.find((fav) => {
+          if (fav.description === parkspot.description) {
+            parkspot.favorite = true;
+            parkspot.locationId = fav.id;
+            return true;
+          }
+        });
+        return true;
+      }
+    })
+
+    if (!clickedParkspot) {
+      // this should mean we clicked a cluster, so we do not need to continue here.
+      return;
+    }
+
     /*
      * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
      * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
      */
     this.setShowFilters(false);
     this.setState({
-      selectedParkspot: this.props.parkspots.find(parkspot => {
-        if (
-          Number(parkspot.lat) === Number(event.nativeEvent.coordinate.latitude) &&
-          Number(parkspot.lng) === Number(event.nativeEvent.coordinate.longitude)
-        ) {
-          // Check if location is added to Favorites
-          parkspot.favorite = false;
-          parkspot.locationId = null;
-          parkspot.description = parkspot.street+' '+parkspot.houseNumber+', '+parkspot.city+', '+parkspot.country;
-          this.props.favorites.find((fav) => {
-            if (fav.description === parkspot.description) {
-              parkspot.favorite = true;
-              parkspot.locationId = fav.id;
-              return true;
-            }
-          });
-          return true;
-        }
-      }),
+      selectedParkspot: clickedParkspot,
     });
   };
 
@@ -278,7 +289,7 @@ class Map extends React.Component<Props, State> {
 
 
     const fontSize = pointCount <= 9 ? 18 : (pointCount <= 99 ? 15 : 15);
-    const text = pointCount <= 99 ? pointCount : '99+';
+    const text = pointCount <= 99 ? pointCount.toString() : '99+';
 
     return this.renderPin(cluster.coordinate, require('../../../assets/icons/map/clusterPin.png'), '', text, fontSize, onPress);
   };
@@ -293,7 +304,7 @@ class Map extends React.Component<Props, State> {
     return this.renderPin(data.location, image, data.id, 'P', fontSize, null, additionalTextStyles);
   };
 
-  renderPin = (coordinate: Object, image: String, key: String, text: String, fontSize: Number, onPress: ?Function, additionalTextStyles: ?Object) => {
+  renderPin = (coordinate: Object, image: Number, key: String, text: String, fontSize: Number, onPress: ?Function, additionalTextStyles: ?Object) => {
 
     // Android does not seem to like background images...
     if (Platform.OS === 'ios') {
