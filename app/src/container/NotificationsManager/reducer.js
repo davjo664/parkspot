@@ -2,6 +2,7 @@ const initialState = {
   user: {},
   enabled: false,
   fcmToken: '',
+  activeSubscription: false,
 };
 
 export default function (state: any = initialState, action: Function) {
@@ -12,6 +13,11 @@ export default function (state: any = initialState, action: Function) {
         ...state.user,
         ...action.user,
       }
+    };
+  } else if (action.type === 'SET_ACTIVE_SUBSCRIPTION') {
+    return {
+      ...state,
+      activeSubscription: action.active,
     };
   }
 
