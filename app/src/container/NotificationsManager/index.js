@@ -2,8 +2,10 @@ import * as React from 'react';
 
 import firebase, {Notification} from 'react-native-firebase';
 import {connect} from 'react-redux';
-import {createUser, updateUser} from './actions';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {createUser, updateUser, subscribeToParkspot, deleteUsersSubscriptions} from './actions';
 import {PermissionHelper} from '../../helper/PermissionHelper';
+
 
 
 export interface Props {
@@ -65,7 +67,6 @@ class NotificationsManager extends React.Component<Props, State> {
       const notification: Notification = notificationOpen.notification;
       console.log('onNotificationOpened in fore or background');
       console.log(notification);
-
     });
   }
 
@@ -105,6 +106,9 @@ function bindAction(dispatch) {
   return {
     updateUser: (user) => dispatch(updateUser(user)),
     createUser: (user) => dispatch(createUser(user)),
+    createSubscription: (id, userId) => dispatch(subscribeToParkspot(id, userId)),
+    deleteUsersSubscriptions: (userId) => dispatch(deleteUsersSubscriptions(userId)),
+
   };
 }
 
