@@ -3,7 +3,7 @@ import * as React from 'react';
 import firebase, {Notification} from 'react-native-firebase';
 import {connect} from 'react-redux';
 import {createUser, updateUser, subscribeToParkspot, deleteUsersSubscriptions} from './actions';
-import {setClosestParkspots} from '../MapContainer/actions';
+import {setClosestParkspots, deleteClosestParkspots} from '../MapContainer/actions';
 import {PermissionHelper} from '../../helper/PermissionHelper';
 
 
@@ -118,8 +118,12 @@ class NotificationsManager extends React.Component<Props, State> {
       if (this.props.activeSubscription) {
         this.props.deleteUsersSubscriptions(this.props.user.id);
       }
-    }
-    );
+    });
+    // TODO: find a better way to delete shown spots e.g. exclude from persist 
+    new Promise(resolve => setTimeout(resolve, 500)).then((r) => {
+      this.props.deleteClosestParkspots()
+    });
+
   }
 
   componentWillUnmount() {
@@ -139,6 +143,8 @@ function bindAction(dispatch) {
     createSubscription: (id, userId) => dispatch(subscribeToParkspot(id, userId)),
     deleteUsersSubscriptions: (userId) => dispatch(deleteUsersSubscriptions(userId)),
     setClosestParkspots: (id) => dispatch(setClosestParkspots(id)),
+    deleteClosestParkspots: () => dispatch(deleteClosestParkspots()),
+
   };
 }
 
