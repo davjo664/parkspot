@@ -22,7 +22,8 @@ const {
     Image,
     SimpleResponse,
     BrowseCarouselItem,
-    BrowseCarousel
+    BrowseCarousel,
+    Suggestions
 } = require('actions-on-google');
 
 // import the request module
@@ -40,7 +41,20 @@ app.intent('Default Welcome Intent', (conv) => {
     context: 'Hi there, to find the nearest parking spots',
     permissions: 'DEVICE_PRECISE_LOCATION'
 }));
+conv.ask(new Suggestions(['yes', 'cancel']));
 });
+
+function GeoCoding(a, b) {
+    request('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + a + ',' + b + '&key=AIzaSyCdTyjpw0JPaTrUb-x_ec5XgBoAfhxKGRM', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var GeoData = JSON.parse(body);
+            console.log(GeoData);
+            return 'Somalia';
+        } else {
+            console.log(error);
+        }
+    });
+};
 
 // Handle the Dialogflow intent named 'actions_intent_PERMISSION'. If user
 // agreed to PERMISSION prompt, then boolean value 'permissionGranted' is true.
@@ -50,7 +64,6 @@ app.intent('actions_intent_PERMISSION', (conv, params, permissionGranted) => {
 } else {
 
     return new Promise(function(resolve, reject) {
-        console.log('1Conv:', conv);
         conv.data.longitude = conv.device.location.coordinates.longitude;
         conv.data.latitude = conv.device.location.coordinates.latitude;
 
@@ -59,6 +72,8 @@ app.intent('actions_intent_PERMISSION', (conv, params, permissionGranted) => {
                 'phone surface in the simulator.');
             return;
         }
+
+        //console.log(GeoCoding(conv.data.longitude, conv.data.latitude));
 
         request('https://parkspot.mi.hdm-stuttgart.de/api/parkspot/' + conv.data.latitude + '/' + conv.data.longitude + '/100', function(error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -80,7 +95,7 @@ app.intent('actions_intent_PERMISSION', (conv, params, permissionGranted) => {
                     }));
                     conv.ask(
                         new BasicCard({
-                            title: 'Free Parkspot',
+                            title: it.street +' '+ it.houseNumber +' '+ it.city,
                             description: 'This is a free Parkspot',
                             image: new Image({
                                 url: 'https://maps.googleapis.com/maps/api/staticmap?center=' + it.lat + '+' + it.lng + '&zoom=15.9&scale=1&size=464x256&maptype=roadmap&format=png&visual_refresh=true&markers=size:big|color:0x8affc1|label:P|' + it.lat + '+' + it.lng + '&key=AIzaSyCdTyjpw0JPaTrUb-x_ec5XgBoAfhxKGRM',
@@ -92,13 +107,14 @@ app.intent('actions_intent_PERMISSION', (conv, params, permissionGranted) => {
                             }),
                         })
                     );
+                    conv.ask(new Suggestions(['cancel', 'search for other location']));
                 }
                 //Send if there is more than 1 result
                 else if(availableSpots.length > 1) {
                     items = availableSpots
                         .map(function(it) {
                             return new BrowseCarouselItem({
-                                title: 'Free Parkspot',
+                                title: it.street +' '+ it.houseNumber +' '+ it.city,
                                 url: 'https://www.google.com/maps/search/?api=1&query=' + it.lat + ',' + it.lng,
                                 description: 'This is a free Parkspot',
                                 image: new Image({
@@ -115,11 +131,13 @@ app.intent('actions_intent_PERMISSION', (conv, params, permissionGranted) => {
                     conv.ask(new BrowseCarousel({
                         items: items,
                     }));
+                    conv.ask(new Suggestions(['cancel', 'search for other location']));
                 } else{
                     conv.ask(new SimpleResponse({
                         speech: 'Sorry, i found no results for your location.',
                         text: 'Sorry, i found no results for your location.',
                     }));
+                    conv.ask(new Suggestions(['cancel', 'search for other location']));
                 }
 
                 resolve();
