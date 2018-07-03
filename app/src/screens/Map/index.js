@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ActionSheet, Text} from 'native-base';
+import {ActionSheet, Text, List} from 'native-base';
 
 import {
   Dimensions,
@@ -9,6 +9,7 @@ import {
   Platform,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
   View
 } from 'react-native';
 import {Callout, Marker} from 'react-native-maps';
@@ -20,6 +21,7 @@ import config from '../../config/config';
 
 import MapCard from '../../components/MapCard';
 import FilterCard from '../../components/FilterCard';
+import {ParkspotItem} from '../../components/ParkspotItem';
 
 import styles from './styles';
 import codePush from 'react-native-code-push';
@@ -50,6 +52,9 @@ export interface Props {
   addFavoriteByDescription: Function;
   remFavorite: Function;
   favorites: Object;
+  closestParkspots: List;
+  deleteClosestSpotWithID: Function;
+  deleteClosestParkspots: Function;
 }
 
 export interface State {
@@ -101,7 +106,7 @@ class Map extends React.Component<Props, State> {
         // Check if location is added to Favorites
         parkspot.favorite = false;
         parkspot.locationId = null;
-        parkspot.description = parkspot.street+' '+parkspot.houseNumber+', '+parkspot.city+', '+parkspot.country;
+        parkspot.description = parkspot.street + ' ' + parkspot.houseNumber + ', ' + parkspot.city + ', ' + parkspot.country;
         this.props.favorites.find((fav) => {
           if (fav.description === parkspot.description) {
             parkspot.favorite = true;
@@ -140,7 +145,7 @@ class Map extends React.Component<Props, State> {
     });
   };
 
-  startNavigation = () => {
+  startNavigation = (parkspot) => {
 
     const isIOS = Platform.OS === 'ios';
     const prefixes = {
@@ -154,7 +159,7 @@ class Map extends React.Component<Props, State> {
       'waze': 'Waze',
     };
     const userPosition = `${this.props.userPosition.latitude},${this.props.userPosition.longitude}`;
-    const parkspotPosition = `${this.state.selectedParkspot.lat},${this.state.selectedParkspot.lng}`;
+    const parkspotPosition = `${parkspot.lat},${parkspot.lng}`;
 
     isAppInstalled = (app) => {
       return new Promise((resolve) => {
@@ -194,6 +199,8 @@ class Map extends React.Component<Props, State> {
             if (buttonIndex === CANCEL_INDEX) {
               return resolve(null);
             }
+            //reset closest spots -> nevermind if already empty
+            this.props.deleteClosestParkspots();
             return resolve(availableApps[buttonIndex]);
           }
         );
@@ -245,6 +252,7 @@ class Map extends React.Component<Props, State> {
 
   searchButtonWasPressed = () => {
     this.props.navigation.navigate('Search');
+    this.props.deleteClosestParkspots();
   };
 
   setShowFilters = (show) => {
@@ -318,7 +326,7 @@ class Map extends React.Component<Props, State> {
     } else {
       return (
         <Marker style={[styles.pin, styles.pinShadow]} key={key} coordinate={coordinate} onPress={onPress}
-                image={image}>
+          image={image}>
           <Text style={[styles.pinText, {
             fontSize: fontSize,
             paddingLeft: 4,
@@ -334,10 +342,10 @@ class Map extends React.Component<Props, State> {
     if (data == null) {
       return null;
     }
-    
+
     return (
       <Marker key={'destination'} coordinate={data.location} style={styles.destinationPin}
-              image={require('../../../assets/icons/map/destinationPin.png')}>
+        image={require('../../../assets/icons/map/destinationPin.png')}>
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
         </Callout>
@@ -421,12 +429,12 @@ class Map extends React.Component<Props, State> {
           onPress={() => this.searchButtonWasPressed()}>
           <View style={styles.buttonContent}>
             <View style={styles.textContent}>
-              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon}/>
+              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
               <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
             </View>
             <View style={[styles.deleteButtonView, {display: displayClose}]}>
               <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation}>
-                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton}/>
+                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
               </TouchableOpacity>
             </View>
           </View>
@@ -448,13 +456,13 @@ class Map extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
-    
+
     // If distance filter value or selected location changes we have to
     // fetch the parkspots. This will always be true the first time loading
     // because this.props is null from the beginning. 
     if ((this.props.distanceFilterValue != nextProps.distanceFilterValue) ||
-    (this.props.selectedLocation != nextProps.selectedLocation)) {
-      
+      (this.props.selectedLocation != nextProps.selectedLocation)) {
+
       // Parkspots will only be filtered by distance if the distance filter value
       // is greater than 0 and if a location is selected. Else fetch parkspots as usual.
       if (nextProps.distanceFilterValue && nextProps.selectedLocation) {
@@ -486,7 +494,7 @@ class Map extends React.Component<Props, State> {
           return true;
         }
       });
-      if (!found){
+      if (!found) {
         parkspot.favorite = false;
         parkspot.locationId = null;
         this.setState({
@@ -514,11 +522,66 @@ class Map extends React.Component<Props, State> {
     }, true);
   }
 
+
+  _renderSearchButton = () => {
+
+    let text = this.props.selectedLocation ? this.props.selectedLocation.description : 'Search for a parkspot';
+    let textStyle = this.props.selectedLocation ? textStyles.textStyle2 : textStyles.textStyle2Placeholder;
+    let displayClose = this.props.selectedLocation ? 'flex' : 'none';
+    return (
+      <ElevatedView style={styles.searchButtonView} elevation={Platform.OS === 'ios' ? 5 : 3}>
+
+        <TouchableOpacity
+          style={styles.searchButton}
+          activeOpacity={0.7}
+          onPress={() => this.searchButtonWasPressed()}>
+          <View style={styles.buttonContent}>
+            <View style={styles.textContent}>
+              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
+              <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
+            </View>
+            <View style={[styles.deleteButtonView, {display: displayClose}]}>
+              <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation} >
+                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </ElevatedView>
+    )
+  }
+
+  onPressClosestItem = (parkspot) => {
+    this.startNavigation(parkspot);
+  }
+  _renderClosestParkspotsList = () => {
+    const spots = this.props.closestParkspots.map((parkspot) => {
+      return (
+        <View key={parkspot.id} style={styles.closestItemCard}>
+          <TouchableOpacity onPress={() => {this.onPressClosestItem(parkspot)}}>
+            <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: 9, paddingRight: 9, paddingTop: 9}} onPress={() => {this.props.deleteClosestSpotWithID(parkspot.id)}} >
+              <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+            </TouchableOpacity>
+            <ParkspotItem
+              parkspot={parkspot}
+              destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null} />
+          </TouchableOpacity>
+        </View>
+      );
+    })
+    if (spots.length > 0) {
+      return (<ScrollView contentContainerStyle={{justifyContent: 'flex-end', }} style={styles.closesItemContainer}>{spots}</ScrollView>)
+    }
+  }
+
+
   render() {
     const data = this.transformParkspotsToData(this.props.parkspots);
 
     return (
       <SafeAreaView style={styles.container}>
+
+        {this._renderClosestParkspotsList()}
         <LinearGradient
           colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.5)', 'rgba(255,255,255,1)']}
           locations={[0, 0.1, 0.4]}
@@ -528,22 +591,20 @@ class Map extends React.Component<Props, State> {
 
           <View style={styles.searchRow}>
             {this._renderSearchButton()}
-
-
           </View>
           <View style={styles.buttonsRow}>
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => this.setShowFilters(true)}
             >
-              <Image source={require('../../../assets/icons/misc/filter.png')} style={styles.icon}/>
+              <Image source={require('../../../assets/icons/misc/filter.png')} style={styles.icon} />
             </TouchableOpacity>
 
             <Text style={textStyles.textStyleMapHeading}>parkspot</Text>
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => this.findMeButtonWasPressed()}>
-              <Image source={require('../../../assets/icons/misc/relocate.png')} style={styles.icon}/>
+              <Image source={require('../../../assets/icons/misc/relocate.png')} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </LinearGradient>
@@ -563,16 +624,16 @@ class Map extends React.Component<Props, State> {
         />
 
         {this.state.selectedParkspot &&
-        <MapCard
-          onStartNavigation={this.startNavigation}
-          parkspot={this.state.selectedParkspot}
-          onDismiss={this.deselectParkspot}
-          drivingDirections={this.state.drivingDirections}
-          walkingDirections={this.state.walkingDirections}
-          destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
-          addFavoriteByDescription={this.props.addFavoriteByDescription}
-          remFavorite={this.props.remFavorite}
-        />
+          <MapCard
+            onStartNavigation={(parkspot) => this.startNavigation(parkspot)}
+            parkspot={this.state.selectedParkspot}
+            onDismiss={this.deselectParkspot}
+            drivingDirections={this.state.drivingDirections}
+            walkingDirections={this.state.walkingDirections}
+            destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
+            addFavoriteByDescription={this.props.addFavoriteByDescription}
+            remFavorite={this.props.remFavorite}
+          />
         }
 
         <ClusteredMapView

@@ -2,9 +2,10 @@ import * as React from 'react';
 
 import firebase, {Notification} from 'react-native-firebase';
 import {connect} from 'react-redux';
-import {View, Text, TouchableOpacity} from 'react-native';
 import {createUser, updateUser, subscribeToParkspot, deleteUsersSubscriptions} from './actions';
+import {setClosestParkspots} from '../MapContainer/actions';
 import {PermissionHelper} from '../../helper/PermissionHelper';
+
 
 
 
@@ -28,6 +29,10 @@ class NotificationsManager extends React.Component<Props, State> {
       }
 
     }
+  }
+
+  showNewClosestSpots(id: Integer) {
+    this.props.setClosestParkspots(id);
   }
 
   handleNotifications() {
@@ -54,6 +59,10 @@ class NotificationsManager extends React.Component<Props, State> {
 
     // when a particular notification has been received in foreground
     this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+      alert(notification.body)
+      if (notification.data.type === 'spot-taken') {
+        this.showNewClosestSpots(parseInt(notification.data.payload, 10));
+      }
       console.log('onNotification');
       console.log(notification);
     });
@@ -67,10 +76,15 @@ class NotificationsManager extends React.Component<Props, State> {
       const notification: Notification = notificationOpen.notification;
       console.log('onNotificationOpened in fore or background');
       console.log(notification);
+      if (notification.data.type === 'spot-taken') {
+        this.showNewClosestSpots(parseInt(notification.data.payload, 10));
+      }
     });
   }
 
   componentDidMount() {
+
+
     //check if app was opened via notification when App was closed
     firebase.notifications().getInitialNotification().then((notificationOpen: NotificationOpen) => {
       if (notificationOpen) {
@@ -79,6 +93,10 @@ class NotificationsManager extends React.Component<Props, State> {
         const action = notificationOpen.action;
         // Get information about the notification that was opened
         const notification: Notification = notificationOpen.notification;
+        if (notificationOpen.notification.data.type === 'spot-taken') {
+          this.showNewClosestSpots(parseInt(notificationOpen.notification.data.payload, 10));
+        }
+
         console.log('onNotificationOpened when closed');
         console.log(notificationOpen);
 
@@ -108,7 +126,7 @@ function bindAction(dispatch) {
     createUser: (user) => dispatch(createUser(user)),
     createSubscription: (id, userId) => dispatch(subscribeToParkspot(id, userId)),
     deleteUsersSubscriptions: (userId) => dispatch(deleteUsersSubscriptions(userId)),
-
+    setClosestParkspots: (id) => dispatch(setClosestParkspots(id)),
   };
 }
 

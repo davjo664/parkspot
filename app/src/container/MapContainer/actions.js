@@ -65,8 +65,8 @@ export function addFavoriteByDescription(description) {
   return dispatch =>
     LocationAccessHelper.getLocation((userPosition) => {
       const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?location=${
-      userPosition.latitude
-      },${userPosition.longitude}
+        userPosition.latitude
+        },${userPosition.longitude}
       &radius=500&components=country:de|country:nl&input=${description}&key=${config.googleApi.key}&language=en`;
       fetch(url)
         .then(res => res.json())
@@ -84,3 +84,22 @@ export function addFavoriteByDescription(description) {
     });
 }
 
+export function setClosestParkspots(id: Integer) {
+  return {
+    id,
+    type: 'SET_CLOSEST_PARKSPOTS',
+  };
+}
+
+export function deleteClosestSpotWithID(id: Integer) {
+  return {
+    type: 'DELETE_CLOSEST_PARKSPOT_BY_ID',
+    id,
+  };
+}
+
+export function deleteClosestParkspots() {
+  return {
+    type: 'DELETE_ALL_CLOSEST_PARKSPOTS',
+  };
+}

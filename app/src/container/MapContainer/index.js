@@ -3,8 +3,8 @@ import * as React from 'react';
 import {Alert, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import Map from '../../screens/Map';
-import {addFavoriteByDescription, fetchParkspots, filterParkspots, updateLocation, updateMapPosition} from './actions';
 import {clearSelectedLocation, remFavorite} from '../SearchContainer/actions';
+import {addFavoriteByDescription, fetchParkspots, filterParkspots, updateLocation, updateMapPosition, deleteClosestSpotWithID, deleteClosestParkspots} from './actions';
 
 export interface Props {
   navigation: any;
@@ -44,6 +44,9 @@ class MapContainer extends React.Component<Props, State> {
         addFavoriteByDescription={this.props.addFavoriteByDescription}
         remFavorite={this.props.remFavorite}
         favorites={this.props.favorites}
+        closestParkspots={this.props.closestParkspots}
+        deleteClosestSpotWithID={this.props.deleteClosestSpotWithID}
+        deleteClosestParkspots={this.props.deleteClosestParkspots}
       />
     );
   }
@@ -66,6 +69,8 @@ function bindAction(dispatch) {
     clearSelectedLocation: () => dispatch(clearSelectedLocation()),
     addFavoriteByDescription: (description) => dispatch(addFavoriteByDescription(description)),
     remFavorite: (fav) => dispatch(remFavorite(fav)),
+    deleteClosestSpotWithID: (id) => dispatch(deleteClosestSpotWithID(id)),
+    deleteClosestParkspots: () => dispatch(deleteClosestParkspots()),
   };
 }
 
@@ -76,5 +81,6 @@ const mapStateToProps = state => ({
   selectedLocation: state.searchReducer.selectedLocation,
   distanceFilterValue: state.filterReducer.distance,
   favorites: state.searchReducer.favorites,
+  closestParkspots: state.mapReducer.closestParkspots,
 });
 export default connect(mapStateToProps, bindAction)(MapContainer);
