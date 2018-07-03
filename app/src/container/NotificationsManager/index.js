@@ -3,7 +3,7 @@ import * as React from 'react';
 import firebase, {Notification} from 'react-native-firebase';
 import {connect} from 'react-redux';
 import {createUser, updateUser, subscribeToParkspot, deleteUsersSubscriptions} from './actions';
-import {setClosestParkspots} from '../MapContainer/actions';
+import {setClosestParkspots, deleteClosestParkspots} from '../MapContainer/actions';
 import {PermissionHelper} from '../../helper/PermissionHelper';
 
 
@@ -11,6 +11,8 @@ import {PermissionHelper} from '../../helper/PermissionHelper';
 
 export interface Props {
   navigation: any;
+  user: Object;
+  activeSubscription: Boolean;
 }
 
 
@@ -33,6 +35,7 @@ class NotificationsManager extends React.Component<Props, State> {
 
   showNewClosestSpots(id: Integer) {
     this.props.setClosestParkspots(id);
+    this.props.deleteUsersSubscriptions(this.props.user.id);
   }
 
   handleNotifications() {
@@ -84,7 +87,6 @@ class NotificationsManager extends React.Component<Props, State> {
 
   componentDidMount() {
 
-
     //check if app was opened via notification when App was closed
     firebase.notifications().getInitialNotification().then((notificationOpen: NotificationOpen) => {
       if (notificationOpen) {
@@ -100,6 +102,7 @@ class NotificationsManager extends React.Component<Props, State> {
         console.log('onNotificationOpened when closed');
         console.log(notificationOpen);
 
+
       }
     });
 
@@ -107,6 +110,20 @@ class NotificationsManager extends React.Component<Props, State> {
     PermissionHelper.hasPermission('notification', () => {
       this.handleNotifications();
     }, true);
+
+
+    //remove subscription after 5s acitve --> workaround because user.id and activeSubscription not yet available on start.
+    // TODO: find a better way to delete subscriptions 
+    new Promise(resolve => setTimeout(resolve, 5000)).then((r) => {
+      if (this.props.activeSubscription) {
+        this.props.deleteUsersSubscriptions(this.props.user.id);
+      }
+    });
+    // TODO: find a better way to delete shown spots e.g. exclude from persist 
+    new Promise(resolve => setTimeout(resolve, 500)).then((r) => {
+      this.props.deleteClosestParkspots()
+    });
+
   }
 
   componentWillUnmount() {
@@ -114,7 +131,6 @@ class NotificationsManager extends React.Component<Props, State> {
     this.notificationListener();
     this.notificationOpenedListener();
   }
-
   render() {
     return null;
   }
@@ -127,10 +143,13 @@ function bindAction(dispatch) {
     createSubscription: (id, userId) => dispatch(subscribeToParkspot(id, userId)),
     deleteUsersSubscriptions: (userId) => dispatch(deleteUsersSubscriptions(userId)),
     setClosestParkspots: (id) => dispatch(setClosestParkspots(id)),
+    deleteClosestParkspots: () => dispatch(deleteClosestParkspots()),
+
   };
 }
 
 const mapStateToProps = state => ({
-  user: state.notificationsReducer.user
+  user: state.notificationsReducer.user,
+  activeSubscription: state.notificationsReducer.activeSubscription,
 });
 export default connect(mapStateToProps, bindAction)(NotificationsManager);

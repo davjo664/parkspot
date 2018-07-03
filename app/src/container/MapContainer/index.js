@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import Map from '../../screens/Map';
 import {clearSelectedLocation, remFavorite} from '../SearchContainer/actions';
 import {addFavoriteByDescription, fetchParkspots, filterParkspots, updateLocation, updateMapPosition, deleteClosestSpotWithID, deleteClosestParkspots} from './actions';
+import {subscribeToParkspot} from '../NotificationsManager/actions';
 
 export interface Props {
   navigation: any;
@@ -21,6 +22,8 @@ export interface Props {
   addFavoriteByDescription: Function;
   remFavorite: Function;
   favorites: Object;
+  user: Object;
+  createSubscription: Function;
 }
 
 export interface State {
@@ -47,6 +50,8 @@ class MapContainer extends React.Component<Props, State> {
         closestParkspots={this.props.closestParkspots}
         deleteClosestSpotWithID={this.props.deleteClosestSpotWithID}
         deleteClosestParkspots={this.props.deleteClosestParkspots}
+        userId={this.props.user ? this.props.user.id : null}
+        createSubscription={this.props.createSubscription}
       />
     );
   }
@@ -71,6 +76,7 @@ function bindAction(dispatch) {
     remFavorite: (fav) => dispatch(remFavorite(fav)),
     deleteClosestSpotWithID: (id) => dispatch(deleteClosestSpotWithID(id)),
     deleteClosestParkspots: () => dispatch(deleteClosestParkspots()),
+    createSubscription: (id, userId) => dispatch(subscribeToParkspot(id, userId)),
   };
 }
 
@@ -82,5 +88,6 @@ const mapStateToProps = state => ({
   distanceFilterValue: state.filterReducer.distance,
   favorites: state.searchReducer.favorites,
   closestParkspots: state.mapReducer.closestParkspots,
+  user: state.notificationsReducer.user,
 });
 export default connect(mapStateToProps, bindAction)(MapContainer);

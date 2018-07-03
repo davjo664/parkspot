@@ -60,7 +60,9 @@ export function updateUser(id: Number, fcmToken: String) {
         }
       });
 }
-
+export function setActiveSubscription(active: Boolean) {
+  return {type: 'SET_ACTIVE_SUBSCRIPTION', active};
+}
 export function subscribeToParkspot(id: Number, userId: Number) {
   const url = config.api.url + 'subscription/';
   const data = {
@@ -79,8 +81,9 @@ export function subscribeToParkspot(id: Number, userId: Number) {
     }) // Redux Thunk handles these
       .then(data => {
         if (data.statusCode && data.statusCode !== 201) {
-          console.warm(data);
+          console.warn(data);
         } else {
+          dispatch(setActiveSubscription(true));
           console.log(data);
         }
       }).catch((err) => {
@@ -91,6 +94,7 @@ export function subscribeToParkspot(id: Number, userId: Number) {
 export function deletedSubscription() {
   return {type: 'DELETED_SUBSCRIPTION'};
 }
+
 
 export function deleteubscriptionWithId(id: Number) {
   const url = config.api.url + 'subscription/' + id;
@@ -118,7 +122,7 @@ export function deleteUsersSubscriptions(userId: Number) {
       for (const subscription of data) {
         dispatch(deleteubscriptionWithId(subscription.id));
       }
-
+      dispatch(setActiveSubscription(false));
     }
   }).catch((err) => {
     console.warn(err);
