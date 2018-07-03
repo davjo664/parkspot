@@ -83,7 +83,7 @@ app.intent('actions_intent_PERMISSION', (conv, params, permissionGranted) => {
                             title: 'Free Parkspot',
                             description: 'This is a free Parkspot',
                             image: new Image({
-                                url: 'https://maps.googleapis.com/maps/api/staticmap?center=' + it.lat + '+' + it.lng + '&zoom=16&scale=2&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:0x004080|label:1|' + it.lat + '+' + it.lng,
+                                url: 'https://maps.googleapis.com/maps/api/staticmap?center=' + it.lat + '+' + it.lng + '&zoom=15.9&scale=1&size=464x256&maptype=roadmap&format=png&visual_refresh=true&markers=size:big|color:0x8affc1|label:P|' + it.lat + '+' + it.lng + '&key=AIzaSyCdTyjpw0JPaTrUb-x_ec5XgBoAfhxKGRM',
                                 alt: 'Map of the Parking Location',
                             }),
                             buttons: new Button({
@@ -102,7 +102,7 @@ app.intent('actions_intent_PERMISSION', (conv, params, permissionGranted) => {
                                 url: 'https://www.google.com/maps/search/?api=1&query=' + it.lat + ',' + it.lng,
                                 description: 'This is a free Parkspot',
                                 image: new Image({
-                                    url: 'https://maps.googleapis.com/maps/api/staticmap?center=' + it.lat + '+' + it.lng + '&zoom=16&scale=2&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:0x004080|label:1|' + it.lat + '+' + it.lng,
+                                    url: 'https://maps.googleapis.com/maps/api/staticmap?center=' + it.lat + '+' + it.lng + '&zoom=15.9&scale=1&size=464x256&maptype=roadmap&format=png&visual_refresh=true&markers=size:big|color:0x8affc1|label:P|' + it.lat + '+' + it.lng + '&key=AIzaSyCdTyjpw0JPaTrUb-x_ec5XgBoAfhxKGRM',
                                     alt: 'Map of the Parking Location',
                                 }),
                                 link: 'Navigate via Google Maps',
