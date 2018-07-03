@@ -67,6 +67,7 @@ export function subscribeToParkspot(id: Number, userId: Number) {
     parkSpotId: id,
     userId: userId,
   };
+  console.log(data)
   return dispatch =>
     fetch(url, {
       method: 'POST',
@@ -76,16 +77,14 @@ export function subscribeToParkspot(id: Number, userId: Number) {
         'accept': 'application/json',
       }
     }) // Redux Thunk handles these
-      .then(res => res.json())
       .then(data => {
         if (data.statusCode && data.statusCode !== 201) {
-          console.log(data);
+          console.warm(data);
         } else {
           console.log(data);
         }
       }).catch((err) => {
         console.warn(err);
-
       });
 }
 
@@ -99,10 +98,9 @@ export function deleteubscriptionWithId(id: Number) {
     fetch(url, {
       method: 'DELETE'
     }) // Redux Thunk handles these
-      .then(res => res.json())
       .then(data => {
         if (data.statusCode && data.statusCode !== 200) {
-          console.log(data);
+          console.warn(data);
         } else {
           dispatch(deletedSubscription());
         }
@@ -115,7 +113,7 @@ export function deleteUsersSubscriptions(userId: Number) {
   const url = config.api.url + 'subscription?user=' + userId;
   return dispatch => fetch(url).then(res => res.json()).then(data => {
     if (data.statusCode && data.statusCode !== 200) {
-      console.log(data);
+      console.warn(data);
     } else {
       for (const subscription of data) {
         dispatch(deleteubscriptionWithId(subscription.id));

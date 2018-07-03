@@ -98,8 +98,7 @@ class NotificationsManager extends React.Component<Props, State> {
   }
 
   render() {
-    return (<View style={{height: 100}}><View style={{marginTop: 50}}><TouchableOpacity onPress={() => {this.props.createSubscription(1, 232)}} ><Text>Subscribe</Text></TouchableOpacity>
-      <TouchableOpacity onPress={() => {this.props.deleteUsersSubscriptions(232)}}><Text>Delete</Text></TouchableOpacity></View></View >);
+    return null;
   }
 }
 
