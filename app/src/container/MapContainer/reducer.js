@@ -30,16 +30,20 @@ export default function (state: any = initialState, action: Function) {
     if (!action.refresh) {
       // adding all new parkspots to the data
       combined = _.unionBy(state.parkspots, action.data, 'id')
+      //console.log(combined)
       // updating the values for all existing parkspots without recreating
       // the object to prevent the map from rerendering too much.
-      for (let old in state.parkspots) {
-        const updated = action.data.find(p => p.id === old.id);
+
+      //iterate over all now available spots and for those which are in 
+      //the new data refresh every single key of them
+      combined.map((p) => {
+        const updated = action.data.find(newP => newP.id === p.id);
         if (updated) {
-          for (let key in old) {
-            old[key] = updated[key];
+          for (const key of Object.keys(p)) {
+            p[key] = updated[key];
           }
         }
-      }
+      });
     } else {
       combined = action.data;
     }
@@ -57,7 +61,6 @@ export default function (state: any = initialState, action: Function) {
       state.filters.forEach(filter => {
         if (!obj[filter]) {
           showParkspot = false;
-
         }
       });
       return showParkspot;
