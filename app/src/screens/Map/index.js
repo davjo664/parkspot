@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ActionSheet, Text, List} from 'native-base';
+import {ActionSheet, List, Text} from 'native-base';
 
 import {
   Dimensions,
@@ -8,8 +8,8 @@ import {
   Linking,
   Platform,
   SafeAreaView,
-  TouchableOpacity,
   ScrollView,
+  TouchableOpacity,
   View
 } from 'react-native';
 import {Callout, Marker} from 'react-native-maps';
@@ -32,6 +32,7 @@ import {PermissionHelper} from '../../helper/PermissionHelper';
 import textStyles from '../../theme/parkspotStyles';
 import ElevatedView from 'react-native-elevated-view';
 
+import CustomMarker from '../../components/CustomMarker';
 
 const haversine = require('haversine-js');
 
@@ -297,48 +298,35 @@ class Map extends React.Component<Props, State> {
 
   renderCluster = (cluster, onPress) => {
     const pointCount = cluster.pointCount;
-
-
-    const fontSize = pointCount <= 9 ? 18 : (pointCount <= 99 ? 15 : 15);
     const text = pointCount <= 99 ? pointCount.toString() : '99+';
 
-    return this.renderPin(cluster.coordinate, require('../../../assets/icons/map/clusterPin.png'), '', text, fontSize, onPress);
+    const key = cluster.coordinate.latitude ^ cluster.coordinate.longitude; 
+
+    return (
+      <CustomMarker
+        coordinate={cluster.coordinate}
+        key={key}
+        onPress={onPress}
+        isSelected={false}
+        isCluster={true}
+        label={text}
+      />
+    );
   };
 
   renderMarker = (data) => {
     const isSelected = this.state.selectedParkspot != null && this.state.selectedParkspot.id === data.id;
 
-    const image = isSelected ? require('../../../assets/icons/map/selectedPin.png') : require('../../../assets/icons/map/markerPin.png');
-    const fontSize = isSelected ? 15 : 18;
-    const additionalTextStyles = isSelected ? {paddingBottom: 8} : null;
-
-    return this.renderPin(data.location, image, data.id, 'P', fontSize, null, additionalTextStyles);
-  };
-
-  renderPin = (coordinate: Object, image: Number, key: String, text: String, fontSize: Number, onPress: ?Function, additionalTextStyles: ?Object) => {
-
-    // Android does not seem to like background images...
-    if (Platform.OS === 'ios') {
-      return (
-        <Marker key={key} coordinate={coordinate} onPress={onPress}>
-          <ImageBackground style={[styles.pin, styles.pinShadow]} source={image}>
-            <Text style={[styles.pinText, {fontSize: fontSize}, additionalTextStyles]}>{text}</Text>
-          </ImageBackground>
-        </Marker>
-      );
-    } else {
-      return (
-        <Marker style={[styles.pin, styles.pinShadow]} key={key} coordinate={coordinate} onPress={onPress}
-          image={image}>
-          <Text style={[styles.pinText, {
-            fontSize: fontSize,
-            paddingLeft: 4,
-            paddingTop: 4
-          }, additionalTextStyles]}>{text}</Text>
-        </Marker>
-      );
-    }
-
+    return (
+      <CustomMarker
+        coordinate={data.location}
+        key={data.id}
+        onPress={null}
+        isSelected={isSelected}
+        isCluster={false}
+        label={"P"}
+      />
+    );
   };
 
   renderDestination = (data) => {
@@ -348,7 +336,7 @@ class Map extends React.Component<Props, State> {
 
     return (
       <Marker key={'destination'} coordinate={data.location} style={styles.destinationPin}
-        image={require('../../../assets/icons/map/destinationPin.png')}>
+              image={require('../../../assets/icons/map/destinationPin.png')}>
         <Callout style={styles.destinationCallout}>
           <Text style={styles.destinationCalloutText}>{data.description}</Text>
         </Callout>
@@ -432,12 +420,12 @@ class Map extends React.Component<Props, State> {
           onPress={() => this.searchButtonWasPressed()}>
           <View style={styles.buttonContent}>
             <View style={styles.textContent}>
-              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
+              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon}/>
               <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
             </View>
             <View style={[styles.deleteButtonView, {display: displayClose}]}>
               <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation}>
-                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton}/>
               </TouchableOpacity>
             </View>
           </View>
@@ -462,7 +450,7 @@ class Map extends React.Component<Props, State> {
 
     // If distance filter value or selected location changes we have to
     // fetch the parkspots. This will always be true the first time loading
-    // because this.props is null from the beginning. 
+    // because this.props is null from the beginning.
     if ((this.props.distanceFilterValue != nextProps.distanceFilterValue) ||
       (this.props.selectedLocation != nextProps.selectedLocation)) {
 
@@ -540,12 +528,12 @@ class Map extends React.Component<Props, State> {
           onPress={() => this.searchButtonWasPressed()}>
           <View style={styles.buttonContent}>
             <View style={styles.textContent}>
-              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
+              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon}/>
               <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
             </View>
             <View style={[styles.deleteButtonView, {display: displayClose}]}>
-              <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation} >
-                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+              <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation}>
+                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton}/>
               </TouchableOpacity>
             </View>
           </View>
@@ -561,19 +549,25 @@ class Map extends React.Component<Props, State> {
     const spots = this.props.closestParkspots.map((parkspot) => {
       return (
         <View key={parkspot.id} style={styles.closestItemCard}>
-          <TouchableOpacity onPress={() => {this.onPressClosestItem(parkspot)}}>
-            <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: 9, paddingRight: 9, paddingTop: 9}} onPress={() => {this.props.deleteClosestSpotWithID(parkspot.id)}} >
-              <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+          <TouchableOpacity onPress={() => {
+            this.onPressClosestItem(parkspot)
+          }}>
+            <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: 9, paddingRight: 9, paddingTop: 9}}
+                              onPress={() => {
+                                this.props.deleteClosestSpotWithID(parkspot.id)
+                              }}>
+              <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton}/>
             </TouchableOpacity>
             <ParkspotItem
               parkspot={parkspot}
-              destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null} />
+              destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}/>
           </TouchableOpacity>
         </View>
       );
     })
     if (spots.length > 0) {
-      return (<ScrollView contentContainerStyle={{justifyContent: 'flex-end', }} style={styles.closesItemContainer}>{spots}</ScrollView>)
+      return (<ScrollView contentContainerStyle={{justifyContent: 'flex-end',}}
+                          style={styles.closesItemContainer}>{spots}</ScrollView>)
     }
   }
 
@@ -600,14 +594,14 @@ class Map extends React.Component<Props, State> {
               activeOpacity={0.7}
               onPress={() => this.setShowFilters(true)}
             >
-              <Image source={require('../../../assets/icons/misc/filter.png')} style={styles.icon} />
+              <Image source={require('../../../assets/icons/misc/filter.png')} style={styles.icon}/>
             </TouchableOpacity>
 
             <Text style={textStyles.textStyleMapHeading}>parkspot</Text>
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => this.findMeButtonWasPressed()}>
-              <Image source={require('../../../assets/icons/misc/relocate.png')} style={styles.icon} />
+              <Image source={require('../../../assets/icons/misc/relocate.png')} style={styles.icon}/>
             </TouchableOpacity>
           </View>
         </LinearGradient>
@@ -627,16 +621,16 @@ class Map extends React.Component<Props, State> {
         />
 
         {this.state.selectedParkspot &&
-          <MapCard
-            onStartNavigation={(parkspot) => this.startNavigation(parkspot)}
-            parkspot={this.state.selectedParkspot}
-            onDismiss={this.deselectParkspot}
-            drivingDirections={this.state.drivingDirections}
-            walkingDirections={this.state.walkingDirections}
-            destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
-            addFavoriteByDescription={this.props.addFavoriteByDescription}
-            remFavorite={this.props.remFavorite}
-          />
+        <MapCard
+          onStartNavigation={(parkspot) => this.startNavigation(parkspot)}
+          parkspot={this.state.selectedParkspot}
+          onDismiss={this.deselectParkspot}
+          drivingDirections={this.state.drivingDirections}
+          walkingDirections={this.state.walkingDirections}
+          destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
+          addFavoriteByDescription={this.props.addFavoriteByDescription}
+          remFavorite={this.props.remFavorite}
+        />
         }
 
         <ClusteredMapView
