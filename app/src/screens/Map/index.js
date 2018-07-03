@@ -55,6 +55,8 @@ export interface Props {
   closestParkspots: List;
   deleteClosestSpotWithID: Function;
   deleteClosestParkspots: Function;
+  userId: Number;
+  createSubscription: Function;
 }
 
 export interface State {
@@ -199,6 +201,7 @@ class Map extends React.Component<Props, State> {
             if (buttonIndex === CANCEL_INDEX) {
               return resolve(null);
             }
+            this.props.createSubscription(parkspot.id, this.props.userId);
             //reset closest spots -> nevermind if already empty
             this.props.deleteClosestParkspots();
             return resolve(availableApps[buttonIndex]);
