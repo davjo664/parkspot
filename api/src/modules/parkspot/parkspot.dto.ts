@@ -66,6 +66,14 @@ export class ParkSpotDto implements Partial<ParkSpotEntity> {
   @ApiModelPropertyOptional({type: SubscriptionEntity, isArray: true})
   subscriptions: SubscriptionEntity[];
 
+  @IsBoolean()
+  @ApiModelProperty()
+  priced: boolean;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  timeLimit: boolean;
+
 
 }
 

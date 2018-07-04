@@ -44,12 +44,6 @@ export default function (state: any = initialState, action: Function) {
       combined = action.data;
     }
 
-    // mocking some data TODO use API when ready
-    state.parkspots.map(parkspot => {
-      parkspot.unlimited = Math.random() < 0.5;
-      parkspot.noCost = Math.random() < 0.5;
-    });
-
     // Apply current filters on fetched parkspots
     let filteredParkspots = [];
     filteredParkspots = combined.filter(obj => {
