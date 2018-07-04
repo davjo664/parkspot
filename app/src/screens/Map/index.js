@@ -237,24 +237,22 @@ class Map extends React.Component<Props, State> {
 
   findMeButtonWasPressed = () => {
     PermissionHelper.hasPermission('location', () => {
-      this.props.updateLocation();
-      //location is usually already set so no need to wait for that... if bugs check here
-      this.map.getMapRef().animateToRegion({
-        latitude: this.props.userPosition.latitude,
-        longitude: this.props.userPosition.longitude,
-        longitudeDelta: 0.05,
-        latitudeDelta: 0.05,
-      }, 1000);
-      console.log(this.map)
-      // this.props.updateMapPosition(
-      //   {
-      //     latitude: this.props.userPosition.latitude,
-      //     longitude: this.props.userPosition.longitude,
-      //     longitudeDelta: 0.05,
-      //     latitudeDelta: 0.05,
-      //   }
-      // );
-
+      this.props.updateLocation((position) => {
+        this.map.getMapRef().animateToRegion({
+          latitude: position.latitude,
+          longitude: position.longitude,
+          longitudeDelta: 0.05,
+          latitudeDelta: 0.05,
+        });
+        this.props.updateMapPosition(
+          {
+            latitude: position.latitude,
+            longitude: position.longitude,
+            longitudeDelta: 0.05,
+            latitudeDelta: 0.05,
+          }
+        );
+      });
 
       this.state.showsUserLocation = true;
     }, true);

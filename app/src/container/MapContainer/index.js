@@ -68,7 +68,7 @@ function bindAction(dispatch) {
       console.log("INDEX");
       dispatch(fetchParkspots(latitude, longitude, distance, refresh));
     },
-    updateLocation: () => dispatch(updateLocation()),
+    updateLocation: (callback) => dispatch(updateLocation(callback)),
     updateMapPosition: (mapPosition) => dispatch(updateMapPosition(mapPosition)),
     filterParkspots: (filterId) => dispatch(filterParkspots(filterId)),
     clearSelectedLocation: () => dispatch(clearSelectedLocation()),

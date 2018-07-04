@@ -45,9 +45,12 @@ export function fetchParkspots(
       });
 }
 
-export function updateLocation() {
+export function updateLocation(callback) {
   return dispatch =>
     LocationAccessHelper.getLocation((userPosition) => {
+      if (callback) {
+        callback(userPosition);
+      }
       dispatch(updateLocationSuccess(userPosition));
     }, (error) => {
       console.warn(error);
