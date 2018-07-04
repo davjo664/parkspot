@@ -28,7 +28,10 @@ export default class CustomMarker extends Component {
       <Marker key={this.props.identifier}
               coordinate={this.props.coordinate}
               onPress={this.props.onPress}>
-        <ImageBackground style={[styles.pin, styles.pinShadow]}
+        <ImageBackground style={[styles.pin, styles.pinShadow, {
+          width: this.props.isSelected ? 65 : 32,
+          height: this.props.isSelected ? 58 : 32,
+        }]}
                          source={image}>
           <Text style={styles.pinText}>{this.props.label}</Text>
         </ImageBackground>
