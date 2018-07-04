@@ -2,11 +2,10 @@ import config from '../../config/config';
 import {LocationAccessHelper} from '../../helper/LocationAccessHelper';
 import {addFavorite, remFavorite} from '../SearchContainer/actions';
 
-export function fetchParkspotsSuccess(data: Object, refresh: Boolean) {
+export function fetchParkspotsSuccess(data: Object) {
   return {
     type: 'FETCH_PARKSPOTS_SUCCESS',
     data,
-    refresh,
   };
 }
 
@@ -28,7 +27,6 @@ export function fetchParkspots(
   latitude: ?number,
   longitude: ?number,
   distance: ?number,
-  refresh: ?Boolean,
 ) {
   const url =
     !latitude || !longitude || !distance
@@ -40,7 +38,7 @@ export function fetchParkspots(
       .then(data => {
         if (data.statusCode && data.statusCode !== 200) {
         } else {
-          dispatch(fetchParkspotsSuccess(data, refresh));
+          dispatch(fetchParkspotsSuccess(data));
         }
       });
 }

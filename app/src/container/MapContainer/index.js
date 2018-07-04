@@ -63,9 +63,8 @@ function bindAction(dispatch) {
       latitude: ?number,
       longitude: ?number,
       distance: ?number,
-      refresh: ?Boolean,
     ) => {
-      dispatch(fetchParkspots(latitude, longitude, distance, refresh));
+      dispatch(fetchParkspots(latitude, longitude, distance));
     },
     updateLocation: (callback) => dispatch(updateLocation(callback)),
     updateMapPosition: (mapPosition) => dispatch(updateMapPosition(mapPosition)),

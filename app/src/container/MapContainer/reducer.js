@@ -26,31 +26,11 @@ export default function (state: any = initialState, action: Function) {
       }
     };
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
-    let combined;
-    if (!action.refresh) {
-      // adding all new parkspots to the data
-      combined = _.unionBy(state.parkspots, action.data, 'id')
-      //console.log(combined)
-      // updating the values for all existing parkspots without recreating
-      // the object to prevent the map from rerendering too much.
+    const combined = _.unionBy(action.data, state.parkspots, 'id');
 
-      //iterate over all now available spots and for those which are in 
-      //the new data refresh every single key of them
-      combined.map((p) => {
-        const updated = action.data.find(newP => newP.id === p.id);
-        if (updated) {
-          for (const key of Object.keys(p)) {
-            p[key] = updated[key];
-          }
-        }
-      });
-    } else {
-      combined = action.data;
-    }
 
     // Apply current filters on fetched parkspots
-    let filteredParkspots = [];
-    filteredParkspots = combined.filter(obj => {
+    const filteredParkspots = combined.filter(obj => {
       let showParkspot = true;
       state.filters.forEach(filter => {
         if (!obj[filter]) {
@@ -59,11 +39,13 @@ export default function (state: any = initialState, action: Function) {
       });
       return showParkspot;
     });
+
     return {
       ...state,
       parkspots: filteredParkspots,
       originalParkspots: combined
     };
+
   } else if (action.type === 'UPDATE_MAP_POSITION') {
     return {
       ...state,
