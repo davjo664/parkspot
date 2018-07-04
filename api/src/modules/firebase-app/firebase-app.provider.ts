@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import {PrkConfig} from '../config/config.model';
 
 
 /**
@@ -18,8 +19,10 @@ export const firebaseAppProvider = {
   provide: FirebaseApp,
   // use a factory since we might be dependent on config that
   // could be injected as seen in the comments below:
-  useFactory: (/*config: PrkConfig*/) => admin.initializeApp()
-  // inject: [PrkConfig],
+  useFactory: (config: PrkConfig) => admin.initializeApp({
+    credential: admin.credential.cert(config.runtimeConfiguration.firebase as any)
+  }),
+   inject: [PrkConfig],
 };
 
 

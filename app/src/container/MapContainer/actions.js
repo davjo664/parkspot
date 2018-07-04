@@ -1,9 +1,12 @@
 import config from '../../config/config';
+import {LocationAccessHelper} from '../../helper/LocationAccessHelper';
+import {addFavorite, remFavorite} from '../SearchContainer/actions';
 
-export function fetchParkspotsSuccess(data: Object) {
+export function fetchParkspotsSuccess(data: Object, refresh: Boolean) {
   return {
     type: 'FETCH_PARKSPOTS_SUCCESS',
     data,
+    refresh,
   };
 }
 
@@ -25,6 +28,7 @@ export function fetchParkspots(
   latitude: ?number,
   longitude: ?number,
   distance: ?number,
+  refresh: ?Boolean,
 ) {
   const url =
     !latitude || !longitude || !distance
@@ -34,22 +38,68 @@ export function fetchParkspots(
     fetch(url) // Redux Thunk handles these
       .then(res => res.json())
       .then(data => {
-        if (data.statusCode && data.statusCode != 200) {
+        if (data.statusCode && data.statusCode !== 200) {
         } else {
-          dispatch(fetchParkspotsSuccess(data));
+          dispatch(fetchParkspotsSuccess(data, refresh));
         }
       });
 }
 
 export function updateLocation() {
   return dispatch =>
-    navigator.geolocation.getCurrentPosition(
-      userPosition => {
-        dispatch(updateLocationSuccess(userPosition));
-      },
-      error => {
-        console.log(error.message);
-      },
-      { enableHighAccuracy: true, timeout: 2500 },
-    );
+    LocationAccessHelper.getLocation((userPosition) => {
+      dispatch(updateLocationSuccess(userPosition));
+    }, (error) => {
+      console.warn(error);
+    });
+}
+
+export function filterParkspots(filterId) {
+  return {
+    type: 'FILTER_PARKSPOTS',
+    filter: filterId,
+  };
+}
+
+export function addFavoriteByDescription(description) {
+  return dispatch =>
+    LocationAccessHelper.getLocation((userPosition) => {
+      const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?location=${
+        userPosition.latitude
+        },${userPosition.longitude}
+      &radius=500&components=country:de|country:nl&input=${description}&key=${config.googleApi.key}&language=en`;
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if (data.statusCode && data.statusCode !== 200) {
+            console.log(data.message);
+          } else {
+            const favorite = data.predictions[0];
+            favorite.description = description;
+            dispatch(addFavorite(favorite));
+          }
+        });
+    }, (error) => {
+      console.warn(error);
+    });
+}
+
+export function setClosestParkspots(id: Integer) {
+  return {
+    id,
+    type: 'SET_CLOSEST_PARKSPOTS',
+  };
+}
+
+export function deleteClosestSpotWithID(id: Integer) {
+  return {
+    type: 'DELETE_CLOSEST_PARKSPOT_BY_ID',
+    id,
+  };
+}
+
+export function deleteClosestParkspots() {
+  return {
+    type: 'DELETE_ALL_CLOSEST_PARKSPOTS',
+  };
 }

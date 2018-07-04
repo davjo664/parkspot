@@ -1,5 +1,20 @@
 {
   "environment": "dev",
   "jwtSecret": "fah7faeGIiR5Ashm2huNai4Hahohx4Feeazd4Iechoaiph1auWLu4ushiasoTivoo5ohzae0HahLwo9Ooji9A",
+  "firebase": {
+    "type": "service_account",
+    "project_id": "parkspot11",
+    "private_key_id": "2e699377b621bf9913b3ee7db7e90f87d6a622e7",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQC3gGQRP/zj4BDi\n02VA+o34OpuJ+k4W3NoAgcrcad7i3uD5AfyMeueAMpGl0LFeYhIqlZrnZGWPXqoZ\nR4YJ60p7pHbQuGcKSZ4k2owOYuVRsSCeesC97LFZgTFM34eAfLK8/Di2HXFKArOR\nKx+3wHsjjdw/yijSjFd010wjmITJK1XQCAH0UiwKoUNXLjfcJxIqPHFgadhr9fE9\nF96SBKI+DEunel3Fpkf9TRZDk7YNoQ3RZ9wRn0MpYUS5Kai5SL6m4oNq6R3ROWwv\nJ6dZk+bAeEOVyrUFHjgG6EMthTX3A/F2p7+1jR5f4RZS2YQBlJYQBLhkSi/Ou+SE\n0cfAO/jxAgMBAAECgf8zm+iI8XYuoNYe9VWE8PL83X7hT4Sm6XZmrhpf42bMZ+Le\nJbDh0a9KXu6XtBoucWaqk2j9qz7lE7rDYVpRb9uC6r5/9V0Fh67yroS1hxr33tlN\nuTh8MhWvFqbG+BckC+45OLa6gY1bQ2c9bON+yqPXXA6V4kWY8d+m/OZtHHg8G3kK\naWvLMBNhBmTe5f9r7WojD4LMvVnp6Mz6ua3QtdnUv+0h/OolvO/OTqaWoLcENtea\n8jR00X/h3QZgzQZDZ15vE6EAland5stwOvOt5j4iszfnMb0cFjJts3Sh9HCaUQDY\new0JRMMKBMoFb5xxvNBZSsiG5gJAtH3d4EdiaKECgYEA920lLOo2VCwBuZWLGyC7\nNG/6kmjSOjxLSTjN+R9ojdS8LwqSiohwxhvHXC3pkpT2w8+KSRm8XY0orlR0jEb4\ntKGcee+XdqlBsPG2k3FHJZhrX1vccJ0rHF1m1HMAQAcAmvwF9okH9DXx+zR58hQc\nVH9JrVImviY8l7+F5yLVGOsCgYEAvdwvaaRjazALAwQnIrSTj0bKO+h6ovloHb7c\n44aPC2AQ+XmnqBdVNUfEGnSsnaAHPG1I6m0jDcknI8HFdRt05wrM7MGruuJnKEDo\nlDqbQQhA92o9w1M8ryneSfydl4KoSzx3fKtiU7x98E9ZxCGQOiWv6CiabZCgNWeL\nXCIRfpMCgYEAkgE9K7j14EurpOjjEloJPlNJ6LWkQKstvgKgQP7QwskjVxsFCGyl\nJ7JivTl2mIIA7+F7d9GQ/x96Pw0lTVXgEy8+2BGTLnmIgzLPi0gQNNYxni7l8So9\ns1pGgN1v61h2ef54QlfwcqKWrab0wu4tHYuTXYyZwiFsJhvll1RNrYsCgYBPqhMu\n5a5drIQCWPy+4DxGUzLKXmsO9U3NpWd0BOMCp+WXeIdzzY6QU7OiUjCX1y0SGt0M\nmIyr3SqSI11iHQo5Y9vGwCD5wsP8LPgqMkkwyXDRIAAYdFWzPgMq0leh2k4Ze567\nbgJNFntVmUYWOOsWqvebl2Xs8VF39yGPoC/tBwKBgC2i1hI+MzWFcYt7AOVS763B\n0fhp5GM67Hy/D069Zj8TnoqeCwLwqQ74rEmoAGaHWQxyBFl9laszPEd7bc+IuAB/\nwf3g0spKZaKshBAcDOmq/j0LVIaeuYTthpCHJUpuLh/wUVgokkgEptJEI4fUtKG5\nYfFC4r8Mnuwzu3rekayb\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-15ozc@parkspot11.iam.gserviceaccount.com",
+    "client_id": "111423958123903389882",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-15ozc%40parkspot11.iam.gserviceaccount.com"
+  },
+  "firebaseCMServerKey": "AAAACzU05MQ:APA91bFzgjILIX_bIva0sLycaZuKZNzP7hUaaeA3awkzy7zari0CJTQ5QtHH3Xdc5ySa2EmTfX2NX2FEnqIAJhqoi-k-FXlTWHUEqhjbEu0-lMitlmQnIfi_5SYCu1ZRDy31NPBp1hiG",
+  "firebaseCMSenderId": "48137299140",
+  "firebaseProjectId": "parkspot11",
   "jwtExpiresIn": 3600
 }

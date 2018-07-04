@@ -1,78 +1,40 @@
 const initialState = {
   searchString: '',
   data: [],
-  filteredData: [],
-  showParkspots: true,
+  showLocations: false,
   isLoading: false,
-  filters: [],
-  favourites: [],
+  favorites: [],
+  lastSearches: [],
   selectedLocation: null
 };
 
 export default function (state: any = initialState, action: Function) {
   if (action.type === 'UPDATE_SEARCH_STRING') {
+    if (action.searchString === '') {
+      return {
+        ...state,
+        showLocations: false,
+        searchString: action.searchString,
+      };
+    }
     return {
       ...state,
       searchString: action.searchString,
       isLoading: true,
     };
-  } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
-    // Apply current filter on fetched parkspots
-    let filteredData = [];
-    filteredData = action.data.filter(obj => {
-      let showData = true;
-      state.filters.forEach(filter => {
-        if (!obj[filter]) {
-          showData = false;
-          return;
+  } else if (action.type === 'FETCH_LOCATIONS_SUCCESS') {
+    action.locations.forEach(location => {
+      state.favorites.find((fav) => {
+        if (fav.id === location.id) {
+          location.favorite = true;
         }
       });
-      return showData;
     });
     return {
       ...state,
-      data: action.data,
-      filteredData: filteredData,
-      showParkspots: true,
-      isLoading: false,
-    };
-  } else if (action.type === 'FETCH_LOCATIONS_SUCCESS') {
-    return {
-      ...state,
       data: action.locations,
-      showParkspots: false,
+      showLocations: true,
       isLoading: false,
-    };
-  } else if (action.type === 'FILTER_DATA') {
-    let filters = state.filters;
-    let filteredData = [];
-    if (filters.includes(action.filter)) {
-      // Filter turned off -> needs to filter the original data
-      filters = filters.filter(filter => filter !== action.filter);
-      filteredData = state.data.filter(obj => {
-        let showData = true;
-        filters.forEach(filter => {
-          if (!obj[filter]) {
-            showData = false;
-            return;
-          }
-        });
-        return showData;
-      });
-    } else {
-      // Filter turned on -> adds filter on top of filterData
-      filters.push(action.filter);
-      filteredData = state.filteredData.filter(obj => {
-        if (!obj[action.filter]) {
-          return false;
-        }
-        return true;
-      });
-    }
-    return {
-      ...state,
-      filters: filters,
-      filteredData: filteredData,
     };
   } else if (action.type === 'UPDATE_SELECTED_LOCATION') {
     return {
@@ -81,38 +43,65 @@ export default function (state: any = initialState, action: Function) {
     };
   }
 
-  //checks if newFav is element of favourites - if not yet, includes it
-  else if (action.type === 'ADD_FAVOURITE') {
-    if (state.favourites.includes(action.newFav)) {
+  //checks if fav is element of favorites - if not yet, includes it
+  else if (action.type === 'ADD_FAVORITE') {
+    const found = state.favorites.find((fav) => {
+      return fav.id === action.fav.id;
+    });
+    state.lastSearches.find((fav) => {
+      if (fav.id === action.fav.id) {
+        fav.favorite = true;
+        return true;
+      }
+    });
+    if (found) {
       return {
         ...state,
       };
-    }
-    else {
+    } else {
+      action.fav.favorite = true;
       return {
         ...state,
-        favourites: [...state.favourites, action.newFav]
-      };
-    }
-  }
-
-  //checks if remFav is element of favourites - if so, removes it
-  else if (action.type === 'REM_FAVOURITE') {
-    if (state.favourites.includes(action.remFav)) {
-
-      const newFavourites = state.favourites.filter(item => item.id !== action.remFav.id);
-      return {
-        ...state,
-        favourites: [...newFavourites]
-      };
-    }
-    else {
-      return {
-        ...state,
+        favorites: [...state.favorites, action.fav]
       };
     }
   }
 
+  //checks if fav is element of favorites - if so, removes it
+  else if (action.type === 'REM_FAVORITE') {
+    const newFavorites = state.favorites;
+    state.favorites.find((fav) => {
+      if (fav.id === action.fav.id) {
+        action.fav.favorite = false;
+        fav.favorite = false;
+        newFavorites = state.favorites.filter(item => item.id !== action.fav.id);
+      }
+      return fav.id === action.fav.id;
+    });
+    state.lastSearches.find((fav) => {
+      if (fav.id === action.fav.id) {
+        fav.favorite = false;
+        return true;
+      }
+    });
+    return {
+      ...state,
+      favorites: [...newFavorites]
+    };
+  }
+
+  else if (action.type === 'ADD_LAST_SEARCHED') {
+    const lastSearches = state.lastSearches.filter((place) => {
+      return place.id !== action.place.id;
+    });
+    if (lastSearches.length === 5) {
+      lastSearches.pop();
+    }
+    return {
+      ...state,
+      lastSearches: [action.place, ...lastSearches]
+    };
+  }
 
   return state;
 }

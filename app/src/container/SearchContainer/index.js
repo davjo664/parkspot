@@ -1,9 +1,14 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import SearchScreen from '../../screens/Search';
-import {fetchParkspots} from '../MapContainer/actions';
-import {fetchLocationDetails, fetchLocations, filterData, updateSearchString,addFavourite, remFavourite,} from './actions';
-import {toggleFilter} from '../../components/Filter/actions';
+import {
+  addFavorite,
+  addLastSearched,
+  fetchLocationDetails,
+  fetchLocations,
+  remFavorite,
+  updateSearchString,
+} from './actions';
 
 export interface State {
 }
@@ -17,16 +22,16 @@ class SearchContainer extends React.Component<Props, State> {
         searchString={this.props.searchString}
         updateSearchString={this.props.updateSearchString}
         data={this.props.data}
-        filteredData={this.props.filteredData}
-        fetchParkspots={this.props.fetchParkspots}
         fetchLocations={this.props.fetchLocations}
-        showParkspots={this.props.showParkspots}
+        showLocations={this.props.showLocations}
         fetchLocationDetails={this.props.fetchLocationDetails}
         isLoading={this.props.isLoading}
-        toggleFilter={this.props.toggleFilter}
-        filterData={this.props.filterData}
-        addFavourite={this.props.addFavourite}
-        remFavourite={this.props.remFavourite}
+        favorites={this.props.favorites}
+        addFavorite={this.props.addFavorite}
+        remFavorite={this.props.remFavorite}
+        addLastSearched={this.props.addLastSearched}
+        lastSearches={this.props.lastSearches}
+        
       />
     );
   }
@@ -38,27 +43,25 @@ export interface Props {
   updateSearchString: Function;
   searchString: String;
   data: Array;
-  filteredData: Array;
-  fetchParkspots: Function;
   fetchLocations: Function;
-  showParkspots: Boolean;
+  showLocations: Boolean;
   fetchLocationDetails: Function;
   isLoading: Boolean;
-  toggleFilter: Function;
-  filterData: Function;
-  addFavourite: Function;
-  remFavourite: Function;
-  favourites: any;
+  addFavorite: Function;
+  remFavorite: Function;
+  favorites: any;
+  addLastSearched: Function;
+  lastSearches: any;
 }
 
 const mapStateToProps = state => ({
   userPosition: state.mapReducer.userPosition,
   searchString: state.searchReducer.searchString,
   data: state.searchReducer.data,
-  filteredData: state.searchReducer.filteredData,
-  showParkspots: state.searchReducer.showParkspots,
+  showLocations: state.searchReducer.showLocations,
   isLoading: state.searchReducer.isLoading,
-  favourites: state.searchReducer.favourites,
+  favorites: state.searchReducer.favorites,
+  lastSearches: state.searchReducer.lastSearches,
 });
 
 const mapDispatchToProps = dispatch => {
@@ -69,24 +72,18 @@ const mapDispatchToProps = dispatch => {
     fetchLocations: (searchString, userPosition) => {
       dispatch(fetchLocations(searchString, userPosition));
     },
-    fetchParkspots: (latitude, longitude, distance = 6000) => {
-      dispatch(fetchParkspots(latitude, longitude, distance));
-    },
-    fetchLocationDetails: rowData => {
+    fetchLocationDetails: (rowData) => {
       dispatch(fetchLocationDetails(rowData));
     },
-    toggleFilter: filterId => {
-      dispatch(toggleFilter(filterId));
+    addFavorite: fav => {
+      dispatch(addFavorite(fav));
     },
-    filterData: filterId => {
-      dispatch(filterData(filterId));
+    remFavorite: fav => {
+      dispatch(remFavorite(fav));
     },
-    addFavourite: newFav => {
-      dispatch(addFavourite(newFav));
-    },
-    remFavourite: remFav => {
-      dispatch(remFavourite(remFav));
-    },
+    addLastSearched: place => {
+      dispatch(addLastSearched(place));
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer);

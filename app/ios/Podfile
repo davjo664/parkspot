@@ -57,6 +57,8 @@ target 'parkspot' do
 
     pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
 
+    pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   end
   
   post_install do |installer|

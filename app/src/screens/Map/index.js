@@ -1,19 +1,36 @@
 import * as React from 'react';
-import { ActionSheet, Icon, Text } from 'native-base';
+import {ActionSheet, Text, List} from 'native-base';
 
-import { Dimensions, Linking, Platform, SafeAreaView, TouchableOpacity, View } from 'react-native';
-import { Marker } from 'react-native-maps';
+import {
+  Dimensions,
+  Image,
+  ImageBackground,
+  Linking,
+  Platform,
+  SafeAreaView,
+  TouchableOpacity,
+  ScrollView,
+  View
+} from 'react-native';
+import {Callout, Marker} from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster';
+import LinearGradient from 'react-native-linear-gradient';
 
 import MapViewDirections from 'react-native-maps-directions';
 import config from '../../config/config';
 
 import MapCard from '../../components/MapCard';
+import FilterCard from '../../components/FilterCard';
+import {ParkspotItem} from '../../components/ParkspotItem';
 
 import styles from './styles';
 import codePush from 'react-native-code-push';
 
 import colors from './../../theme/parkspotColors';
+import {PermissionHelper} from '../../helper/PermissionHelper';
+
+import textStyles from '../../theme/parkspotStyles';
+import ElevatedView from 'react-native-elevated-view';
 
 
 const haversine = require('haversine-js');
@@ -29,11 +46,26 @@ export interface Props {
   userPosition: any;
   mapPosition: any;
   selectedLocation: Object;
+  filterParkspots: Function;
+  distanceFilterValue: Number;
+  clearSelectedLocation: Function;
+  addFavoriteByDescription: Function;
+  remFavorite: Function;
+  favorites: Object;
+  closestParkspots: List;
+  deleteClosestSpotWithID: Function;
+  deleteClosestParkspots: Function;
+  userId: Number;
+  createSubscription: Function;
 }
 
 export interface State {
   selectedParkspot: any;
   mapPosition: any;
+  showsUserLocation: boolean;
+  destination: any;
+  drivingDirections: any;
+  walkingDirections: any;
 }
 
 class Map extends React.Component<Props, State> {
@@ -45,39 +77,77 @@ class Map extends React.Component<Props, State> {
       latitudeDelta: region.latitudeDelta,
     });
 
-    this.props.fetchParkspots(
-      this.props.mapPosition.latitude,
-      this.props.mapPosition.longitude,
-      this.approximateCurrentRegionRadius(this.props.mapPosition),
-    );
+    if (!(this.props.distanceFilterValue && this.props.selectedLocation)) {
+      this.props.fetchParkspots(
+        this.props.mapPosition.latitude,
+        this.props.mapPosition.longitude,
+        this.approximateCurrentRegionRadius(this.props.mapPosition),
+      );
+    }
   };
+
+
+  clusterWasPressed = (clusterId, children) => {
+    const childIds = children.map((child: Object) => {
+      return child.id;
+    }).map((id: Number) => {
+      return id.toString();
+    });
+
+    this.map.getMapRef().fitToSuppliedMarkers(childIds, true);
+  };
+
   markerWasPressed = (event: any) => {
+    // finding parkspot that corresponds to the supplied coordinates.
+    // Note: we have to handle float compares so we are using epsilon comparison below.
+    const clickedParkspot = this.props.parkspots.find(parkspot => {
+      if (
+        Math.abs(event.nativeEvent.coordinate.latitude - parkspot.lat) <= Number.EPSILON &&
+        Math.abs(event.nativeEvent.coordinate.longitude - parkspot.lng) <= Number.EPSILON
+      ) {
+        // Check if location is added to Favorites
+        parkspot.favorite = false;
+        parkspot.locationId = null;
+        parkspot.description = parkspot.street + ' ' + parkspot.houseNumber + ', ' + parkspot.city + ', ' + parkspot.country;
+        this.props.favorites.find((fav) => {
+          if (fav.description === parkspot.description) {
+            parkspot.favorite = true;
+            parkspot.locationId = fav.id;
+            return true;
+          }
+        });
+        return true;
+      }
+    })
+
+    if (!clickedParkspot) {
+      // this should mean we clicked a cluster, so we do not need to continue here.
+      return;
+    }
+
     /*
-         * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
-         * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
-         */
+     * Note: do not rely on Marker.onPress() to get the marker, since this does not work on iOS, instead use MapView.onMarkerPress()!
+     * See this issue for details: https://github.com/react-community/react-native-maps/issues/1689
+     */
+    this.setShowFilters(false);
     this.setState({
-      selectedParkspot: this.props.parkspots.find(parkspot => {
-        return (
-          parkspot.lat == event.nativeEvent.coordinate.latitude &&
-          parkspot.lng == event.nativeEvent.coordinate.longitude
-        );
-      }),
+      selectedParkspot: clickedParkspot,
     });
   };
+
   setSelectedParkspot = (parkspot: Object) => {
     this.props.updateMapPosition({
       latitude: Number(parkspot.lat),
       longitude: Number(parkspot.lng),
       latitudeDelta: 0.0005,
       longitudeDelta: 0.005,
-    })
+    });
     this.setState({
       selectedParkspot: parkspot,
     });
   };
 
-  startNavigation = () => {
+  startNavigation = (parkspot) => {
 
     const isIOS = Platform.OS === 'ios';
     const prefixes = {
@@ -91,7 +161,7 @@ class Map extends React.Component<Props, State> {
       'waze': 'Waze',
     };
     const userPosition = `${this.props.userPosition.latitude},${this.props.userPosition.longitude}`;
-    const parkspotPosition = `${this.state.selectedParkspot.lat},${this.state.selectedParkspot.lng}`;
+    const parkspotPosition = `${parkspot.lat},${parkspot.lng}`;
 
     isAppInstalled = (app) => {
       return new Promise((resolve) => {
@@ -117,18 +187,23 @@ class Map extends React.Component<Props, State> {
           }
         }
 
-        let options = availableApps.map((app) => ({ text: titles[app] }));
-        options.push({ text: 'Cancel', style: 'cancel' });
+        let options = availableApps.map((app) => ({text: titles[app]}));
+        options.push({text: 'Cancel', style: 'cancel'});
+        const CANCEL_INDEX = options.length - 1;
 
         ActionSheet.show(
           {
             options: options,
-            title: 'Which map do you want to use for navigation?'
+            title: 'Which map do you want to use for navigation?',
+            cancelButtonIndex: CANCEL_INDEX,
           },
           buttonIndex => {
-            if (buttonIndex === options.length - 1) {
+            if (buttonIndex === CANCEL_INDEX) {
               return resolve(null);
             }
+            this.props.createSubscription(parkspot.id, this.props.userId);
+            //reset closest spots -> nevermind if already empty
+            this.props.deleteClosestParkspots();
             return resolve(availableApps[buttonIndex]);
           }
         );
@@ -144,10 +219,10 @@ class Map extends React.Component<Props, State> {
       switch (app) {
         case 'apple-maps':
           url += `?saddr=${userPosition}&daddr=${parkspotPosition}`;
-          url += `&q=Parkspot`;
+          url += '&q=Parkspot';
           break;
         case 'google-maps':
-          url += `?q=Parkspot`;
+          url += '?q=Parkspot';
           url += (isIOS) ? '&api=1' : '';
           url += `&saddr=${userPosition}&daddr=${parkspotPosition}`;
           break;
@@ -161,27 +236,40 @@ class Map extends React.Component<Props, State> {
 
     start();
   };
+
   findMeButtonWasPressed = () => {
-    this.props.updateLocation();
-    //location is usually already set so no need to wait for that... if bugs check here
-    this.props.updateMapPosition(
-      {
-        latitude: this.props.userPosition.latitude,
-        longitude: this.props.userPosition.longitude,
-        longitudeDelta: 0.05,
-        latitudeDelta: 0.05,
-      }
-    );
+    PermissionHelper.hasPermission('location', () => {
+      this.props.updateLocation();
+      //location is usually already set so no need to wait for that... if bugs check here
+      this.props.updateMapPosition(
+        {
+          latitude: this.props.userPosition.latitude,
+          longitude: this.props.userPosition.longitude,
+          longitudeDelta: 0.05,
+          latitudeDelta: 0.05,
+        }
+      );
+      this.state.showsUserLocation = true;
+    }, true);
   };
+
   searchButtonWasPressed = () => {
     this.props.navigation.navigate('Search');
+    this.props.deleteClosestParkspots();
   };
-  favoriteButtonWasPressed = () => {
-    this.props.navigation.navigate('Favorites', { setSelectedParkspot: this.setSelectedParkspot });
+
+  setShowFilters = (show) => {
+    this.setState({
+      showFilters: show
+    });
   };
+
+
   mapWasPressed = () => {
     this.deselectParkspot();
+    this.setShowFilters(false);
   };
+
   approximateCurrentRegionRadius = region => {
     const a = {
       longitude: region.longitude - region.longitudeDelta / 2,
@@ -198,36 +286,80 @@ class Map extends React.Component<Props, State> {
 
     return haversine(a, b, options).toFixed(0);
   };
+
   deselectParkspot = () => {
     this.setState({
       selectedParkspot: null,
+      walkingDirections: null,
+      drivingDirections: null,
     });
   };
-  /** Clustering **/
 
   renderCluster = (cluster, onPress) => {
-    const pointCount = cluster.pointCount,
-      coordinate = cluster.coordinate;
+    const pointCount = cluster.pointCount;
+
+
+    const fontSize = pointCount <= 9 ? 18 : (pointCount <= 99 ? 15 : 15);
+    const text = pointCount <= 99 ? pointCount.toString() : '99+';
+
+    return this.renderPin(cluster.coordinate, require('../../../assets/icons/map/clusterPin.png'), '', text, fontSize, onPress);
+  };
+
+  renderMarker = (data) => {
+    const isSelected = this.state.selectedParkspot != null && this.state.selectedParkspot.id === data.id;
+
+    const image = isSelected ? require('../../../assets/icons/map/selectedPin.png') : require('../../../assets/icons/map/markerPin.png');
+    const fontSize = isSelected ? 15 : 18;
+    const additionalTextStyles = isSelected ? {paddingBottom: 8} : null;
+
+    return this.renderPin(data.location, image, data.id, 'P', fontSize, null, additionalTextStyles);
+  };
+
+  renderPin = (coordinate: Object, image: Number, key: String, text: String, fontSize: Number, onPress: ?Function, additionalTextStyles: ?Object) => {
+
+    // Android does not seem to like background images...
+    if (Platform.OS === 'ios') {
+      return (
+        <Marker key={key} coordinate={coordinate} onPress={onPress}>
+          <ImageBackground style={[styles.pin, styles.pinShadow]} source={image}>
+            <Text style={[styles.pinText, {fontSize: fontSize}, additionalTextStyles]}>{text}</Text>
+          </ImageBackground>
+        </Marker>
+      );
+    } else {
+      return (
+        <Marker style={[styles.pin, styles.pinShadow]} key={key} coordinate={coordinate} onPress={onPress}
+          image={image}>
+          <Text style={[styles.pinText, {
+            fontSize: fontSize,
+            paddingLeft: 4,
+            paddingTop: 4
+          }, additionalTextStyles]}>{text}</Text>
+        </Marker>
+      );
+    }
+
+  };
+
+  renderDestination = (data) => {
+    if (data == null) {
+      return null;
+    }
 
     return (
-      <Marker coordinate={coordinate} onPress={onPress}>
-        <View style={styles.cluster}>
-          <Text style={styles.clusterText}>{pointCount}</Text>
-        </View>
+      <Marker key={'destination'} coordinate={data.location} style={styles.destinationPin}
+        image={require('../../../assets/icons/map/destinationPin.png')}>
+        <Callout style={styles.destinationCallout}>
+          <Text style={styles.destinationCalloutText}>{data.description}</Text>
+        </Callout>
       </Marker>
     );
   };
-  renderMarker = (data) => {
-    return (
-      <Marker key={data.id} coordinate={data.location}>
-        <View style={styles.cluster}>
-          <Text style={styles.clusterText}>P</Text>
-        </View>
-      </Marker>
-    );
-  };
+
   transformParkspotsToData = (parkspots) => {
-    return parkspots.map((parkspot) => {
+    return parkspots.filter(parkspot => {
+      return parkspot.available;
+    }).map((parkspot) => {
       return {
         id: parkspot.id,
         location: {
@@ -247,11 +379,19 @@ class Map extends React.Component<Props, State> {
             latitude: Number(this.state.selectedParkspot.lat),
             longitude: Number(this.state.selectedParkspot.lng)
           }}
-          destination={this.props.selectedLocation ? {latitude: this.props.selectedLocation.lat, longitude: this.props.selectedLocation.lng} : null}
+          destination={this.props.selectedLocation ? {
+            latitude: this.props.selectedLocation.location.latitude,
+            longitude: this.props.selectedLocation.location.longitude
+          } : null}
           apikey={config.googleApi.key}
           strokeWidth={2}
-          strokeColor={colors.gunmetal}
-          mode="walking"
+          strokeColor={colors.greyishTeal}
+          mode='walking'
+          onReady={(result) => {
+            this.setState({
+              walkingDirections: result
+            });
+          }}
         />
 
       );
@@ -261,18 +401,49 @@ class Map extends React.Component<Props, State> {
     if (this.state.selectedParkspot) {
       return (
         <MapViewDirections
-          origin={{ latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude }}
+          origin={{latitude: this.props.userPosition.latitude, longitude: this.props.userPosition.longitude}}
           destination={{
             latitude: Number(this.state.selectedParkspot.lat),
             longitude: Number(this.state.selectedParkspot.lng)
           }}
           apikey={config.googleApi.key}
           strokeWidth={5}
-          strokeColor={colors.cement}
+          strokeColor={colors.gunmetal}
+          onReady={(result) => {
+            this.setState({
+              drivingDirections: result
+            });
+          }}
         />
-
       );
     }
+  };
+  _renderSearchButton = () => {
+
+    let text = this.props.selectedLocation ? this.props.selectedLocation.description : 'Search for a parkspot';
+    let textStyle = this.props.selectedLocation ? textStyles.textStyle2 : textStyles.textStyle2Placeholder;
+    let displayClose = this.props.selectedLocation ? 'flex' : 'none';
+    return (
+      <ElevatedView style={styles.searchButtonView} elevation={Platform.OS === 'ios' ? 5 : 3}>
+
+        <TouchableOpacity
+          style={styles.searchButton}
+          activeOpacity={0.7}
+          onPress={() => this.searchButtonWasPressed()}>
+          <View style={styles.buttonContent}>
+            <View style={styles.textContent}>
+              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
+              <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
+            </View>
+            <View style={[styles.deleteButtonView, {display: displayClose}]}>
+              <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation}>
+                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </ElevatedView>
+    );
   };
 
   constructor(props) {
@@ -280,13 +451,60 @@ class Map extends React.Component<Props, State> {
 
     this.state = {
       selectedParkspot: null,
+      showsUserLocation: false,
+      showFilters: false
     };
 
-    this.props.fetchParkspots(
-      this.props.mapPosition.latitude,
-      this.props.mapPosition.longitude,
-      this.approximateCurrentRegionRadius(this.props.mapPosition),
-    );
+    this.map = undefined;
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    // If distance filter value or selected location changes we have to
+    // fetch the parkspots. This will always be true the first time loading
+    // because this.props is null from the beginning. 
+    if ((this.props.distanceFilterValue != nextProps.distanceFilterValue) ||
+      (this.props.selectedLocation != nextProps.selectedLocation)) {
+
+      // Parkspots will only be filtered by distance if the distance filter value
+      // is greater than 0 and if a location is selected. Else fetch parkspots as usual.
+      if (nextProps.distanceFilterValue && nextProps.selectedLocation) {
+        this.props.fetchParkspots(
+          nextProps.selectedLocation.location.latitude,
+          nextProps.selectedLocation.location.longitude,
+          nextProps.distanceFilterValue,
+          true
+        );
+      } else {
+        this.props.fetchParkspots(
+          this.props.mapPosition.latitude,
+          this.props.mapPosition.longitude,
+          this.approximateCurrentRegionRadius(this.props.mapPosition),
+        );
+      }
+    }
+
+    // If favorite field changed from the mapCard we need to update the selectedParkspot
+    if (this.state.selectedParkspot && this.props.favorites.length != nextProps.favorites.length) {
+      let parkspot = this.state.selectedParkspot;
+      const found = nextProps.favorites.find((fav) => {
+        if (fav.description === parkspot.description) {
+          parkspot.favorite = true;
+          parkspot.locationId = fav.id;
+          this.setState({
+            selectedParkspot: parkspot
+          })
+          return true;
+        }
+      });
+      if (!found) {
+        parkspot.favorite = false;
+        parkspot.locationId = null;
+        this.setState({
+          selectedParkspot: parkspot
+        })
+      }
+    }
   }
 
   componentDidMount() {
@@ -301,75 +519,141 @@ class Map extends React.Component<Props, State> {
       });
     }
 
-    this.props.updateLocation();
+    PermissionHelper.hasPermission('location', () => {
+      this.props.updateLocation();
+      this.state.showsUserLocation = true;
+    }, true);
   }
 
 
-  /** / Clustering **/
+  _renderSearchButton = () => {
+
+    let text = this.props.selectedLocation ? this.props.selectedLocation.description : 'Search for a parkspot';
+    let textStyle = this.props.selectedLocation ? textStyles.textStyle2 : textStyles.textStyle2Placeholder;
+    let displayClose = this.props.selectedLocation ? 'flex' : 'none';
+    return (
+      <ElevatedView style={styles.searchButtonView} elevation={Platform.OS === 'ios' ? 5 : 3}>
+
+        <TouchableOpacity
+          style={styles.searchButton}
+          activeOpacity={0.7}
+          onPress={() => this.searchButtonWasPressed()}>
+          <View style={styles.buttonContent}>
+            <View style={styles.textContent}>
+              <Image source={require('../../../assets/icons/misc/search.png')} style={styles.searchIcon} />
+              <Text ellipsizeMode={'tail'} numberOfLines={1} style={textStyle}>{text}</Text>
+            </View>
+            <View style={[styles.deleteButtonView, {display: displayClose}]}>
+              <TouchableOpacity style={styles.deleteButtonTouchable} onPress={this.props.clearSelectedLocation} >
+                <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </ElevatedView>
+    )
+  }
+
+  onPressClosestItem = (parkspot) => {
+    this.startNavigation(parkspot);
+  }
+  _renderClosestParkspotsList = () => {
+    const spots = this.props.closestParkspots.map((parkspot) => {
+      return (
+        <View key={parkspot.id} style={styles.closestItemCard}>
+          <TouchableOpacity onPress={() => {this.onPressClosestItem(parkspot)}}>
+            <TouchableOpacity style={{alignSelf: 'flex-end', paddingRight: 9, paddingRight: 9, paddingTop: 9}} onPress={() => {this.props.deleteClosestSpotWithID(parkspot.id)}} >
+              <Image source={require('../../../assets/icons/misc/close.png')} style={styles.deleteButton} />
+            </TouchableOpacity>
+            <ParkspotItem
+              parkspot={parkspot}
+              destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null} />
+          </TouchableOpacity>
+        </View>
+      );
+    })
+    if (spots.length > 0) {
+      return (<ScrollView contentContainerStyle={{justifyContent: 'flex-end', }} style={styles.closesItemContainer}>{spots}</ScrollView>)
+    }
+  }
+
 
   render() {
     const data = this.transformParkspotsToData(this.props.parkspots);
 
     return (
-      <View style={styles.container}>
-        <View
-          style={[
-            styles.buttonsContainer,
-            { bottom: this.state.selectedParkspot ? 240 : 20 },
-          ]}
-        >
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.button}
-            onPress={() => this.findMeButtonWasPressed()}
-          >
-            <Icon type="MaterialIcons" name="gps-fixed" style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.button}
-            onPress={() => this.favoriteButtonWasPressed()}
-          >
-            <Icon type="MaterialIcons" name="star" style={{ color: 'black' }} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.button}
-            onPress={() => this.searchButtonWasPressed()}
-          >
-            <Icon
-              name="search"
-              type="MaterialIcons"
-              style={{ color: 'black' }}
-            />
-          </TouchableOpacity>
-        </View>
+      <SafeAreaView style={styles.container}>
 
-        <SafeAreaView style={styles.safeArea}>
+        {this._renderClosestParkspotsList()}
+        <LinearGradient
+          colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.5)', 'rgba(255,255,255,1)']}
+          locations={[0, 0.1, 0.4]}
+          style={[
+            styles.bottomContainer
+          ]}>
+
+          <View style={styles.searchRow}>
+            {this._renderSearchButton()}
+          </View>
+          <View style={styles.buttonsRow}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => this.setShowFilters(true)}
+            >
+              <Image source={require('../../../assets/icons/misc/filter.png')} style={styles.icon} />
+            </TouchableOpacity>
+
+            <Text style={textStyles.textStyleMapHeading}>parkspot</Text>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => this.findMeButtonWasPressed()}>
+              <Image source={require('../../../assets/icons/misc/relocate.png')} style={styles.icon} />
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
+
+        <View style={styles.safeArea}>
           <Text style={styles.versionLabel}>
             {this.state.version}.{this.state.label}
           </Text>
-        </SafeAreaView>
+        </View>
 
-        <MapCard
-          onStartNavigation={this.startNavigation}
-          parkspot={this.state.selectedParkspot}
-          onDismiss={this.deselectParkspot}
+        <FilterCard
+          showFilters={this.state.showFilters}
+          onDismiss={() => {
+            this.setShowFilters(false);
+          }}
+          filterParkspots={this.props.filterParkspots}
         />
+
+        {this.state.selectedParkspot &&
+          <MapCard
+            onStartNavigation={(parkspot) => this.startNavigation(parkspot)}
+            parkspot={this.state.selectedParkspot}
+            onDismiss={this.deselectParkspot}
+            drivingDirections={this.state.drivingDirections}
+            walkingDirections={this.state.walkingDirections}
+            destinationName={this.props.selectedLocation ? this.props.selectedLocation.description : null}
+            addFavoriteByDescription={this.props.addFavoriteByDescription}
+            remFavorite={this.props.remFavorite}
+          />
+        }
 
         <ClusteredMapView
           style={styles.map}
-          showsUserLocation={true}
+          showsUserLocation={this.state.showsUserLocation}
           region={this.props.mapPosition}
           onRegionChangeComplete={this.onRegionChangeComplete}
           showsMyLocationButton={false}
           showsPointsOfInterest={true}
           showsScale={true}
           zoomControlEnabled={false}
+          pitchEnabled={false}
           rotateEnabled={false}
           loadingEnabled={true}
           onPress={this.mapWasPressed}
           onMarkerPress={this.markerWasPressed}
+          onClusterPress={this.clusterWasPressed}
           ref={(r) => {
             this.map = r;
           }}
@@ -377,10 +661,11 @@ class Map extends React.Component<Props, State> {
           renderMarker={this.renderMarker}
           renderCluster={this.renderCluster}
         >
+          {this.renderDestination(this.props.selectedLocation)}
           {this.renderDrivingDirectionsOnMap()}
           {this.renderWalkingDirectionsOnMap()}
         </ClusteredMapView>
-      </View>
+      </SafeAreaView>
     );
   }
 }

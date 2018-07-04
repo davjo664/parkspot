@@ -10,17 +10,8 @@ export class PushNotificationService {
   constructor(private pushNotificationSender: PushNotificationSender) {
   }
 
-
-  // todo Can Kattwinkel: Determine return value of firebase.send
-  async send(title: string, message: string, target: PushTarget): Promise<string> {
-    const fcmMsg: admin.messaging.Message = {
-      notification: {
-        body: 'Test',
-        title: 'testtitle'
-      },
-      token: target.fcmToken
-    };
-    return await this.pushNotificationSender.send(fcmMsg, true);
+  async send(title: string, message: string, target: PushTarget, data: { [key: string]: string }): Promise<admin.messaging.MessagingDevicesResponse> {
+    return await this.pushNotificationSender.send(title,message, target.fcmToken, data);
   }
 
 }

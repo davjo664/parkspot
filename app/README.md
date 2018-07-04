@@ -9,6 +9,8 @@
 
  You will now receive an email with the installation link and further help from Appcenter each new release. (Note you have to register at appcenter.ms during the installation process.)
 
+### Versioning
+The app uses the version set in the `package.json`. To update this use `npm version major.minor.patch`, e.g. `npm version 1.5.3`.
 
 ### Distribution
 Updates containing native changes are made via a new release in Appcenter. Changes in the JavaScript can be released via the appcenter-cli (`npm install -g appcenter-cli`). Then run 
@@ -29,7 +31,8 @@ for the Android App you have to run `yarn android-deploy-build`. You can then fi
 #### Uploading
 To upload the built and archived apps you have to run `yarn ios-deploy-upload` and `yarn android-deploy-upload`.
 
-
+#### Cleaning
+After deploying both versions you need to clean the `RELEASE_NOTES.md`. Just run `yarn deploy-clean`.
 ## Parkspot App Development
 
 Based on:

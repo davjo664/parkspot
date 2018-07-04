@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   }, truncatedText: {
     flex: 1,
-    marginRight: 2,
+    marginRight: 20,
   }
 });
 

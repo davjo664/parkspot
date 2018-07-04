@@ -9,11 +9,11 @@ export class SubscriptionEntity {
   @ApiModelProperty()
   id: number;
 
-  @ManyToOne(type => ParkSpotEntity, parkspot => parkspot.subscriptions)
+  @ManyToOne(type => ParkSpotEntity, parkspot => parkspot.subscriptions, {eager: true})
   @ApiModelProperty()
   parkSpot: ParkSpotEntity;
 
-  @ManyToOne(type => UserEntity, user => user.subscriptions)
+  @ManyToOne(type => UserEntity, user => user.subscriptions, {eager: true})
   @ApiModelProperty()
   user: UserEntity;
 }
