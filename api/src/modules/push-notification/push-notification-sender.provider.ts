@@ -17,6 +17,18 @@ export class PushNotificationSender {
       }
     });
   }
+
+
+  async sendSilent(token: string, data: { [key: string]: string }, contentAvailable: boolean) {
+
+
+    console.log('data', data);
+    return admin.messaging().sendToDevice(token, {
+      data: data,
+    }, {
+      contentAvailable,
+    });
+  }
 }
 
 

@@ -15,8 +15,20 @@ export interface ParkspotUpdate {
 export class ParkSpotUpdateSubscriber implements EntitySubscriberInterface<ParkSpotEntity> {
 
 
+
+  /**
+   * They only emit a value of a parkspot has changed from true to false. */
   private static _parkspotUpdates$ = new Subject<ParkspotUpdate>();
   public static parkspotUpdates$: Observable<ParkspotUpdate> = ParkSpotUpdateSubscriber._parkspotUpdates$.asObservable();
+
+
+  /**
+   * They only emit a value each time a parkspot has changed from (available * to available * ). */
+  private static _spamUpdate$ = new Subject<ParkspotUpdate>();
+  public static spamUpdate$: Observable<ParkspotUpdate> = ParkSpotUpdateSubscriber._spamUpdate$.asObservable();
+
+
+
 
   listenTo() {
     return ParkSpotEntity;
@@ -33,6 +45,17 @@ export class ParkSpotUpdateSubscriber implements EntitySubscriberInterface<ParkS
       // console.log('Skipping subscription since there is no entity matching the update');
       return;
     }
+
+
+    // spam:
+    // this code is so bad, it needs to be removed.
+    if (typeof event.entity.available === typeof true && oldEntity.available !== event.entity.available) {
+      ParkSpotUpdateSubscriber._spamUpdate$.next({
+        id: oldEntity.id,
+        availabilityBefore: oldEntity.available,
+        availabilityAfter: event.entity.available
+      });    }
+
 
     if (typeof event.entity.available === typeof true && oldEntity.available === true && event.entity.available === false) {
       ParkSpotUpdateSubscriber._parkspotUpdates$.next({
