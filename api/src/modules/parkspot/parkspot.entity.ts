@@ -26,6 +26,14 @@ export class ParkSpotEntity {
   @ApiModelProperty()
   electricCharger: boolean;
 
+  @Column({default: false})
+  @ApiModelProperty()
+  priced: boolean;
+
+  @Column({default: false})
+  @ApiModelProperty()
+  timeLimit: boolean;
+
   @Column()
   @ApiModelProperty()
   handicapped: boolean;

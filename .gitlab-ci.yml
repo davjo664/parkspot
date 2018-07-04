@@ -3,7 +3,6 @@ build api:
   stage: build
   script:
     - cd api
-    - npm i -g yarn  --progress=false
     - yarn
     - yarn build
   artifacts:
@@ -34,7 +33,6 @@ api-test:
   stage: test
   script:
     - cd api
-    - npm i -g yarn  --progress=false
     - yarn
     - yarn test:cov
   coverage: /All files\s*\|\s*([\d\.]+)/

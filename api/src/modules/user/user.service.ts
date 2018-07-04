@@ -10,6 +10,10 @@ export class UserService {
   constructor(private userRepo: UserRepo) {
   }
 
+  async get(): Promise<UserEntity[]>{
+    return this.userRepo.find();
+  }
+
   async findOne(id: number): Promise<UserEntity> {
     const user = await this.userRepo.findOne({id});
     if (!user) {

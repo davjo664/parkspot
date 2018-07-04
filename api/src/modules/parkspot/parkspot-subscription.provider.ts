@@ -12,3 +12,16 @@ export const parkspotSubscriptionProvider = {
   useValue: ParkSpotUpdateSubscriber.parkspotUpdates$,
 };
 
+
+
+// todo remove this as soon as possible:
+export const parkspotSpamSubscriptionToken = Symbol('parkspotSubscriptionProvider');
+
+/**
+ * Usage: @Inject(parkspotSpamSubscriptionToken) private updates$: Observable<ParkspotUpdate>
+ */
+export const parkspotSpamSubscriptionProvider = {
+  provide: parkspotSpamSubscriptionToken,
+  useValue: ParkSpotUpdateSubscriber.spamUpdate$,
+};
+

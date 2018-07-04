@@ -14,4 +14,8 @@ export class PushNotificationService {
     return await this.pushNotificationSender.send(title,message, target.fcmToken, data);
   }
 
+  async sendSilent(target: PushTarget, data: { [key: string]: string }): Promise<admin.messaging.MessagingDevicesResponse> {
+    return await this.pushNotificationSender.sendSilent(target.fcmToken, data, true);
+  }
+
 }

@@ -1,9 +1,8 @@
 import * as React from 'react';
-
 import firebase, {Notification} from 'react-native-firebase';
 import {connect} from 'react-redux';
 import {createUser, updateUser, subscribeToParkspot, deleteUsersSubscriptions} from './actions';
-import {setClosestParkspots} from '../MapContainer/actions';
+import {setClosestParkspots, updateParkspotByID, deleteClosestParkspots} from '../MapContainer/actions';
 import {PermissionHelper} from '../../helper/PermissionHelper';
 
 
@@ -11,6 +10,8 @@ import {PermissionHelper} from '../../helper/PermissionHelper';
 
 export interface Props {
   navigation: any;
+  user: Object;
+  activeSubscription: Boolean;
 }
 
 
@@ -21,18 +22,17 @@ class NotificationsManager extends React.Component<Props, State> {
     if (this.props.user.id === undefined) {
       console.log('create user');
       this.props.createUser(token);
-
     } else {
       if (this.props.user.fcmToken !== token) {
         console.log('update user');
         this.props.updateUser(this.props.user.id, token);
       }
-
     }
   }
 
   showNewClosestSpots(id: Integer) {
     this.props.setClosestParkspots(id);
+    this.props.deleteUsersSubscriptions(this.props.user.id);
   }
 
   handleNotifications() {
@@ -59,12 +59,17 @@ class NotificationsManager extends React.Component<Props, State> {
 
     // when a particular notification has been received in foreground
     this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
-      alert(notification.body)
-      if (notification.data.type === 'spot-taken') {
-        this.showNewClosestSpots(parseInt(notification.data.payload, 10));
+      if (notification.data) {
+        if (notification.data.type === 'spot-taken') {
+          alert(notification.body)
+          this.showNewClosestSpots(parseInt(notification.data.payload, 10));
+
+        } else if (notification.data.type === 'spot-updated') {
+          this.props.updateParkspot(parseInt(notification.data.payload.id, 10), notification.data.payload.available);
+        }
       }
       console.log('onNotification');
-      console.log(notification);
+      console.log(notification.data);
     });
 
 
@@ -84,7 +89,6 @@ class NotificationsManager extends React.Component<Props, State> {
 
   componentDidMount() {
 
-
     //check if app was opened via notification when App was closed
     firebase.notifications().getInitialNotification().then((notificationOpen: NotificationOpen) => {
       if (notificationOpen) {
@@ -100,6 +104,7 @@ class NotificationsManager extends React.Component<Props, State> {
         console.log('onNotificationOpened when closed');
         console.log(notificationOpen);
 
+
       }
     });
 
@@ -107,6 +112,20 @@ class NotificationsManager extends React.Component<Props, State> {
     PermissionHelper.hasPermission('notification', () => {
       this.handleNotifications();
     }, true);
+
+
+    //remove subscription after 5s acitve --> workaround because user.id and activeSubscription not yet available on start.
+    // TODO: find a better way to delete subscriptions 
+    new Promise(resolve => setTimeout(resolve, 5000)).then((r) => {
+      if (this.props.activeSubscription) {
+        this.props.deleteUsersSubscriptions(this.props.user.id);
+      }
+    });
+    // TODO: find a better way to delete shown spots e.g. exclude from persist 
+    new Promise(resolve => setTimeout(resolve, 500)).then((r) => {
+      this.props.deleteClosestParkspots()
+    });
+
   }
 
   componentWillUnmount() {
@@ -114,7 +133,6 @@ class NotificationsManager extends React.Component<Props, State> {
     this.notificationListener();
     this.notificationOpenedListener();
   }
-
   render() {
     return null;
   }
@@ -127,10 +145,13 @@ function bindAction(dispatch) {
     createSubscription: (id, userId) => dispatch(subscribeToParkspot(id, userId)),
     deleteUsersSubscriptions: (userId) => dispatch(deleteUsersSubscriptions(userId)),
     setClosestParkspots: (id) => dispatch(setClosestParkspots(id)),
+    deleteClosestParkspots: () => dispatch(deleteClosestParkspots()),
+    updateParkspot: (id, status) => dispatch(updateParkspotByID(id, status)),
   };
 }
 
 const mapStateToProps = state => ({
-  user: state.notificationsReducer.user
+  user: state.notificationsReducer.user,
+  activeSubscription: state.notificationsReducer.activeSubscription,
 });
 export default connect(mapStateToProps, bindAction)(NotificationsManager);
