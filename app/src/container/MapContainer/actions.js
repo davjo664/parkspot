@@ -45,6 +45,14 @@ export function fetchParkspots(
       });
 }
 
+export function updateParkspotByID(id: number, status: boolean) {
+  return {
+    type: 'UPDATE_PARKSPOT_WITH_ID',
+    id,
+    status,
+  };
+}
+
 export function updateLocation() {
   return dispatch =>
     LocationAccessHelper.getLocation((userPosition) => {

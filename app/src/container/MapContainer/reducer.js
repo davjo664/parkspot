@@ -98,6 +98,20 @@ export default function (state: any = initialState, action: Function) {
       ...state,
       distance: action.distance
     };
+  } else if (action.type === 'UPDATE_PARKSPOT_WITH_ID') {
+    const updatedSpots = state.parkspots.map((spot) => {
+      if (spot.id === action.id) {
+        let tmpSpot = spot;
+        tmpSpot.available = action.available;
+        return tmpSpot;
+      } else {
+        return spot;
+      }
+    });
+    return {
+      ...state,
+      parkspots: updatedSpots,
+    };
   } else if (action.type === 'SET_CLOSEST_PARKSPOTS') {
     //get taken spot from PN
     const takenSpot = state.parkspots.find((spot) => {
