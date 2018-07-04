@@ -135,16 +135,14 @@ class Map extends React.Component<Props, State> {
     });
   };
 
-  setSelectedParkspot = (parkspot: Object) => {
-    this.props.updateMapPosition({
-      latitude: Number(parkspot.lat),
-      longitude: Number(parkspot.lng),
-      latitudeDelta: 0.0005,
-      longitudeDelta: 0.005,
-    });
-    this.setState({
-      selectedParkspot: parkspot,
-    });
+  setSelectedLocation = (location: Object) => {
+    //supply this function to search via Navigator to call when location should be set
+    this.map.getMapRef().animateToRegion({
+      latitude: location.latitude,
+      longitude: location.longitude,
+      longitudeDelta: 0.05,
+      latitudeDelta: 0.05,
+    }, 0);
   };
 
   startNavigation = (parkspot) => {
@@ -239,22 +237,31 @@ class Map extends React.Component<Props, State> {
 
   findMeButtonWasPressed = () => {
     PermissionHelper.hasPermission('location', () => {
-      this.props.updateLocation();
-      //location is usually already set so no need to wait for that... if bugs check here
-      this.props.updateMapPosition(
-        {
-          latitude: this.props.userPosition.latitude,
-          longitude: this.props.userPosition.longitude,
+      this.props.updateLocation((position) => {
+        this.map.getMapRef().animateToRegion({
+          latitude: position.latitude,
+          longitude: position.longitude,
           longitudeDelta: 0.05,
           latitudeDelta: 0.05,
-        }
-      );
+        });
+        this.props.updateMapPosition(
+          {
+            latitude: position.latitude,
+            longitude: position.longitude,
+            longitudeDelta: 0.05,
+            latitudeDelta: 0.05,
+          }
+        );
+      });
+
       this.state.showsUserLocation = true;
     }, true);
   };
 
   searchButtonWasPressed = () => {
-    this.props.navigation.navigate('Search');
+    this.props.navigation.navigate('Search',
+      {'setLocation': (location) => this.setSelectedLocation(location)}
+    );
     this.props.deleteClosestParkspots();
   };
 
@@ -642,7 +649,7 @@ class Map extends React.Component<Props, State> {
         <ClusteredMapView
           style={styles.map}
           showsUserLocation={this.state.showsUserLocation}
-          region={this.props.mapPosition}
+          initialRegion={this.props.mapPosition}
           onRegionChangeComplete={this.onRegionChangeComplete}
           showsMyLocationButton={false}
           showsPointsOfInterest={true}

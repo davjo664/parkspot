@@ -12,7 +12,11 @@ const WINDOW = Dimensions.get('window');
 export default class SearchScreen extends Component {
   _onPress = rowData => {
     Keyboard.dismiss();
-    this.props.fetchLocationDetails(rowData);
+    this.props.fetchLocationDetails(rowData, (location) => {
+      // this function gets called after location data is available from fetchLocationDetails...
+      // use callback from map to animate to region
+      this.props.navigation.getParam('setLocation')(location);
+    });
     this.props.addLastSearched(rowData);
     this.props.updateSearchString('');
     this.props.navigation.goBack();
@@ -27,7 +31,7 @@ export default class SearchScreen extends Component {
   _renderSearchBar = () => {
     return (
       <View style={defaultStyles.searchBar}>
-        <SearchBar onChange={this._onChange} isLoading={this.props.isLoading} searchString={this.props.searchString}/>
+        <SearchBar onChange={this._onChange} isLoading={this.props.isLoading} searchString={this.props.searchString} />
         <TouchableOpacity style={defaultStyles.cancelButton} onPress={() => this.props.navigation.goBack()}>
           <Text style={textStyles.textStyle2}>Cancel</Text>
         </TouchableOpacity>
@@ -49,8 +53,8 @@ export default class SearchScreen extends Component {
 
   _renderPlaceItem = (place) => {
     return <PlaceListItem place={place} onPress={() => this._onPress(place)}
-                          addFavorite={() => this.props.addFavorite(place)}
-                          remFavorite={() => this.props.remFavorite(place)}/>;
+      addFavorite={() => this.props.addFavorite(place)}
+      remFavorite={() => this.props.remFavorite(place)} />;
   };
   _renderList = () => {
     let data;

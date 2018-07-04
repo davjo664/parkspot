@@ -32,7 +32,7 @@ export function fetchLocations(searchString, userPosition) {
       });
 }
 
-export function fetchLocationDetails(rowData) {
+export function fetchLocationDetails(rowData, setLocation) {
   const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${config.googleApi.key}&language=en&placeid=${
     rowData.place_id
     }`;
@@ -50,6 +50,12 @@ export function fetchLocationDetails(rowData) {
             },
             description: rowData.description,
           };
+          //call the callback that is set from Search Screen and will set map to location
+          setLocation({
+            latitude: data.result.geometry.location.lat,
+            longitude: data.result.geometry.location.lng,
+          });
+          //still update mapPosition to keep reference 
           const mapPosition = {
             latitude: Number(selectedLocation.location.latitude),
             longitude: Number(selectedLocation.location.longitude),
