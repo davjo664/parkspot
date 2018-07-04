@@ -65,7 +65,6 @@ function bindAction(dispatch) {
       distance: ?number,
       refresh: ?Boolean,
     ) => {
-      console.log("INDEX");
       dispatch(fetchParkspots(latitude, longitude, distance, refresh));
     },
     updateLocation: (callback) => dispatch(updateLocation(callback)),
