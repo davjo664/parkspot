@@ -300,12 +300,11 @@ class Map extends React.Component<Props, State> {
     const pointCount = cluster.pointCount;
     const text = pointCount <= 99 ? pointCount.toString() : '99+';
 
-    const key = cluster.coordinate.latitude ^ cluster.coordinate.longitude; 
-
     return (
       <CustomMarker
+        key={cluster.clusterId}
         coordinate={cluster.coordinate}
-        key={key}
+        identifier={cluster.clusterId}
         onPress={onPress}
         isSelected={false}
         isCluster={true}
@@ -319,8 +318,9 @@ class Map extends React.Component<Props, State> {
 
     return (
       <CustomMarker
-        coordinate={data.location}
         key={data.id}
+        coordinate={data.location}
+        identifier={data.id}
         onPress={null}
         isSelected={isSelected}
         isCluster={false}

@@ -95,29 +95,6 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  pin: {
-    width: 32,
-    height: 32,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  pinShadow: {
-    shadowColor: 'rgba(0, 0, 0, 0.16)',
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowRadius: 8,
-    shadowOpacity: 1
-  },
-  pinText: {
-    fontSize: 24,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    color: colors.white,
-  },
   destinationPin: {
     width: 33,
     height: 38,
