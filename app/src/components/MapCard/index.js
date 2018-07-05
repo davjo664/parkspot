@@ -114,8 +114,8 @@ export default class MapCard extends Component {
               <View style={styles.iconsContainer}>
                 {this.renderIcon(this.props.parkspot.electricCharger, require('../../../assets/icons/filter/electricCharger.png'), 'Electric charger')}
                 {this.renderIcon(this.props.parkspot.accessible, require('../../../assets/icons/filter/accessible.png'), 'Handicapped parking')}
-                {this.renderIcon(!this.props.parkspot.priced, require('../../../assets/icons/filter/nomoney.png'), 'Free Parking')}
-                {this.renderIcon(!this.props.parkspot.timeLimit, require('../../../assets/icons/filter/clock.png'), 'Unlimited parking time')}
+                {this.renderIcon(this.props.parkspot.priced, require('../../../assets/icons/filter/nomoney.png'), 'Free Parking')}
+                {this.renderIcon(this.props.parkspot.timeLimit, require('../../../assets/icons/filter/clock.png'), 'Unlimited parking time')}
               </View>
             }
 

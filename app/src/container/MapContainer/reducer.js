@@ -28,6 +28,14 @@ export default function (state: any = initialState, action: Function) {
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
     const combined = action.refresh ? action.data : _.unionBy(action.data, state.parkspots, 'id');
 
+    // TODO remove
+    // fixing wrong names returned from API
+    combined.forEach(p => {
+      p.noCost = p.noCost || !p.free;
+      p.unlimited = p.unlimited || !p.timeLimit;
+    });
+    // End: TODO remove
+
     // Apply current filters on fetched parkspots
     const filteredParkspots = combined.filter(obj => {
       let showParkspot = true;
@@ -124,7 +132,9 @@ export default function (state: any = initialState, action: Function) {
   } else if (action.type === 'DELETE_CLOSEST_PARKSPOT_BY_ID') {
     return {
       ...state,
-      closestParkspots: state.closestParkspots.filter((el) => {return el.id !== action.id;})
+      closestParkspots: state.closestParkspots.filter((el) => {
+        return el.id !== action.id;
+      })
     };
   }
   return state;
