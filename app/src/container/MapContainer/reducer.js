@@ -26,8 +26,7 @@ export default function (state: any = initialState, action: Function) {
       }
     };
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
-    const combined = _.unionBy(action.data, state.parkspots, 'id');
-
+    const combined = action.refresh ? action.data : _.unionBy(action.data, state.parkspots, 'id');
 
     // Apply current filters on fetched parkspots
     const filteredParkspots = combined.filter(obj => {
