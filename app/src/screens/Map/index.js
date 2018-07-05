@@ -635,7 +635,7 @@ class Map extends React.Component<Props, State> {
           filterParkspots={this.props.filterParkspots}
         />
 
-        {this.state.selectedParkspot &&
+        {this.state.selectedParkspot && this.props.closestParkspots.length === 0 &&
           <MapCard
             onStartNavigation={(parkspot) => this.startNavigation(parkspot)}
             parkspot={this.state.selectedParkspot}
