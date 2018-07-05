@@ -63,7 +63,7 @@ function bindAction(dispatch) {
       latitude: ?number,
       longitude: ?number,
       distance: ?number,
-      refresh: ?Boolean,
+      refresh: Boolean,
     ) => {
       dispatch(fetchParkspots(latitude, longitude, distance, refresh));
     },

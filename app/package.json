@@ -1,6 +1,6 @@
 {
   "name": "parkspot",
-  "version": "1.9.0",
+  "version": "1.9.2",
   "private": true,
   "devDependencies": {
     "appcenter-cli": "^1.0.17",
@@ -33,7 +33,7 @@
     "ios": "react-native run-ios",
     "ios-deploy": "yarn ios-deploy-codepush && yarn ios-deploy-build && yarn ios-deploy-upload",
     "ios-deploy-codepush": "appcenter codepush release-react -a jnsfrg/parkspot -m",
-    "ios-deploy-build": "cd ios && pod install && xcodebuild -workspace parkspot.xcworkspace -scheme parkspot -sdk iphoneos -configuration DevelopmentDistribution archive -archivePath $PWD/build/parkspot.xcarchive && xcodebuild -exportArchive -archivePath $PWD/build/parkspot.xcarchive -exportOptionsPlist exportOptions.plist -exportPath $PWD/build",
+    "ios-deploy-build": "cd ios && pod update && pod install && xcodebuild -workspace parkspot.xcworkspace -scheme parkspot -sdk iphoneos -configuration DevelopmentDistribution archive -archivePath $PWD/build/parkspot.xcarchive && xcodebuild -exportArchive -archivePath $PWD/build/parkspot.xcarchive -exportOptionsPlist exportOptions.plist -exportPath $PWD/build",
     "ios-deploy-upload": "appcenter distribute release -a jnsfrg/parkspot -f ios/build/parkspot.ipa -g Dev -R RELEASE_NOTES.md",
     "deploy": "yarn android-deploy && yarn ios-deploy && yarn deploy-clean",
     "deploy-clean": "echo '# Release notes\r\n' > RELEASE_NOTES.md",

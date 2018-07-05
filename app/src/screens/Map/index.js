@@ -291,7 +291,9 @@ class Map extends React.Component<Props, State> {
       radius: 6371, // radius of earth in km
     };
 
-    return haversine(a, b, options).toFixed(0);
+    // Do not return 0 here, since this would prevent an update.
+    // Due to this we always add 500m just to make sure the approximation works.
+    return haversine(a, b, options) + 0.5;
   };
 
   deselectParkspot = () => {
@@ -633,7 +635,7 @@ class Map extends React.Component<Props, State> {
           filterParkspots={this.props.filterParkspots}
         />
 
-        {this.state.selectedParkspot &&
+        {this.state.selectedParkspot && this.props.closestParkspots.length === 0 &&
           <MapCard
             onStartNavigation={(parkspot) => this.startNavigation(parkspot)}
             parkspot={this.state.selectedParkspot}

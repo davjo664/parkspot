@@ -28,7 +28,7 @@ export function fetchParkspots(
   latitude: ?number,
   longitude: ?number,
   distance: ?number,
-  refresh: ?Boolean,
+  refresh: Boolean,
 ) {
   const url =
     !latitude || !longitude || !distance
