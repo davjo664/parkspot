@@ -26,41 +26,33 @@ export default function (state: any = initialState, action: Function) {
       }
     };
   } else if (action.type === 'FETCH_PARKSPOTS_SUCCESS') {
-    let combined;
-    if (!action.refresh) {
-      // adding all new parkspots to the data
-      combined = _.unionBy(state.parkspots, action.data, 'id')
-      // updating the values for all existing parkspots without recreating
-      // the object to prevent the map from rerendering too much.
-      for (let old in state.parkspots) {
-        const updated = action.data.find(p => p.id === old.id);
-        if (updated) {
-          for (let key in old) {
-            old[key] = updated[key];
-          }
-        }
-      }
-    } else {
-      combined = action.data;
-    }
+    const combined = action.refresh ? action.data : _.unionBy(action.data, state.parkspots, 'id');
+
+    // TODO remove
+    // fixing wrong names returned from API
+    combined.forEach(p => {
+      p.noCost = p.noCost || !p.priced;
+      p.unlimited = p.unlimited || !p.timeLimit;
+    });
+    // End: TODO remove
 
     // Apply current filters on fetched parkspots
-    let filteredParkspots = [];
-    filteredParkspots = combined.filter(obj => {
+    const filteredParkspots = combined.filter(obj => {
       let showParkspot = true;
       state.filters.forEach(filter => {
         if (!obj[filter]) {
           showParkspot = false;
-
         }
       });
       return showParkspot;
     });
+
     return {
       ...state,
       parkspots: filteredParkspots,
       originalParkspots: combined
     };
+
   } else if (action.type === 'UPDATE_MAP_POSITION') {
     return {
       ...state,
@@ -140,7 +132,9 @@ export default function (state: any = initialState, action: Function) {
   } else if (action.type === 'DELETE_CLOSEST_PARKSPOT_BY_ID') {
     return {
       ...state,
-      closestParkspots: state.closestParkspots.filter((el) => {return el.id !== action.id;})
+      closestParkspots: state.closestParkspots.filter((el) => {
+        return el.id !== action.id;
+      })
     };
   }
   return state;
