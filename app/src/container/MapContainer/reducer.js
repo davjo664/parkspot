@@ -31,7 +31,7 @@ export default function (state: any = initialState, action: Function) {
     // TODO remove
     // fixing wrong names returned from API
     combined.forEach(p => {
-      p.noCost = p.noCost || !p.free;
+      p.noCost = p.noCost || !p.priced;
       p.unlimited = p.unlimited || !p.timeLimit;
     });
     // End: TODO remove
