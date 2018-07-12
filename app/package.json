@@ -22,6 +22,9 @@
     "react-test-renderer": "^16.4.0",
     "replace-in-file": "^3.4.0"
   },
+  "resolutions": {
+    "eslint-scope": "3.7.1"
+  },
   "scripts": {
     "version": "./increase_version.sh",
     "start": "react-native start",
